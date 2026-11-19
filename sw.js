@@ -53,6 +53,10 @@ if (workbox) {
         "revision": "05bdb783ee6514c8c072e47680af8ff7"
     },
     {
+        "url": ".gitignore",
+        "revision": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    {
         "url": "build pwa make html app offline and installable yasin best working re-run this for updates best for html only.pyw",
         "revision": "bd94a6fd2014172f73a9316945ab2e16"
     },
@@ -66,23 +70,23 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "44d89ae2ce7f750f01790a6d95d3d70a"
+        "revision": "4db77ff16baa22741af649ac12545487"
     },
     {
         "url": "index.html.bak",
-        "revision": "867b65d097f6684624e096ee17c85df5"
+        "revision": "335b0cad3ee255c696b9e0b0fe37af19"
     },
     {
         "url": "indexV1.html",
-        "revision": "2b7b1456ee58e00d9272512c354979e9"
+        "revision": "73117dba42cc604006b830f68d10f2f6"
     },
     {
         "url": "indexV2.html",
-        "revision": "c6421fd432f98325cc1e3ecb10bc6413"
+        "revision": "5d65caabced48c4cf64f1ded200940df"
     },
     {
         "url": "indexV3.html",
-        "revision": "5601cc0cac6af4323cea730ec1b83664"
+        "revision": "ff926665e0e4d26a540407c765f74dc6"
     },
     {
         "url": "logo-master.png",
@@ -97,12 +101,24 @@ if (workbox) {
         "revision": "86f900cca9ae32e767b0ff5fa3d7bb1c"
     },
     {
+        "url": "manifest.json",
+        "revision": "45992b600dbbff27c18eb290c94e5865"
+    },
+    {
         "url": "offline.html",
-        "revision": "7656c61e25225c4fcc77cb000be6d527"
+        "revision": "ad17d01f02bb01615fbc0509f5aee82a"
+    },
+    {
+        "url": "pwa-register.js",
+        "revision": "3ec872e4f752840ad8f85922ff6cebe7"
     },
     {
         "url": "README.md",
         "revision": "ccadd90b523ef4203004b7ef1f24524d"
+    },
+    {
+        "url": "sw.js",
+        "revision": "47253a2f526da5d18e5d4185ef02a8a1"
     }
 ]);
 

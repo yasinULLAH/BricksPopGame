@@ -1867,13 +1867,18 @@
       font-weight: 900;
       letter-spacing: .7px;
       text-transform: uppercase;
-      padding: 2px 6px;
+      padding: 2.5px 7px;
       border-radius: 999px;
-      background: rgba(10, 6, 22, .72);
+      background: rgba(10, 6, 22, .82);
       color: #fff;
-      border: 1px solid rgba(255, 255, 255, .2);
-      z-index: 2
+      border: 1px solid rgba(255, 255, 255, .24);
+      z-index: 2;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .45)
     }
+    .skin-tier.t-Legendary { background: linear-gradient(135deg, #F59E0B, #DC2626); border-color: #FDE047; color: #FFF }
+    .skin-tier.t-Cosmic { background: linear-gradient(135deg, #6366F1, #EC4899); border-color: #67E8F9; color: #FFF }
+    .skin-tier.t-Immortal { background: linear-gradient(135deg, #10B981, #0284C7); border-color: #A7F3D0; color: #FFF }
+    .skin-tier.t-Omniverse { background: linear-gradient(135deg, #FF3D8A, #8B5CF6, #00F5D4); border-color: #FFFFFF; color: #FFF; box-shadow: 0 0 12px rgba(255, 61, 138, .6) }
 
     .skin-cv {
       width: 100%;
@@ -2045,21 +2050,25 @@
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 9px;
-      margin-bottom: 13px
+      gap: 10px;
+      margin-bottom: 14px
     }
 
     .sg-tile {
       background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      padding: 12px
+      border: 1px solid var(--line2);
+      border-radius: 16px;
+      padding: 14px 13px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-card)
     }
 
     .sg-tile b {
       font-family: var(--font-d);
-      font-weight: 800;
-      font-size: 18px;
+      font-weight: 900;
+      font-size: 22px;
+      line-height: 1.15;
       display: block;
       background: var(--grad-cyan);
       -webkit-background-clip: text;
@@ -2073,20 +2082,175 @@
       background-clip: text
     }
 
+    .sg-tile:nth-child(3n) b {
+      background: var(--grad-acid);
+      -webkit-background-clip: text;
+      background-clip: text
+    }
+
     .sg-tile span {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: .6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      display: block;
+      margin-top: 3px
+    }
+
+    .sg-tile small {
       font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .7px;
       color: var(--faint);
-      text-transform: uppercase
+      display: block;
+      margin-top: 2px
+    }
+
+    .rank-hero-card {
+      background: linear-gradient(145deg, rgba(124, 77, 255, .24), rgba(34, 211, 238, .12), rgba(255, 61, 138, .16));
+      border: 1.5px solid var(--line2);
+      border-radius: 22px;
+      padding: 18px;
+      margin-top: 14px;
+      box-shadow: var(--shadow-card)
+    }
+
+    .rank-hero-top {
+      display: flex;
+      align-items: center;
+      gap: 15px
+    }
+
+    .rank-hero-emblem {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: rgba(8, 4, 18, .72);
+      border: 2px solid var(--rc, var(--cyan));
+      box-shadow: 0 0 24px color-mix(in srgb, var(--rc, #22D3EE) 45%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      flex: none
+    }
+
+    .rank-hero-title {
+      font-family: var(--font-d);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .3px
+    }
+
+    .rank-div-pips {
+      display: flex;
+      gap: 5px;
+      margin-top: 7px
+    }
+
+    .rank-div-pip {
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: var(--font-d);
+      font-size: 10px;
+      font-weight: 900;
+      background: rgba(8, 4, 18, .6);
+      border: 1px solid var(--line);
+      color: var(--faint)
+    }
+
+    .rank-div-pip.on {
+      background: var(--grad-primary);
+      color: #fff;
+      border-color: rgba(255, 255, 255, .5);
+      box-shadow: 0 0 10px rgba(139, 92, 246, .5)
+    }
+
+    .rank-ladder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 14px
+    }
+
+    @media(min-width:700px) {
+      .rank-ladder-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .rl-card {
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: 15px;
+      padding: 11px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      transition: transform .14s
+    }
+
+    .rl-card.unlocked {
+      border-color: color-mix(in srgb, var(--rc, #22D3EE) 45%, var(--line));
+      background: linear-gradient(150deg, color-mix(in srgb, var(--rc, #22D3EE) 12%, var(--surface)), var(--surface))
+    }
+
+    .rl-card.current {
+      border-color: var(--rc, var(--cyan));
+      box-shadow: 0 0 0 1px var(--rc, var(--cyan)), 0 0 20px color-mix(in srgb, var(--rc, #22D3EE) 35%, transparent)
+    }
+
+    .rl-card.locked {
+      opacity: .52
+    }
+
+    .rl-ic {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(8, 4, 18, .55);
+      border: 1px solid var(--line2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex: none
+    }
+
+    .rl-info {
+      min-width: 0;
+      flex: 1
+    }
+
+    .rl-info b {
+      font-size: 12.5px;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .rl-info span {
+      font-size: 10px;
+      color: var(--muted);
+      display: block
+    }
+
+    .rl-badge {
+      font-size: 8.5px;
+      font-weight: 900;
+      letter-spacing: .6px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-top: 3px
     }
 
     .cat-rank-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 9px 0;
-      border-bottom: 1px solid rgba(160, 140, 255, .08);
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(160, 140, 255, .1);
       font-size: 13px
     }
 
@@ -2094,9 +2258,18 @@
       border-bottom: none
     }
 
+    .cat-rank-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px
+    }
+
     .cat-rank-row b {
       color: var(--cyan);
-      font-size: 12.5px
+      font-size: 13px;
+      font-family: var(--font-d)
     }
 
     .chart-bars {
@@ -3832,35 +4005,65 @@
       { name: 'Prism Storm', tag: 'The final spectrum', hues: ['#FF3D8A', '#22D3EE', '#A3E635', '#FFB020'], bg: ['#160A2E', '#0A0618'], glow: ['#FF3D8A', '#22D3EE'] }
     ];
 
-    /* Unlimited Rank System: 9 Tiers x 3 Divisions = 27 Core Ranks + Infinite Overlord Prestige 1..∞ */
+    /* Unlimited Rank System: 28 Tiers x 5 Divisions = 140 Core Ranks + Infinite Omniverse Prestige 1..∞ */
     const RANK_TIERS = [
-      { name: 'Novice', icon: '🌱', color: '#94A3B8' },
-      { name: 'Bronze Breaker', icon: '🥉', color: '#CD7F32' },
-      { name: 'Silver Striker', icon: '🥈', color: '#CBD5E1' },
-      { name: 'Gold Smasher', icon: '🥇', color: '#FFD166' },
-      { name: 'Platinum Crusher', icon: '💠', color: '#38BDF8' },
-      { name: 'Diamond Blaster', icon: '💎', color: '#22D3EE' },
-      { name: 'Master Architect', icon: '⚡', color: '#A78BFA' },
-      { name: 'Grandmaster Nova', icon: '🔥', color: '#FF6B35' },
-      { name: 'Mythic Legend', icon: '👑', color: '#FF3D8A' }
+      { name: 'Recruit', icon: '🌱', color: '#94A3B8', perk: 'Cadet Entry' },
+      { name: 'Apprentice', icon: '🪨', color: '#A8A29E', perk: 'Grid Initiate' },
+      { name: 'Iron Cadet', icon: '⚙️', color: '#CBD5E1', perk: 'Steel Resolver' },
+      { name: 'Bronze Breaker', icon: '🥉', color: '#CD7F32', perk: 'Bronze Impact' },
+      { name: 'Copper Vanguard', icon: '🛡️', color: '#EA580C', perk: 'Shield Bearer' },
+      { name: 'Silver Striker', icon: '🥈', color: '#E2E8F0', perk: 'Silver Velocity' },
+      { name: 'Cobalt Ranger', icon: '🔹', color: '#3B82F6', perk: 'Cobalt Pulse' },
+      { name: 'Gold Smasher', icon: '🥇', color: '#FACC15', perk: 'Golden Touch' },
+      { name: 'Amber Raider', icon: '🔶', color: '#F59E0B', perk: 'Solar Raider' },
+      { name: 'Platinum Crusher', icon: '💠', color: '#38BDF8', perk: 'Cryo Precision' },
+      { name: 'Emerald Guardian', icon: '🟢', color: '#10B981', perk: 'Jade Warden' },
+      { name: 'Sapphire Sentinel', icon: '🔷', color: '#2563EB', perk: 'Deep Matrix' },
+      { name: 'Ruby Executioner', icon: '♦️', color: '#E11D48', perk: 'Crimson Fury' },
+      { name: 'Diamond Blaster', icon: '💎', color: '#22D3EE', perk: 'Prism Cutter' },
+      { name: 'Obsidian Phantom', icon: '🖤', color: '#A855F7', perk: 'Shadow Breaker' },
+      { name: 'Titanium Warlord', icon: '⚔️', color: '#818CF8', perk: 'Heavy Siege' },
+      { name: 'Master Architect', icon: '⚡', color: '#A78BFA', perk: 'Grid Sovereign' },
+      { name: 'Grandmaster Nova', icon: '🔥', color: '#FF6B35', perk: 'Nova Core' },
+      { name: 'Champion Conqueror', icon: '🏆', color: '#FBBF24', perk: 'Arena Champion' },
+      { name: 'Apex Predator', icon: '🦅', color: '#F43F5E', perk: 'Apex Hunter' },
+      { name: 'Celestial Sovereign', icon: '🌟', color: '#FDE047', perk: 'Star Forged' },
+      { name: 'Astral Titan', icon: '☄️', color: '#38BDF8', perk: 'Comet Driver' },
+      { name: 'Quantum Valkyrie', icon: '🧬', color: '#2DD4BF', perk: 'Quantum Split' },
+      { name: 'Galactic Archon', icon: '🪐', color: '#C084FC', perk: 'Nebula Ruler' },
+      { name: 'Mythic Overlord', icon: '👑', color: '#FF3D8A', perk: 'Mythic Crown' },
+      { name: 'Transcendent God', icon: '🌌', color: '#00F5D4', perk: 'Void Monarch' },
+      { name: 'Eternal Omniverse', icon: '♾️', color: '#FFD166', perk: 'Infinite Mastery' },
+      { name: 'Supreme Muhib Sovereign', icon: '💛', color: '#FFC53D', perk: 'Ultimate Legend' }
     ];
-    const ROMAN = ['I', 'II', 'III'];
+    const ROMAN = ['I', 'II', 'III', 'IV', 'V'];
+    const CORE_RANKS = RANK_TIERS.length * ROMAN.length;
+    function xpForLevel(lvl) { return Math.round(120 * Math.pow(lvl, 1.22)) }
     function rankForXP(xp) {
-      // Exponentially harder XP thresholds: rank n requires cumulative sum of 250 * n^1.35
-      let level = 1, needed = 250, spent = 0;
-      while (xp >= spent + needed) { spent += needed; level++; needed = Math.round(250 * Math.pow(level, 1.35)) }
+      let level = 1, needed = xpForLevel(1), spent = 0;
+      while (xp >= spent + needed) { spent += needed; level++; needed = xpForLevel(level) }
       const curXP = xp - spent, pct = clamp(curXP / needed * 100, 0, 100);
-      if (level <= 27) {
-        const ti = Math.floor((level - 1) / 3), div = (level - 1) % 3, t = RANK_TIERS[ti];
-        return { level, title: t.name + ' ' + ROMAN[div], icon: t.icon, color: t.color, curXP, needed, pct, prestige: 0 };
+      if (level <= CORE_RANKS) {
+        const ti = Math.floor((level - 1) / ROMAN.length), div = (level - 1) % ROMAN.length, t = RANK_TIERS[ti];
+        return { level, tierIdx: ti, tierNum: ti + 1, divIdx: div, divRoman: ROMAN[div], tierName: t.name, perk: t.perk, title: t.name + ' ' + ROMAN[div], icon: t.icon, color: t.color, curXP, needed, pct, prestige: 0 };
       }
-      const p = level - 27;
-      return { level, title: 'Infinite Overlord P' + p, icon: '🌌', color: '#FFC53D', curXP, needed, pct, prestige: p };
+      const p = level - CORE_RANKS;
+      const t = RANK_TIERS[RANK_TIERS.length - 1];
+      return { level, tierIdx: RANK_TIERS.length - 1, tierNum: RANK_TIERS.length, divIdx: 4, divRoman: 'V', tierName: 'Omniverse Prestige', perk: 'Prestige +' + p * 5 + '% Glory', title: 'Omniverse Apex P' + p, icon: '🌌', color: '#FFC53D', curXP, needed, pct, prestige: p };
     }
-    function categoryRank(val, steps, labels) {
-      let idx = 0; for (let i = 0; i < steps.length; i++)if (val >= steps[i]) idx = i + 1;
-      if (idx < labels.length) return labels[idx];
-      return 'Apex Tier +' + (idx - labels.length + 1);
+    const MASTERY_TIERS = [
+      'Unranked', 'Rookie I', 'Scout II', 'adept III', 'Vanguard IV', 'Specialist V',
+      'Commander VI', 'Warlord VII', 'Grandmaster VIII', 'Titan IX', 'Mythic X',
+      'Celestial XI', 'Supreme Sovereign XII'
+    ];
+    function masteryDetail(val, steps) {
+      let idx = 0;
+      for (let i = 0; i < steps.length; i++) if (val >= steps[i]) idx = i + 1;
+      const prev = idx === 0 ? 0 : steps[Math.min(idx - 1, steps.length - 1)];
+      const next = idx < steps.length ? steps[idx] : Math.round(steps[steps.length - 1] * (1 + (idx - steps.length + 1) * 0.5));
+      const pct = clamp((val - prev) / Math.max(1, next - prev) * 100, 0, 100);
+      const label = idx < MASTERY_TIERS.length ? MASTERY_TIERS[idx] : ('Omniverse Tier +' + (idx - MASTERY_TIERS.length + 1));
+      return { level: idx, maxTier: steps.length, label, val, next, pct };
     }
 
     const AVATARS = ['😎', '🚀', '⚡', '🔥', '👑', '🎮', '💎', '🦁', '🌟', '🤖'];
@@ -3931,7 +4134,44 @@
       { id: 'valkyrie', name: 'Mecha Valkyrie', tier: 'Mythic', style: 'mecha', ball: 'star', price: 2500, c: ['#F8FAFC', '#F43F5E', '#38BDF8'] },
       { id: 'eclipse', name: 'Solar Eclipse', tier: 'Mythic', style: 'galaxy', ball: 'void', price: 2800, c: ['#FBBF24', '#1E1B4B', '#FF3D8A'] },
       { id: 'diamond', name: 'Crown Diamond', tier: 'Mythic', style: 'gold', ball: 'crystal', price: 3200, c: ['#FFFFFF', '#38BDF8', '#FCD34D'] },
-      { id: 'celestial', name: 'Astral Overlord', tier: 'Mythic', style: 'holo', ball: 'star', price: 3600, c: ['#00F5D4', '#A855F7', '#FFD166'] }
+      { id: 'celestial', name: 'Astral Overlord', tier: 'Mythic', style: 'holo', ball: 'star', price: 3600, c: ['#00F5D4', '#A855F7', '#FFD166'] },
+      /* 36 Exotic Architectural & Sculpted Skins */
+      { id: 'vanguardx', name: 'Starfighter X-99', tier: 'Mythic', style: 'starfighter', ball: 'shuriken', price: 3900, c: ['#38BDF8', '#1E293B', '#F43F5E'] },
+      { id: 'doomripper', name: 'Doom Chainsaw', tier: 'Mythic', style: 'chainsaw', ball: 'saw', price: 4200, c: ['#FACC15', '#EF4444', '#18181B'] },
+      { id: 'roninblade', name: 'Muramasa Twin-Blade', tier: 'Mythic', style: 'katana', ball: 'shuriken', price: 4500, c: ['#F43F5E', '#E2E8F0', '#FBBF24'] },
+      { id: 'teslacoil', name: 'Thunderbolt Arc Coil', tier: 'Mythic', style: 'tesla', ball: 'lightning', price: 4800, c: ['#00F5D4', '#3B82F6', '#FDE047'] },
+      { id: 'abyssalkraken', name: 'Abyssal Leviathan', tier: 'Mythic', style: 'leviathan', ball: 'eye', price: 5100, c: ['#10B981', '#064E3B', '#A3E635'] },
+      { id: 'nightcity', name: 'Cyberpunk 2099', tier: 'Mythic', style: 'cyberpunk', ball: 'hexcore', price: 5400, c: ['#FACC15', '#00F5D4', '#FF2A85'] },
+      { id: 'seraphwing', name: 'Seraphim Sanctuary', tier: 'Legendary', style: 'seraph', ball: 'halo', price: 5800, c: ['#FEF08A', '#F59E0B', '#FFFFFF'] },
+      { id: 'anubisking', name: 'Pharaoh Tomb Guard', tier: 'Legendary', style: 'pharaoh', ball: 'eye', price: 6200, c: ['#FBBF24', '#1D4ED8', '#10B981'] },
+      { id: 'phoenixcrest', name: 'Solaris Phoenix Wing', tier: 'Legendary', style: 'phoenix', ball: 'fireballx', price: 6600, c: ['#FF4D5E', '#F97316', '#FEF08A'] },
+      { id: 'runelord', name: 'Eldritch Runestone', tier: 'Legendary', style: 'runic', ball: 'hexcore', price: 7000, c: ['#A855F7', '#3B0764', '#22D3EE'] },
+      { id: 'hellsaw', name: 'Hellfire Grinder', tier: 'Legendary', style: 'chainsaw', ball: 'meteor', price: 7400, c: ['#FF6B35', '#7F1D1D', '#FDE047'] },
+      { id: 'shogunsteel', name: 'Cyber Shogun Katana', tier: 'Legendary', style: 'katana', ball: 'saw', price: 7800, c: ['#00F5D4', '#0F172A', '#FF3D8A'] },
+      { id: 'venomfang', name: 'Hydra Venom Jaw', tier: 'Legendary', style: 'leviathan', ball: 'skull', price: 8200, c: ['#A3E635', '#14532D', '#D946EF'] },
+      { id: 'stormlord', name: 'Zeus Megavolt Reactor', tier: 'Legendary', style: 'tesla', ball: 'atom', price: 8600, c: ['#60A5FA', '#1E3A8A', '#FEF08A'] },
+      { id: 'stealthhawk', name: 'Nighthawk Stealth Jet', tier: 'Legendary', style: 'starfighter', ball: 'hexcore', price: 9000, c: ['#94A3B8', '#090D16', '#38BDF8'] },
+      { id: 'neotokyo', name: 'Akira Kaneda Drift', tier: 'Legendary', style: 'cyberpunk', ball: 'lightning', price: 9500, c: ['#EF4444', '#111827', '#22D3EE'] },
+      { id: 'eventhorizon', name: 'Black Hole Singularity', tier: 'Cosmic', style: 'blackhole', ball: 'galaxyorb', price: 10200, c: ['#C084FC', '#090414', '#F97316'] },
+      { id: 'quasarjet', name: 'Andromeda Wing Jet', tier: 'Cosmic', style: 'starfighter', ball: 'galaxyorb', price: 10800, c: ['#E879F9', '#311042', '#00F5D4'] },
+      { id: 'meteorforge', name: 'Supernova Asteroid', tier: 'Cosmic', style: 'phoenix', ball: 'meteor', price: 11500, c: ['#FB923C', '#431407', '#38BDF8'] },
+      { id: 'quantumcore', name: 'Subatomic Collider', tier: 'Cosmic', style: 'tesla', ball: 'atom', price: 12200, c: ['#2DD4BF', '#134E4A', '#F472B6'] },
+      { id: 'voidreaper', name: 'Dark Matter Scythe', tier: 'Cosmic', style: 'katana', ball: 'skull', price: 13000, c: ['#C084FC', '#1E1B4B', '#F43F5E'] },
+      { id: 'sunpharaoh', name: 'Ra Sun-God Chariot', tier: 'Cosmic', style: 'pharaoh', ball: 'fireballx', price: 13800, c: ['#FDE047', '#B45309', '#38BDF8'] },
+      { id: 'arcanevoid', name: 'Forbidden Grimoire', tier: 'Cosmic', style: 'runic', ball: 'eye', price: 14600, c: ['#F43F5E', '#1F122B', '#A3E635'] },
+      { id: 'nebulaangel', name: 'Archangel of Orion', tier: 'Cosmic', style: 'seraph', ball: 'galaxyorb', price: 15500, c: ['#67E8F9', '#3B82F6', '#F472B6'] },
+      { id: 'immortaljade', name: 'Dragon Emperor Seal', tier: 'Immortal', style: 'pharaoh', ball: 'infinityorb', price: 16800, c: ['#34D399', '#064E3B', '#FBBF24'] },
+      { id: 'valkyrieprime', name: 'Celestial Arch-Valkyrie', tier: 'Immortal', style: 'seraph', ball: 'halo', price: 18000, c: ['#FFFFFF', '#60A5FA', '#F43F5E'] },
+      { id: 'chronoengine', name: 'Chronos Time Weaver', tier: 'Immortal', style: 'omega', ball: 'infinityorb', price: 19500, c: ['#FCD34D', '#1E293B', '#22D3EE'] },
+      { id: 'eldergod', name: 'Cthulhu Deep Mind', tier: 'Immortal', style: 'leviathan', ball: 'eye', price: 21000, c: ['#2DD4BF', '#042F2E', '#FB7185'] },
+      { id: 'bloodmoon', name: 'Crimson Eclipse Blade', tier: 'Immortal', style: 'blackhole', ball: 'shuriken', price: 22500, c: ['#FF1E42', '#090306', '#FDE047'] },
+      { id: 'hellphoenix', name: 'Ashen Immortal Bird', tier: 'Immortal', style: 'phoenix', ball: 'fireballx', price: 24000, c: ['#00F5D4', '#0F172A', '#A855F7'] },
+      { id: 'runesovereign', name: 'Odin Bifrost Runes', tier: 'Immortal', style: 'runic', ball: 'lightning', price: 26000, c: ['#38BDF8', '#1E1B4B', '#FACC15'] },
+      { id: 'mechaomega', name: 'Gundam Zero Wing', tier: 'Immortal', style: 'omega', ball: 'hexcore', price: 28000, c: ['#F8FAFC', '#2563EB', '#EF4444'] },
+      { id: 'omniverse1', name: 'Omniverse Genesis', tier: 'Omniverse', style: 'omega', ball: 'infinityorb', price: 32000, c: ['#00F5D4', '#FF3D8A', '#FDE047'] },
+      { id: 'omniverse2', name: 'Cosmic Singularity X', tier: 'Omniverse', style: 'blackhole', ball: 'atom', price: 36000, c: ['#FF3D8A', '#090414', '#00F5D4'] },
+      { id: 'omniverse3', name: 'Seraph of Eternity', tier: 'Omniverse', style: 'seraph', ball: 'infinityorb', price: 42000, c: ['#FDE047', '#A855F7', '#22D3EE'] },
+      { id: 'muhibsupreme', name: 'Muhib Sovereign Crown', tier: 'Omniverse', style: 'omega', ball: 'halo', price: 50000, c: ['#FFD166', '#FF3D8A', '#00F5D4'] }
     ];
     const UPGRADES = [
       { id: 'magnetRad', name: 'Tractor Beam', desc: 'Pulls nearby power-up capsules toward paddle (+26px/lvl)', icon: 'magnet', color: '#C084FC', baseCost: 160, stepCost: 140, max: 5 },
@@ -4753,6 +4993,162 @@
       c.strokeStyle = 'rgba(255,255,255,.68)'; c.lineWidth = 1.3; c.stroke();
       c.fillStyle = '#FFFFFF';
       c.beginPath(); c.arc(x + 7, y + h / 2, 2.3, 0, 7); c.arc(x + w - 7, y + h / 2, 2.3, 0, 7); c.fill();
+
+      // Exotic sculpted chassis overlays for the 12 new advanced paddle architectures
+      const cy = y + h / 2, cx = x + w / 2;
+      if (st === 'starfighter') {
+        // Swept interceptor wings + twin thrusters + armored canopy
+        c.fillStyle = sk.c[0];
+        c.beginPath();
+        c.moveTo(x - 8, cy + 5); c.lineTo(x + 8, y - 3); c.lineTo(x + 18, y + h + 2); c.closePath();
+        c.moveTo(x + w + 8, cy + 5); c.lineTo(x + w - 8, y - 3); c.lineTo(x + w - 18, y + h + 2); c.closePath();
+        c.fill(); c.strokeStyle = '#FFF'; c.lineWidth = 1; c.stroke();
+        c.fillStyle = sk.c[2];
+        c.fillRect(x + 2, y - 4, 2.5, 6); c.fillRect(x + w - 4.5, y - 4, 2.5, 6);
+        c.fillRect(cx - 14, y + h, 7, 3.5); c.fillRect(cx + 7, y + h, 7, 3.5);
+        rr(c, cx - 12, y - 2, 24, h + 4, 5);
+        c.fillStyle = sk.c[1]; c.fill(); c.strokeStyle = sk.c[0]; c.stroke();
+        rr(c, cx - 7, y + 2, 14, h - 4, 3); c.fillStyle = '#FFFFFF'; c.fill();
+      } else if (st === 'chainsaw') {
+        // Serrated saw teeth + hazard stripes + twin buzzsaw end-rotors
+        c.fillStyle = '#E2E8F0';
+        for (let tx = x + 10; tx < x + w - 12; tx += 7) {
+          c.beginPath(); c.moveTo(tx, y); c.lineTo(tx + 3.5, y - 4.5); c.lineTo(tx + 7, y); c.closePath(); c.fill();
+        }
+        c.save(); rr(c, x + 8, y + 2, w - 16, h - 4, 3); c.clip();
+        c.fillStyle = '#18181B';
+        for (let sx = x; sx < x + w + 16; sx += 10) {
+          c.beginPath(); c.moveTo(sx, y); c.lineTo(sx + 5, y); c.lineTo(sx - 3, y + h); c.lineTo(sx - 8, y + h); c.closePath(); c.fill();
+        }
+        c.restore();
+        [x + 4, x + w - 4].forEach(rx => {
+          c.fillStyle = sk.c[1]; c.beginPath(); c.arc(rx, cy, h * .68, 0, 7); c.fill();
+          c.strokeStyle = '#FFF'; c.lineWidth = 1.4; c.stroke();
+          c.fillStyle = '#FFF'; c.beginPath(); c.arc(rx, cy, 2.5, 0, 7); c.fill();
+        });
+      } else if (st === 'seraph') {
+        // Feathered angelic wings + levitating golden halo + diamond core
+        c.fillStyle = sk.c[0];
+        for (let k = 0; k < 3; k++) {
+          const off = k * 4;
+          c.beginPath();
+          c.moveTo(x + 10 - off, y + 2 + k * 2); c.quadraticCurveTo(x - 10 - off, y - 6 + k * 3, x - 4 - off, cy + 4 + k);
+          c.lineTo(x + 14, cy + 3); c.closePath(); c.fill();
+          c.beginPath();
+          c.moveTo(x + w - 10 + off, y + 2 + k * 2); c.quadraticCurveTo(x + w + 10 + off, y - 6 + k * 3, x + w + 4 + off, cy + 4 + k);
+          c.lineTo(x + w - 14, cy + 3); c.closePath(); c.fill();
+        }
+        c.strokeStyle = '#FFF'; c.lineWidth = 1.6;
+        c.beginPath(); c.ellipse(cx, y - 4, 15, 2.8, 0, 0, 7); c.stroke();
+        c.fillStyle = '#FFF';
+        c.beginPath(); c.moveTo(cx, y - 3); c.lineTo(cx + 8, cy); c.lineTo(cx, y + h + 3); c.lineTo(cx - 8, cy); c.closePath(); c.fill();
+        c.strokeStyle = sk.c[1]; c.lineWidth = 1.3; c.stroke();
+      } else if (st === 'leviathan') {
+        // Bio-mech monster fangs + dorsal spikes + glowing slitted dragon eye
+        c.fillStyle = sk.c[2];
+        [x + 4, x + 14, x + w - 14, x + w - 4].forEach(fx => {
+          c.beginPath(); c.moveTo(fx - 3, y); c.lineTo(fx, y - 6); c.lineTo(fx + 3, y); c.closePath(); c.fill();
+        });
+        c.fillStyle = sk.c[0];
+        c.beginPath(); c.ellipse(cx, cy, 11, h * .52, 0, 0, 7); c.fill();
+        c.strokeStyle = '#FFF'; c.lineWidth = 1.2; c.stroke();
+        c.fillStyle = '#090414';
+        c.beginPath(); c.ellipse(cx, cy, 2.4, h * .42, 0, 0, 7); c.fill();
+      } else if (st === 'tesla') {
+        // Copper/plasma coils + high-voltage end spheres + crackling lightning arc
+        c.fillStyle = 'rgba(10,16,34,.75)'; rr(c, x + 8, y + 2, w - 16, h - 4, 4); c.fill();
+        c.strokeStyle = sk.c[2]; c.lineWidth = 2.2;
+        for (let cx0 = x + 14; cx0 < x + w - 12; cx0 += 8) {
+          c.beginPath(); c.moveTo(cx0, y - 1); c.lineTo(cx0 + 2, y + h + 1); c.stroke();
+        }
+        c.strokeStyle = '#FFF'; c.lineWidth = 1.5;
+        c.beginPath(); c.moveTo(x + 8, cy);
+        for (let lx = x + 16; lx < x + w - 6; lx += 9) c.lineTo(lx, cy + ((lx % 2 === 0) ? -5 : 5));
+        c.lineTo(x + w - 8, cy); c.stroke();
+        [x + 3, x + w - 3].forEach(ex => {
+          c.fillStyle = sk.c[0]; c.beginPath(); c.arc(ex, cy, h * .62, 0, 7); c.fill();
+          c.strokeStyle = '#FFF'; c.lineWidth = 1.4; c.stroke();
+        });
+      } else if (st === 'katana') {
+        // Twin razor katana blades + golden tsuba guards + diamond-wrapped hilt
+        c.fillStyle = '#F8FAFC';
+        c.beginPath();
+        c.moveTo(x - 9, y + 1); c.lineTo(cx - 12, y - 2); c.lineTo(cx - 12, y + 5); c.lineTo(x - 3, cy + 2); c.closePath();
+        c.moveTo(x + w + 9, y + 1); c.lineTo(cx + 12, y - 2); c.lineTo(cx + 12, y + 5); c.lineTo(x + w + 3, cy + 2); c.closePath();
+        c.fill(); c.strokeStyle = sk.c[0]; c.lineWidth = 1.2; c.stroke();
+        c.fillStyle = sk.c[2];
+        c.fillRect(cx - 14, y - 3, 3, h + 6); c.fillRect(cx + 11, y - 3, 3, h + 6);
+        c.fillStyle = '#111827'; c.fillRect(cx - 11, y + 1, 22, h - 2);
+        c.fillStyle = sk.c[0];
+        for (let hx = cx - 8; hx <= cx + 6; hx += 6) {
+          c.beginPath(); c.moveTo(hx, cy); c.lineTo(hx + 3, y + 2); c.lineTo(hx + 6, cy); c.lineTo(hx + 3, y + h - 2); c.closePath(); c.fill();
+        }
+      } else if (st === 'blackhole') {
+        // Accretion disk + dark void singularity core + orbiting micro-moons
+        c.fillStyle = '#05020A'; rr(c, x + 4, y + 2, w - 8, h - 4, h / 2); c.fill();
+        c.strokeStyle = sk.c[2]; c.lineWidth = 1.8;
+        c.beginPath(); c.ellipse(cx, cy, w * .38, h * .65, -0.12, 0, 7); c.stroke();
+        c.fillStyle = '#000000'; c.beginPath(); c.arc(cx, cy, h * .62, 0, 7); c.fill();
+        c.strokeStyle = '#FFFFFF'; c.lineWidth = 1.6; c.stroke();
+        c.fillStyle = sk.c[0];
+        c.beginPath(); c.arc(x - 4, cy - 2, 3.2, 0, 7); c.arc(x + w + 4, cy + 2, 3.2, 0, 7); c.fill();
+      } else if (st === 'pharaoh') {
+        // Royal golden Nemes stripes + lapis inlays + Eye of Horus pyramid core
+        c.save(); rr(c, x, y, w, h, h / 2); c.clip();
+        c.fillStyle = sk.c[1];
+        for (let px = x + 6; px < x + w - 6; px += 9) c.fillRect(px, y, 4, h);
+        c.restore();
+        c.fillStyle = sk.c[0];
+        c.beginPath(); c.moveTo(cx, y - 4); c.lineTo(cx + 11, y + h + 2); c.lineTo(cx - 11, y + h + 2); c.closePath(); c.fill();
+        c.strokeStyle = '#FFF'; c.lineWidth = 1.3; c.stroke();
+        c.fillStyle = sk.c[2]; c.beginPath(); c.arc(cx, cy + 1, 3, 0, 7); c.fill();
+      } else if (st === 'cyberpunk') {
+        // Asymmetric HUD visor + neon heat-sink vents + holographic reticle
+        c.fillStyle = '#090D16'; rr(c, x + 5, y + 2, w - 10, h - 4, 3); c.fill();
+        c.fillStyle = sk.c[0];
+        for (let vx = x + 10; vx < cx - 12; vx += 5) c.fillRect(vx, y + 3, 2.5, h - 6);
+        for (let vx = cx + 12; vx < x + w - 10; vx += 5) c.fillRect(vx, y + 3, 2.5, h - 6);
+        c.strokeStyle = sk.c[1]; c.lineWidth = 1.6;
+        c.strokeRect(cx - 9, y - 1, 18, h + 2);
+        c.fillStyle = sk.c[2]; c.fillRect(cx - 5, cy - 1.5, 10, 3);
+      } else if (st === 'phoenix') {
+        // Blazing multi-plume flame wings + solar crest jewel
+        c.fillStyle = sk.c[2];
+        for (let f = 0; f < 4; f++) {
+          const fx = f * 6;
+          c.beginPath(); c.moveTo(x + 16 - fx, y); c.lineTo(x + 4 - fx, y - 5 - (f % 2) * 2); c.lineTo(x + 8 - fx, cy + 2); c.closePath(); c.fill();
+          c.beginPath(); c.moveTo(x + w - 16 + fx, y); c.lineTo(x + w - 4 + fx, y - 5 - (f % 2) * 2); c.lineTo(x + w - 8 + fx, cy + 2); c.closePath(); c.fill();
+        }
+        c.fillStyle = '#FFF';
+        c.beginPath(); c.moveTo(cx, y - 5); c.lineTo(cx + 7, cy); c.lineTo(cx, y + h + 4); c.lineTo(cx - 7, cy); c.closePath(); c.fill();
+        c.strokeStyle = sk.c[0]; c.lineWidth = 1.5; c.stroke();
+      } else if (st === 'runic') {
+        // Shattered floating runestones bound by glowing arcane beam + elder glyphs
+        c.fillStyle = '#0F071E'; rr(c, x + 6, y + 1, w - 12, h - 2, 4); c.fill();
+        c.strokeStyle = sk.c[2]; c.lineWidth = 1.6;
+        for (let rx = x + 14; rx < x + w - 14; rx += 13) {
+          c.beginPath();
+          c.moveTo(rx, y + 3); c.lineTo(rx + 4, cy); c.lineTo(rx, y + h - 3); c.moveTo(rx + 4, y + 3); c.lineTo(rx, y + h - 3);
+          c.stroke();
+        }
+        [x + 2, x + w - 2].forEach(kx => {
+          c.fillStyle = sk.c[0];
+          c.beginPath(); c.moveTo(kx, y - 3); c.lineTo(kx + 5, cy); c.lineTo(kx, y + h + 3); c.lineTo(kx - 5, cy); c.closePath(); c.fill();
+          c.strokeStyle = '#FFF'; c.lineWidth = 1; c.stroke();
+        });
+      } else if (st === 'omega') {
+        // Segmented Omniverse God-Engine with detached wing blades & triple reactor core
+        c.fillStyle = '#090D16';
+        c.fillRect(cx - 20, y - 1, 4, h + 2); c.fillRect(cx + 16, y - 1, 4, h + 2);
+        c.fillStyle = sk.c[2];
+        c.beginPath();
+        c.moveTo(x - 10, cy); c.lineTo(x + 4, y - 4); c.lineTo(x + 10, y + h + 3); c.closePath();
+        c.moveTo(x + w + 10, cy); c.lineTo(x + w - 4, y - 4); c.lineTo(x + w - 10, y + h + 3); c.closePath();
+        c.fill(); c.strokeStyle = '#FFF'; c.lineWidth = 1.2; c.stroke();
+        c.fillStyle = '#FFFFFF'; c.beginPath(); c.arc(cx, cy, h * .64, 0, 7); c.fill();
+        c.strokeStyle = sk.c[0]; c.lineWidth = 2; c.stroke();
+        c.fillStyle = sk.c[1]; c.beginPath(); c.arc(cx, cy, h * .32, 0, 7); c.fill();
+      }
       c.restore();
     }
     function drawStyledBall(c, sk, x, y, r, t, fire) {
@@ -4798,6 +5194,141 @@
         g.addColorStop(0, '#FFFFFF'); g.addColorStop(.55, c0); g.addColorStop(1, c2);
         c.fillStyle = g; c.beginPath(); c.arc(0, 0, r, 0, 7); c.fill();
         c.strokeStyle = 'rgba(255,255,255,.65)'; c.lineWidth = 1.1; c.stroke();
+      } else if (bs === 'shuriken') {
+        c.rotate(t * 7);
+        c.fillStyle = c0; c.strokeStyle = '#FFFFFF'; c.lineWidth = 1.1;
+        c.beginPath();
+        for (let i = 0; i < 4; i++) {
+          const a = i * Math.PI / 2;
+          c.moveTo(Math.cos(a) * r * .3, Math.sin(a) * r * .3);
+          c.quadraticCurveTo(Math.cos(a + .35) * r * .95, Math.sin(a + .35) * r * .95, Math.cos(a + .1) * r * 1.38, Math.sin(a + .1) * r * 1.38);
+          c.lineTo(Math.cos(a + .78) * r * .38, Math.sin(a + .78) * r * .38);
+        }
+        c.closePath(); c.fill(); c.stroke();
+        c.fillStyle = '#0B0716'; c.beginPath(); c.arc(0, 0, r * .32, 0, 7); c.fill();
+        c.strokeStyle = c2; c.lineWidth = 1.3; c.stroke();
+      } else if (bs === 'saw') {
+        c.rotate(t * 8);
+        c.fillStyle = c0; c.beginPath();
+        const teeth = 10;
+        for (let i = 0; i < teeth * 2; i++) {
+          const rad = i % 2 === 0 ? r * 1.32 : r * .82, a = i * Math.PI / teeth;
+          if (i === 0) c.moveTo(Math.cos(a) * rad, Math.sin(a) * rad);
+          else c.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+        }
+        c.closePath(); c.fill();
+        c.strokeStyle = '#FFF'; c.lineWidth = 1; c.stroke();
+        c.fillStyle = c1; c.beginPath(); c.arc(0, 0, r * .52, 0, 7); c.fill();
+        c.fillStyle = '#FFF'; c.beginPath(); c.arc(0, 0, r * .22, 0, 7); c.fill();
+      } else if (bs === 'atom') {
+        c.strokeStyle = c0; c.lineWidth = 1.2;
+        for (let i = 0; i < 3; i++) {
+          c.save(); c.rotate(i * Math.PI / 3 + t * 2.5);
+          c.beginPath(); c.ellipse(0, 0, r * 1.35, r * .46, 0, 0, 7); c.stroke();
+          const ea = t * 6 + i * 2.1;
+          c.fillStyle = '#FFF'; c.beginPath(); c.arc(Math.cos(ea) * r * 1.35, Math.sin(ea) * r * .46, 1.8, 0, 7); c.fill();
+          c.restore();
+        }
+        c.fillStyle = c2; c.beginPath(); c.arc(0, 0, r * .45, 0, 7); c.fill();
+        c.fillStyle = '#FFF'; c.beginPath(); c.arc(-1, -1, r * .2, 0, 7); c.fill();
+      } else if (bs === 'eye') {
+        c.fillStyle = c0; c.beginPath(); c.arc(0, 0, r * 1.05, 0, 7); c.fill();
+        c.strokeStyle = '#FFF'; c.lineWidth = 1.3; c.stroke();
+        c.fillStyle = c2; c.beginPath(); c.arc(0, 0, r * .72, 0, 7); c.fill();
+        c.fillStyle = '#05020A'; c.beginPath(); c.ellipse(0, 0, r * .24, r * .78, 0, 0, 7); c.fill();
+        c.fillStyle = '#FFF'; c.beginPath(); c.arc(-r * .25, -r * .25, r * .2, 0, 7); c.fill();
+      } else if (bs === 'meteor') {
+        c.rotate(t * 3);
+        c.fillStyle = c1; c.strokeStyle = c0; c.lineWidth = 1.5;
+        c.beginPath();
+        for (let i = 0; i < 9; i++) {
+          const rad = r * (0.88 + ((i * 37) % 10) * 0.04), a = i * Math.PI * 2 / 9;
+          if (i === 0) c.moveTo(Math.cos(a) * rad, Math.sin(a) * rad);
+          else c.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+        }
+        c.closePath(); c.fill(); c.stroke();
+        c.fillStyle = c2; c.beginPath(); c.arc(-2, -1, r * .28, 0, 7); c.arc(2.5, 2, r * .22, 0, 7); c.fill();
+      } else if (bs === 'halo') {
+        c.strokeStyle = '#FFF'; c.lineWidth = 1.6;
+        c.beginPath(); c.ellipse(0, -r * .95, r * .85, r * .26, 0, 0, 7); c.stroke();
+        c.fillStyle = c0;
+        c.beginPath();
+        c.moveTo(-r * .6, 0); c.quadraticCurveTo(-r * 1.5, -r * .7, -r * 1.2, r * .5); c.closePath();
+        c.moveTo(r * .6, 0); c.quadraticCurveTo(r * 1.5, -r * .7, r * 1.2, r * .5); c.closePath();
+        c.fill();
+        c.fillStyle = '#FFF'; c.beginPath(); c.arc(0, 0, r * .78, 0, 7); c.fill();
+        c.strokeStyle = c1; c.lineWidth = 1.5; c.stroke();
+      } else if (bs === 'skull') {
+        c.strokeStyle = c0; c.lineWidth = 1.5;
+        c.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const a = i * Math.PI / 3 + t * 2;
+          if (i === 0) c.moveTo(Math.cos(a) * r * 1.2, Math.sin(a) * r * 1.2);
+          else c.lineTo(Math.cos(a) * r * 1.2, Math.sin(a) * r * 1.2);
+        }
+        c.closePath(); c.stroke();
+        c.fillStyle = '#FFF'; c.beginPath(); c.arc(0, -1, r * .68, 0, 7); c.fill();
+        c.fillRect(-r * .38, r * .2, r * .76, r * .55);
+        c.fillStyle = '#090414';
+        c.beginPath(); c.arc(-r * .25, -1, r * .2, 0, 7); c.arc(r * .25, -1, r * .2, 0, 7); c.fill();
+      } else if (bs === 'lightning') {
+        c.strokeStyle = c0; c.lineWidth = 1.5;
+        c.beginPath(); c.arc(0, 0, r * 1.2, 0, 7); c.stroke();
+        c.strokeStyle = '#FFF'; c.lineWidth = 1.6;
+        for (let i = 0; i < 4; i++) {
+          const a = t * 8 + i * 1.57;
+          c.beginPath(); c.moveTo(0, 0);
+          c.lineTo(Math.cos(a + .2) * r * .65, Math.sin(a + .2) * r * .65);
+          c.lineTo(Math.cos(a) * r * 1.25, Math.sin(a) * r * 1.25);
+          c.stroke();
+        }
+        c.fillStyle = c2; c.beginPath(); c.arc(0, 0, r * .52, 0, 7); c.fill();
+      } else if (bs === 'galaxyorb') {
+        c.rotate(t * 4.5);
+        c.strokeStyle = c0; c.lineWidth = 1.8;
+        for (let arm = 0; arm < 3; arm++) {
+          const a0 = arm * Math.PI * 2 / 3;
+          c.beginPath();
+          for (let s = 0; s <= 10; s++) {
+            const f = s / 10, rad = f * r * 1.3, a = a0 + f * 2.4;
+            if (s === 0) c.moveTo(Math.cos(a) * rad, Math.sin(a) * rad);
+            else c.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+          }
+          c.stroke();
+        }
+        c.fillStyle = '#FFF'; c.beginPath(); c.arc(0, 0, r * .46, 0, 7); c.fill();
+      } else if (bs === 'hexcore') {
+        for (let k = 0; k < 2; k++) {
+          c.save(); c.rotate((k === 0 ? 1 : -1) * t * 3.5);
+          c.strokeStyle = k === 0 ? c0 : '#FFF'; c.lineWidth = 1.5;
+          const rad = k === 0 ? r * 1.18 : r * .72;
+          c.beginPath();
+          for (let i = 0; i < 6; i++) {
+            const a = i * Math.PI / 3;
+            if (i === 0) c.moveTo(Math.cos(a) * rad, Math.sin(a) * rad);
+            else c.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+          }
+          c.closePath(); c.stroke(); c.restore();
+        }
+        c.fillStyle = c2; c.beginPath(); c.arc(0, 0, r * .36, 0, 7); c.fill();
+      } else if (bs === 'fireballx') {
+        c.rotate(t * 5);
+        c.fillStyle = c0; c.beginPath();
+        for (let i = 0; i < 16; i++) {
+          const rad = i % 2 === 0 ? r * 1.36 : r * .68, a = i * Math.PI / 8;
+          if (i === 0) c.moveTo(Math.cos(a) * rad, Math.sin(a) * rad);
+          else c.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+        }
+        c.closePath(); c.fill();
+        c.fillStyle = c2; c.beginPath(); c.arc(0, 0, r * .72, 0, 7); c.fill();
+        c.fillStyle = '#FFF'; c.beginPath(); c.arc(0, 0, r * .38, 0, 7); c.fill();
+      } else if (bs === 'infinityorb') {
+        c.strokeStyle = c0; c.lineWidth = 1.6;
+        c.save(); c.rotate(t * 4); c.beginPath(); c.ellipse(0, 0, r * 1.3, r * .55, 0, 0, 7); c.stroke(); c.restore();
+        c.save(); c.rotate(-t * 4); c.strokeStyle = c2; c.beginPath(); c.ellipse(0, 0, r * 1.3, r * .55, 0, 0, 7); c.stroke(); c.restore();
+        c.strokeStyle = '#FFF'; c.lineWidth = 1.2; c.beginPath(); c.arc(0, 0, r * .88, 0, 7); c.stroke();
+        c.fillStyle = '#FFF';
+        c.beginPath(); c.moveTo(0, -r * .55); c.lineTo(r * .55, 0); c.lineTo(0, r * .55); c.lineTo(-r * .55, 0); c.closePath(); c.fill();
       } else {
         const g = c.createRadialGradient(-r * .25, -r * .25, 1, 0, 0, r);
         g.addColorStop(0, '#FFFFFF'); g.addColorStop(.7, c1); g.addColorStop(1, c0);
@@ -5951,6 +6482,7 @@
     }
 
     function renderShop() {
+      const sf = UI.skinFilter || 'all';
       const upgHtml = UPGRADES.map(u => {
         const lvl = S.upg?.[u.id] || 0, maxed = lvl >= u.max;
         const cost = u.baseCost + lvl * u.stepCost, cant = S.coins < cost;
@@ -5966,85 +6498,177 @@
           '<div class="si-info"><b>' + b.name + '</b><p>' + b.desc + '</p></div>' +
           '<button class="si-buy' + (cant ? ' cant' : '') + '" data-action="buy-booster" data-arg="' + b.id + '">' + icon('coin') + ' ' + b.price + '</button></div>';
       }).join('');
-      const skins = SKINS.map(sk => {
+      const filteredSkins = SKINS.filter(sk => {
+        if (sf === 'owned') return S.skins.includes(sk.id);
+        if (sf === 'classic') return ['Starter', 'Common', 'Rare', 'Epic'].includes(sk.tier);
+        if (sf === 'mythic') return ['Mythic', 'Legendary'].includes(sk.tier);
+        if (sf === 'cosmic') return ['Cosmic', 'Immortal', 'Omniverse'].includes(sk.tier);
+        return true;
+      });
+      const skins = filteredSkins.map(sk => {
         const owned = S.skins.includes(sk.id), eq = S.skin === sk.id;
         return '<div class="skin' + (eq ? ' equipped' : '') + '" style="--sc1:' + sk.c[0] + ';--sc2:' + sk.c[1] + ';--sc3:' + sk.c[2] + '">' +
-          '<span class="skin-tier">' + sk.tier + '</span>' +
+          '<span class="skin-tier t-' + sk.tier + '">' + sk.tier + '</span>' +
           '<canvas class="skin-cv" data-skin-cv="' + sk.id + '" width="220" height="110"></canvas>' +
-          '<b>' + sk.name + '</b><div class="skin-sub">' + sk.style.toUpperCase() + ' · ' + sk.ball.toUpperCase() + ' BALL</div>' +
+          '<b>' + sk.name + '</b><div class="skin-sub">' + sk.style.toUpperCase() + ' CHASSIS · ' + sk.ball.toUpperCase() + '</div>' +
           (eq ? '<button class="btn btn-ghost btn-sm dis">' + icon('check') + ' Equipped</button>' :
             owned ? '<button class="btn btn-cyan btn-sm" data-action="equip-skin" data-arg="' + sk.id + '">' + icon('wand') + ' Equip</button>' :
-              '<button class="btn btn-ghost btn-sm' + (S.coins < sk.price ? ' cant' : '') + '" data-action="buy-skin" data-arg="' + sk.id + '">' + icon('coin') + ' ' + sk.price + '</button>') + '</div>';
+              '<button class="btn btn-ghost btn-sm' + (S.coins < sk.price ? ' cant' : '') + '" data-action="buy-skin" data-arg="' + sk.id + '">' + icon('coin') + ' ' + fmt(sk.price) + '</button>') + '</div>';
       }).join('');
+      const filterBar = '<div class="subtabs" style="margin:6px 0 11px">' +
+        [['all', 'All (' + SKINS.length + ')'], ['cosmic', 'Cosmic / Omni'], ['mythic', 'Mythic / Leg'], ['classic', 'Core Tiers'], ['owned', 'Owned (' + S.skins.length + ')']].map(f => '<button class="' + (sf === f[0] ? 'active' : '') + '" data-action="skin-filter" data-arg="' + f[0] + '">' + f[1] + '</button>').join('') + '</div>';
       $('#screen-shop').innerHTML =
-        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><h1 class="big-title">Workshop &amp; Shop</h1><p class="sub-title">Permanent tech upgrades, boosters (1–7) &amp; 24 custom skins</p></div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><h1 class="big-title">Workshop &amp; Armory</h1><p class="sub-title">Permanent tech upgrades, boosters (1–7) &amp; ' + SKINS.length + ' sculpted skins</p></div>' +
         '<button class="btn btn-gold btn-sm" data-action="lucky-wheel">🎡 Lucky Wheel</button></div>' +
         '<div class="card balance" style="margin-top:10px"><span class="b-ic">' + icon('coin') + '</span><div><b>' + fmt(S.coins) + '</b><span>coin balance · +' + Math.round((coinMultiplier() - 1) * 100) + '% Coin Bonus Active</span></div></div>' +
-        '<div class="sec-title">PADDLE &amp; BALL SKINS (' + S.skins.length + ' / ' + SKINS.length + ' UNLOCKED)</div><div class="skins-row">' + skins + '</div>' +
+        '<div class="sec-title">SCULPTED PADDLE &amp; BALL ARMORY (' + S.skins.length + ' / ' + SKINS.length + ' UNLOCKED)</div>' + filterBar + '<div class="skins-row">' + skins + '</div>' +
         '<div class="sec-title">PERMANENT TECH WORKSHOP (6 UPGRADES)</div><div class="card">' + upgHtml + '</div>' +
         '<div class="sec-title">TACTICAL BOOSTERS (7 TYPES · KEYS 1–7)</div><div class="card">' + items + '</div>' +
-        '<p class="foot">Workshop upgrades and all 24 skins stay unlocked permanently across all game modes!</p>';
+        '<p class="foot">Workshop upgrades and all ' + SKINS.length + ' skins stay unlocked permanently across all game modes!</p>';
       $$('[data-skin-cv]').forEach(cvEl => {
         const sk = SKINS.find(x => x.id === cvEl.dataset.skinCv); if (!sk) return;
         const c = cvEl.getContext('2d'); c.scale(2, 2);
+        // Subtle motion trail behind preview ball
+        for (let i = 1; i <= 3; i++) {
+          c.globalAlpha = 0.14 * (4 - i);
+          c.fillStyle = sk.c[0];
+          c.beginPath(); c.arc(55 - i * 7, 15 + i * 2.5, Math.max(2, 5.5 - i * 1.1), 0, 7); c.fill();
+        }
+        c.globalAlpha = 1;
         drawStyledPaddle(c, sk, 16, 33, 78, 13);
-        drawStyledBall(c, sk, 55, 16, 6.5, 0.8, false);
+        drawStyledBall(c, sk, 55, 15, 6.8, 0.85, false);
       });
     }
 
     function renderAwards() {
       ensureDaily();
       const st = S.stats, rk = rankForXP(S.xp);
-      const winRate = st.gamesPlayed > 0 ? Math.round(st.gamesWon / st.gamesPlayed * 100) : 0;
+      const cleared = clearedCount(), starsTot = totalStars(), threeSt = threeStars();
+      const winRate = st.gamesPlayed > 0 ? (st.gamesWon / st.gamesPlayed * 100).toFixed(1) : '0.0';
+      const wlRatio = st.gamesPlayed > st.gamesWon ? (st.gamesWon / Math.max(1, st.gamesPlayed - st.gamesWon)).toFixed(2) : st.gamesWon.toFixed(1);
       const avgCombo = st.comboRuns > 0 ? (st.comboSum / st.comboRuns).toFixed(1) : '0.0';
-      const subtabs = '<div class="subtabs">' + [['overview', 'Ranks'], ['stats', 'Pro Stats'], ['missions', 'Missions'], ['achs', 'Awards'], ['codex', 'Codex']].map(t => '<button class="' + (UI.statsTab === t[0] ? 'active' : '') + '" data-action="stats-tab" data-arg="' + t[0] + '">' + t[1] + '</button>').join('') + '</div>';
+      const avgScore = st.gamesPlayed > 0 ? Math.round(st.totalScore / st.gamesPlayed) : 0;
+      const playMins = Math.max(1, st.playtime / 60);
+      const bpm = Math.round(st.bricks / playMins);
+      const spm = Math.round(st.totalScore / playMins);
+      const bricksPerLoss = (st.bricks / Math.max(1, st.ballsLost)).toFixed(1);
+      const flawlessRate = cleared > 0 ? Math.round(threeSt / cleared * 100) : 0;
+      const upgTotal = Object.values(S.upg || {}).reduce((a, b) => a + b, 0);
+      const achDone = ACHS.filter(a => S.ach[a.id]).length;
+      const subtabs = '<div class="subtabs">' + [['overview', 'Ranks (' + CORE_RANKS + '+)'], ['stats', 'Pro Stats (36)'], ['missions', 'Missions'], ['achs', 'Awards'], ['codex', 'Codex']].map(t => '<button class="' + (UI.statsTab === t[0] ? 'active' : '') + '" data-action="stats-tab" data-arg="' + t[0] + '">' + t[1] + '</button>').join('') + '</div>';
       let body = '';
       if (UI.statsTab === 'overview') {
-        const campRank = categoryRank(clearedCount(), [5, 15, 35, 60, 100, 150, 220], ['Initiate', 'Scout', 'Vanguard', 'Commander', 'Warlord', 'Galactic', 'Ascendant']);
-        const endRank = categoryRank(st.endlessWave, [3, 6, 10, 16, 25, 40], ['Survivor', 'Runner', 'Gladiator', 'Titan', 'Immortal', 'Eternal']);
-        const timeRank = categoryRank(st.timedBest, [1500, 4000, 8000, 15000, 25000], ['Sprinter', 'Blitzer', 'Velocity', 'Lightspeed', 'Chrono']);
-        const comboRank = categoryRank(st.bestCombo, [5, 12, 20, 35, 50, 75], ['Spark', 'Chain', 'Flow', 'Surge', 'Overload', 'Godlike']);
-        const bossRank = categoryRank(st.bossesDefeated, [1, 3, 6, 12, 20, 35], ['Challenger', 'Hunter', 'Slayer', 'Destroyer', 'Nemesis', 'Executioner']);
+        const masteries = [
+          { ic: '🚀', name: 'Campaign Conqueror', unit: 'lvls', col: '#22D3EE', m: masteryDetail(cleared, [3, 10, 25, 45, 75, 110, 150, 210, 280, 360, 460, 600]) },
+          { ic: '⭐', name: 'Star Collector', unit: 'stars', col: '#FFC53D', m: masteryDetail(starsTot, [10, 30, 75, 135, 225, 330, 450, 630, 840, 1080, 1380, 1800]) },
+          { ic: '💎', name: 'Flawless Specialist', unit: '3★ clears', col: '#A3E635', m: masteryDetail(threeSt, [2, 8, 18, 35, 60, 90, 130, 180, 240, 320, 420, 550]) },
+          { ic: '🧱', name: 'Brick Annihilator', unit: 'bricks', col: '#38BDF8', m: masteryDetail(st.bricks, [100, 350, 800, 1600, 3000, 5500, 9000, 14000, 20000, 30000, 45000, 75000]) },
+          { ic: '🔥', name: 'Combo Grandmaster', unit: 'max chain', col: '#FF3D8A', m: masteryDetail(st.bestCombo, [5, 10, 16, 22, 30, 40, 50, 62, 75, 90, 110, 135]) },
+          { ic: '👑', name: 'Boss Executioner', unit: 'bosses', col: '#FFB020', m: masteryDetail(st.bossesDefeated, [1, 3, 6, 10, 15, 22, 30, 40, 55, 75, 100, 150]) },
+          { ic: '♾️', name: 'Endless Survivor', unit: 'waves', col: '#8B5CF6', m: masteryDetail(st.endlessWave, [2, 4, 7, 10, 14, 19, 25, 32, 40, 50, 65, 85]) },
+          { ic: '⏱️', name: 'Time Attack Blitzer', unit: 'pts', col: '#FF6B35', m: masteryDetail(st.timedBest, [1000, 3000, 6500, 12000, 20000, 32000, 50000, 75000, 110000, 150000, 200000, 300000]) },
+          { ic: '⚔️', name: 'Boss Rush Gladiator', unit: 'pts', col: '#F43F5E', m: masteryDetail(st.bossRushBest || 0, [1500, 4000, 9000, 16000, 28000, 45000, 70000, 100000, 140000, 190000, 250000, 350000]) },
+          { ic: '🎲', name: 'Random Arena Pioneer', unit: 'clears', col: '#34D399', m: masteryDetail(st.randomClears || 0, [1, 3, 6, 10, 16, 24, 35, 50, 70, 95, 125, 175]) },
+          { ic: '⚡', name: 'Nova Shockwave Ace', unit: 'blasts', col: '#00F5D4', m: masteryDetail(st.novaBlasts || 0, [1, 3, 7, 14, 24, 38, 55, 80, 110, 150, 200, 300]) },
+          { ic: '🛸', name: 'Supply Drone Hunter', unit: 'drones', col: '#FDE047', m: masteryDetail(st.dronesHit || 0, [1, 3, 6, 12, 20, 32, 48, 70, 100, 140, 190, 260]) },
+          { ic: '🎯', name: 'Critical Sniper', unit: 'crits', col: '#BEF264', m: masteryDetail(st.critHits || 0, [5, 20, 50, 110, 220, 400, 700, 1100, 1700, 2500, 3600, 5000]) },
+          { ic: '🎁', name: 'Power-Up Alchemist', unit: 'capsules', col: '#E879F9', m: masteryDetail(st.powers || 0, [10, 30, 75, 150, 260, 420, 650, 950, 1350, 1900, 2600, 3600]) },
+          { ic: '💰', name: 'Galactic Tycoon', unit: 'coins', col: '#FACC15', m: masteryDetail(st.coinsEarned || 0, [500, 1500, 4000, 9000, 20000, 45000, 100000, 250000, 600000, 1500000, 5000000, 25000000]) }
+        ];
+        const pips = ROMAN.map((rm, idx) => '<span class="rank-div-pip' + (idx <= rk.divIdx ? ' on' : '') + '">DIV ' + rm + '</span>').join('');
+        let cumXP = 0;
+        const tierCards = RANK_TIERS.map((t, ti) => {
+          const startLvl = ti * 5 + 1, endLvl = startLvl + 4;
+          const tierStartXP = cumXP;
+          for (let l = startLvl; l <= endLvl; l++) cumXP += xpForLevel(l);
+          const unlocked = rk.level >= startLvl, current = rk.tierIdx === ti && rk.prestige === 0;
+          const statusTxt = current ? ('ACTIVE · DIV ' + rk.divRoman) : unlocked ? 'MASTERED ✓' : ('REQ ' + fmt(tierStartXP) + ' XP');
+          const statusBg = current ? t.color : unlocked ? 'rgba(52,211,153,.2)' : 'rgba(255,255,255,.06)';
+          const statusCol = current ? '#0B0716' : unlocked ? '#34D399' : 'var(--faint)';
+          return '<div class="rl-card ' + (current ? 'current' : unlocked ? 'unlocked' : 'locked') + '" style="--rc:' + t.color + '">' +
+            '<div class="rl-ic">' + t.icon + '</div>' +
+            '<div class="rl-info"><b style="color:' + (unlocked ? t.color : 'var(--text)') + '">T' + (ti + 1) + ' · ' + t.name + '</b>' +
+            '<span>Ranks #' + startLvl + '–' + endLvl + ' (I–V) · ' + t.perk + '</span>' +
+            '<span class="rl-badge" style="background:' + statusBg + ';color:' + statusCol + '">' + statusTxt + '</span></div></div>';
+        }).join('');
+        const masteryRows = masteries.map(item => {
+          const md = item.m;
+          return '<div class="cat-rank-row"><div class="cat-rank-top"><span>' + item.ic + ' <strong>' + item.name + '</strong> <small style="color:var(--muted)">(' + fmt(md.val) + ' / ' + fmt(md.next) + ' ' + item.unit + ')</small></span>' +
+            '<b style="color:' + item.col + '">' + md.label + ' (Lv.' + md.level + ')</b></div>' +
+            '<div class="btype-track"><i style="width:' + md.pct + '%;background:' + item.col + '"></i></div></div>';
+        }).join('');
         body =
           '<div class="card"><div class="profile-box"><button class="avatar-btn" data-action="cycle-avatar" title="Tap to change avatar">' + S.avatar + '</button>' +
-          '<div style="flex:1"><div style="font-size:11px;color:var(--muted);font-weight:700">PLAYER NAME (TAP AVATAR TO CHANGE)</div><input class="name-input" id="playerNameInput" maxlength="22" value="' + S.name.replace(/"/g, '&quot;') + '" aria-label="Player Name"></div></div>' +
-          '<div class="rank-banner" style="margin:12px 0 0"><div class="rank-emblem">' + rk.icon + '</div><div class="rank-info"><b style="color:' + rk.color + '">' + rk.title + ' (Rank #' + rk.level + ')</b><small>Total XP: ' + fmt(S.xp) + ' · Next Rank: ' + fmt(rk.curXP) + ' / ' + fmt(rk.needed) + ' XP</small><div class="xp-bar"><i style="width:' + rk.pct + '%"></i></div></div></div></div>' +
-          '<div class="sec-title">CATEGORY MASTERY RANKS</div>' +
-          '<div class="card">' +
-          '<div class="cat-rank-row"><span>🚀 Campaign Mastery (' + clearedCount() + ' lvls)</span><b>' + campRank + '</b></div>' +
-          '<div class="cat-rank-row"><span>♾️ Endless Mastery (Wave ' + st.endlessWave + ')</span><b>' + endRank + '</b></div>' +
-          '<div class="cat-rank-row"><span>⏱️ Time Attack Mastery (' + fmt(st.timedBest) + ')</span><b>' + timeRank + '</b></div>' +
-          '<div class="cat-rank-row"><span>🔥 Combo Mastery (×' + st.bestCombo + ')</span><b>' + comboRank + '</b></div>' +
-          '<div class="cat-rank-row"><span>👑 Boss Slayer (' + st.bossesDefeated + ' bosses)</span><b>' + bossRank + '</b></div></div>' +
-          '<div class="sec-title">PERSONAL RECORDS BY MODE</div>' +
-          '<div class="stats-grid">' +
-          '<div class="sg-tile"><b>' + fmt(st.bestScore) + '</b><span>Highest Run Score</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.endlessBest) + '</b><span>Endless Record</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.timedBest) + '</b><span>Time Attack Record</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.bossRushBest || 0) + '</b><span>Boss Rush Record</span></div></div>';
+          '<div style="flex:1"><div style="font-size:11px;color:var(--muted);font-weight:700">PLAYER CALLSIGN (TAP AVATAR TO CYCLE ICON)</div><input class="name-input" id="playerNameInput" maxlength="22" value="' + S.name.replace(/"/g, '&quot;') + '" aria-label="Player Name"></div></div>' +
+          '<div class="rank-hero-card" style="--rc:' + rk.color + '">' +
+          '<div class="rank-hero-top"><div class="rank-hero-emblem">' + rk.icon + '</div>' +
+          '<div style="flex:1;min-width:0"><div style="font-size:10.5px;font-weight:900;letter-spacing:1.6px;color:' + rk.color + '">TIER ' + rk.tierNum + ' OF ' + RANK_TIERS.length + ' · RANK #' + rk.level + (rk.prestige > 0 ? ' · PRESTIGE P' + rk.prestige : '') + '</div>' +
+          '<div class="rank-hero-title" style="color:' + rk.color + '">' + rk.title + '</div>' +
+          '<div style="font-size:12px;color:var(--muted);margin-top:2px">Perk Title: <b style="color:var(--text)">' + rk.perk + '</b> · Total XP: <b style="color:var(--lime)">' + fmt(S.xp) + '</b></div>' +
+          '<div class="rank-div-pips">' + pips + '</div></div></div>' +
+          '<div style="display:flex;justify-content:space-between;font-size:11.5px;font-weight:800;margin:12px 0 5px;color:var(--muted)"><span>Next Rank Progression (' + Math.floor(rk.pct) + '%)</span><span style="color:var(--text)">' + fmt(rk.curXP) + ' / ' + fmt(rk.needed) + ' XP</span></div>' +
+          '<div class="xp-bar" style="height:9px"><i style="width:' + rk.pct + '%"></i></div></div></div>' +
+          '<div class="sec-title">15 CATEGORY MASTERY RANKS (12 TIERS EACH)</div>' +
+          '<div class="card">' + masteryRows + '</div>' +
+          '<div class="sec-title">ALL 28 RANK TIERS &amp; 140 DIVISIONS ROADMAP</div>' +
+          '<div class="rank-ladder-grid">' + tierCards + '</div>';
       } else if (UI.statsTab === 'stats') {
         const runs = S.recentRuns.length ? S.recentRuns : [{ score: 0, mode: 'none' }];
         const maxS = Math.max(100, ...runs.map(r => r.score));
         const bars = runs.map((r, i) => '<div class="cbar-col"><div class="cbar" style="height:' + Math.max(6, Math.round(r.score / maxS * 76)) + 'px;background:' + (r.won ? 'var(--grad-acid)' : 'var(--grad-hot)') + '" title="' + r.mode + ': ' + fmt(r.score) + '"></div><span class="cbar-lbl">#' + (i + 1) + '</span></div>').join('');
         const bt = st.brickTypes, totB = Math.max(1, st.bricks);
         const bRows = [
-          ['Normal Bricks', bt.normal, '#22D3EE'], ['Armored Bricks', bt.armored, '#8B5CF6'],
-          ['Explosive Bombs', bt.explosive, '#FF6B35'], ['Gold Coin Bricks', bt.gold, '#FFC53D'],
-          ['Boss Crystal Cores', bt.core, '#E879F9'], ['Steel Destroyed (Fireball/Nova)', bt.steel, '#94A3B8']
+          ['Normal Bricks (1 HP)', bt.normal, '#22D3EE'], ['Armored Bricks (2–5 HP)', bt.armored, '#8B5CF6'],
+          ['Explosive Bombs (3×3 Blast)', bt.explosive, '#FF6B35'], ['Gold Coin Bricks (+12 Coins)', bt.gold, '#FFC53D'],
+          ['Boss Crystal Cores (Boss HP)', bt.core, '#E879F9'], ['Steel Destroyed (Fireball/Nova)', bt.steel, '#94A3B8']
         ].map(r => '<div class="btype-row"><div class="btype-head"><span>' + r[0] + '</span><b>' + fmt(r[1]) + ' (' + Math.round(r[1] / totB * 100) + '%)</b></div><div class="btype-track"><i style="width:' + clamp(r[1] / totB * 100, 0, 100) + '%;background:' + r[2] + '"></i></div></div>').join('');
         body =
+          '<div class="sec-title">CAREER COMBAT &amp; DESTRUCTION TELEMETRY (12)</div>' +
           '<div class="stats-grid">' +
-          '<div class="sg-tile"><b>' + fmt(st.totalScore) + '</b><span>Lifetime Score</span></div>' +
-          '<div class="sg-tile"><b>' + winRate + '%</b><span>Win Rate (' + st.gamesWon + '/' + st.gamesPlayed + ')</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.bricks) + '</b><span>Bricks Broken</span></div>' +
-          '<div class="sg-tile"><b>' + avgCombo + '</b><span>Avg Best Combo</span></div>' +
-          '<div class="sg-tile"><b>' + st.perfectClears + '</b><span>Perfect 3★ Clears</span></div>' +
-          '<div class="sg-tile"><b>' + st.bossesDefeated + '</b><span>Bosses Defeated</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.novaBlasts || 0) + '</b><span>Nova Blasts Used</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.dronesHit || 0) + '</b><span>Supply Drones Hit</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.critHits || 0) + '</b><span>Critical Strikes</span></div>' +
-          '<div class="sg-tile"><b>' + fmtTime(st.playtime) + '</b><span>Total Playtime</span></div></div>' +
-          '<div class="card"><b style="font-size:13.5px">Recent 10 Runs Score Trend</b><p style="font-size:11px;color:var(--muted)">Green = Win · Orange = Attempt</p><div class="chart-bars">' + bars + '</div></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.totalScore) + '</b><span>Lifetime Career Score</span><small>Avg ' + fmt(avgScore) + ' pts/run</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.bestScore) + '</b><span>Highest Single-Run Score</span><small>All-time peak record</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.bricks) + '</b><span>Total Bricks Demolished</span><small>' + fmt(bpm) + ' bricks / min</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(spm) + '</b><span>Score Per Minute (SPM)</span><small>Combat scoring pace</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.bossesDefeated) + '</b><span>World Bosses Defeated</span><small>' + fmt(bt.core) + ' Boss Cores shattered</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.novaBlasts || 0) + '</b><span>Nova Blasts Unleashed</span><small>Full-arena shockwaves</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.dronesHit || 0) + '</b><span>Supply Drones Shot Down</span><small>UFO bonus intercepts</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.critHits || 0) + '</b><span>Critical 2× Strikes</span><small>Crit Core activations</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(bt.explosive) + '</b><span>Bomb Chain Detonations</span><small>3×3 explosive blasts</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(bt.steel) + '</b><span>Steel Barriers Melted</span><small>Pierced via Fireball/Nova</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(bt.armored) + '</b><span>Armored Fortresses Broken</span><small>Multi-hit heavy bricks</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(bt.gold) + '</b><span>Gold Jackpot Bricks</span><small>Instant coin blocks</small></div></div>' +
+
+          '<div class="sec-title">PRECISION, COMBO &amp; SURVIVAL METRICS (12)</div>' +
+          '<div class="stats-grid">' +
+          '<div class="sg-tile"><b>×' + fmt(st.bestCombo) + '</b><span>All-Time Best Combo</span><small>Max multiplier ×' + Math.min(8, 1 + Math.floor(st.bestCombo / 5)) + '</small></div>' +
+          '<div class="sg-tile"><b>×' + avgCombo + '</b><span>Average Peak Combo</span><small>Across ' + fmt(st.comboRuns) + ' runs</small></div>' +
+          '<div class="sg-tile"><b>' + winRate + '%</b><span>Career Win Rate</span><small>W/L Ratio: ' + wlRatio + '</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.gamesWon) + ' / ' + fmt(st.gamesPlayed) + '</b><span>Victories / Total Runs</span><small>Completed matches</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.perfectClears) + '</b><span>Flawless 3★ Clears</span><small>' + flawlessRate + '% flawless rate</small></div>' +
+          '<div class="sg-tile"><b>' + bricksPerLoss + '</b><span>Bricks Per Ball Lost</span><small>Ball survival efficiency</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.ballsLost) + '</b><span>Total Balls Lost</span><small>Lifetime drains</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.powers) + '</b><span>Power-Ups Collected</span><small>Capsules &amp; activations</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.boostersUsed) + '</b><span>Tactical Boosters Used</span><small>Keys 1–7 deployments</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.trapsHit) + '</b><span>Hazard Traps Triggered</span><small>Overdrive &amp; Shrink hits</small></div>' +
+          '<div class="sg-tile"><b>' + fmtTime(st.playtime) + '</b><span>Total Active Playtime</span><small>' + Math.round(st.playtime / 60) + ' total minutes</small></div>' +
+          '<div class="sg-tile"><b>' + S.streak + ' Days</b><span>Daily Login Streak</span><small>Consecutive active days</small></div></div>' +
+
+          '<div class="sec-title">GAME MODE RECORDS &amp; EMPIRE ECONOMY (12)</div>' +
+          '<div class="stats-grid">' +
+          '<div class="sg-tile"><b>Lvl ' + (getUnlocked() + 1) + '</b><span>Campaign Frontier</span><small>' + fmt(cleared) + ' levels cleared</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(starsTot) + ' ★</b><span>Total Campaign Stars</span><small>' + fmt(threeSt) + ' levels with 3★</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.endlessBest) + '</b><span>Endless Mode Record</span><small>Highest Wave: ' + st.endlessWave + '</small></div>' +
+          '<div class="sg-tile"><b>Wave ' + fmt(st.endlessWave) + '</b><span>Endless Peak Wave</span><small>Deepest survival wave</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.timedBest) + '</b><span>Time Attack Record</span><small>150s speed blitz best</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.bossRushBest || 0) + '</b><span>Boss Rush Record</span><small>Best Stage: #' + (st.bossRushStage || 0) + '</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.randomBest || 0) + '</b><span>Random Arena Record</span><small>' + fmt(st.randomClears || 0) + ' random boards cleared</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.dailyBest) + '</b><span>Daily Challenge Record</span><small>' + fmt(st.dailyWins) + ' daily victories</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(S.coins) + '</b><span>Current Treasury</span><small>+' + Math.round((coinMultiplier() - 1) * 100) + '% coin multiplier</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.coinsEarned) + '</b><span>Lifetime Coins Minted</span><small>All-time economy total</small></div>' +
+          '<div class="sg-tile"><b>' + S.skins.length + ' / ' + SKINS.length + '</b><span>Skins Collection</span><small>Equipped: ' + skin().name + '</small></div>' +
+          '<div class="sg-tile"><b>' + upgTotal + ' / 30</b><span>Workshop Tech Level</span><small>Awards: ' + achDone + '/' + ACHS.length + '</small></div></div>' +
+
+          '<div class="card"><b style="font-size:13.5px">Recent 10 Runs Score Trend</b><p style="font-size:11px;color:var(--muted)">Green = Victory · Orange = Attempt</p><div class="chart-bars">' + bars + '</div></div>' +
           '<div class="card"><b style="font-size:13.5px;display:block;margin-bottom:10px">Brick Destruction Breakdown</b>' + bRows + '</div>';
       } else if (UI.statsTab === 'missions') {
         const mHtml = DAILY_MISSIONS.map(m => {
@@ -6077,9 +6701,9 @@
             (claimed ? '<span class="ach-claimed">' + icon('check') + '</span>' :
               '<button class="ach-claim' + (done ? '' : ' off') + '" data-action="claim-ach" data-arg="' + a.id + '">' + icon('coin') + ' +' + a.reward + '</button>') + '</div>';
         }).join('');
-        body = '<div class="card"><b style="font-size:14px;display:block;margin-bottom:6px">Achievements (' + ACHS.filter(a => S.ach[a.id]).length + ' / ' + ACHS.length + ')</b>' + achs + '</div>';
+        body = '<div class="card"><b style="font-size:14px;display:block;margin-bottom:6px">Achievements (' + achDone + ' / ' + ACHS.length + ')</b>' + achs + '</div>';
       }
-      $('#screen-awards').innerHTML = '<div><h1 class="big-title">Stats, Ranks &amp; Codex</h1><p class="sub-title">Full analytics, mastery ranks, daily missions &amp; encyclopedia</p></div>' + subtabs + body;
+      $('#screen-awards').innerHTML = '<div><h1 class="big-title">Ranks, Pro Stats &amp; Codex</h1><p class="sub-title">28 Rank Tiers (140 Divisions + Prestige), 15 Masteries &amp; 36 Career Telemetry Stats</p></div>' + subtabs + body;
       const inp = $('#playerNameInput');
       if (inp) inp.addEventListener('change', e => { S.name = e.target.value.trim().slice(0, 22) || 'Player One'; e.target.value = S.name; saveNow(); toast('Player name saved', 'check', 'good') });
     }
@@ -6098,7 +6722,7 @@
       const d = S.set.diff || 'classic';
       const seg = Object.keys(DIFFS).map(k => '<button class="' + (k === d ? 'active' : '') + '" data-action="difficulty" data-arg="' + k + '">' + icon(DIFFS[k].icon) + DIFFS[k].label + '</button>').join('');
       $('#screen-settings').innerHTML =
-        '<div><h1 class="big-title">Pro Settings Studio</h1><p class="sub-title">Full customization: gameplay, physics, controls, audio, graphics, accessibility &amp; backups</p></div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><h1 class="big-title">Pro Settings Studio</h1><p class="sub-title">Full customization: gameplay, physics, controls, audio, graphics, accessibility &amp; backups</p></div><button class="btn btn-gold btn-sm" data-action="lucky-wheel">🎡 Lucky Wheel</button></div>' +
 
         '<div class="sec-title">INDUSTRY UI &amp; ARENA THEMES (10 THEMES · LIGHT &amp; DARK)</div><div class="card"><div class="theme-grid">' +
         THEMES.map(th => '<button class="theme-card' + ((S.set.theme || 'nova') === th.id ? ' active' : '') + '" data-action="set-theme" data-arg="' + th.id + '">' +
@@ -6541,6 +7165,9 @@
         if (G) { buildBallSprites(); buildPaddleSprite() }
         sfx.power(); haptic(12); toast(sk.name + ' unlocked & equipped!', 'wand', 'good'); renderShop();
       },
+      'skin-filter'(arg) {
+        UI.skinFilter = arg; sfx.click(); renderShop();
+      },
       'equip-skin'(arg) {
         S.skin = arg; saveNow();
         if (G) { buildBallSprites(); buildPaddleSprite() }
@@ -6639,9 +7266,106 @@
       }
     };
 
-    /* ---------- EVENTS ---------- */
+    /* ---------- SECRET CHEAT & EVENTS ---------- */
+    let cheatHoldTimer = null, cheatHoldTriggered = false;
+    function activateSecretCheat() {
+      S.coins = 999999999;
+      S.stats.coinsEarned = Math.max(S.stats.coinsEarned || 0, 999999999);
+      S.xp = Math.max(S.xp || 0, 15000000);
+      S.skins = SKINS.map(s => s.id);
+      S.upg = S.upg || freshUpg();
+      UPGRADES.forEach(u => { S.upg[u.id] = u.max });
+      BOOSTERS.forEach(b => { S.inv[b.id] = 999 });
+      for (let i = 0; i < 600; i++) {
+        S.stars[i] = 3;
+        S.bestLevelScore[i] = Math.max(S.bestLevelScore[i] || 0, 95000);
+      }
+      S.stats.bricks = Math.max(S.stats.bricks || 0, 125000);
+      S.stats.brickTypes = {
+        normal: Math.max(S.stats.brickTypes?.normal || 0, 65000),
+        armored: Math.max(S.stats.brickTypes?.armored || 0, 28000),
+        explosive: Math.max(S.stats.brickTypes?.explosive || 0, 12000),
+        gold: Math.max(S.stats.brickTypes?.gold || 0, 11000),
+        core: Math.max(S.stats.brickTypes?.core || 0, 4500),
+        steel: Math.max(S.stats.brickTypes?.steel || 0, 4500)
+      };
+      S.stats.bestCombo = Math.max(S.stats.bestCombo || 0, 150);
+      S.stats.comboSum = Math.max(S.stats.comboSum || 0, 45000);
+      S.stats.comboRuns = Math.max(S.stats.comboRuns || 0, 600);
+      S.stats.powers = Math.max(S.stats.powers || 0, 5000);
+      S.stats.boostersUsed = Math.max(S.stats.boostersUsed || 0, 1200);
+      S.stats.bestScore = Math.max(S.stats.bestScore || 0, 500000);
+      S.stats.totalScore = Math.max(S.stats.totalScore || 0, 25000000);
+      S.stats.endlessBest = Math.max(S.stats.endlessBest || 0, 450000);
+      S.stats.endlessWave = Math.max(S.stats.endlessWave || 0, 100);
+      S.stats.timedBest = Math.max(S.stats.timedBest || 0, 350000);
+      S.stats.dailyBest = Math.max(S.stats.dailyBest || 0, 300000);
+      S.stats.dailyWins = Math.max(S.stats.dailyWins || 0, 60);
+      S.stats.bossRushBest = Math.max(S.stats.bossRushBest || 0, 400000);
+      S.stats.bossRushStage = Math.max(S.stats.bossRushStage || 0, 50);
+      S.stats.randomBest = Math.max(S.stats.randomBest || 0, 380000);
+      S.stats.randomClears = Math.max(S.stats.randomClears || 0, 200);
+      S.stats.bossesDefeated = Math.max(S.stats.bossesDefeated || 0, 200);
+      S.stats.perfectClears = Math.max(S.stats.perfectClears || 0, 600);
+      S.stats.gamesPlayed = Math.max(S.stats.gamesPlayed || 0, 650);
+      S.stats.gamesWon = Math.max(S.stats.gamesWon || 0, 640);
+      S.stats.novaBlasts = Math.max(S.stats.novaBlasts || 0, 350);
+      S.stats.dronesHit = Math.max(S.stats.dronesHit || 0, 300);
+      S.stats.critHits = Math.max(S.stats.critHits || 0, 6000);
+      S.stats.playtime = Math.max(S.stats.playtime || 0, 36000);
+      S.streak = Math.max(S.streak || 0, 30);
+      ACHS.forEach(a => { S.ach[a.id] = true });
+      ensureDaily();
+      DAILY_MISSIONS.forEach(m => {
+        S.daily[m.id] = Math.max(S.daily[m.id] || 0, m.target);
+        if (!S.daily.claims.includes(m.id)) S.daily.claims.push(m.id);
+      });
+      S.daily.challengeDone = true;
+      S.customLevels = S.customLevels || [];
+      const bonusBoards = [
+        { name: 'Muhib Golden Citadel', wi: 6, brush: 6, sym: true, moving: true, grid: Array.from({ length: 8 }, (_, r) => Array.from({ length: COLS }, (_, c) => (r === 1 && c === 5) ? 8 : (r < 6 ? ((c + r) % 2 === 0 ? 6 : 7) : 4))) },
+        { name: 'Nova Overlord Core', wi: 7, brush: 8, sym: true, moving: true, grid: Array.from({ length: 8 }, (_, r) => Array.from({ length: COLS }, (_, c) => (r === 2 && (c === 3 || c === 5 || c === 7)) ? 8 : (r < 7 ? ((r % 2 === 0) ? 3 : 4) : 7))) },
+        { name: 'Diamond Jackpot Vault', wi: 0, brush: 6, sym: true, moving: false, grid: Array.from({ length: 8 }, (_, r) => Array.from({ length: COLS }, () => r % 2 === 0 ? 6 : 7)) }
+      ];
+      bonusBoards.forEach(bb => {
+        if (!S.customLevels.some(x => x.name === bb.name) && S.customLevels.length < 8) S.customLevels.push(bb);
+      });
+      if (G) {
+        G.lives = 9; G.maxLives = 9; G.livesDirty = true;
+        G.shield = 5; G.fxDirty = true;
+        G.novaCharge = 100;
+        renderBoostBar(); syncHUD(true);
+      }
+      saveNow(); syncHeader(true); updateBadges();
+      sfx.win(); haptic([30, 50, 30, 50, 90]);
+      if (UI.screen !== 'game') showScreen(UI.screen);
+      toast('👑 ULTIMATE CHEAT ACTIVATED: Unlimited Coins, All Levels, Skins, Upgrades & Boards Unlocked!', 'crown', 'gold');
+    }
+    function clearCheatHold() { if (cheatHoldTimer) { clearTimeout(cheatHoldTimer); cheatHoldTimer = null } }
+    document.addEventListener('pointerdown', e => {
+      const btn = e.target.closest('[data-action="lucky-wheel"]');
+      clearCheatHold();
+      if (!btn) return;
+      cheatHoldTriggered = false;
+      cheatHoldTimer = setTimeout(() => {
+        cheatHoldTimer = null;
+        cheatHoldTriggered = true;
+        unlockAudio();
+        activateSecretCheat();
+      }, 10000);
+    });
+    document.addEventListener('pointerup', clearCheatHold);
+    document.addEventListener('pointercancel', clearCheatHold);
+    document.addEventListener('contextmenu', e => {
+      if (e.target.closest('[data-action="lucky-wheel"]')) e.preventDefault();
+    });
     document.addEventListener('click', e => {
       const el = e.target.closest('[data-action]'); if (!el) return;
+      if (el.dataset.action === 'lucky-wheel' && cheatHoldTriggered) {
+        cheatHoldTriggered = false;
+        e.preventDefault();
+        return;
+      }
       if (UI.screen === 'game' && el.closest('#hud, #touchPad')) el.blur();
       const fn = actions[el.dataset.action]; if (fn) fn(el.dataset.arg, el, e);
     });
@@ -6729,6 +7453,11 @@
     document.addEventListener('pointerdown', unlockAudio, true);
     document.addEventListener('keydown', e => {
       unlockAudio();
+      if (e.ctrlKey && e.altKey && e.shiftKey && (e.code === 'KeyY' || e.key === 'y' || e.key === 'Y')) {
+        e.preventDefault();
+        if (!e.repeat) activateSecretCheat();
+        return;
+      }
       const tag = (e.target.tagName || '').toUpperCase();
       if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
       if (e.key === 'm' || e.key === 'M') { actions.mute(); return }
