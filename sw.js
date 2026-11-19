@@ -50,11 +50,11 @@ if (workbox) {
     },
     {
         "url": ".gitattributes",
-        "revision": "05bdb783ee6514c8c072e47680af8ff7"
+        "revision": "ced020e42ad4bef2bcb62b9edce451e8"
     },
     {
         "url": ".gitignore",
-        "revision": "d41d8cd98f00b204e9800998ecf8427e"
+        "revision": "b53ff3fa0b604d9ef4128025b31dd4ee"
     },
     {
         "url": "build pwa make html app offline and installable yasin best working re-run this for updates best for html only.pyw",
@@ -66,11 +66,11 @@ if (workbox) {
     },
     {
         "url": "FEATURES-REPORT.md",
-        "revision": "00d905f3a00401cba62570fb629e1d6e"
+        "revision": "e73748e7adb2b3229f2ad989d484a5f2"
     },
     {
         "url": "index.html",
-        "revision": "5a3a9bd4b2202d8457b2a9b93ea27d8b"
+        "revision": "705e5d07fc28fbb6b39c04fe6a6dba45"
     },
     {
         "url": "index.html.bak",
@@ -114,11 +114,11 @@ if (workbox) {
     },
     {
         "url": "README.md",
-        "revision": "a511234da60734751a752c931e570af2"
+        "revision": "a5743b5fcde5450d12948fa3b3900ea8"
     },
     {
         "url": "sw.js",
-        "revision": "edae06c9598c14595c58eeab97af0d70"
+        "revision": "4826adff7c64fe34045ec6c7327bc859"
     }
 ]);
 

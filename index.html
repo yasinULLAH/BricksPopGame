@@ -4333,7 +4333,8 @@
         customLevels: [],
         ach: {},
         daily: freshDaily(),
-        streak: 0, lastClaimDate: '', muted: false
+        streak: 0, lastClaimDate: '', muted: false,
+        unlockAll: false
       }
     }
     let S = freshSave();
@@ -4365,6 +4366,8 @@
       for (const k in S.stars) { const n = +k; if (S.stars[k] > 0 && n > maxCleared) maxCleared = n }
       return maxCleared + 1;
     }
+    /* Cheat flag: when true every campaign level, world chip and sector is playable */
+    function allUnlocked() { return S.unlockAll === true }
     function clearedCount() { let n = 0; for (const k in S.stars) if (S.stars[k] > 0) n++; return n }
     function totalStars() { let n = 0; for (const k in S.stars) n += S.stars[k] || 0; return n }
     function threeStars() { let n = 0; for (const k in S.stars) if (S.stars[k] >= 3) n++; return n }
@@ -6509,18 +6512,19 @@
 
     function renderLevels() {
       const unlocked = getUnlocked();
+      const allOn = allUnlocked();
       const maxAbsWorld = Math.floor(unlocked / 15);
       const sector = Math.floor(UI.absWorld / 8);
       const maxSector = Math.floor(maxAbsWorld / 8);
       const wi = UI.absWorld % 8, w = WORLDS[wi], ws = worldStars(UI.absWorld);
       let chips = '';
       for (let i = 0; i < 8; i++) {
-        const aw = sector * 8 + i, ww = WORLDS[i], locked = aw * 15 > unlocked;
+        const aw = sector * 8 + i, ww = WORLDS[i], locked = !allOn && aw * 15 > unlocked;
         chips += '<button class="wchip' + (aw === UI.absWorld ? ' active' : '') + (locked ? ' locked' : '') + '" data-action="world" data-arg="' + aw + '" style="--wa:' + ww.hues[0] + '"><span class="wchip-num">' + (i + 1) + '</span>' + ww.name + (locked ? icon('lock') : '') + '</button>';
       }
       let cells = '';
       for (let li = 0; li < 15; li++) {
-        const idx = UI.absWorld * 15 + li, locked = idx > unlocked, st = S.stars[idx] || 0, next = idx === unlocked, boss = li === 14;
+        const idx = UI.absWorld * 15 + li, locked = !allOn && idx > unlocked, st = S.stars[idx] || 0, next = idx === unlocked, boss = li === 14;
         if (UI.levelFilter === 'open' && locked) continue;
         if (UI.levelFilter === 'stars' && st < 3) continue;
         if (UI.levelFilter === 'boss' && !boss) continue;
@@ -6532,9 +6536,9 @@
           (next ? '<span class="lvl-play">PLAY</span>' : '') + '</button>';
       }
       $('#screen-levels').innerHTML =
-        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><h1 class="big-title">Unlimited Levels</h1><p class="sub-title">' + clearedCount() + ' cleared · Unlocked: Lvl ' + (unlocked + 1) + ' · ' + totalStars() + ' ★</p></div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><h1 class="big-title">Unlimited Levels</h1><p class="sub-title">' + clearedCount() + ' cleared · ' + (allOn ? 'ALL LEVELS UNLOCKED' : 'Unlocked: Lvl ' + (unlocked + 1)) + ' · ' + totalStars() + ' ★</p></div>' +
         '<button class="btn btn-cyan btn-sm" data-action="open-editor">' + icon('wand') + ' Level Studio</button></div>' +
-        '<div class="sector-bar"><div class="sector-nav"><button class="btn btn-ghost btn-sm" data-action="sector-prev" ' + (sector <= 0 ? 'disabled' : '') + '>◀</button><span class="pill">SECTOR ' + (sector + 1) + '</span><button class="btn btn-ghost btn-sm" data-action="sector-next" ' + (sector >= maxSector + 1 ? 'disabled' : '') + '>▶</button></div>' +
+        '<div class="sector-bar"><div class="sector-nav"><button class="btn btn-ghost btn-sm" data-action="sector-prev" ' + (sector <= 0 ? 'disabled' : '') + '>◀</button><span class="pill">SECTOR ' + (sector + 1) + '</span><button class="btn btn-ghost btn-sm" data-action="sector-next" ' + ((!allOn && sector >= maxSector) ? 'disabled' : '') + '>▶</button></div>' +
         '<div class="filter-row">' + [['all', 'All'], ['open', 'Open'], ['stars', '3★'], ['boss', 'Boss']].map(f => '<button class="' + (UI.levelFilter === f[0] ? 'active' : '') + '" data-action="lvl-filter" data-arg="' + f[0] + '">' + f[1] + '</button>').join('') + '</div></div>' +
         '<div class="wchips" id="wchips">' + chips + '</div>' +
         '<div class="wbanner" style="--wa:' + w.hues[0] + ';--wb:' + w.hues[2] + '"><h3>Sector ' + (sector + 1) + ' · ' + w.name + '</h3><p>' + w.tag + ' · Difficulty ×' + (1 + sector * .35).toFixed(2) + ' · Boss: ' + BOSSES[wi].name + '</p>' +
@@ -7035,7 +7039,7 @@
       'cycle-avatar'() { const idx = (AVATARS.indexOf(S.avatar) + 1) % AVATARS.length; S.avatar = AVATARS[idx]; saveNow(); sfx.click(); renderAwards() },
       'start-level'(arg) {
         const idx = +arg;
-        if (idx > getUnlocked()) { sfx.deny(); toast('Clear Level ' + idx + ' first to unlock!', 'lock', 'warn'); return }
+        if (!allUnlocked() && idx > getUnlocked()) { sfx.deny(); toast('Clear Level ' + idx + ' first to unlock!', 'lock', 'warn'); return }
         unlockAudio(); sfx.click(); haptic(8); startGame('campaign', idx);
       },
       'start-endless'() { unlockAudio(); sfx.click(); haptic(8); startGame('endless', 0) },
@@ -7337,10 +7341,11 @@
       S.stats.coinsEarned = Math.max(S.stats.coinsEarned || 0, 999999999);
       S.xp = Math.max(S.xp || 0, 15000000);
       S.skins = SKINS.map(s => s.id);
+      S.unlockAll = true;
       S.upg = S.upg || freshUpg();
       UPGRADES.forEach(u => { S.upg[u.id] = u.max });
-      BOOSTERS.forEach(b => { S.inv[b.id] = 999 });
-      for (let i = 0; i < 600; i++) {
+      BOOSTERS.forEach(b => { S.inv[b.id] = 9999 });
+      for (let i = 0; i < 1200; i++) {
         S.stars[i] = 3;
         S.bestLevelScore[i] = Math.max(S.bestLevelScore[i] || 0, 95000);
       }
@@ -7358,6 +7363,8 @@
       S.stats.comboRuns = Math.max(S.stats.comboRuns || 0, 600);
       S.stats.powers = Math.max(S.stats.powers || 0, 5000);
       S.stats.boostersUsed = Math.max(S.stats.boostersUsed || 0, 1200);
+      S.stats.trapsHit = Math.max(S.stats.trapsHit || 0, 800);
+      S.stats.ballsLost = Math.max(S.stats.ballsLost || 0, 400);
       S.stats.bestScore = Math.max(S.stats.bestScore || 0, 500000);
       S.stats.totalScore = Math.max(S.stats.totalScore || 0, 25000000);
       S.stats.endlessBest = Math.max(S.stats.endlessBest || 0, 450000);
@@ -7370,7 +7377,7 @@
       S.stats.randomBest = Math.max(S.stats.randomBest || 0, 380000);
       S.stats.randomClears = Math.max(S.stats.randomClears || 0, 200);
       S.stats.bossesDefeated = Math.max(S.stats.bossesDefeated || 0, 200);
-      S.stats.perfectClears = Math.max(S.stats.perfectClears || 0, 600);
+      S.stats.perfectClears = Math.max(S.stats.perfectClears || 0, 1200);
       S.stats.gamesPlayed = Math.max(S.stats.gamesPlayed || 0, 650);
       S.stats.gamesWon = Math.max(S.stats.gamesWon || 0, 640);
       S.stats.novaBlasts = Math.max(S.stats.novaBlasts || 0, 350);
@@ -7385,14 +7392,22 @@
         if (!S.daily.claims.includes(m.id)) S.daily.claims.push(m.id);
       });
       S.daily.challengeDone = true;
+      S.daily.freeSpinUsed = false;
       S.customLevels = S.customLevels || [];
+      const mkGrid = fn => Array.from({ length: 8 }, (_, r) => Array.from({ length: COLS }, (_, c) => fn(r, c)));
       const bonusBoards = [
-        { name: 'Muhib Golden Citadel', wi: 6, brush: 6, sym: true, moving: true, grid: Array.from({ length: 8 }, (_, r) => Array.from({ length: COLS }, (_, c) => (r === 1 && c === 5) ? 8 : (r < 6 ? ((c + r) % 2 === 0 ? 6 : 7) : 4))) },
-        { name: 'Nova Overlord Core', wi: 7, brush: 8, sym: true, moving: true, grid: Array.from({ length: 8 }, (_, r) => Array.from({ length: COLS }, (_, c) => (r === 2 && (c === 3 || c === 5 || c === 7)) ? 8 : (r < 7 ? ((r % 2 === 0) ? 3 : 4) : 7))) },
-        { name: 'Diamond Jackpot Vault', wi: 0, brush: 6, sym: true, moving: false, grid: Array.from({ length: 8 }, (_, r) => Array.from({ length: COLS }, () => r % 2 === 0 ? 6 : 7)) }
+        { name: 'Muhib Golden Citadel', wi: 6, brush: 6, sym: true, moving: true, grid: mkGrid((r, c) => (r === 1 && c === 5) ? 8 : (r < 6 ? ((c + r) % 2 === 0 ? 6 : 7) : 4)) },
+        { name: 'Nova Overlord Core', wi: 7, brush: 8, sym: true, moving: true, grid: mkGrid((r, c) => (r === 2 && (c === 3 || c === 5 || c === 7)) ? 8 : (r < 7 ? ((r % 2 === 0) ? 3 : 4) : 7)) },
+        { name: 'Diamond Jackpot Vault', wi: 0, brush: 6, sym: true, moving: false, grid: mkGrid(r => r % 2 === 0 ? 6 : 7) },
+        { name: 'Frozen Prism Labyrinth', wi: 3, brush: 2, sym: true, moving: true, grid: mkGrid((r, c) => (c === 0 || c === COLS - 1 || r === 0) ? 5 : ((c + r) % 4 === 0 ? 2 : ((c * 3 + r) % 7 === 0 ? 6 : 1))) },
+        { name: 'Magma Siege Fortress', wi: 4, brush: 4, sym: true, moving: true, grid: mkGrid((r, c) => (r === 7 && c === 5) ? 8 : (r === 0 ? 3 : (r % 2 === 0 ? 4 : (c % 3 === 0 ? 3 : 1)))) },
+        { name: 'Void Rift Gauntlet', wi: 5, brush: 3, sym: true, moving: true, grid: mkGrid((r, c) => (Math.abs(c - (COLS - 1) / 2) + Math.abs(r - 3.5) < 1.3) ? 8 : ((r + c) % 5 === 0 ? 3 : 1)) },
+        { name: 'Prism Storm Arena', wi: 7, brush: 7, sym: true, moving: true, grid: mkGrid((r, c) => (r === 0 || r === 4) ? 5 : ((c + r * 2) % 3 === 0 ? 7 : (r % 2 === 0 ? 2 : 1))) },
+        { name: 'Boss Core Reactor', wi: 1, brush: 8, sym: true, moving: true, grid: mkGrid((r, c) => (r === 2 && c >= 3 && c <= 7) ? 8 : ((r === 5 && c % 2 === 1) ? 6 : 1)) }
       ];
       bonusBoards.forEach(bb => {
-        if (!S.customLevels.some(x => x.name === bb.name) && S.customLevels.length < 8) S.customLevels.push(bb);
+        if (S.customLevels.length >= 8) return;
+        if (!S.customLevels.some(x => x.name === bb.name)) S.customLevels.push(bb);
       });
       if (G) {
         G.lives = 9; G.maxLives = 9; G.livesDirty = true;
@@ -7403,7 +7418,7 @@
       saveNow(); syncHeader(true); updateBadges();
       sfx.win(); haptic([30, 50, 30, 50, 90]);
       if (UI.screen !== 'game') showScreen(UI.screen);
-      toast('👑 ULTIMATE CHEAT ACTIVATED: Unlimited Coins, All Levels, Skins, Upgrades & Boards Unlocked!', 'crown', 'gold');
+      toast('👑 ULTIMATE CHEAT ACTIVATED: All Levels, Worlds, Skins, Upgrades, Boosters & Studio Slots Unlocked!', 'crown', 'gold');
     }
     function clearCheatHold() { if (cheatHoldTimer) { clearTimeout(cheatHoldTimer); cheatHoldTimer = null } }
     document.addEventListener('pointerdown', e => {
