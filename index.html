@@ -3526,6 +3526,7 @@
       gauge: '<path d="m12 15 4-6"/><path d="M4 19a10 10 0 1 1 16 0"/>',
       move: '<path d="M12 2v20M2 12h20"/><path d="m9 5 3-3 3 3M9 19l3 3 3-3M5 9l-3 3 3 3M19 9l3 3-3 3"/>',
       maximize: '<path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/>',
+      minimize: '<path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>',
       eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>'
     };
     function icon(n) { return '<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (I[n] || I.zap) + '</svg></span>' }
@@ -3857,6 +3858,7 @@
     }
     const UI = { screen: 'home', absWorld: 0, levelFilter: 'all', statsTab: 'overview', sheet: null, dismiss: null, sheetTimer: null, closeT: null };
     function openSheet(html, type, dismiss) {
+      resetInputs();
       const root = $('#sheetRoot'); clearTimeout(UI.closeT); clearInterval(UI.sheetTimer);
       UI.sheet = type; UI.dismiss = dismiss || null; root.classList.remove('closing');
       root.innerHTML = '<div class="backdrop" data-action="sheet-backdrop"></div><div class="sheet" role="dialog" aria-modal="true">' + html + '</div>';
@@ -4078,6 +4080,10 @@
     let trailCol = 'rgba(34,211,238,';
     const keys = { l: false, r: false };
     let drag = null;
+    function resetInputs() {
+      keys.l = false; keys.r = false; drag = null;
+      $$('.tpad-btn.held').forEach(b => b.classList.remove('held'));
+    }
     const MAXP = () => {
       if (S.set.reducedMotion) return 40;
       const base = S.set.fx ? 500 : 200;
@@ -4244,6 +4250,7 @@
       let hp = 0; for (const b of bricks) if (b.alive && b.code !== 5) hp += b.hp; return hp;
     }
     function startGame(mode, idx, customData) {
+      resetInputs();
       closeSheet(true); ensureDaily();
       const d = DIFFS[S.set.diff] || DIFFS.classic;
       const customLives = S.set.startLives > 0 ? S.set.startLives : d.lives;
@@ -5957,6 +5964,7 @@
     /* ---------- EVENTS ---------- */
     document.addEventListener('click', e => {
       const el = e.target.closest('[data-action]'); if (!el) return;
+      if (UI.screen === 'game' && el.closest('#hud, #touchPad')) el.blur();
       const fn = actions[el.dataset.action]; if (fn) fn(el.dataset.arg, el, e);
     });
     document.addEventListener('change', e => {
@@ -5999,6 +6007,7 @@
     }
     function onDown(e) {
       unlockAudio();
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
       if (!G || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
       if (drag) return;
       const x = logicalX(e);
@@ -6008,7 +6017,7 @@
       e.preventDefault();
     }
     function onMove(e) {
-      if (!G || UI.sheet) return;
+      if (!G || UI.screen !== 'game' || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
       if (e.pointerType === 'mouse' && !drag && S.set.controlMode !== 'tap') { steerTo(logicalX(e), false, null); return }
       if (!drag || e.pointerId !== drag.id) return;
       const x = logicalX(e), dx = x - drag.startX;
@@ -6024,9 +6033,9 @@
       if (quick && G && !UI.sheet && S.set.tapLaunch !== false && S.set.controlMode !== 'tap') launchBalls();
     }
     cv.addEventListener('pointerdown', onDown);
-    cv.addEventListener('pointermove', onMove);
-    cv.addEventListener('pointerup', onUp);
-    cv.addEventListener('pointercancel', () => { drag = null; keys.l = false; keys.r = false });
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', resetInputs);
     cv.addEventListener('contextmenu', e => e.preventDefault());
     /* Bind On-Screen Touch Arcade Buttons */
     function bindTouchPadBtn(id, keyProp) {
@@ -6074,10 +6083,19 @@
       if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.r = false;
     });
     window.addEventListener('resize', () => { if (UI.screen === 'game') resize() });
-    document.addEventListener('fullscreenchange', () => { setTimeout(() => { if (UI.screen === 'game') resize() }, 60) });
+    document.addEventListener('fullscreenchange', () => {
+      const isFs = !!document.fullscreenElement;
+      $$('[data-action="fullscreen"]').forEach(b => {
+        b.innerHTML = icon(isFs ? 'minimize' : 'maximize');
+        b.title = isFs ? 'Exit Fullscreen (F)' : 'Fullscreen (F)';
+      });
+      setTimeout(() => { if (UI.screen === 'game') resize() }, 60);
+    });
+    window.addEventListener('blur', resetInputs);
     window.addEventListener('orientationchange', () => { setTimeout(() => { if (UI.screen === 'game') resize() }, 120) });
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
+        resetInputs();
         if (G && (G.state === 'play' || G.state === 'ready') && !UI.sheet && S.set.autoPauseBlur !== false) openPause();
         if (G) { S.stats.playtime += G.runT; G.runT = 0 }
         saveNow();
