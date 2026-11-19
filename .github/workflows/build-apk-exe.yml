@@ -1,0 +1,279 @@
+# =============================================================================
+# BRICKPOP NOVA ULTIMATE — Automated Offline Fullscreen APK & Portable EXE Build
+# Copyright (c) 2026 Yasin Ullah — Bannu Software Solutions
+# Dedicated to little Muhib Ullah
+#
+# HOW TO USE:
+# Place this file at: .github/workflows/build-apk-exe.yml
+# Every time you commit & push changes, GitHub Actions will automatically build:
+#   1) Standalone 100% Offline Fullscreen Android APK
+#   2) Standalone Portable 100% Offline Fullscreen Windows EXE
+# Zero local drive space or Android Studio / Electron SDK required on your PC!
+# =============================================================================
+
+name: Build Offline APK & Portable EXE
+
+on:
+  push:
+    branches: ["main", "master"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  # ===========================================================================
+  # JOB 1: STANDALONE OFFLINE FULLSCREEN ANDROID APK (CAPACITOR + GRADLE)
+  # ===========================================================================
+  build-android-apk:
+    name: Build Offline Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup Java 17 (for Android Gradle)
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Prepare Offline Web Bundle & Capacitor Project
+        run: |
+          mkdir -p build-android/www
+          cp index.html build-android/www/index.html
+          cd build-android
+
+          cat << 'EOF' > package.json
+          {
+            "name": "brickpop-nova-ultimate",
+            "version": "4.0.0",
+            "description": "BrickPop Nova Ultimate by Yasin Ullah (Dedicated to little Muhib Ullah)",
+            "private": true,
+            "dependencies": {
+              "@capacitor/core": "^6.1.2",
+              "@capacitor/android": "^6.1.2"
+            },
+            "devDependencies": {
+              "@capacitor/cli": "^6.1.2"
+            }
+          }
+          EOF
+
+          cat << 'EOF' > capacitor.config.json
+          {
+            "appId": "com.yasinullah.brickpopnova",
+            "appName": "BrickPop Nova Ultimate",
+            "webDir": "www",
+            "bundledWebRuntime": false,
+            "android": {
+              "backgroundColor": "#0B0716",
+              "allowMixedContent": false
+            }
+          }
+          EOF
+
+          npm install
+          npx cap add android
+          npx cap sync android
+
+      - name: Enable Immersive Fullscreen Mode in Android Activity
+        run: |
+          MAIN_ACT="build-android/android/app/src/main/java/com/yasinullah/brickpopnova/MainActivity.java"
+          cat << 'EOF' > "$MAIN_ACT"
+          package com.yasinullah.brickpopnova;
+
+          import android.os.Bundle;
+          import android.view.View;
+          import android.view.WindowManager;
+          import com.getcapacitor.BridgeActivity;
+
+          public class MainActivity extends BridgeActivity {
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  enableFullscreen();
+              }
+
+              @Override
+              public void onWindowFocusChanged(boolean hasFocus) {
+                  super.onWindowFocusChanged(hasFocus);
+                  if (hasFocus) {
+                      enableFullscreen();
+                  }
+              }
+
+              private void enableFullscreen() {
+                  getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                  View decorView = getWindow().getDecorView();
+                  decorView.setSystemUiVisibility(
+                      View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                      | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                      | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                      | View.SYSTEM_UI_FLAG_FULLSCREEN
+                  );
+              }
+          }
+          EOF
+
+      - name: Compile Standalone Offline Android APK
+        run: |
+          cd build-android/android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk ../../BrickPop-Nova-Ultimate-Android-Offline.apk
+
+      - name: Upload Android APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BrickPop-Nova-Ultimate-Android-APK
+          path: BrickPop-Nova-Ultimate-Android-Offline.apk
+          retention-days: 30
+
+  # ===========================================================================
+  # JOB 2: STANDALONE PORTABLE OFFLINE FULLSCREEN WINDOWS EXE (ELECTRON)
+  # ===========================================================================
+  build-windows-exe:
+    name: Build Portable Offline Windows EXE
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Prepare Portable Fullscreen Electron Project
+        shell: bash
+        run: |
+          mkdir -p build-win
+          cp index.html build-win/index.html
+          cd build-win
+
+          cat << 'EOF' > main.js
+          const { app, BrowserWindow, globalShortcut } = require('electron');
+          const path = require('path');
+
+          function createWindow() {
+            const win = new BrowserWindow({
+              width: 1280,
+              height: 800,
+              fullscreen: true,
+              autoHideMenuBar: true,
+              backgroundColor: '#0B0716',
+              title: 'BrickPop Nova Ultimate — By Yasin Ullah',
+              webPreferences: {
+                contextIsolation: true,
+                nodeIntegration: false,
+                sandbox: true
+              }
+            });
+
+            win.setMenuBarVisibility(false);
+            win.loadFile(path.join(__dirname, 'index.html'));
+
+            win.webContents.on('before-input-event', (event, input) => {
+              if (input.key === 'F11') {
+                win.setFullScreen(!win.isFullScreen());
+                event.preventDefault();
+              }
+            });
+          }
+
+          app.whenReady().then(createWindow);
+          app.on('window-all-closed', () => {
+            if (process.platform !== 'darwin') app.quit();
+          });
+          EOF
+
+          cat << 'EOF' > package.json
+          {
+            "name": "brickpop-nova-ultimate",
+            "version": "4.0.0",
+            "description": "BrickPop Nova Ultimate — Offline Fullscreen Portable Arcade by Yasin Ullah",
+            "author": "Yasin Ullah (Bannu Software Solutions)",
+            "main": "main.js",
+            "scripts": {
+              "build": "electron-builder --win portable --x64"
+            },
+            "build": {
+              "appId": "com.yasinullah.brickpopnova",
+              "productName": "BrickPop Nova Ultimate",
+              "files": ["main.js", "index.html"],
+              "win": {
+                "target": [
+                  {
+                    "target": "portable",
+                    "arch": ["x64"]
+                  }
+                ]
+              },
+              "portable": {
+                "artifactName": "BrickPop-Nova-Ultimate-Portable-Offline.exe"
+              }
+            },
+            "devDependencies": {
+              "electron": "^31.0.0",
+              "electron-builder": "^24.13.3"
+            }
+          }
+          EOF
+
+          npm install
+          npm run build
+          cp dist/BrickPop-Nova-Ultimate-Portable-Offline.exe ../BrickPop-Nova-Ultimate-Portable-Offline.exe
+
+      - name: Upload Windows Portable EXE Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BrickPop-Nova-Ultimate-Windows-EXE
+          path: BrickPop-Nova-Ultimate-Portable-Offline.exe
+          retention-days: 30
+
+  # ===========================================================================
+  # JOB 3: AUTOMATIC GITHUB RELEASE WITH BOTH APK & PORTABLE EXE
+  # ===========================================================================
+  publish-release:
+    name: Publish Latest Release (APK + EXE)
+    needs: [build-android-apk, build-windows-exe]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Android APK
+        uses: actions/download-artifact@v4
+        with:
+          name: BrickPop-Nova-Ultimate-Android-APK
+          path: release-files
+
+      - name: Download Windows Portable EXE
+        uses: actions/download-artifact@v4
+        with:
+          name: BrickPop-Nova-Ultimate-Windows-EXE
+          path: release-files
+
+      - name: Create or Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest-build
+          name: "BrickPop Nova Ultimate — Latest Offline APK & Portable EXE"
+          body: |
+            ### 🧱 BrickPop Nova Ultimate — Automated Offline Builds
+            - 📱 **Android APK:** `BrickPop-Nova-Ultimate-Android-Offline.apk` (100% offline, immersive fullscreen)
+            - 💻 **Windows Portable EXE:** `BrickPop-Nova-Ultimate-Portable-Offline.exe` (100% offline, standalone portable, fullscreen)
+
+            *Copyright © 2026 Yasin Ullah — Bannu Software Solutions · Dedicated to little Muhib Ullah ❤️*
+          files: |
+            release-files/BrickPop-Nova-Ultimate-Android-Offline.apk
+            release-files/BrickPop-Nova-Ultimate-Portable-Offline.exe
+          make_latest: true
