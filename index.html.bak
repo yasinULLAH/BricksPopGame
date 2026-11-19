@@ -3957,18 +3957,24 @@
       const n = (RM_SYS || S.set.reducedMotion) ? 25 : (S.set.fx ? 130 : 60), cols = [...WORLDS[G.wi].hues, '#FFFFFF', '#FFC53D'];
       for (let i = 0; i < n; i++)pushPart({ type: 'confetti', x: R() * VW, y: -20 - R() * VH * .3, vx: (R() - .5) * 120, vy: 60 + R() * 160, g: 150, t: 0, life: 2 + R() * 1.4, size: 4 + R() * 4.5, color: cols[(R() * cols.length) | 0], rot: R() * 6.28, vr: (R() - .5) * 10, sway: R() * 6.28 });
     }
-    function pushText(str, x, y, color, size) { G.texts.push({ str, x, y, color, size: size || 12, t: 0, life: .85, banner: false }) }
+    function pushText(str, x, y, color, size) { if (S.set.floatTexts === false) return; G.texts.push({ str, x, y, color, size: size || 12, t: 0, life: .85, banner: false }) }
     function banner(str, color, yf) { G.texts.push({ str, x: VW / 2, y: VH * (yf || .34), color: color || '#fff', size: 26, t: 0, life: 1.45, banner: true }) }
-    function shake(n) { if (!S.set.shake || S.set.reducedMotion) return; G.shake = Math.max(G.shake, RM_SYS ? n * .2 : (S.set.fx ? n : n * .45)) }
+    function shake(n) {
+      if (!S.set.shake || S.set.reducedMotion) return;
+      const mult = ((S.set.shakePct ?? 100) / 100) * (RM_SYS ? .2 : (S.set.fx ? 1 : .45));
+      G.shake = Math.max(G.shake, n * mult);
+    }
 
     /* ---------- WIN / LOSE / MODES ---------- */
     function recordRunStats(won) {
-      S.stats.gamesPlayed++;
-      if (won) S.stats.gamesWon++;
-      S.stats.totalScore += G.score;
+      if (!G.countedGame) { S.stats.gamesPlayed++; G.countedGame = true }
+      if (won && !G.countedWin) { S.stats.gamesWon++; G.countedWin = true }
+      const scoreDelta = Math.max(0, G.score - (G.scoreRecorded || 0));
+      S.stats.totalScore += scoreDelta;
+      G.scoreRecorded = G.score;
       S.stats.bestScore = Math.max(S.stats.bestScore, G.score);
-      S.stats.comboSum += G.bestComboRun; S.stats.comboRuns++;
-      S.stats.playtime += G.runT; G.lastRunT = G.runT; G.runT = 0;
+      if (!G.comboRecorded) { S.stats.comboSum += G.bestComboRun; S.stats.comboRuns++; G.comboRecorded = true }
+      S.stats.playtime += G.runT; G.lastRunT += G.runT; G.runT = 0;
       S.recentRuns.push({ mode: G.mode, score: G.score, bricks: G.bricksRun, won, at: Date.now() });
       if (S.recentRuns.length > 10) S.recentRuns.shift();
       if (G.mode === 'endless') { S.stats.endlessBest = Math.max(S.stats.endlessBest, G.score); S.stats.endlessWave = Math.max(S.stats.endlessWave, G.wave) }
@@ -3995,7 +4001,9 @@
       const bonusBase = G.mode === 'daily' ? 160 : (25 + stars * 15 + G.sector * 15);
       const flaw = stars === 3 ? 25 : 0, bossB = G.boss ? 80 : 0;
       G.bonusBase = bonusBase; G.flaw = flaw; G.bossB = bossB;
-      const xpTotal = G.xpRun + (G.boss ? 140 : 60) + stars * 25 + G.sector * 30;
+      const unrewardedXp = Math.max(0, G.xpRun - (G.xpAwarded || 0));
+      const xpTotal = unrewardedXp + (G.boss ? 140 : 60) + stars * 25 + G.sector * 30;
+      G.xpAwarded = G.xpRun;
       G.xpTotal = xpTotal;
       recordRunStats(true);
       addCoins(bonusBase + flaw + bossB);
@@ -4008,11 +4016,13 @@
       if (G.state !== 'play' && G.state !== 'ready') return;
       G.state = 'lost'; G.loseT = .9; G.sheetShown = false; G.loseReason = reason;
       for (const b of G.balls) ballBurst(b); G.balls.length = 0;
-      shake(12); G.flash = .16; sfx.lose(); haptic([30, 40, 30]);
+      shake(12); if (S.set.hitFlash !== false) G.flash = .16; sfx.lose(); haptic([30, 40, 30]);
       const prevBest = G.mode === 'endless' ? S.stats.endlessBest : (G.mode === 'timed' ? S.stats.timedBest : 0);
       G.newRecord = (G.mode === 'endless' || G.mode === 'timed') && G.score > prevBest;
       recordRunStats(false);
-      addXP(G.xpRun);
+      const unrewardedXp = Math.max(0, G.xpRun - (G.xpAwarded || 0));
+      G.xpAwarded = G.xpRun;
+      addXP(unrewardedXp);
       saveNow(); updateBadges();
     }
     function loseLife() {
@@ -4812,6 +4822,120 @@
         if (G.mode === 'daily') quitGame('home');
         else startGame('campaign', G.idx + 1);
       },
+      'continue-run'() {
+        if (!G || S.coins < 50) return;
+        S.coins -= 50; markDirty(); syncHeader(true); saveNow();
+        G.usedContinue = true; G.lives = 2; G.maxLives = Math.max(G.maxLives, 2); G.livesDirty = true;
+        G.state = 'ready'; spawnBall(); closeSheet(); sfx.life(); toast('Second chance! +2 Lives', 'heart', 'good');
+      },
+      boost(arg) { triggerBoosterMidGame(arg) },
+      'claim-daily'() {
+        ensureDaily();
+        if (S.daily.rewardClaimed) { sfx.deny(); return }
+        const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+        S.streak = S.lastClaimDate === yest ? S.streak + 1 : 1;
+        S.lastClaimDate = todayStr(); S.daily.rewardClaimed = true;
+        const reward = 100 + Math.min(S.streak, 7) * 25;
+        addCoins(reward); addXP(50); saveNow(); sfx.coin(); haptic([10, 20, 10]);
+        toast('+' + reward + ' coins & +50 XP · Day ' + S.streak + ' streak!', 'coin', 'gold');
+        renderHome(); updateBadges();
+      },
+      'claim-mission'(arg) {
+        ensureDaily();
+        const m = DAILY_MISSIONS.find(x => x.id === arg);
+        if (!m || S.daily.claims.includes(arg) || (S.daily[arg] || 0) < m.target) { sfx.deny(); toast('Complete the mission goal first!', 'target', 'warn'); return }
+        S.daily.claims.push(arg); addCoins(m.reward); addXP(m.xp); saveNow();
+        sfx.life(); haptic([10, 20, 10]); toast(m.name + ' claimed! +' + m.reward + ' coins', 'trophy', 'gold');
+        renderAwards(); updateBadges();
+      },
+      'buy-booster'(arg) {
+        const b = BOOSTERS.find(x => x.id === arg); if (!b) return;
+        if (S.coins < b.price) { sfx.deny(); toast('Not enough coins — break more bricks!', 'coin', 'warn'); return }
+        S.coins -= b.price; S.inv[arg] = (S.inv[arg] || 0) + 1; saveNow(); syncHeader(true);
+        sfx.coin(); haptic(10); toast(b.name + ' added to inventory', 'bag', 'good'); renderShop();
+      },
+      'buy-skin'(arg) {
+        const sk = SKINS.find(x => x.id === arg); if (!sk) return;
+        if (S.coins < sk.price) { sfx.deny(); toast('Not enough coins for ' + sk.name, 'coin', 'warn'); return }
+        S.coins -= sk.price; S.skins.push(arg); S.skin = arg; saveNow(); syncHeader(true);
+        sfx.power(); haptic(12); toast(sk.name + ' unlocked & equipped!', 'wand', 'good'); renderShop();
+      },
+      'equip-skin'(arg) { S.skin = arg; saveNow(); sfx.click(); haptic(6); renderShop() },
+      'claim-ach'(arg) {
+        const a = ACHS.find(x => x.id === arg); if (!a || S.ach[arg]) return;
+        if (a.cur(S) < a.max) { sfx.deny(); toast('Keep playing to unlock this award', 'trophy', 'warn'); return }
+        S.ach[arg] = true; addCoins(a.reward); addXP(100); saveNow();
+        sfx.life(); haptic([10, 20, 10]); toast(a.name + ' · +' + a.reward + ' coins & +100 XP', 'trophy', 'gold');
+        renderAwards(); updateBadges();
+      },
+      difficulty(arg) { S.set.diff = arg; saveNow(); sfx.click(); haptic(5); renderSettings() },
+      'set-opt'(arg, el) {
+        const key = el.dataset.key;
+        if (!key) return;
+        S.set[key] = (key === 'startLives') ? +arg : arg;
+        saveNow(); applyAudioSet(); applyDisplaySet();
+        sfx.click(); haptic(5);
+        if (UI.screen === 'settings') renderSettings();
+      },
+      'reset-settings'() {
+        S.set = freshSet(); saveNow(); applyAudioSet(); applyDisplaySet();
+        sfx.power(); toast('All settings restored to factory defaults', 'check', 'good');
+        renderSettings();
+      },
+      'export-save'() {
+        sfx.click();
+        const data = JSON.stringify(S, null, 2);
+        try {
+          const blob = new Blob([data], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = 'brickpop_nova_backup_' + todayStr() + '.json';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        } catch (e) { }
+        if (navigator.clipboard?.writeText) navigator.clipboard.writeText(data).catch(() => { });
+        toast('Save backup downloaded & copied to clipboard!', 'check', 'good');
+      },
+      'import-save'() {
+        sfx.click();
+        openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--cyan)">RESTORE BACKUP</div><h2 class="sheet-title">Import Save Data</h2></div>' +
+          '<p style="font-size:12px;color:var(--muted);margin-bottom:10px">Paste your exported JSON backup below or choose a backup file:</p>' +
+          '<input type="file" id="importFileInp" accept=".json,application/json" style="width:100%;margin-bottom:10px;font-size:12px;color:var(--muted)">' +
+          '<textarea id="importJsonTxt" rows="5" placeholder="Paste exported JSON here..." style="width:100%;background:rgba(8,4,18,.75);border:1px solid var(--line2);border-radius:12px;padding:10px;color:var(--text);font-family:monospace;font-size:11.5px;margin-bottom:14px"></textarea>' +
+          '<div class="sheet-btns"><button class="btn btn-primary" data-action="confirm-import">' + icon('check') + ' Restore Save Data</button>' +
+          '<button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Cancel</button></div>', 'import', 'close-sheet');
+        setTimeout(() => {
+          const fi = $('#importFileInp');
+          if (fi) fi.addEventListener('change', ev => {
+            const file = ev.target.files?.[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => { const ta = $('#importJsonTxt'); if (ta) ta.value = String(reader.result || '') };
+            reader.readAsText(file);
+          });
+        }, 40);
+      },
+      'confirm-import'() {
+        const raw = $('#importJsonTxt')?.value?.trim();
+        if (!raw) { sfx.deny(); toast('Please paste or select a valid backup JSON', 'alert', 'warn'); return }
+        try {
+          const p = JSON.parse(raw), f = freshSave();
+          if (typeof p !== 'object' || !p) throw new Error('Invalid');
+          S = {
+            ...f, ...p,
+            inv: { ...f.inv, ...(p.inv || {}) },
+            set: { ...f.set, ...(p.set || {}) },
+            stats: { ...f.stats, ...(p.stats || {}), brickTypes: { ...f.stats.brickTypes, ...(p.stats?.brickTypes || {}) } },
+            daily: { ...f.daily, ...(p.daily || {}) },
+            stars: p.stars || {}, bestLevelScore: p.bestLevelScore || {}, ach: p.ach || {},
+            skins: p.skins || ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : []
+          };
+          saveNow(); closeSheet(); applyAudioSet(); applyDisplaySet(); syncHeader(true); syncMute(); updateBadges();
+          sfx.win(); toast('Save backup restored successfully!', 'check', 'good');
+          renderSettings();
+        } catch (err) {
+          sfx.deny(); toast('Invalid backup JSON format', 'alert', 'bad');
+        }
+      },
       'reset-progress'() {
         sfx.click();
         openSheet('<div class="grabber"></div><div class="confirm-ic">' + icon('alert') + '</div><h2 class="sheet-title" style="text-align:center">Reset All Progress?</h2>' +
@@ -4821,7 +4945,7 @@
       },
       'confirm-reset'() {
         try { localStorage.removeItem(SAVE_KEY) } catch (e) { }
-        S = freshSave(); saveNow(); closeSheet(); applyDisplaySet(); syncHeader(); syncMute(); updateBadges();
+        S = freshSave(); saveNow(); closeSheet(); applyAudioSet(); applyDisplaySet(); syncHeader(); syncMute(); updateBadges();
         UI.absWorld = 0; showScreen('home'); sfx.bad(); toast('Fresh start — good luck!', 'sparkles', 'info');
       }
     };
@@ -4834,15 +4958,38 @@
     document.addEventListener('change', e => {
       const el = e.target.closest('[data-set]'); if (!el || el.type !== 'checkbox') return;
       const k = el.dataset.set; S.set[k] = el.checked; saveNow(); applyAudioSet(); applyDisplaySet();
-      if (k === 'fx' && G) resize();
+      if (G) { if (k === 'fx') resize(); if (k === 'showBoostBar') renderBoostBar() }
       sfx.click(); haptic(5);
     });
     document.addEventListener('input', e => {
-      const el = e.target.closest('[data-set="sens"]'); if (!el) return;
-      S.set.sens = +el.value / 100; markDirty();
-      const lbl = $('#sensVal'); if (lbl) lbl.textContent = el.value + '%';
+      const el = e.target.closest('[data-range]'); if (!el) return;
+      const k = el.dataset.range, v = +el.value;
+      if (k === 'sens') S.set.sens = v / 100;
+      else S.set[k] = v;
+      markDirty();
+      const lbl = $('#lbl_' + k); if (lbl) lbl.textContent = v + '%';
+      if (k === 'masterVol' || k === 'sfxVol' || k === 'bgmVol') applyAudioSet();
     });
-    function logicalX(e) { const r = cv.getBoundingClientRect(); return (e.clientX - r.left) / r.width * VW }
+    function logicalX(e) {
+      const r = cv.getBoundingClientRect();
+      return ((e.clientX - r.left) / Math.max(1, r.width) * (cv.width / scale)) - viewX;
+    }
+    function steerTo(rawX, isDrag, dragObj) {
+      const inv = S.set.invertControls ? -1 : 1;
+      const mode = S.set.controlMode || 'drag';
+      if (mode === 'tap' && dragObj && dragObj.moved < 12) {
+        const dir = (rawX < VW / 2 ? -1 : 1) * inv;
+        G.paddle.tx = clamp(G.paddle.tx + dir * 38, G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4);
+        return;
+      }
+      if (mode === 'direct' || (dragObj && dragObj.type === 'mouse') || !isDrag) {
+        const target = S.set.invertControls ? (VW - rawX) : rawX;
+        G.paddle.tx = clamp(target, G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4);
+      } else if (dragObj) {
+        const dx = (rawX - dragObj.startX) * inv;
+        G.paddle.tx = clamp(dragObj.paddleStart + dx * 1.15 * (S.set.sens ?? 1), G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4);
+      }
+    }
     function onDown(e) {
       unlockAudio();
       if (!G || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
@@ -4850,24 +4997,23 @@
       const x = logicalX(e);
       drag = { id: e.pointerId, startX: x, paddleStart: G.paddle.tx, moved: 0, t0: performance.now(), type: e.pointerType };
       try { cv.setPointerCapture(e.pointerId) } catch (err) { }
-      if (e.pointerType === 'mouse') G.paddle.tx = clamp(x, G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4);
+      if (e.pointerType === 'mouse' || S.set.controlMode === 'direct' || S.set.controlMode === 'tap') steerTo(x, true, drag);
       e.preventDefault();
     }
     function onMove(e) {
       if (!G || UI.sheet) return;
-      if (e.pointerType === 'mouse' && !drag) { G.paddle.tx = clamp(logicalX(e), G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4); return }
+      if (e.pointerType === 'mouse' && !drag) { steerTo(logicalX(e), false, null); return }
       if (!drag || e.pointerId !== drag.id) return;
       const x = logicalX(e), dx = x - drag.startX;
       drag.moved = Math.max(drag.moved, Math.abs(dx));
-      if (drag.type === 'mouse') G.paddle.tx = clamp(x, G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4);
-      else G.paddle.tx = clamp(drag.paddleStart + dx * 1.15 * S.set.sens, G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4);
+      steerTo(x, true, drag);
       e.preventDefault();
     }
     function onUp(e) {
       if (!drag || e.pointerId !== drag.id) return;
       const quick = performance.now() - drag.t0 < 400 && drag.moved < 10;
       drag = null;
-      if (quick && G && !UI.sheet) launchBalls();
+      if (quick && G && !UI.sheet && S.set.tapLaunch !== false && S.set.controlMode !== 'tap') launchBalls();
     }
     cv.addEventListener('pointerdown', onDown);
     cv.addEventListener('pointermove', onMove);

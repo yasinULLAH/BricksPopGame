@@ -2892,6 +2892,257 @@
       color: #FFC53D
     }
 
+    /* ============ BOSS BAR, NOVA SKILL, TOUCH CONTROLS, EDITOR, UPGRADES & WHEEL ============ */
+    #bossBar {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-top: 5px;
+      padding: 4px 9px;
+      background: rgba(255, 61, 138, .12);
+      border: 1px solid rgba(255, 61, 138, .42);
+      border-radius: 10px;
+    }
+    #bossBar.show { display: flex }
+    #bossBar .bb-title {
+      font-family: var(--font-d);
+      font-size: 10px;
+      font-weight: 900;
+      color: #FF9EC4;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    #bossBar .bb-track {
+      flex: 1;
+      height: 7px;
+      background: rgba(8, 4, 18, .78);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 61, 138, .3);
+    }
+    #bossBar .bb-fill {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #FF3D8A, #FFB020);
+      transition: width .18s ease;
+    }
+    #bossBar .bb-hp {
+      font-family: var(--font-d);
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--amber);
+      min-width: 36px;
+      text-align: right;
+    }
+    .nova-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-d);
+      font-size: 10.5px;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(20, 12, 34, .88);
+      border: 1px solid rgba(34, 211, 238, .4);
+      color: var(--cyan);
+      position: relative;
+      overflow: hidden;
+      transition: transform .14s, box-shadow .2s;
+    }
+    .nova-btn .nv-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(34, 211, 238, .18);
+      pointer-events: none;
+      transition: width .15s;
+    }
+    .nova-btn.ready {
+      background: var(--grad-acid);
+      color: #07121A;
+      border-color: #fff;
+      box-shadow: 0 0 16px rgba(163, 230, 53, .75);
+      animation: novapulse 1.1s ease-in-out infinite alternate;
+    }
+    @keyframes novapulse {
+      to { transform: scale(1.06); box-shadow: 0 0 24px rgba(34, 211, 238, .95) }
+    }
+    #touchPad {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      z-index: 14;
+      pointer-events: none;
+    }
+    #touchPad.show { display: flex }
+    .tpad-btn {
+      pointer-events: auto;
+      flex: 1;
+      height: 46px;
+      border-radius: 14px;
+      background: rgba(23, 16, 41, .76);
+      border: 1px solid var(--line2);
+      color: var(--text);
+      font-family: var(--font-d);
+      font-weight: 900;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .45);
+    }
+    .tpad-btn:active, .tpad-btn.held {
+      background: rgba(124, 77, 255, .42);
+      border-color: var(--cyan);
+      transform: scale(.96);
+    }
+    .tpad-btn.mid {
+      flex: 1.2;
+      background: rgba(34, 211, 238, .18);
+      border-color: rgba(34, 211, 238, .5);
+      color: var(--cyan);
+    }
+    .mode.bossrush::before {
+      background: linear-gradient(150deg, rgba(255, 77, 94, .34), rgba(20, 13, 38, .92) 64%), var(--surface);
+    }
+    .mode.bossrush .m-ic { color: var(--danger) }
+    .mode.studio::before {
+      background: linear-gradient(150deg, rgba(163, 230, 53, .3), rgba(20, 13, 38, .92) 64%), var(--surface);
+    }
+    .mode.studio .m-ic { color: var(--lime) }
+    .upg-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(160, 140, 255, .08);
+    }
+    .upg-item:last-child { border-bottom: none }
+    .upg-pips {
+      display: flex;
+      gap: 4px;
+      margin-top: 5px;
+    }
+    .upg-pip {
+      width: 16px;
+      height: 5px;
+      border-radius: 3px;
+      background: rgba(160, 140, 255, .18);
+    }
+    .upg-pip.on {
+      background: var(--grad-acid);
+      box-shadow: 0 0 6px rgba(163, 230, 53, .6);
+    }
+    .ed-grid {
+      display: grid;
+      grid-template-columns: repeat(11, 1fr);
+      gap: 3px;
+      background: rgba(8, 4, 18, .75);
+      padding: 8px;
+      border-radius: 14px;
+      border: 1px solid var(--line2);
+      margin-bottom: 10px;
+      touch-action: none;
+    }
+    .ed-cell {
+      aspect-ratio: 1.7 / 1;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .08);
+      font-size: 9px;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .ed-palette {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 11px;
+    }
+    .ed-tool {
+      padding: 7px 6px;
+      border-radius: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--line);
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ed-tool.active {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 1px var(--cyan);
+      background: var(--surface3);
+    }
+    .ed-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      flex: none;
+    }
+    .wheel-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 8px 0 14px;
+      position: relative;
+    }
+    .wheel-ptr {
+      font-size: 22px;
+      color: var(--amber);
+      margin-bottom: -8px;
+      z-index: 2;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.8));
+    }
+    #wheelCv {
+      border-radius: 50%;
+      box-shadow: 0 0 32px rgba(124, 77, 255, .4);
+      transition: transform 3.2s cubic-bezier(.15, .88, .22, 1);
+    }
+    .codex-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .codex-card {
+      background: rgba(8, 4, 18, .48);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 10px;
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+    }
+    .codex-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 13px;
+      color: #0B0716;
+    }
+
     @media(max-width:360px) {
       .rank-pill-hdr {
         display: none
@@ -2945,7 +3196,8 @@
       <h4>CONTROLS</h4>
       <div class="key-row"><span>Move paddle</span><span><kbd>←</kbd> <kbd>→</kbd> / Mouse</span></div>
       <div class="key-row"><span>Launch ball</span><kbd>SPACE</kbd></div>
-      <div class="key-row"><span>Use booster</span><span><kbd>1</kbd>–<kbd>5</kbd></span></div>
+      <div class="key-row"><span>Use booster</span><span><kbd>1</kbd>–<kbd>7</kbd></span></div>
+      <div class="key-row"><span>Nova Blast</span><kbd>E</kbd> / <kbd>SHIFT</kbd></div>
       <div class="key-row"><span>Pause</span><kbd>P</kbd></div>
       <div class="key-row"><span>Restart</span><kbd>R</kbd></div>
       <div class="key-row"><span>Fullscreen</span><kbd>F</kbd></div>
@@ -2994,15 +3246,21 @@
                 </div>
               </div>
             </div>
+            <div id="bossBar">
+              <span class="bb-title" id="bossName">👑 BOSS</span>
+              <div class="bb-track"><i class="bb-fill" id="bossFill"></i></div>
+              <span class="bb-hp" id="bossHpTxt">100%</span>
+            </div>
             <div class="hud-sub">
               <div class="hud-sub-left">
                 <div id="hudLives"></div>
                 <div id="hudCombo"><span id="comboMult">×2</span><i id="comboBar"></i></div>
+                <button class="nova-btn" id="novaBtn" data-action="nova" title="Nova Blast Ultimate (E)"><i class="nv-fill" id="novaFill" style="width:0%"></i><span style="position:relative;z-index:1" id="novaTxt">⚡ NOVA 0%</span></button>
               </div>
               <div id="hudFx"></div>
             </div>
             <div id="boostBar">
-              <div class="bb-label" id="boostBarLabel">BOOST (1-5)</div>
+              <div class="bb-label" id="boostBarLabel">BOOST (1-7)</div>
               <div class="bb-row" id="boostRow"></div>
             </div>
           </div>
@@ -3012,6 +3270,11 @@
           <div id="gameOverlayFx"></div>
           <div id="vignette"></div>
           <div id="fpsBadge">60 FPS</div>
+          <div id="touchPad">
+            <button class="tpad-btn" id="tpadLeft" aria-label="Move Left">◀ LEFT</button>
+            <button class="tpad-btn mid" id="tpadLaunch" data-action="tap-launch" aria-label="Launch or Nova">🚀 LAUNCH</button>
+            <button class="tpad-btn" id="tpadRight" aria-label="Move Right">RIGHT ▶</button>
+          </div>
           <div id="gameHint">Drag to move · Tap to launch</div>
         </div>
       </section>
@@ -3155,7 +3418,18 @@
       { id: 'sunset', name: 'Sunset Rush', price: 250, c: ['#FFB020', '#FF6B35', '#FF3D8A'] },
       { id: 'toxic', name: 'Acid Surge', price: 400, c: ['#A3E635', '#34D399', '#22D3EE'] },
       { id: 'royal', name: 'Royal Storm', price: 600, c: ['#8B5CF6', '#38BDF8', '#FF3D8A'] },
-      { id: 'nova', name: 'Muhib Gold', price: 900, c: ['#FFD166', '#FF8A3D', '#22D3EE'] }
+      { id: 'nova', name: 'Muhib Gold', price: 900, c: ['#FFD166', '#FF8A3D', '#22D3EE'] },
+      { id: 'cyber', name: 'Cyber Matrix', price: 1200, c: ['#00F5D4', '#00BBF9', '#FEE440'] },
+      { id: 'crimson', name: 'Inferno Core', price: 1500, c: ['#FF4D5E', '#FF8A3D', '#FFE66D'] },
+      { id: 'void', name: 'Cosmic Singularity', price: 2000, c: ['#E879F9', '#8B5CF6', '#22D3EE'] }
+    ];
+    const UPGRADES = [
+      { id: 'magnetRad', name: 'Tractor Beam', desc: 'Pulls nearby power-up capsules toward paddle (+26px/lvl)', icon: 'magnet', color: '#C084FC', baseCost: 160, stepCost: 140, max: 5 },
+      { id: 'coinMult', name: 'Fortune Minter', desc: '+10% bonus coins from bricks, drops & clears per level', icon: 'coin', color: '#FFC53D', baseCost: 200, stepCost: 180, max: 5 },
+      { id: 'comboTime', name: 'Combo Stabilizer', desc: 'Extends active combo decay timer by +0.45s per level', icon: 'sparkles', color: '#FF3D8A', baseCost: 180, stepCost: 150, max: 5 },
+      { id: 'powDur', name: 'Capacitor Bank', desc: 'Increases positive power-up duration by +10% per level', icon: 'timer', color: '#22D3EE', baseCost: 190, stepCost: 160, max: 5 },
+      { id: 'critChance', name: 'Critical Core', desc: '+8% chance per level for ball hits to deal 2x CRIT damage', icon: 'zap', color: '#A3E635', baseCost: 220, stepCost: 200, max: 5 },
+      { id: 'novaRate', name: 'Nova Overcharger', desc: 'Charges Nova Blast Ultimate +18% faster per level', icon: 'flame', color: '#FF8A3D', baseCost: 240, stepCost: 210, max: 5 }
     ];
     const BOOSTERS = [
       { id: 'heart', name: 'Extra Heart', desc: '+1 life immediately or at launch', price: 150, icon: 'heart', color: '#FF4D5E' },
@@ -3182,17 +3456,19 @@
     const DAILY_MISSIONS = [
       { id: 'bricks', name: 'Brick Demolisher', desc: 'Break 90 bricks in any mode today', icon: 'zap', target: 90, reward: 130, xp: 120 },
       { id: 'powers', name: 'Power Collector', desc: 'Catch or use 6 power-ups today', icon: 'gift', target: 6, reward: 115, xp: 100 },
-      { id: 'wins', name: 'Victory Lap', desc: 'Clear 3 levels or waves today', icon: 'trophy', target: 3, reward: 180, xp: 160 }
+      { id: 'wins', name: 'Victory Lap', desc: 'Clear 3 levels or waves today', icon: 'trophy', target: 3, reward: 180, xp: 160 },
+      { id: 'novas', name: 'Nova Commander', desc: 'Unleash 2 Nova Blast ultimates today', icon: 'flame', target: 2, reward: 150, xp: 140 }
     ];
     const TIPS = [
       'Aim near the paddle edges for sharp diagonal shots into the upper corners.',
       'Keep the ball above the bricks to chain huge combo multipliers up to x8.',
       'Fireball pierces straight through armored bricks and even indestructible steel!',
       'Red-ringed capsules are traps (Overdrive & Shrink) — dodge them!',
-      'Press keys 1–5 mid-game (or tap the booster pills) to trigger boosters anytime.',
-      'Every 15th level features a Boss Formation with high-HP Core Bricks and bonus XP.',
-      'Campaign levels never end — conquer Sector II, III, and beyond for massive ranks!',
-      'Complete Daily Missions and the Daily Challenge every day to grow your streak.'
+      'Press keys 1–7 mid-game (or tap the booster pills) to trigger boosters anytime.',
+      'Charge your NOVA BLAST to 100% and press E (or tap ⚡ NOVA) to shockwave the entire arena!',
+      'Hit the flying Golden Supply Drone across the top for a coin shower & guaranteed power-up.',
+      'Visit the Workshop in the Shop tab to permanently upgrade Tractor Beam, Crit Core & Coin Minter.',
+      'Build and test your own custom brick formations in the Custom Level Studio!'
     ];
     const ACHS = [
       { id: 'pop1', name: 'First Pop', desc: 'Break your first brick', icon: 'zap', reward: 25, max: 1, cur: s => s.stats.bricks },
@@ -3211,13 +3487,16 @@
       { id: 'score8k', name: 'High Flyer', desc: 'Score 8,000 in one run', icon: 'trend', reward: 170, max: 8000, cur: s => s.stats.bestScore },
       { id: 'end10', name: 'Wave Rider', desc: 'Reach wave 10 in Endless', icon: 'infinity', reward: 180, max: 10, cur: s => s.stats.endlessWave },
       { id: 'boss5', name: 'Boss Slayer', desc: 'Defeat 5 boss levels', icon: 'crown', reward: 200, max: 5, cur: s => s.stats.bossesDefeated },
+      { id: 'nova10', name: 'Nova Unleashed', desc: 'Trigger 10 Nova Blast ultimates', icon: 'zap', reward: 180, max: 10, cur: s => s.stats.novaBlasts || 0 },
+      { id: 'drone5', name: 'Drone Hunter', desc: 'Shoot down 5 Golden Supply Drones', icon: 'target', reward: 160, max: 5, cur: s => s.stats.dronesHit || 0 },
+      { id: 'upg5', name: 'Tech Engineer', desc: 'Purchase 5 permanent Workshop upgrades', icon: 'sliders', reward: 190, max: 5, cur: s => Object.values(s.upg || {}).reduce((a, b) => a + b, 0) },
       { id: 'daily1', name: 'Daily Hero', desc: 'Complete a Daily Challenge', icon: 'calendar', reward: 125, max: 1, cur: s => s.stats.dailyWins },
       { id: 'time60', name: 'Marathon Player', desc: 'Play for 60 minutes total', icon: 'timer', reward: 200, max: 3600, cur: s => s.stats.playtime }
     ];
 
     /* ---------- SAVE & PERSISTENCE ---------- */
     const SAVE_KEY = 'brickpop_nova_ultimate_v4';
-    function freshDaily() { return { date: todayStr(), bricks: 0, powers: 0, wins: 0, claims: [], rewardClaimed: false, challengeDone: false } }
+    function freshDaily() { return { date: todayStr(), bricks: 0, powers: 0, wins: 0, novas: 0, claims: [], rewardClaimed: false, challengeDone: false, freeSpinUsed: false } }
     function freshSet() {
       return {
         diff: 'classic', ballSpeedPct: 100, paddleSizePct: 100, startLives: 0, aimGuide: 'full', trapDrops: true,
@@ -3228,20 +3507,24 @@
         highContrast: false, reducedMotion: false, colorblindMode: false, largeHud: false
       };
     }
+    function freshUpg() { return { magnetRad: 0, coinMult: 0, comboTime: 0, powDur: 0, critChance: 0, novaRate: 0 } }
     function freshSave() {
       return {
-        v: 5, name: 'Player One', avatar: '😎', coins: 250, xp: 0,
+        v: 6, name: 'Player One', avatar: '😎', coins: 250, xp: 0,
         stars: {}, bestLevelScore: {},
-        inv: { heart: 1, wide: 2, multi: 1, slow: 1, shield: 1, laser: 0, fire: 0 },
+        inv: { heart: 1, wide: 2, multi: 1, slow: 1, shield: 1, laser: 1, fire: 1 },
+        upg: freshUpg(),
         skins: ['classic'], skin: 'classic',
         set: freshSet(),
         stats: {
           bricks: 0, brickTypes: { normal: 0, armored: 0, explosive: 0, gold: 0, core: 0, steel: 0 },
           bestCombo: 0, comboSum: 0, comboRuns: 0, playtime: 0, ballsLost: 0, powers: 0, trapsHit: 0, boostersUsed: 0,
           gamesPlayed: 0, gamesWon: 0, perfectClears: 0, bossesDefeated: 0, bestScore: 0, totalScore: 0,
-          endlessBest: 0, endlessWave: 0, timedBest: 0, dailyBest: 0, dailyWins: 0, coinsEarned: 250
+          endlessBest: 0, endlessWave: 0, timedBest: 0, dailyBest: 0, dailyWins: 0, bossRushBest: 0, bossRushStage: 0,
+          novaBlasts: 0, dronesHit: 0, critHits: 0, coinsEarned: 250
         },
         recentRuns: [],
+        customLevels: [],
         ach: {},
         daily: freshDaily(),
         streak: 0, lastClaimDate: '', muted: false
@@ -3255,11 +3538,13 @@
         S = {
           ...f, ...p,
           inv: { ...f.inv, ...(p.inv || {}) },
+          upg: { ...f.upg, ...(p.upg || {}) },
           set: { ...f.set, ...(p.set || {}) },
           stats: { ...f.stats, ...(p.stats || {}), brickTypes: { ...f.stats.brickTypes, ...(p.stats?.brickTypes || {}) } },
           daily: { ...f.daily, ...(p.daily || {}) },
           stars: p.stars || {}, bestLevelScore: p.bestLevelScore || {}, ach: p.ach || {},
-          skins: p.skins || ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : []
+          skins: p.skins || ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : [],
+          customLevels: Array.isArray(p.customLevels) ? p.customLevels : []
         };
       }
     } catch (e) { }
@@ -3271,13 +3556,14 @@
     function getUnlocked() {
       let maxCleared = -1;
       for (const k in S.stars) { const n = +k; if (S.stars[k] > 0 && n > maxCleared) maxCleared = n }
-      return maxCleared + 1; // Unlimited! 0 -> Level 1, 120 -> Level 121, etc.
+      return maxCleared + 1;
     }
     function clearedCount() { let n = 0; for (const k in S.stars) if (S.stars[k] > 0) n++; return n }
     function totalStars() { let n = 0; for (const k in S.stars) n += S.stars[k] || 0; return n }
     function threeStars() { let n = 0; for (const k in S.stars) if (S.stars[k] >= 3) n++; return n }
     function worldStars(absWorld) { let n = 0; for (let i = absWorld * 15; i < absWorld * 15 + 15; i++)n += S.stars[i] || 0; return n }
-    function addCoins(n) { n = Math.round(n); if (n <= 0) return; S.coins += n; S.stats.coinsEarned += n; markDirty(); syncHeader(true) }
+    function coinMultiplier() { return 1 + ((S.upg?.coinMult || 0) * 0.1) }
+    function addCoins(n, raw) { n = Math.round(n * (raw ? 1 : coinMultiplier())); if (n <= 0) return 0; S.coins += n; S.stats.coinsEarned += n; markDirty(); syncHeader(true); return n }
     function addXP(amount) {
       amount = Math.round(amount); if (amount <= 0) return;
       const before = rankForXP(S.xp).level;
@@ -3560,6 +3846,43 @@
         })
       };
     }
+    function genBossRush(stage) {
+      const wi = stage % 8, sector = Math.floor(stage / 8);
+      const rng = mulberry32(991177 + stage * 6151);
+      const B = BOSSES[wi], mask = B.g, rows = mask.length;
+      return {
+        wi, absWorld: stage, sector, li: 14, boss: true, name: B.name + (sector > 0 ? ' Ω-' + (sector + 1) : ''), rows,
+        ...buildBricks(mask, rows, {
+          rng, wi, li: 14, absWorld: stage, sector, boss: true,
+          toughP: Math.min(.55, .22 + stage * .04), hardP: Math.min(.42, .12 + stage * .035),
+          steelP: Math.min(.1, .02 + stage * .01), expl: 3, coins: 4, gifts: 2, moving: true
+        })
+      };
+    }
+    function genCustomLevel(customObj) {
+      const wi = clamp(customObj.wi || 0, 0, 7);
+      const grid = customObj.grid || [];
+      const rows = grid.length || 8;
+      const bricks = []; let breakable = 0;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const code = (grid[r] && grid[r][c]) || 0;
+          if (!code) continue;
+          const mhp = code === 2 ? 2 : code === 3 ? 3 : code === 8 ? 8 : 1;
+          bricks.push({
+            c, r, x: SIDE + c * (BW + GAP), y: TOP + r * (BH + VGAP), rx: SIDE + c * (BW + GAP),
+            code, mhp, hp: mhp, alive: true, moveAmp: customObj.moving && r % 2 === 1 ? 10 : 0, moveSpd: 1.1, movePh: (c + r) * 0.6
+          });
+          if (code !== 5) breakable++;
+        }
+      }
+      if (breakable === 0) {
+        bricks.push({ c: 5, r: 2, x: SIDE + 5 * (BW + GAP), y: TOP + 2 * (BH + VGAP), rx: SIDE + 5 * (BW + GAP), code: 8, mhp: 6, hp: 6, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
+        breakable = 1;
+      }
+      const hasBossCore = bricks.some(b => b.code === 8);
+      return { wi, absWorld: wi, sector: 0, li: 0, boss: hasBossCore, name: customObj.name || 'Custom Studio Stage', rows, bricks, breakable };
+    }
 
     function codeColor(b, hues) {
       if (b.code === 4) return '#FF6B35';
@@ -3748,7 +4071,10 @@
       return clamp(d.paddle * userMult * (G.fx.wide ? 1.45 : 1) * (G.fx.shrink ? 0.7 : 1), 52, 195);
     }
 
-    function startGame(mode, idx) {
+    function calcBossTotalHp(bricks) {
+      let hp = 0; for (const b of bricks) if (b.alive && b.code !== 5) hp += b.hp; return hp;
+    }
+    function startGame(mode, idx, customData) {
       closeSheet(true); ensureDaily();
       const d = DIFFS[S.set.diff] || DIFFS.classic;
       const customLives = S.set.startLives > 0 ? S.set.startLives : d.lives;
@@ -3756,20 +4082,26 @@
       if (mode === 'campaign') lvl = getLevel(idx || 0);
       else if (mode === 'endless') lvl = genEndless(1);
       else if (mode === 'daily') lvl = genDailyChallenge();
+      else if (mode === 'bossrush') lvl = genBossRush(0);
+      else if (mode === 'custom') lvl = genCustomLevel(customData || UI.editorData || { name: 'Custom Stage', wi: 0, grid: [] });
       else lvl = genTimeAttack(0);
       const wi = lvl.wi;
-      const speedEsc = mode === 'campaign' ? Math.min(200, lvl.absWorld * 14 + lvl.li * 1.5 + lvl.sector * 18) : mode === 'daily' ? 50 : mode === 'timed' ? 30 : 0;
+      const speedEsc = mode === 'campaign' ? Math.min(200, lvl.absWorld * 14 + lvl.li * 1.5 + lvl.sector * 18) : mode === 'daily' ? 50 : mode === 'bossrush' ? 45 : mode === 'timed' ? 30 : 0;
+      const clonedBricks = lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x }));
+      const initBossHp = calcBossTotalHp(clonedBricks);
       G = {
-        id: ++runSeq, mode, idx: idx || 0, absWorld: lvl.absWorld || 0, sector: lvl.sector || 0, wi, li: lvl.li || 0, boss: !!lvl.boss, name: lvl.name,
-        bricks: lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x })), breakable: lvl.breakable, rows: lvl.rows,
-        balls: [], drops: [], lasers: [], parts: [], texts: [], blastQ: [], blasting: false,
+        id: ++runSeq, mode, idx: idx || 0, customData: customData || null, absWorld: lvl.absWorld || 0, sector: lvl.sector || 0, wi, li: lvl.li || 0, boss: !!lvl.boss, name: lvl.name,
+        bricks: clonedBricks, breakable: lvl.breakable, rows: lvl.rows,
+        bossMaxHp: initBossHp, bossHp: initBossHp, bossEnraged: false, bossFireT: 3.8,
+        balls: [], drops: [], lasers: [], hazards: [], drone: null, droneT: 11 + R() * 8, parts: [], texts: [], blastQ: [], blasting: false,
         paddle: { x: VW / 2, tx: VW / 2, w: d.paddle * ((S.set.paddleSizePct ?? 100) / 100), y: VH - paddleOffset(), pulse: 0 },
         fx: {}, shield: 0, lives: customLives, maxLives: customLives, deaths: 0,
+        novaCharge: 0,
         score: 0, scoreRecorded: 0, combo: 0, comboT: 0, mult: 1, bestComboRun: 0, coinsRun: 0, xpRun: 0, xpAwarded: 0, bricksRun: 0,
         speedBase: d.speed + speedEsc, ramp: 0,
         state: 'ready', prevState: 'ready', launched: false, queued: {}, t: 0, runT: 0, lastRunT: 0,
         timeLeft: mode === 'timed' ? 150 : (mode === 'daily' ? 180 : 0),
-        timedRound: 0,
+        timedRound: 0, bossStage: 0,
         shake: 0, flash: 0, winT: 0, loseT: 0, sheetShown: false, wave: 1, waveDelay: 0, descT: 14, descInt: 14,
         laserAcc: 0, usedContinue: false, livesDirty: true, fxDirty: true, labelDirty: true, scoreShown: -1, coinsShown: -1, comboShown: -1,
         stars: Array.from({ length: 100 }, () => ({ x: R(), y: R(), z: .3 + R() * .7, tw: R() * 6.28 })),
@@ -3780,9 +4112,9 @@
       showScreen('game');
       requestAnimationFrame(() => {
         resize(); buildPaddleSprite();
-        const headline = mode === 'campaign' ? ('LEVEL ' + (G.idx + 1)) : mode === 'endless' ? 'ENDLESS MODE' : mode === 'timed' ? 'TIME ATTACK' : 'DAILY CHALLENGE';
+        const headline = mode === 'campaign' ? ('LEVEL ' + (G.idx + 1)) : mode === 'endless' ? 'ENDLESS MODE' : mode === 'timed' ? 'TIME ATTACK' : mode === 'bossrush' ? 'BOSS RUSH' : mode === 'custom' ? 'CUSTOM STUDIO' : 'DAILY CHALLENGE';
         banner(headline, WORLDS[wi].hues[0]);
-        setTimeout(() => { if (G && G.state === 'ready') banner(G.name.toUpperCase(), '#FFFFFF', .62) }, 420);
+        setTimeout(() => { if (G && G.state === 'ready') banner((G.boss ? '👑 ' : '') + G.name.toUpperCase(), G.boss ? '#FFD166' : '#FFFFFF', .62) }, 420);
       });
       renderLives(); renderBoostBar(); syncHUD(true);
       $('#vignette').classList.remove('danger');
@@ -3793,11 +4125,45 @@
       G = null;
       showScreen(dest || 'home');
     }
-    function restartGame() { if (!G) return; startGame(G.mode, G.idx) }
+    function restartGame() { if (!G) return; startGame(G.mode, G.idx, G.customData) }
 
-    /* ---------- EFFECTS, BOOSTERS & POWERS ---------- */
-    function applyEffect(id, dur) { G.fx[id] = { t: dur, dur }; G.fxDirty = true }
+    /* ---------- EFFECTS, BOOSTERS, NOVA BLAST & POWERS ---------- */
+    function comboMaxTime() { return 3.2 + (S.upg?.comboTime || 0) * 0.45 }
+    function powerDurMult(id) { return POWERS[id]?.bad ? 1 : (1 + (S.upg?.powDur || 0) * 0.1) }
+    function applyEffect(id, dur) { const d = dur * powerDurMult(id); G.fx[id] = { t: d, dur: d }; G.fxDirty = true }
     function clearTimedEffects() { G.fx = {}; G.fxDirty = true }
+    function chargeNova(amt) {
+      if (!G) return;
+      const mult = 1 + (S.upg?.novaRate || 0) * 0.18;
+      const prev = G.novaCharge;
+      G.novaCharge = clamp(G.novaCharge + amt * mult, 0, 100);
+      if (prev < 100 && G.novaCharge >= 100) {
+        sfx.power();
+        pushText('⚡ NOVA BLAST READY!', G.paddle.x, G.paddle.y - 34, '#A3E635', 14);
+      }
+    }
+    function triggerNovaBlast() {
+      if (!G || (G.state !== 'play' && G.state !== 'ready')) return;
+      if (G.novaCharge < 100) { sfx.deny(); toast('Nova Core charging (' + Math.floor(G.novaCharge) + '%) — break more bricks!', 'zap', 'info'); return }
+      G.novaCharge = 0;
+      S.stats.novaBlasts = (S.stats.novaBlasts || 0) + 1;
+      S.daily.novas = (S.daily.novas || 0) + 1;
+      markDirty();
+      sfx.boom(); sfx.power(); haptic([20, 40, 30, 50]); shake(16);
+      if (S.set.hitFlash !== false) G.flash = .28;
+      banner('⚡ NOVA SHOCKWAVE ⚡', '#22D3EE', .42);
+      pushPart({ type: 'ring', x: VW / 2, y: VH * .5, t: 0, life: .65, size: 16, grow: 720, color: '#22D3EE' });
+      pushPart({ type: 'ring', x: VW / 2, y: VH * .5, t: 0, life: .5, size: 10, grow: 560, color: '#A3E635' });
+      G.hazards.length = 0;
+      if (G.drone) hitDrone();
+      const aliveList = G.bricks.filter(b => b.alive);
+      for (const b of aliveList) {
+        if (G.state !== 'play' && G.state !== 'ready') break;
+        if (b.code === 5) { if (R() < .35) hitBrick(b, 2, 'fire') }
+        else hitBrick(b, 2, 'fire');
+      }
+      processBlasts();
+    }
     function splitBalls() {
       const cur = G.balls.filter(b => !b.sticky), src = cur.length ? cur : G.balls;
       for (const b of src) {
@@ -3806,7 +4172,7 @@
           let vx = b.vx, vy = b.vy;
           if (b.sticky) { vx = Math.sin(a) * ballSpeed(); vy = -Math.cos(a) * ballSpeed() }
           else { const ca = Math.cos(a), sa = Math.sin(a); const nx = vx * ca - vy * sa, ny = vx * sa + vy * ca; vx = nx; vy = ny }
-          G.balls.push({ x: b.x, y: b.y, vx, vy, r: BALL_R, sticky: false, off: 0, trail: [] });
+          G.balls.push({ x: b.x, y: b.y, vx, vy, r: BALL_R, sticky: false, off: 0, trail: [], noBrickHits: 0 });
         }
       }
     }
@@ -3816,12 +4182,12 @@
       if (p.bad) S.stats.trapsHit++;
       markDirty();
       pushText(p.name.toUpperCase(), G.paddle.x, G.paddle.y - 26, p.color, 13);
-      if (p.bad) { sfx.bad(); haptic([15, 30, 15]); shake(6) } else { sfx.power(); haptic(12) }
+      if (p.bad) { sfx.bad(); haptic([15, 30, 15]); shake(6) } else { sfx.power(); haptic(12); chargeNova(8) }
       catchFX(G.paddle.x, G.paddle.y, p.color);
       switch (id) {
         case 'multi': splitBalls(); break;
         case 'life': case 'heart': G.lives = Math.min(6, G.lives + 1); G.maxLives = Math.max(G.maxLives, G.lives); G.livesDirty = true; sfx.life(); break;
-        case 'coin': addCoins(25); G.coinsRun += 25; sfx.coin(); coinFX(G.paddle.x, G.paddle.y); break;
+        case 'coin': { const got = addCoins(25); G.coinsRun += got; sfx.coin(); coinFX(G.paddle.x, G.paddle.y); break; }
         case 'shield': G.shield = Math.min(5, G.shield + 2); G.fxDirty = true; sfx.shield(); break;
         default: applyEffect(id, p.dur);
       }
@@ -3858,7 +4224,7 @@
         const rel = clamp(b.off / (pw / 2), -1, 1), ang = rel * .9 + (R() - .5) * .06;
         b.vx = Math.sin(ang) * spd; b.vy = -Math.cos(ang) * spd;
         if (Math.abs(b.vx) < spd * .05) { b.vx = (R() < .5 ? -1 : 1) * spd * .08; b.vy = -Math.sqrt(spd * spd - b.vx * b.vx) }
-        b.sticky = false;
+        b.sticky = false; b.noBrickHits = 0;
       }
       if (G.state === 'ready') {
         if (!G.launched) { G.launched = true; consumeBoosters() }
@@ -3867,26 +4233,57 @@
       sfx.launch(); haptic(8);
     }
 
-    /* ---------- BRICKS ---------- */
+    /* ---------- BRICKS, DRONES & BOSS MECHANICS ---------- */
     function brickAt(c, r) { for (const b of G.bricks) if (b.c === c && b.r === r) return b; return null }
+    function hitDrone() {
+      if (!G || !G.drone) return;
+      const dr = G.drone; G.drone = null;
+      S.stats.dronesHit = (S.stats.dronesHit || 0) + 1;
+      const got = addCoins(35); G.coinsRun += got;
+      G.score += 350 * G.mult; G.xpRun += 40; chargeNova(22);
+      explodeFX(dr.x, dr.y); coinFX(dr.x, dr.y); sfx.coin(); sfx.boom();
+      pushText('🛸 DRONE BONUS +' + got + ' COINS!', dr.x, dr.y, '#FFD166', 14);
+      const goodList = ['wide', 'multi', 'laser', 'fire', 'shield', 'magnet'];
+      G.drops.push({ x: dr.x, y: dr.y, type: goodList[(R() * goodList.length) | 0], seed: R() * 6.28 });
+      markDirty();
+    }
     function hitBrick(b, dmg, src) {
       if (!b.alive) return;
       if (b.code === 5 && src !== 'fire') { sparkFX(b.rx + BW / 2, b.y + BH / 2, '#C7D2F5', 4); sfx.steel(); return }
-      b.hp -= dmg;
+      let finalDmg = dmg;
+      const critP = (S.upg?.critChance || 0) * 0.08;
+      if (src === 'ball' && critP > 0 && b.hp > 1 && R() < critP) {
+        finalDmg *= 2;
+        S.stats.critHits = (S.stats.critHits || 0) + 1;
+        pushText('CRIT ×2!', b.rx + BW / 2, b.y - 4, '#A3E635', 11);
+      }
+      b.hp -= finalDmg;
+      chargeNova(b.code === 8 ? 5 : 2.2);
       if (b.hp <= 0) killBrick(b, src);
-      else { sparkFX(b.rx + BW / 2, b.y + BH / 2, codeColor(b, WORLDS[G.wi].hues), 3); sfx.pop(Math.max(0, G.combo - 1)) }
+      else {
+        sparkFX(b.rx + BW / 2, b.y + BH / 2, codeColor(b, WORLDS[G.wi].hues), 3);
+        sfx.pop(Math.max(0, G.combo - 1));
+      }
+      if (G.boss) {
+        G.bossHp = calcBossTotalHp(G.bricks);
+        if (!G.bossEnraged && G.bossHp > 0 && G.bossHp <= G.bossMaxHp * 0.45) {
+          G.bossEnraged = true;
+          banner('⚠️ BOSS ENRAGED ⚠️', '#FF4D5E', .4);
+          sfx.warn(); shake(8);
+        }
+      }
     }
     function killBrick(b, src) {
       if (!b.alive) return; b.alive = false;
       const hues = WORLDS[G.wi].hues, col = codeColor(b, hues);
       if (b.code !== 5) G.breakable--;
-      G.combo++; G.comboT = 3.2; G.mult = Math.min(8, 1 + Math.floor(G.combo / 5));
+      G.combo++; G.comboT = comboMaxTime(); G.mult = Math.min(8, 1 + Math.floor(G.combo / 5));
       if (G.combo > S.stats.bestCombo) { S.stats.bestCombo = G.combo; markDirty() }
       G.bestComboRun = Math.max(G.bestComboRun, G.combo);
       const base = { 1: 12, 2: 24, 3: 40, 4: 30, 5: 60, 6: 20, 7: 20, 8: 120 }[b.code] || 12;
       const pts = base * G.mult; G.score += pts;
       const cn = { 1: 1, 2: 2, 3: 3, 4: 2, 5: 3, 6: 12, 7: 2, 8: 15 }[b.code] || 1;
-      addCoins(cn); G.coinsRun += cn;
+      const got = addCoins(cn); G.coinsRun += got;
       const xpGain = { 1: 2, 2: 4, 3: 6, 4: 5, 5: 8, 6: 4, 7: 4, 8: 20 }[b.code] || 2;
       G.xpRun += xpGain;
       G.bricksRun++; S.stats.bricks++; S.daily.bricks++;
@@ -3900,20 +4297,21 @@
       if (G.combo > 0 && G.combo % 5 === 0) { banner('COMBO ×' + G.mult, '#FF3D8A', .42); sfx.combo(G.mult); if (G.combo >= 10) shake(5) }
       if (b.code === 6) { coinFX(b.rx + BW / 2, b.y + BH / 2); sfx.coin() }
       if (b.code === 4) G.blastQ.push(b);
-      if (b.code === 7 || (b.code !== 5 && R() < .135)) spawnDrop(b);
+      if (b.code === 7 || b.code === 8 || (b.code !== 5 && R() < .135)) spawnDrop(b);
       if (G.breakable <= 0 && G.state === 'play') {
-        if (G.mode === 'campaign' || G.mode === 'daily') doWin();
+        if (G.mode === 'campaign' || G.mode === 'daily' || G.mode === 'custom') doWin();
         else if (G.mode === 'timed') nextTimedStage();
+        else if (G.mode === 'bossrush') nextBossRushStage();
         else waveClear();
       }
     }
     function processBlasts() {
       if (G.blasting || !G.blastQ.length) return; G.blasting = true;
-      while (G.blastQ.length && G.state === 'play') {
+      while (G.blastQ.length && (G.state === 'play' || G.state === 'ready')) {
         const e = G.blastQ.shift();
         explodeFX(e.rx + BW / 2, e.y + BH / 2); sfx.boom(); shake(12); G.flash = Math.max(G.flash, .2); haptic(18);
         for (let dr = -1; dr <= 1; dr++)for (let dc = -1; dc <= 1; dc++) {
-          if (G.state !== 'play') break;
+          if (G.state !== 'play' && G.state !== 'ready') break;
           if (!dr && !dc) continue;
           const nb = brickAt(e.c + dc, e.r + dr);
           if (nb && nb.alive) hitBrick(nb, 2, 'blast');
@@ -3924,12 +4322,12 @@
     }
     function spawnDrop(b) {
       const table = [['wide', 10], ['multi', 9], ['slow', 8], ['laser', 9], ['fire', 7], ['magnet', 6], ['shield', 6], ['life', 3], ['coin', 10]];
-      const hazards = S.set.trapDrops !== false && (G.mode === 'campaign' ? (G.absWorld >= 4) : G.wave >= 3 || G.mode === 'daily');
+      const hazards = S.set.trapDrops !== false && (G.mode === 'campaign' ? (G.absWorld >= 4) : G.wave >= 3 || G.mode === 'daily' || G.mode === 'bossrush');
       if (hazards) table.push(['fast', 7], ['shrink', 7]);
       let tot = 0; for (const t of table) tot += t[1];
       let roll = R() * tot, pick = 'coin';
       for (const t of table) { roll -= t[1]; if (roll <= 0) { pick = t[0]; break } }
-      if (b.code === 7) { const good = table.filter(t => !POWERS[t[0]].bad); pick = good[(R() * good.length) | 0][0] }
+      if (b.code === 7 || b.code === 8) { const good = table.filter(t => !POWERS[t[0]].bad); pick = good[(R() * good.length) | 0][0] }
       G.drops.push({ x: b.rx + BW / 2, y: b.y + BH / 2, type: pick, seed: R() * 6.28 });
     }
 
@@ -3980,12 +4378,13 @@
       if (G.mode === 'endless') { S.stats.endlessBest = Math.max(S.stats.endlessBest, G.score); S.stats.endlessWave = Math.max(S.stats.endlessWave, G.wave) }
       else if (G.mode === 'timed') { S.stats.timedBest = Math.max(S.stats.timedBest, G.score) }
       else if (G.mode === 'daily') { S.stats.dailyBest = Math.max(S.stats.dailyBest, G.score) }
-      else { S.bestLevelScore[G.idx] = Math.max(S.bestLevelScore[G.idx] || 0, G.score) }
+      else if (G.mode === 'bossrush') { S.stats.bossRushBest = Math.max(S.stats.bossRushBest || 0, G.score); S.stats.bossRushStage = Math.max(S.stats.bossRushStage || 0, G.bossStage + 1) }
+      else if (G.mode === 'campaign') { S.bestLevelScore[G.idx] = Math.max(S.bestLevelScore[G.idx] || 0, G.score) }
     }
     function doWin() {
       if (G.state !== 'play') return;
       G.state = 'won'; G.winT = 1.0; G.sheetShown = false;
-      for (const b of G.balls) ballBurst(b); G.balls.length = 0; G.drops.length = 0; G.lasers.length = 0;
+      for (const b of G.balls) ballBurst(b); G.balls.length = 0; G.drops.length = 0; G.lasers.length = 0; G.hazards.length = 0;
       confettiFX(); sfx.win(); haptic([15, 30, 15, 30, 60]); shake(7);
       const stars = G.deaths === 0 ? 3 : G.deaths === 1 ? 2 : 1;
       G.earnedStars = stars;
@@ -3998,15 +4397,15 @@
         if (!S.daily.challengeDone) { S.daily.challengeDone = true; S.stats.dailyWins++ }
       }
       S.daily.wins++;
-      const bonusBase = G.mode === 'daily' ? 160 : (25 + stars * 15 + G.sector * 15);
+      const bonusBase = G.mode === 'daily' ? 160 : G.mode === 'custom' ? 40 : (25 + stars * 15 + G.sector * 15);
       const flaw = stars === 3 ? 25 : 0, bossB = G.boss ? 80 : 0;
-      G.bonusBase = bonusBase; G.flaw = flaw; G.bossB = bossB;
+      G.bonusBase = Math.round(bonusBase * coinMultiplier()); G.flaw = Math.round(flaw * coinMultiplier()); G.bossB = Math.round(bossB * coinMultiplier());
       const unrewardedXp = Math.max(0, G.xpRun - (G.xpAwarded || 0));
       const xpTotal = unrewardedXp + (G.boss ? 140 : 60) + stars * 25 + G.sector * 30;
       G.xpAwarded = G.xpRun;
       G.xpTotal = xpTotal;
       recordRunStats(true);
-      addCoins(bonusBase + flaw + bossB);
+      addCoins(G.bonusBase + G.flaw + G.bossB, true);
       addXP(xpTotal);
       for (let i = 0; i < stars; i++)sfx.star(i);
       banner(stars === 3 ? 'FLAWLESS!' : 'LEVEL CLEAR!', stars === 3 ? '#A3E635' : '#22D3EE');
@@ -4015,10 +4414,10 @@
     function doLose(reason) {
       if (G.state !== 'play' && G.state !== 'ready') return;
       G.state = 'lost'; G.loseT = .9; G.sheetShown = false; G.loseReason = reason;
-      for (const b of G.balls) ballBurst(b); G.balls.length = 0;
+      for (const b of G.balls) ballBurst(b); G.balls.length = 0; G.hazards.length = 0;
       shake(12); if (S.set.hitFlash !== false) G.flash = .16; sfx.lose(); haptic([30, 40, 30]);
-      const prevBest = G.mode === 'endless' ? S.stats.endlessBest : (G.mode === 'timed' ? S.stats.timedBest : 0);
-      G.newRecord = (G.mode === 'endless' || G.mode === 'timed') && G.score > prevBest;
+      const prevBest = G.mode === 'endless' ? S.stats.endlessBest : G.mode === 'timed' ? S.stats.timedBest : G.mode === 'bossrush' ? (S.stats.bossRushBest || 0) : 0;
+      G.newRecord = (G.mode === 'endless' || G.mode === 'timed' || G.mode === 'bossrush') && G.score > prevBest;
       recordRunStats(false);
       const unrewardedXp = Math.max(0, G.xpRun - (G.xpAwarded || 0));
       G.xpAwarded = G.xpRun;
@@ -4027,7 +4426,7 @@
     }
     function loseLife() {
       G.deaths++; S.stats.ballsLost++; markDirty();
-      clearTimedEffects(); G.drops.length = 0; G.lasers.length = 0;
+      clearTimedEffects(); G.drops.length = 0; G.lasers.length = 0; G.hazards.length = 0;
       G.lives--; G.livesDirty = true; shake(9); sfx.lifeLost(); haptic([25, 35, 25]);
       if (G.lives > 0) { spawnBall(); G.state = 'ready'; banner('BALL LOST', '#FF4D5E', .42) }
       else doLose('balls');
@@ -4038,7 +4437,7 @@
       S.stats.endlessWave = Math.max(S.stats.endlessWave, G.wave - 1); S.daily.wins++; markDirty();
       banner('WAVE ' + G.wave, '#A3E635'); sfx.wave();
       if (G.wave % 3 === 1 && G.wave > 1) { G.lives = Math.min(6, G.lives + 1); G.maxLives = Math.max(G.maxLives, G.lives); G.livesDirty = true; pushText('+1 LIFE', VW / 2, VH * .45, '#FF4D5E', 16); sfx.life() }
-      const rw = 15 + G.wave * 4; addCoins(rw); G.coinsRun += rw; addXP(40 + G.wave * 10);
+      const rw = addCoins(15 + G.wave * 4); G.coinsRun += rw; addXP(40 + G.wave * 10);
     }
     function ensureBallsBelowGrid() {
       const safeY = TOP + G.rows * (BH + VGAP) + 28;
@@ -4051,16 +4450,30 @@
       const lvl = genTimeAttack(G.timedRound);
       G.wi = lvl.wi; G.bricks = lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x }));
       G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name; G.labelDirty = true;
-      G.blastQ.length = 0; G.lasers.length = 0; ensureBallsBelowGrid();
-      G.speedBase += 14; addCoins(30); G.coinsRun += 30; addXP(55);
+      G.blastQ.length = 0; G.lasers.length = 0; G.hazards.length = 0; ensureBallsBelowGrid();
+      G.speedBase += 14; const got = addCoins(30); G.coinsRun += got; addXP(55);
       banner('+20s · STAGE ' + (G.timedRound + 1), '#FFB020'); sfx.wave();
+      buildSprites(G.wi); resize();
+    }
+    function nextBossRushStage() {
+      G.bossStage++; S.stats.bossesDefeated++; S.daily.wins++;
+      S.stats.bossRushStage = Math.max(S.stats.bossRushStage || 0, G.bossStage);
+      const lvl = genBossRush(G.bossStage);
+      G.wi = lvl.wi; G.bricks = lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x }));
+      G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name; G.boss = true; G.labelDirty = true;
+      G.bossMaxHp = calcBossTotalHp(G.bricks); G.bossHp = G.bossMaxHp; G.bossEnraged = false;
+      G.blastQ.length = 0; G.lasers.length = 0; G.hazards.length = 0; ensureBallsBelowGrid();
+      if (G.lives < G.maxLives) { G.lives++; G.livesDirty = true }
+      G.speedBase += 12; const got = addCoins(65); G.coinsRun += got; addXP(110);
+      banner('👑 BOSS #' + (G.bossStage + 1) + ': ' + G.name, '#FFD166'); sfx.win();
       buildSprites(G.wi); resize();
     }
     function spawnWave() {
       const lvl = genEndless(G.wave);
       G.wi = lvl.wi; G.bricks = lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x }));
-      G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name;
-      G.blastQ.length = 0; G.lasers.length = 0; ensureBallsBelowGrid();
+      G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name; G.boss = !!lvl.boss;
+      G.bossMaxHp = calcBossTotalHp(G.bricks); G.bossHp = G.bossMaxHp; G.bossEnraged = false;
+      G.blastQ.length = 0; G.lasers.length = 0; G.hazards.length = 0; ensureBallsBelowGrid();
       buildSprites(G.wi); resize();
     }
 
@@ -4076,6 +4489,35 @@
           if (G.mode === 'timed' || G.mode === 'daily') {
             G.timeLeft -= dt;
             if (G.timeLeft <= 0) { G.timeLeft = 0; doLose('time'); return }
+          }
+          /* Golden Supply Drone Spawner */
+          if (!G.drone) {
+            G.droneT -= dt;
+            if (G.droneT <= 0) {
+              G.droneT = 18 + R() * 12;
+              const dir = R() < .5 ? 1 : -1;
+              G.drone = { x: dir === 1 ? -24 : VW + 24, y: 24, vx: dir * 82, w: 36, h: 14 };
+              pushText('🛸 SUPPLY DRONE INBOUND', VW / 2, 34, '#FFD166', 11);
+            }
+          } else {
+            G.drone.x += G.drone.vx * dt;
+            if (G.drone.x < -40 || G.drone.x > VW + 40) G.drone = null;
+          }
+          /* Boss Plasma Attack System */
+          if (G.boss && G.breakable > 0) {
+            G.bossFireT -= dt * (G.bossEnraged ? 1.45 : 1);
+            if (G.bossFireT <= 0) {
+              G.bossFireT = Math.max(2.1, 4.2 - G.sector * 0.3);
+              const shooters = G.bricks.filter(b => b.alive && (b.code === 8 || b.r >= G.rows - 2));
+              if (shooters.length) {
+                const sb = shooters[(R() * shooters.length) | 0];
+                const sx = sb.rx + BW / 2, sy = sb.y + BH;
+                const aimAng = clamp((G.paddle.x - sx) * 0.25, -90, 90);
+                G.hazards.push({ x: sx, y: sy, vx: aimAng, vy: 185 + (G.bossEnraged ? 55 : 0), r: 6.5 });
+                sparkFX(sx, sy, '#FF4D5E', 5);
+                sfx.laser();
+              }
+            }
           }
         }
         const p = G.paddle;
@@ -4096,6 +4538,9 @@
         for (let i = G.lasers.length - 1; i >= 0; i--) {
           const L = G.lasers[i]; L.y -= 780 * dt;
           let dead = L.y < topWall;
+          if (!dead && G.drone && Math.abs(L.x - G.drone.x) <= G.drone.w / 2 + 4 && Math.abs(L.y - G.drone.y) <= G.drone.h) {
+            hitDrone(); dead = true;
+          }
           if (!dead) for (const b of G.bricks) {
             if (!b.alive) continue;
             if (L.x >= b.rx && L.x <= b.rx + BW && L.y <= b.y + BH && L.y >= b.y - 8) { hitBrick(b, 1, 'laser'); sparkFX(L.x, b.y + BH, '#FF3D8A', 3); dead = true; break }
@@ -4103,9 +4548,35 @@
           if (dead) G.lasers.splice(i, 1);
         }
         processBlasts();
+        /* Boss Plasma Hazards Update */
+        for (let i = G.hazards.length - 1; i >= 0; i--) {
+          const h = G.hazards[i];
+          h.x += h.vx * dt; h.y += h.vy * dt;
+          if (h.x < h.r || h.x > VW - h.r) h.vx = -h.vx;
+          if (Math.abs(h.x - p.x) < p.w / 2 + h.r && h.y + h.r >= p.y && h.y - h.r <= p.y + PH) {
+            G.hazards.splice(i, 1);
+            if (G.shield > 0) {
+              G.shield--; G.fxDirty = true; sfx.shield(); shieldFX({ x: h.x });
+              pushText('SHIELD BLOCKED!', p.x, p.y - 24, '#22D3EE', 12);
+            } else {
+              applyEffect('shrink', 6);
+              sfx.bad(); haptic([20, 30, 20]); shake(8);
+              pushText('⚠️ PLASMA HIT (SHRINK)', p.x, p.y - 24, '#FF4D5E', 12);
+            }
+            continue;
+          }
+          if (h.y > VH + 20) G.hazards.splice(i, 1);
+        }
+        /* Power-up Capsule Drops + Tractor Beam Magnet Upgrade */
+        const tractorR = (S.upg?.magnetRad || 0) * 26 + (G.fx.magnet ? 75 : 0);
         for (let i = G.drops.length - 1; i >= 0; i--) {
           const d = G.drops[i];
-          d.y += (152 + (G.mode === 'endless' ? G.wave * 4 : 0)) * dt; d.x += Math.sin(G.t * 3 + d.seed) * 14 * dt;
+          d.y += (152 + (G.mode === 'endless' ? G.wave * 4 : 0)) * dt;
+          d.x += Math.sin(G.t * 3 + d.seed) * 14 * dt;
+          if (tractorR > 0 && !POWERS[d.type]?.bad) {
+            const dist = Math.hypot(p.x - d.x, p.y - d.y);
+            if (dist < p.w / 2 + tractorR) d.x = lerp(d.x, p.x, 1 - Math.exp(-7 * dt));
+          }
           if (Math.abs(d.x - p.x) < p.w / 2 + 14 && d.y + 16 >= p.y && d.y - 16 <= p.y + PH) { applyPower(d.type, false); G.drops.splice(i, 1); continue }
           if (d.y > VH + 24) G.drops.splice(i, 1);
         }
@@ -4155,13 +4626,17 @@
         let removed = false;
         for (let s = 0; s < steps; s++) {
           b.x += b.vx * sdt; b.y += b.vy * sdt;
-          if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx); sfx.wall(); wallFX(b) }
-          else if (b.x > VW - b.r) { b.x = VW - b.r; b.vx = -Math.abs(b.vx); sfx.wall(); wallFX(b) }
-          if (b.y < topWall + b.r) { b.y = topWall + b.r; b.vy = Math.abs(b.vy); sfx.wall(); wallFX(b) }
+          if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx); b.noBrickHits = (b.noBrickHits || 0) + 1; sfx.wall(); wallFX(b) }
+          else if (b.x > VW - b.r) { b.x = VW - b.r; b.vx = -Math.abs(b.vx); b.noBrickHits = (b.noBrickHits || 0) + 1; sfx.wall(); wallFX(b) }
+          if (b.y < topWall + b.r) { b.y = topWall + b.r; b.vy = Math.abs(b.vy); b.noBrickHits = (b.noBrickHits || 0) + 1; sfx.wall(); wallFX(b) }
+          if (G.drone && Math.abs(b.x - G.drone.x) <= G.drone.w / 2 + b.r && Math.abs(b.y - G.drone.y) <= G.drone.h / 2 + b.r) {
+            hitDrone();
+          }
           if (G.shield > 0 && b.vy > 0 && b.y + b.r >= VH - 24) { b.y = VH - 24 - b.r; b.vy = -Math.abs(b.vy); G.shield--; G.fxDirty = true; sfx.shield(); shieldFX(b) }
           if (b.vy > 0 && b.y + b.r >= py && b.y - b.r <= py + PH && Math.abs(b.x - px) <= pw / 2 + b.r) {
             const rel = clamp((b.x - px) / (pw / 2), -1, 1), ang = rel * 1.05;
             b.vx = Math.sin(ang) * spd; b.vy = -Math.cos(ang) * spd; b.y = py - b.r - .5;
+            b.noBrickHits = 0;
             antiFlat(b);
             if (G.combo > 0) { G.combo = 0; G.comboT = 0; G.mult = 1 }
             p.pulse = 1; sfx.paddle(); paddleFX(b);
@@ -4176,6 +4651,7 @@
             const nx = clamp(b.x, bx, bx + BW), ny = clamp(b.y, by, by + BH);
             const dx = b.x - nx, dy = b.y - ny, d2 = dx * dx + dy * dy;
             if (d2 > b.r * b.r) continue;
+            if (br.code !== 5) b.noBrickHits = 0; else b.noBrickHits = (b.noBrickHits || 0) + 1;
             if (G.fx.fire) { hitBrick(br, 99, 'fire'); continue }
             hitBrick(br, 1, 'ball');
             if (d2 > 1e-6) {
@@ -4193,7 +4669,13 @@
             bounced = true; break;
           }
           processBlasts();
-          if (bounced) antiFlat(b);
+          if (bounced) {
+            if ((b.noBrickHits || 0) > 12) {
+              b.vy += (b.vy >= 0 ? 1 : -1) * 45;
+              b.noBrickHits = 0;
+            }
+            antiFlat(b);
+          }
           if (b.y - b.r > VH + 10) { G.balls.splice(i, 1); removed = true; ballBurst(b); break }
           if (G.state !== 'play') break;
         }
@@ -4241,6 +4723,17 @@
         ctx.fillStyle = shieldGrad; ctx.fillRect(0, VH - 26, VW, 3.5);
         ctx.globalAlpha = .25; ctx.fillRect(0, VH - 30, VW, 11); ctx.globalAlpha = 1;
       }
+      /* Render Golden Supply Drone */
+      if (G.drone) {
+        const dr = G.drone;
+        ctx.save(); ctx.translate(dr.x, dr.y);
+        rr(ctx, -dr.w / 2, -dr.h / 2, dr.w, dr.h, 6);
+        ctx.fillStyle = '#FFC53D'; ctx.fill();
+        ctx.strokeStyle = '#FFF'; ctx.lineWidth = 1.4; ctx.stroke();
+        ctx.fillStyle = '#0B0716'; ctx.font = '900 8px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('★UFO★', 0, 0.5);
+        ctx.restore();
+      }
       const cbMode = !!S.set.colorblindMode;
       for (const b of G.bricks) {
         if (!b.alive) continue;
@@ -4262,7 +4755,7 @@
           ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .22 + .15 * Math.sin(G.t * 6 + b.c);
           ctx.drawImage(glowOrange, b.rx + BW / 2 - 17, b.y + BH / 2 - 17, 34, 34); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1
         }
-        if (b.code === 7) {
+        if (b.code === 7 || b.code === 8) {
           ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .18 + .13 * Math.sin(G.t * 4 + b.r);
           ctx.drawImage(glowMagenta, b.rx + BW / 2 - 16, b.y + BH / 2 - 16, 32, 32); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1
         }
@@ -4279,6 +4772,14 @@
       for (const L of G.lasers) {
         ctx.fillStyle = 'rgba(255,61,138,.35)'; ctx.fillRect(L.x - 3, L.y - 14, 6, 18);
         ctx.fillStyle = '#FF9EC4'; ctx.fillRect(L.x - 1.2, L.y - 12, 2.4, 14);
+      }
+      /* Render Boss Plasma Hazards */
+      for (const h of G.hazards) {
+        ctx.save(); ctx.translate(h.x, h.y);
+        ctx.fillStyle = 'rgba(255,77,94,.32)'; ctx.beginPath(); ctx.arc(0, 0, h.r * 1.9, 0, 7); ctx.fill();
+        ctx.fillStyle = '#FF4D5E'; ctx.beginPath(); ctx.arc(0, 0, h.r, 0, 7); ctx.fill();
+        ctx.fillStyle = '#FFF'; ctx.beginPath(); ctx.arc(-1.5, -1.5, 2.2, 0, 7); ctx.fill();
+        ctx.restore();
       }
       if (paddleSprite) {
         const p = G.paddle, m = paddleSprite.m, pu = p.pulse;
@@ -4379,10 +4880,10 @@
       if (!G) return;
       const bar = $('#boostBar');
       if (S.set.showBoostBar === false) { bar.classList.remove('show'); return }
-      const owned = BOOSTERS.filter(b => S.inv[b.id] > 0).slice(0, 5);
+      const owned = BOOSTERS.filter(b => S.inv[b.id] > 0);
       if (!owned.length) { bar.classList.remove('show'); return }
       bar.classList.add('show');
-      $('#boostBarLabel').textContent = G.launched ? 'BOOST (1-5):' : 'ARM (1-5):';
+      $('#boostBarLabel').textContent = G.launched ? 'BOOST (1-7):' : 'ARM (1-7):';
       $('#boostRow').innerHTML = owned.map((b, i) => '<button class="chip-btn' + (G.queued[b.id] ? ' armed' : '') + '" data-action="boost" data-arg="' + b.id + '">' + icon(b.icon) + b.name.split(' ')[0] + ' ×' + S.inv[b.id] + '</button>').join('');
     }
     function syncHUD(force) {
@@ -4394,8 +4895,37 @@
       else tEl.classList.remove('show');
       if (G.labelDirty || force) {
         G.labelDirty = false;
-        const lbl = G.mode === 'campaign' ? ('LVL ' + (G.idx + 1) + ' · S' + (G.sector + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : 'DAILY CHALLENGE';
+        const lbl = G.mode === 'campaign' ? ('LVL ' + (G.idx + 1) + ' · S' + (G.sector + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1) + ' ' + G.name) : G.mode === 'custom' ? ('STUDIO · ' + G.name) : 'DAILY CHALLENGE';
         $('#hudLevel').textContent = lbl;
+      }
+      /* Boss HP Bar */
+      const bb = $('#bossBar');
+      if (bb) {
+        if (G.boss && G.bossMaxHp > 0) {
+          bb.classList.add('show');
+          const pct = clamp(Math.round(G.bossHp / G.bossMaxHp * 100), 0, 100);
+          $('#bossName').textContent = (G.bossEnraged ? '🔥 ' : '👑 ') + G.name;
+          $('#bossFill').style.width = pct + '%';
+          $('#bossHpTxt').textContent = pct + '%';
+        } else bb.classList.remove('show');
+      }
+      /* Nova Blast Charge Button */
+      const nb = $('#novaBtn');
+      if (nb) {
+        const np = Math.floor(G.novaCharge || 0);
+        nb.classList.toggle('ready', np >= 100);
+        $('#novaFill').style.width = np + '%';
+        $('#novaTxt').textContent = np >= 100 ? '⚡ NOVA READY (E)' : ('⚡ NOVA ' + np + '%');
+      }
+      /* On-Screen Touch Buttons for Tap Control Mode */
+      const tp = $('#touchPad');
+      if (tp) {
+        const showTp = S.set.controlMode === 'tap';
+        tp.classList.toggle('show', showTp);
+        if (showTp) {
+          const tl = $('#tpadLaunch');
+          if (tl) tl.textContent = G.balls.some(b => b.sticky) ? '🚀 LAUNCH' : (G.novaCharge >= 100 ? '⚡ NOVA BLAST' : '🚀 BALL ACTIVE');
+        }
       }
       if (G.livesDirty || force) { G.livesDirty = false; renderLives() }
       if (G.fxDirty || force) { G.fxDirty = false; renderFxChips() }
@@ -4407,12 +4937,14 @@
       hc.classList.toggle('show', showCombo);
       if (showCombo) {
         if (G.combo !== G.comboShown) { G.comboShown = G.combo; $('#comboMult').textContent = '×' + G.mult + ' · ' + G.combo }
-        $('#comboBar').style.width = Math.max(0, G.comboT / 3.2 * 100) + '%';
+        $('#comboBar').style.width = Math.max(0, G.comboT / comboMaxTime() * 100) + '%';
       } else G.comboShown = -1;
       const hint = $('#gameHint');
       let mode = '';
-      if (G.state === 'ready') mode = 'Drag to move · Tap or Space to launch';
-      else if (G.state === 'play' && G.balls.some(b => b.sticky)) mode = 'Magnet hold — tap to release';
+      if (S.set.controlMode !== 'tap') {
+        if (G.state === 'ready') mode = 'Drag to move · Tap or Space to launch';
+        else if (G.state === 'play' && G.balls.some(b => b.sticky)) mode = 'Magnet hold — tap to release';
+      }
       if (mode !== G.hintMode) { G.hintMode = mode; if (mode) { hint.textContent = mode; hint.classList.remove('hide') } else hint.classList.add('hide') }
     }
 
@@ -4536,6 +5068,7 @@
       const claimed = S.daily.rewardClaimed;
       const nextStreak = claimed ? S.streak : (S.lastClaimDate === new Date(Date.now() - 864e5).toISOString().slice(0, 10) ? S.streak + 1 : 1);
       const reward = 100 + Math.min(nextStreak, 7) * 25;
+      const freeSpin = !S.daily.freeSpinUsed;
       $('#screen-home').innerHTML =
         '<div class="dedication-strip">💛 Dedicated to my little Muhib Ullah · Created by Yasin Ullah</div>' +
         '<div class="hero" style="--wa:' + w.hues[0] + ';--wb:' + w.hues[2] + '"><div class="hero-kicker">' + icon('zap') + ' SECTOR ' + (lvl.sector + 1) + ' · WORLD ' + (lvl.wi + 1) + ' · ' + w.name.toUpperCase() + '</div>' +
@@ -4551,13 +5084,17 @@
         '<small>Rank Level ' + rk.level + ' · ' + fmt(rk.curXP) + ' / ' + fmt(rk.needed) + ' XP to next rank</small>' +
         '<div class="xp-bar"><i style="width:' + rk.pct + '%"></i></div></div></div>' +
 
-        '<div class="card daily"><span class="daily-ic">' + icon(claimed ? 'check' : 'gift') + '</span><div class="daily-info"><b>Daily Check-in Gift</b><p>' + (claimed ? 'Claimed · ' + S.streak + '-day streak · come back tomorrow' : 'Day ' + nextStreak + ' streak · +' + reward + ' coins ready') + '</p></div>' +
-        (claimed ? '<span class="pill">' + icon('calendar') + ' DONE</span>' : '<button class="btn btn-gold btn-sm" data-action="claim-daily">' + icon('coin') + ' Claim</button>') + '</div>' +
+        '<div class="card daily"><span class="daily-ic">' + icon(claimed ? 'check' : 'gift') + '</span><div class="daily-info"><b>Daily Gift &amp; Lucky Wheel</b><p>' + (claimed ? (S.streak + '-day streak · ' + (freeSpin ? 'Free Spin Ready!' : 'Spin the Nova Wheel')) : 'Day ' + nextStreak + ' streak · +' + reward + ' coins ready') + '</p></div>' +
+        '<div style="display:flex;gap:6px">' +
+        (!claimed ? '<button class="btn btn-gold btn-sm" data-action="claim-daily">' + icon('coin') + ' Claim</button>' : '') +
+        '<button class="btn btn-cyan btn-sm" data-action="lucky-wheel">🎡 ' + (freeSpin ? 'Free Spin' : 'Wheel') + '</button></div></div>' +
 
         '<div class="mode-grid">' +
         '<button class="mode endless" data-action="start-endless"><span class="m-ic">' + icon('infinity') + '</span><b>Endless Waves</b><span>Best: ' + fmt(S.stats.endlessBest) + ' · Wave ' + S.stats.endlessWave + '</span></button>' +
         '<button class="mode timed" data-action="start-timed"><span class="m-ic">' + icon('timer') + '</span><b>Time Attack</b><span>150s Rush · Best: ' + fmt(S.stats.timedBest) + '</span></button>' +
+        '<button class="mode bossrush" data-action="start-bossrush"><span class="m-ic">' + icon('crown') + '</span><b>Boss Rush</b><span>All Bosses · Best: ' + fmt(S.stats.bossRushBest || 0) + '</span></button>' +
         '<button class="mode dailyc" data-action="start-daily"><span class="m-ic">' + icon('calendar') + '</span><b>Daily Challenge</b><span>' + (S.daily.challengeDone ? 'Completed today ✓' : 'New cosmic board today!') + '</span></button>' +
+        '<button class="mode studio" data-action="open-editor"><span class="m-ic">' + icon('wand') + '</span><b>Level Studio</b><span>Build, Share &amp; Play Custom</span></button>' +
         '<button class="mode help" data-action="help"><span class="m-ic">' + icon('info') + '</span><b>How to Play</b><span>Controls, Bricks &amp; 11 Powers</span></button></div>' +
 
         '<div class="strip"><div class="stat-chip s1"><b>' + totalStars() + '</b><span>Total Stars</span></div><div class="stat-chip s2"><b>' + fmt(S.stats.bricks) + '</b><span>Bricks Broken</span></div><div class="stat-chip s3"><b>×' + S.stats.bestCombo + '</b><span>Best Combo</span></div></div>' +
@@ -4591,7 +5128,8 @@
           (next ? '<span class="lvl-play">PLAY</span>' : '') + '</button>';
       }
       $('#screen-levels').innerHTML =
-        '<div><h1 class="big-title">Unlimited Levels</h1><p class="sub-title">' + clearedCount() + ' cleared · Highest unlocked: Level ' + (unlocked + 1) + ' · ' + totalStars() + ' ★</p></div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><h1 class="big-title">Unlimited Levels</h1><p class="sub-title">' + clearedCount() + ' cleared · Unlocked: Lvl ' + (unlocked + 1) + ' · ' + totalStars() + ' ★</p></div>' +
+        '<button class="btn btn-cyan btn-sm" data-action="open-editor">' + icon('wand') + ' Level Studio</button></div>' +
         '<div class="sector-bar"><div class="sector-nav"><button class="btn btn-ghost btn-sm" data-action="sector-prev" ' + (sector <= 0 ? 'disabled' : '') + '>◀</button><span class="pill">SECTOR ' + (sector + 1) + '</span><button class="btn btn-ghost btn-sm" data-action="sector-next" ' + (sector >= maxSector + 1 ? 'disabled' : '') + '>▶</button></div>' +
         '<div class="filter-row">' + [['all', 'All'], ['open', 'Open'], ['stars', '3★'], ['boss', 'Boss']].map(f => '<button class="' + (UI.levelFilter === f[0] ? 'active' : '') + '" data-action="lvl-filter" data-arg="' + f[0] + '">' + f[1] + '</button>').join('') + '</div></div>' +
         '<div class="wchips" id="wchips">' + chips + '</div>' +
@@ -4602,6 +5140,15 @@
     }
 
     function renderShop() {
+      const upgHtml = UPGRADES.map(u => {
+        const lvl = S.upg?.[u.id] || 0, maxed = lvl >= u.max;
+        const cost = u.baseCost + lvl * u.stepCost, cant = S.coins < cost;
+        let pips = ''; for (let i = 0; i < u.max; i++) pips += '<span class="upg-pip' + (i < lvl ? ' on' : '') + '"></span>';
+        return '<div class="upg-item"><span class="si-ic" style="background:linear-gradient(135deg,' + shade(u.color, 30) + ',' + u.color + ')">' + icon(u.icon) + '<span class="si-own">Lv.' + lvl + '</span></span>' +
+          '<div class="si-info"><b>' + u.name + '</b><p>' + u.desc + '</p><div class="upg-pips">' + pips + '</div></div>' +
+          (maxed ? '<span class="pill" style="color:var(--lime);border-color:var(--lime)">MAX</span>' :
+            '<button class="si-buy' + (cant ? ' cant' : '') + '" data-action="buy-upgrade" data-arg="' + u.id + '">' + icon('coin') + ' ' + cost + '</button>') + '</div>';
+      }).join('');
       const items = BOOSTERS.map(b => {
         const cant = S.coins < b.price;
         return '<div class="shop-item"><span class="si-ic" style="background:linear-gradient(135deg,' + shade(b.color, 30) + ',' + b.color + ')">' + icon(b.icon) + (S.inv[b.id] > 0 ? '<span class="si-own">×' + S.inv[b.id] + '</span>' : '') + '</span>' +
@@ -4617,11 +5164,13 @@
               '<button class="btn btn-ghost btn-sm' + (S.coins < sk.price ? ' cant' : '') + '" data-action="buy-skin" data-arg="' + sk.id + '">' + icon('coin') + ' ' + sk.price + '</button>') + '</div>';
       }).join('');
       $('#screen-shop').innerHTML =
-        '<div><h1 class="big-title">Power-Up Shop</h1><p class="sub-title">Arm boosters before launch or press 1–5 mid-game</p></div>' +
-        '<div class="card balance"><span class="b-ic">' + icon('coin') + '</span><div><b>' + fmt(S.coins) + '</b><span>coin balance · ' + fmt(S.stats.coinsEarned) + ' earned all-time</span></div></div>' +
-        '<div class="sec-title">BOOSTERS (7 TYPES)</div><div class="card">' + items + '</div>' +
-        '<div class="sec-title">PADDLE &amp; BALL SKINS</div><div class="skins-row">' + skins + '</div>' +
-        '<p class="foot">Skins stay unlocked forever. Boosters can also drop free from bricks!</p>';
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><h1 class="big-title">Workshop &amp; Shop</h1><p class="sub-title">Permanent tech upgrades, boosters (1–7) &amp; skins</p></div>' +
+        '<button class="btn btn-gold btn-sm" data-action="lucky-wheel">🎡 Lucky Wheel</button></div>' +
+        '<div class="card balance" style="margin-top:10px"><span class="b-ic">' + icon('coin') + '</span><div><b>' + fmt(S.coins) + '</b><span>coin balance · +' + Math.round((coinMultiplier() - 1) * 100) + '% Coin Bonus Active</span></div></div>' +
+        '<div class="sec-title">PERMANENT TECH WORKSHOP (6 UPGRADES)</div><div class="card">' + upgHtml + '</div>' +
+        '<div class="sec-title">TACTICAL BOOSTERS (7 TYPES · KEYS 1–7)</div><div class="card">' + items + '</div>' +
+        '<div class="sec-title">PADDLE &amp; BALL SKINS (8 SKINS)</div><div class="skins-row">' + skins + '</div>' +
+        '<p class="foot">Workshop upgrades and skins stay unlocked permanently across all game modes!</p>';
     }
 
     function renderAwards() {
@@ -4629,7 +5178,7 @@
       const st = S.stats, rk = rankForXP(S.xp);
       const winRate = st.gamesPlayed > 0 ? Math.round(st.gamesWon / st.gamesPlayed * 100) : 0;
       const avgCombo = st.comboRuns > 0 ? (st.comboSum / st.comboRuns).toFixed(1) : '0.0';
-      const subtabs = '<div class="subtabs">' + [['overview', 'Ranks & Profile'], ['stats', 'Pro Stats'], ['missions', 'Missions'], ['achs', 'Awards']].map(t => '<button class="' + (UI.statsTab === t[0] ? 'active' : '') + '" data-action="stats-tab" data-arg="' + t[0] + '">' + t[1] + '</button>').join('') + '</div>';
+      const subtabs = '<div class="subtabs">' + [['overview', 'Ranks'], ['stats', 'Pro Stats'], ['missions', 'Missions'], ['achs', 'Awards'], ['codex', 'Codex']].map(t => '<button class="' + (UI.statsTab === t[0] ? 'active' : '') + '" data-action="stats-tab" data-arg="' + t[0] + '">' + t[1] + '</button>').join('') + '</div>';
       let body = '';
       if (UI.statsTab === 'overview') {
         const campRank = categoryRank(clearedCount(), [5, 15, 35, 60, 100, 150, 220], ['Initiate', 'Scout', 'Vanguard', 'Commander', 'Warlord', 'Galactic', 'Ascendant']);
@@ -4653,7 +5202,7 @@
           '<div class="sg-tile"><b>' + fmt(st.bestScore) + '</b><span>Highest Run Score</span></div>' +
           '<div class="sg-tile"><b>' + fmt(st.endlessBest) + '</b><span>Endless Record</span></div>' +
           '<div class="sg-tile"><b>' + fmt(st.timedBest) + '</b><span>Time Attack Record</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.dailyBest) + '</b><span>Daily Record</span></div></div>';
+          '<div class="sg-tile"><b>' + fmt(st.bossRushBest || 0) + '</b><span>Boss Rush Record</span></div></div>';
       } else if (UI.statsTab === 'stats') {
         const runs = S.recentRuns.length ? S.recentRuns : [{ score: 0, mode: 'none' }];
         const maxS = Math.max(100, ...runs.map(r => r.score));
@@ -4662,7 +5211,7 @@
         const bRows = [
           ['Normal Bricks', bt.normal, '#22D3EE'], ['Armored Bricks', bt.armored, '#8B5CF6'],
           ['Explosive Bombs', bt.explosive, '#FF6B35'], ['Gold Coin Bricks', bt.gold, '#FFC53D'],
-          ['Boss Crystal Cores', bt.core, '#E879F9'], ['Steel Destroyed (Fireball)', bt.steel, '#94A3B8']
+          ['Boss Crystal Cores', bt.core, '#E879F9'], ['Steel Destroyed (Fireball/Nova)', bt.steel, '#94A3B8']
         ].map(r => '<div class="btype-row"><div class="btype-head"><span>' + r[0] + '</span><b>' + fmt(r[1]) + ' (' + Math.round(r[1] / totB * 100) + '%)</b></div><div class="btype-track"><i style="width:' + clamp(r[1] / totB * 100, 0, 100) + '%;background:' + r[2] + '"></i></div></div>').join('');
         body =
           '<div class="stats-grid">' +
@@ -4672,9 +5221,9 @@
           '<div class="sg-tile"><b>' + avgCombo + '</b><span>Avg Best Combo</span></div>' +
           '<div class="sg-tile"><b>' + st.perfectClears + '</b><span>Perfect 3★ Clears</span></div>' +
           '<div class="sg-tile"><b>' + st.bossesDefeated + '</b><span>Bosses Defeated</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.powers) + '</b><span>Power-Ups Caught</span></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.boostersUsed) + '</b><span>Boosters Used</span></div>' +
-          '<div class="sg-tile"><b>' + st.dailyWins + '</b><span>Daily Wins</span></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.novaBlasts || 0) + '</b><span>Nova Blasts Used</span></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.dronesHit || 0) + '</b><span>Supply Drones Hit</span></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.critHits || 0) + '</b><span>Critical Strikes</span></div>' +
           '<div class="sg-tile"><b>' + fmtTime(st.playtime) + '</b><span>Total Playtime</span></div></div>' +
           '<div class="card"><b style="font-size:13.5px">Recent 10 Runs Score Trend</b><p style="font-size:11px;color:var(--muted)">Green = Win · Orange = Attempt</p><div class="chart-bars">' + bars + '</div></div>' +
           '<div class="card"><b style="font-size:13.5px;display:block;margin-bottom:10px">Brick Destruction Breakdown</b>' + bRows + '</div>';
@@ -4687,6 +5236,20 @@
         }).join('');
         body = '<div class="card"><b style="font-size:14px">Daily Missions (' + todayStr() + ')</b><p style="font-size:11.5px;color:var(--muted);margin-bottom:8px">Resets every day at midnight. Earn bonus coins &amp; Rank XP!</p>' + mHtml + '</div>' +
           '<div class="card"><b style="font-size:14px">Daily Challenge Status</b><p style="font-size:12px;color:var(--muted);margin:4px 0 12px">' + (S.daily.challengeDone ? 'You conquered today\'s cosmic board! Come back tomorrow for a new layout.' : 'A special seeded board awaits today with bonus XP and coins.') + '</p><button class="btn btn-primary btn-sm" data-action="start-daily">' + icon('play') + ' Play Daily Challenge</button></div>';
+      } else if (UI.statsTab === 'codex') {
+        const brickGuide = [
+          ['1', 'Standard Brick', '1 HP · Base score & coin', '#22D3EE'],
+          ['2', 'Armored Brick', '2 HP · Reinforced plating', '#8B5CF6'],
+          ['3', 'Heavy Armor', '3–5 HP · Tough fortress block', '#38BDF8'],
+          ['B', 'Explosive Bomb', 'Detonates 3×3 neighbors', '#FF6B35'],
+          ['X', 'Steel Barrier', 'Unbreakable except by Fireball/Nova', '#94A3B8'],
+          ['$', 'Gold Coin Brick', 'Drops +12 instant bonus coins', '#FFC53D'],
+          ['?', 'Gift Capsule', 'Guaranteed positive power-up', '#FF3D8A'],
+          ['★', 'Boss Core', 'High HP · Fires plasma & drops power-up', '#E879F9']
+        ].map(b => '<div class="codex-card"><span class="codex-badge" style="background:' + b[3] + '">' + b[0] + '</span><div><b style="font-size:12px;display:block">' + b[1] + '</b><span style="font-size:10.5px;color:var(--muted)">' + b[2] + '</span></div></div>').join('');
+        const bossGuide = BOSSES.map((b, i) => '<div class="codex-card"><span class="codex-badge" style="background:' + WORLDS[i].hues[0] + '">W' + (i + 1) + '</span><div><b style="font-size:12px;display:block">' + b.name + '</b><span style="font-size:10.5px;color:var(--muted)">' + WORLDS[i].name + ' Boss</span></div></div>').join('');
+        body = '<div class="sec-title">BRICK &amp; ENTITY CODEX</div><div class="codex-grid">' + brickGuide + '</div>' +
+          '<div class="sec-title">WORLD BOSSES (FIRES PLASMA ORBS)</div><div class="codex-grid">' + bossGuide + '</div>';
       } else {
         const achs = ACHS.map(a => {
           const cur = Math.min(a.cur(S), a.max), done = cur >= a.max, claimed = !!S.ach[a.id];
@@ -4697,7 +5260,7 @@
         }).join('');
         body = '<div class="card"><b style="font-size:14px;display:block;margin-bottom:6px">Achievements (' + ACHS.filter(a => S.ach[a.id]).length + ' / ' + ACHS.length + ')</b>' + achs + '</div>';
       }
-      $('#screen-awards').innerHTML = '<div><h1 class="big-title">Stats, Ranks &amp; Awards</h1><p class="sub-title">Full analytics, mastery ranks, daily missions &amp; trophies</p></div>' + subtabs + body;
+      $('#screen-awards').innerHTML = '<div><h1 class="big-title">Stats, Ranks &amp; Codex</h1><p class="sub-title">Full analytics, mastery ranks, daily missions &amp; encyclopedia</p></div>' + subtabs + body;
       const inp = $('#playerNameInput');
       if (inp) inp.addEventListener('change', e => { S.name = e.target.value.trim().slice(0, 22) || 'Player One'; e.target.value = S.name; saveNow(); toast('Player name saved', 'check', 'good') });
     }
@@ -4786,6 +5349,154 @@
       else if (target.requestFullscreen) { target.requestFullscreen().catch(() => toast('Fullscreen unavailable in this view', 'info', 'info')) }
       else toast('Fullscreen unavailable here', 'info', 'info');
     }
+    /* ---------- LUCKY WHEEL & CUSTOM LEVEL STUDIO ---------- */
+    const WHEEL_PRIZES = [
+      { label: '+120 Coins', type: 'coins', val: 120, color: '#FFC53D' },
+      { label: 'Fireball ×1', type: 'boost', val: 'fire', color: '#FF8A3D' },
+      { label: '+150 Rank XP', type: 'xp', val: 150, color: '#22D3EE' },
+      { label: 'Triple Ball ×1', type: 'boost', val: 'multi', color: '#A3E635' },
+      { label: '+220 Coins', type: 'coins', val: 220, color: '#8B5CF6' },
+      { label: 'Twin Lasers ×1', type: 'boost', val: 'laser', color: '#FF3D8A' },
+      { label: 'Safety Shield ×1', type: 'boost', val: 'shield', color: '#38BDF8' },
+      { label: 'JACKPOT 500', type: 'coins', val: 500, color: '#E879F9' }
+    ];
+    let wheelRot = 0, wheelSpinning = false;
+    function drawWheelCanvas() {
+      const cnv = $('#wheelCv'); if (!cnv) return;
+      const c = cnv.getContext('2d'), r = cnv.width / 2, step = (Math.PI * 2) / WHEEL_PRIZES.length;
+      c.clearRect(0, 0, cnv.width, cnv.height);
+      WHEEL_PRIZES.forEach((p, i) => {
+        const a0 = i * step - Math.PI / 2 - step / 2, a1 = a0 + step;
+        c.beginPath(); c.moveTo(r, r); c.arc(r, r, r - 4, a0, a1); c.closePath();
+        c.fillStyle = p.color; c.fill();
+        c.strokeStyle = '#150E29'; c.lineWidth = 2.5; c.stroke();
+        c.save(); c.translate(r, r); c.rotate(a0 + step / 2);
+        c.fillStyle = '#0B0716'; c.font = '900 10.5px sans-serif'; c.textAlign = 'right'; c.textBaseline = 'middle';
+        c.fillText(p.label, r - 14, 0);
+        c.restore();
+      });
+      c.beginPath(); c.arc(r, r, 22, 0, 7); c.fillStyle = '#150E29'; c.fill();
+      c.strokeStyle = '#FFC53D'; c.lineWidth = 3; c.stroke();
+      c.fillStyle = '#FFC53D'; c.font = '900 11px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('NOVA', r, r);
+    }
+    function openLuckyWheel() {
+      ensureDaily();
+      wheelSpinning = false;
+      const free = !S.daily.freeSpinUsed;
+      openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--amber)">DAILY PRIZE SPINNER</div><h2 class="sheet-title">Nova Lucky Wheel</h2></div>' +
+        '<div class="wheel-box"><div class="wheel-ptr">▼</div><canvas id="wheelCv" width="240" height="240"></canvas></div>' +
+        '<p id="wheelMsg" style="text-align:center;font-size:12.5px;color:var(--muted);margin-bottom:12px">' + (free ? 'Your Daily Free Spin is ready!' : 'Spin for 120 Coins to win jackpots, XP &amp; boosters!') + '</p>' +
+        '<div class="sheet-btns"><button class="btn btn-gold" id="btnSpinWheel" data-action="spin-wheel">🎡 ' + (free ? 'Spin Free Now!' : 'Spin Wheel — 120 Coins') + '</button>' +
+        '<button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Close</button></div>', 'wheel', 'close-sheet');
+      setTimeout(drawWheelCanvas, 20);
+    }
+    function spinLuckyWheel() {
+      if (wheelSpinning) return;
+      ensureDaily();
+      const free = !S.daily.freeSpinUsed;
+      if (!free && S.coins < 120) { sfx.deny(); toast('Need 120 Coins for an extra spin!', 'coin', 'warn'); return }
+      if (free) S.daily.freeSpinUsed = true;
+      else { S.coins -= 120; syncHeader(true) }
+      wheelSpinning = true;
+      const idx = (R() * WHEEL_PRIZES.length) | 0;
+      const stepDeg = 360 / WHEEL_PRIZES.length;
+      wheelRot += 1440 + (360 - (wheelRot % 360)) + (360 - idx * stepDeg);
+      const cnv = $('#wheelCv');
+      if (cnv) cnv.style.transform = 'rotate(' + wheelRot + 'deg)';
+      sfx.launch();
+      setTimeout(() => {
+        wheelSpinning = false;
+        const pr = WHEEL_PRIZES[idx];
+        if (pr.type === 'coins') addCoins(pr.val, true);
+        else if (pr.type === 'xp') addXP(pr.val);
+        else if (pr.type === 'boost') { S.inv[pr.val] = (S.inv[pr.val] || 0) + 1 }
+        saveNow();
+        sfx.win(); haptic([15, 30, 20]);
+        const msg = $('#wheelMsg'), btn = $('#btnSpinWheel');
+        if (msg) msg.innerHTML = '<b style="color:var(--lime)">YOU WON: ' + pr.label + '!</b>';
+        if (btn) btn.innerHTML = '🎡 Spin Again — 120 Coins';
+        toast('Won ' + pr.label + '!', 'gift', 'gold');
+        if (UI.screen === 'home') renderHome();
+        else if (UI.screen === 'shop') renderShop();
+      }, 3250);
+    }
+
+    /* Custom Level Studio */
+    const ED_BRICKS = [
+      { code: 1, name: 'Normal', sym: '1', col: '#22D3EE' },
+      { code: 2, name: 'Armor 2', sym: '2', col: '#8B5CF6' },
+      { code: 3, name: 'Heavy 3', sym: '3', col: '#38BDF8' },
+      { code: 4, name: 'Bomb', sym: 'B', col: '#FF6B35' },
+      { code: 5, name: 'Steel', sym: 'X', col: '#7C86A8' },
+      { code: 6, name: 'Gold $', sym: '$', col: '#FFC53D' },
+      { code: 7, name: 'Gift ?', sym: '?', col: '#FF3D8A' },
+      { code: 8, name: 'Boss ★', sym: '★', col: '#E879F9' },
+      { code: 0, name: 'Eraser', sym: '✕', col: '#2A1D52' }
+    ];
+    function ensureEditorData() {
+      if (!UI.editorData) {
+        const g = Array.from({ length: 8 }, (_, r) => Array.from({ length: COLS }, (_, c) => (r < 4 && (c + r) % 2 === 0 ? 1 : 0)));
+        g[1][5] = 8;
+        UI.editorData = { name: 'My Neon Fortress', wi: 0, brush: 1, sym: true, moving: false, grid: g };
+      }
+    }
+    function renderEditorCells() {
+      const ed = UI.editorData, wrap = $('#edGridWrap'); if (!wrap) return;
+      let html = '';
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const code = ed.grid[r][c] || 0;
+          const info = ED_BRICKS.find(x => x.code === code);
+          const bg = code ? info.col : 'rgba(255,255,255,.05)';
+          html += '<div class="ed-cell" data-r="' + r + '" data-c="' + c + '" style="background:' + bg + '">' + (code > 1 ? info.sym : '') + '</div>';
+        }
+      }
+      wrap.innerHTML = html;
+    }
+    function openLevelEditor() {
+      ensureEditorData();
+      const ed = UI.editorData;
+      const tools = ED_BRICKS.map(b => '<button class="ed-tool' + (ed.brush === b.code ? ' active' : '') + '" data-action="ed-brush" data-arg="' + b.code + '"><span class="ed-swatch" style="background:' + b.col + '"></span>' + b.name + '</button>').join('');
+      const savedList = (S.customLevels || []).map((cl, i) => '<button class="chip-btn" data-action="ed-load" data-arg="' + i + '">📂 ' + cl.name + '</button>').join('');
+      openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--lime)">CUSTOM LEVEL STUDIO</div><h2 class="sheet-title">Build &amp; Test Stage</h2></div>' +
+        '<div style="display:flex;gap:7px;margin-bottom:9px"><input class="name-input" id="edNameInp" maxlength="22" value="' + ed.name.replace(/"/g, '&quot;') + '" placeholder="Stage Name" style="margin:0;flex:1">' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-sym" id="edSymBtn">' + (ed.sym ? '🪞 Mirror: ON' : '🪞 Mirror: OFF') + '</button></div>' +
+        '<div class="ed-palette" id="edPalette">' + tools + '</div>' +
+        '<div class="ed-grid" id="edGridWrap"></div>' +
+        '<div class="btn-row" style="margin-bottom:9px">' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-template">🎲 Random</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-clear">🧹 Clear</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-save">💾 Save</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-code">📋 Code</button></div>' +
+        (savedList ? '<div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px">' + savedList + '</div>' : '') +
+        '<div class="sheet-btns"><button class="btn btn-primary" data-action="ed-play">' + icon('play') + ' Test Play Custom Stage</button>' +
+        '<button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Close Studio</button></div>', 'editor', 'close-sheet');
+      renderEditorCells();
+      setTimeout(() => {
+        const gw = $('#edGridWrap');
+        if (!gw) return;
+        let painting = false;
+        const paintAt = (e) => {
+          const target = document.elementFromPoint(e.clientX, e.clientY)?.closest('.ed-cell');
+          if (!target) return;
+          const r = +target.dataset.r, c = +target.dataset.c;
+          ed.grid[r][c] = ed.brush;
+          if (ed.sym) ed.grid[r][COLS - 1 - c] = ed.brush;
+          renderEditorCells();
+        };
+        gw.addEventListener('pointerdown', e => { painting = true; paintAt(e); e.preventDefault() });
+        gw.addEventListener('pointermove', e => { if (painting) paintAt(e) });
+        window.addEventListener('pointerup', () => { painting = false }, { once: false });
+      }, 30);
+    }
+
+    /* ---------- ACTIONS ---------- */
+    function toggleFullscreen() {
+      const target = $('#app');
+      if (document.fullscreenElement) { document.exitFullscreen?.().catch(() => { }) }
+      else if (target.requestFullscreen) { target.requestFullscreen().catch(() => toast('Fullscreen unavailable in this view', 'info', 'info')) }
+      else toast('Fullscreen unavailable here', 'info', 'info');
+    }
     const actions = {
       tab(arg) { if (UI.screen === arg) return; sfx.click(); haptic(4); showScreen(arg) },
       mute() { unlockAudio(); setMuted(!S.muted); haptic(6) },
@@ -4804,6 +5515,79 @@
       'start-endless'() { unlockAudio(); sfx.click(); haptic(8); startGame('endless', 0) },
       'start-timed'() { unlockAudio(); sfx.click(); haptic(8); startGame('timed', 0) },
       'start-daily'() { unlockAudio(); sfx.click(); haptic(8); startGame('daily', 0) },
+      'start-bossrush'() { unlockAudio(); sfx.click(); haptic(8); startGame('bossrush', 0) },
+      'lucky-wheel'() { unlockAudio(); sfx.click(); openLuckyWheel() },
+      'spin-wheel'() { unlockAudio(); spinLuckyWheel() },
+      'open-editor'() { unlockAudio(); sfx.click(); openLevelEditor() },
+      'ed-brush'(arg) {
+        ensureEditorData(); UI.editorData.brush = +arg; sfx.click();
+        $$('#edPalette .ed-tool').forEach(b => b.classList.toggle('active', +b.dataset.arg === UI.editorData.brush));
+      },
+      'ed-sym'() {
+        ensureEditorData(); UI.editorData.sym = !UI.editorData.sym; sfx.click();
+        const b = $('#edSymBtn'); if (b) b.textContent = UI.editorData.sym ? '🪞 Mirror: ON' : '🪞 Mirror: OFF';
+      },
+      'ed-clear'() {
+        ensureEditorData();
+        UI.editorData.grid = Array.from({ length: 8 }, () => Array(COLS).fill(0));
+        sfx.click(); renderEditorCells();
+      },
+      'ed-template'() {
+        ensureEditorData();
+        const ed = UI.editorData;
+        for (let r = 0; r < 8; r++) {
+          for (let c = 0; c <= Math.floor(COLS / 2); c++) {
+            const roll = R();
+            const v = roll < .32 ? 0 : roll < .72 ? 1 : roll < .84 ? 2 : roll < .9 ? 3 : roll < .94 ? 4 : roll < .97 ? 6 : 7;
+            ed.grid[r][c] = v; ed.grid[r][COLS - 1 - c] = v;
+          }
+        }
+        ed.grid[1][5] = 8;
+        sfx.click(); renderEditorCells();
+      },
+      'ed-save'() {
+        ensureEditorData();
+        const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || 'Custom Stage';
+        const copy = JSON.parse(JSON.stringify(UI.editorData));
+        S.customLevels = S.customLevels || [];
+        S.customLevels.unshift(copy);
+        if (S.customLevels.length > 8) S.customLevels.pop();
+        saveNow(); sfx.power(); toast('Stage saved to Studio slots!', 'check', 'good');
+        openLevelEditor();
+      },
+      'ed-load'(arg) {
+        const cl = S.customLevels?.[+arg]; if (!cl) return;
+        UI.editorData = JSON.parse(JSON.stringify(cl));
+        sfx.click(); openLevelEditor();
+      },
+      'ed-code'() {
+        ensureEditorData();
+        const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || 'Custom Stage';
+        const str = btoa(unescape(encodeURIComponent(JSON.stringify({ name: UI.editorData.name, wi: UI.editorData.wi, grid: UI.editorData.grid }))));
+        if (navigator.clipboard?.writeText) navigator.clipboard.writeText(str).catch(() => { });
+        const pasted = prompt('Shareable Level Code (copied to clipboard! Or paste another code here to load):', str);
+        if (pasted && pasted !== str) {
+          try {
+            const parsed = JSON.parse(decodeURIComponent(escape(atob(pasted.trim()))));
+            if (Array.isArray(parsed.grid)) {
+              UI.editorData.name = parsed.name || 'Imported Stage';
+              UI.editorData.grid = parsed.grid;
+              sfx.power(); toast('Level code imported!', 'check', 'good'); openLevelEditor();
+            }
+          } catch (e) { sfx.deny(); toast('Invalid level code', 'alert', 'bad') }
+        }
+      },
+      'ed-play'() {
+        ensureEditorData();
+        const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || 'Custom Stage';
+        sfx.click(); startGame('custom', 0, JSON.parse(JSON.stringify(UI.editorData)));
+      },
+      nova() { triggerNovaBlast() },
+      'tap-launch'() {
+        if (!G) return;
+        if (G.balls.some(b => b.sticky)) launchBalls();
+        else if (G.novaCharge >= 100) triggerNovaBlast();
+      },
       help() { sfx.click(); openHelp() },
       'close-sheet'() { sfx.click(); closeSheet() },
       'sheet-backdrop'() { sheetBackdrop() },
@@ -4820,6 +5604,7 @@
         sfx.click();
         if (!G) return;
         if (G.mode === 'daily') quitGame('home');
+        else if (G.mode === 'custom') { quitGame('home'); openLevelEditor() }
         else startGame('campaign', G.idx + 1);
       },
       'continue-run'() {
@@ -4836,7 +5621,7 @@
         S.streak = S.lastClaimDate === yest ? S.streak + 1 : 1;
         S.lastClaimDate = todayStr(); S.daily.rewardClaimed = true;
         const reward = 100 + Math.min(S.streak, 7) * 25;
-        addCoins(reward); addXP(50); saveNow(); sfx.coin(); haptic([10, 20, 10]);
+        addCoins(reward, true); addXP(50); saveNow(); sfx.coin(); haptic([10, 20, 10]);
         toast('+' + reward + ' coins & +50 XP · Day ' + S.streak + ' streak!', 'coin', 'gold');
         renderHome(); updateBadges();
       },
@@ -4844,9 +5629,20 @@
         ensureDaily();
         const m = DAILY_MISSIONS.find(x => x.id === arg);
         if (!m || S.daily.claims.includes(arg) || (S.daily[arg] || 0) < m.target) { sfx.deny(); toast('Complete the mission goal first!', 'target', 'warn'); return }
-        S.daily.claims.push(arg); addCoins(m.reward); addXP(m.xp); saveNow();
+        S.daily.claims.push(arg); addCoins(m.reward, true); addXP(m.xp); saveNow();
         sfx.life(); haptic([10, 20, 10]); toast(m.name + ' claimed! +' + m.reward + ' coins', 'trophy', 'gold');
         renderAwards(); updateBadges();
+      },
+      'buy-upgrade'(arg) {
+        const u = UPGRADES.find(x => x.id === arg); if (!u) return;
+        S.upg = S.upg || freshUpg();
+        const lvl = S.upg[arg] || 0;
+        if (lvl >= u.max) { sfx.deny(); return }
+        const cost = u.baseCost + lvl * u.stepCost;
+        if (S.coins < cost) { sfx.deny(); toast('Need ' + cost + ' coins for ' + u.name, 'coin', 'warn'); return }
+        S.coins -= cost; S.upg[arg] = lvl + 1; addXP(35); saveNow(); syncHeader(true);
+        sfx.power(); haptic(12); toast(u.name + ' upgraded to Lv.' + S.upg[arg] + '!', 'wand', 'good');
+        renderShop(); updateBadges();
       },
       'buy-booster'(arg) {
         const b = BOOSTERS.find(x => x.id === arg); if (!b) return;
@@ -4864,7 +5660,7 @@
       'claim-ach'(arg) {
         const a = ACHS.find(x => x.id === arg); if (!a || S.ach[arg]) return;
         if (a.cur(S) < a.max) { sfx.deny(); toast('Keep playing to unlock this award', 'trophy', 'warn'); return }
-        S.ach[arg] = true; addCoins(a.reward); addXP(100); saveNow();
+        S.ach[arg] = true; addCoins(a.reward, true); addXP(100); saveNow();
         sfx.life(); haptic([10, 20, 10]); toast(a.name + ' · +' + a.reward + ' coins & +100 XP', 'trophy', 'gold');
         renderAwards(); updateBadges();
       },
@@ -4923,11 +5719,13 @@
           S = {
             ...f, ...p,
             inv: { ...f.inv, ...(p.inv || {}) },
+            upg: { ...f.upg, ...(p.upg || {}) },
             set: { ...f.set, ...(p.set || {}) },
             stats: { ...f.stats, ...(p.stats || {}), brickTypes: { ...f.stats.brickTypes, ...(p.stats?.brickTypes || {}) } },
             daily: { ...f.daily, ...(p.daily || {}) },
             stars: p.stars || {}, bestLevelScore: p.bestLevelScore || {}, ach: p.ach || {},
-            skins: p.skins || ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : []
+            skins: p.skins || ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : [],
+            customLevels: Array.isArray(p.customLevels) ? p.customLevels : []
           };
           saveNow(); closeSheet(); applyAudioSet(); applyDisplaySet(); syncHeader(true); syncMute(); updateBadges();
           sfx.win(); toast('Save backup restored successfully!', 'check', 'good');
@@ -4939,7 +5737,7 @@
       'reset-progress'() {
         sfx.click();
         openSheet('<div class="grabber"></div><div class="confirm-ic">' + icon('alert') + '</div><h2 class="sheet-title" style="text-align:center">Reset All Progress?</h2>' +
-          '<p class="confirm-text">All levels, ranks, XP, stats, stars, coins, boosters, skins, and achievements will be permanently erased.</p>' +
+          '<p class="confirm-text">All levels, ranks, XP, stats, stars, coins, boosters, upgrades, skins, and achievements will be permanently erased.</p>' +
           '<div class="sheet-btns"><button class="btn btn-danger" data-action="confirm-reset">' + icon('trash') + ' Yes, Erase Everything</button>' +
           '<button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Keep My Progress</button></div>', 'confirm', 'close-sheet');
       },
@@ -4977,9 +5775,9 @@
     function steerTo(rawX, isDrag, dragObj) {
       const inv = S.set.invertControls ? -1 : 1;
       const mode = S.set.controlMode || 'drag';
-      if (mode === 'tap' && dragObj && dragObj.moved < 12) {
-        const dir = (rawX < VW / 2 ? -1 : 1) * inv;
-        G.paddle.tx = clamp(G.paddle.tx + dir * 38, G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4);
+      if (mode === 'tap') {
+        keys.l = rawX < VW / 2;
+        keys.r = rawX >= VW / 2;
         return;
       }
       if (mode === 'direct' || (dragObj && dragObj.type === 'mouse') || !isDrag) {
@@ -5002,7 +5800,7 @@
     }
     function onMove(e) {
       if (!G || UI.sheet) return;
-      if (e.pointerType === 'mouse' && !drag) { steerTo(logicalX(e), false, null); return }
+      if (e.pointerType === 'mouse' && !drag && S.set.controlMode !== 'tap') { steerTo(logicalX(e), false, null); return }
       if (!drag || e.pointerId !== drag.id) return;
       const x = logicalX(e), dx = x - drag.startX;
       drag.moved = Math.max(drag.moved, Math.abs(dx));
@@ -5013,18 +5811,30 @@
       if (!drag || e.pointerId !== drag.id) return;
       const quick = performance.now() - drag.t0 < 400 && drag.moved < 10;
       drag = null;
+      if (S.set.controlMode === 'tap') { keys.l = false; keys.r = false }
       if (quick && G && !UI.sheet && S.set.tapLaunch !== false && S.set.controlMode !== 'tap') launchBalls();
     }
     cv.addEventListener('pointerdown', onDown);
     cv.addEventListener('pointermove', onMove);
     cv.addEventListener('pointerup', onUp);
-    cv.addEventListener('pointercancel', () => { drag = null });
+    cv.addEventListener('pointercancel', () => { drag = null; keys.l = false; keys.r = false });
     cv.addEventListener('contextmenu', e => e.preventDefault());
+    /* Bind On-Screen Touch Arcade Buttons */
+    function bindTouchPadBtn(id, keyProp) {
+      const btn = $(id); if (!btn) return;
+      const release = () => { keys[keyProp] = false; btn.classList.remove('held') };
+      btn.addEventListener('pointerdown', e => { unlockAudio(); keys[keyProp] = true; btn.classList.add('held'); e.preventDefault() });
+      btn.addEventListener('pointerup', release);
+      btn.addEventListener('pointercancel', release);
+      btn.addEventListener('pointerleave', release);
+    }
+    bindTouchPadBtn('#tpadLeft', 'l');
+    bindTouchPadBtn('#tpadRight', 'r');
     document.addEventListener('pointerdown', unlockAudio, true);
     document.addEventListener('keydown', e => {
       unlockAudio();
       const tag = (e.target.tagName || '').toUpperCase();
-      if (tag === 'INPUT') return;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
       if (e.key === 'm' || e.key === 'M') { actions.mute(); return }
       if (e.key === 'f' || e.key === 'F') { actions.fullscreen(); return }
       if (e.key === 'Escape') {
@@ -5041,10 +5851,11 @@
         else if (UI.sheet === 'lose') actions.replay();
         else if (!UI.sheet) launchBalls();
       }
+      else if (e.key === 'e' || e.key === 'E' || e.key === 'Shift') { if (!UI.sheet) triggerNovaBlast() }
       else if (e.key === 'p' || e.key === 'P') { if (!UI.sheet) openPause(); else if (UI.sheet === 'pause') actions.resume() }
       else if (e.key === 'r' || e.key === 'R') { if (G) restartGame() }
-      else if ('12345'.includes(e.key) && !e.repeat && !UI.sheet) {
-        const owned = BOOSTERS.filter(b => S.inv[b.id] > 0).slice(0, 5);
+      else if ('1234567'.includes(e.key) && !e.repeat && !UI.sheet) {
+        const owned = BOOSTERS.filter(b => S.inv[b.id] > 0);
         const chosen = owned[Number(e.key) - 1];
         if (chosen) triggerBoosterMidGame(chosen.id);
       }
