@@ -17,7 +17,7 @@
 | `README.md` | Full Bilingual Documentation | Complete technical and user guide in **English & Urdu**. |
 | `CLIENT-README.md` | Client-Only Simple Urdu Guide | 100% plain Urdu non-technical handbook with step-by-step instructions and exhaustive FAQ. |
 | `FEATURES-REPORT.md` | Executive Feature Report | Structured tabular breakdown of every module, capability, and highlight. |
-| `.github/workflows/build-apk-exe.yml` | Cloud Build Pipeline | GitHub Actions workflow that automatically compiles a **100% offline fullscreen Android APK** and **standalone portable Windows EXE** on every commit. |
+| `.github/workflows/build-apk-exe.yml` | Cloud Build Pipeline | GitHub Actions workflow that automatically compiles a **100% offline fullscreen Android APK** and **standalone portable Windows EXE** on every commit, using `logo-master.png` for both app icons. |
 
 ---
 
@@ -135,10 +135,56 @@ Inside the **Stats** tab (4 clean sub-tabs):
 
 ## 10. Automated Offline APK & Portable EXE via GitHub Actions
 
-Place `build-apk-exe.yml` inside `.github/workflows/build-apk-exe.yml` in your GitHub repository. On **every commit (`git push`)** or manual trigger:
-1. **Android Job (`build-android-apk`)** builds a standalone, fullscreen, 100% offline **Android APK** using Capacitor + Android Gradle on GitHub's cloud servers (zero local storage used).
-2. **Windows Job (`build-windows-exe`)** builds a standalone, portable, fullscreen, 100% offline **Windows `.exe`** using Electron + `electron-builder` (portable target).
-3. Both files are uploaded to **GitHub Actions → Artifacts** and automatically published to **GitHub Releases** for instant download on your phone or PC.
+Everything is built **on GitHub's cloud runners** — your own PC needs no Android
+Studio, no Java, no Node.js and no extra disk space. The pipeline lives in
+`.github/workflows/build-apk-exe.yml`.
+
+### When it runs
+- Automatically on **every push** to `main` / `master` (i.e. every commit you upload).
+- Manually from **Actions → Build Offline APK & Portable EXE → Run workflow**.
+
+### What it produces
+
+| Output | Built with | Highlights |
+| :--- | :--- | :--- |
+| `BrickPop-Nova-Ultimate.apk` | Capacitor 8 + Android Gradle | **Signed release APK** (stable key, so new builds install over old ones and keep your progress), immersive sticky **fullscreen**, portrait, screen kept awake, dark native splash, launcher icon generated from `logo-master.png`, `versionCode` increases on every build. |
+| `BrickPop-Nova-Ultimate-Portable.exe` | Electron + electron-builder | **Single portable file** — no installer, no admin rights. Starts **fullscreen** (`F11` toggles), saves are written to `BrickPop-Nova-SaveData` next to the EXE, window icon generated from `logo-master.png`. |
+
+### Why it really is 100% offline
+- The only remote code in the web version (`pwa-register.js`, which loads Workbox
+  from a CDN) is stripped from the packaged game by
+  `.github/build/scripts/prepare-web.mjs`; the build also verifies that no
+  external `src`/`href` references remain.
+- All game art, sound effects and fonts are procedural/embedded — there are no
+  file downloads at runtime.
+- The Android app is built **without the `INTERNET` permission**, so it
+  physically cannot use the network.
+- The Windows app denies external navigation and blocks new windows.
+
+### Where to download
+1. **Releases** → `https://github.com/yasinULLAH/BricksPopGame/releases/latest`
+   (rolling `latest-build` release, always the newest APK + EXE + `SHA256SUMS.txt`).
+2. **Actions** → open the workflow run → **Artifacts** (kept for 90 days).
+
+### Installing the APK on your phone
+1. Download `BrickPop-Nova-Ultimate.apk` on the phone.
+2. Open it and allow **"Install unknown apps"** for your browser / file manager.
+3. Install (or tap **Update** if an older version is already installed).
+4. Uninstall once only if you ever change the signing key.
+
+### Build helpers (all inside `.github/build/`)
+| File | Purpose |
+| :--- | :--- |
+| `scripts/prepare-web.mjs` | Builds the offline web root (strips the PWA/CDN bootstrap, checks for external links). |
+| `scripts/generate-icons.mjs` | Generates every Android launcher icon (legacy, round, adaptive) and the Windows icon from `logo-master.png`. |
+| `scripts/patch-android.mjs` | Immersive fullscreen activity, portrait lock, dark splash theme, removes `INTERNET`, injects version code/name. |
+| `scripts/sign-android-apk.sh` | `zipalign` + `apksigner` release signing with verification. |
+| `android/`, `windows/` | Capacitor and Electron project templates used by the workflow. |
+| `keystore/brickpop-release.jks` | Personal-use signing key that keeps APK updates installable. |
+
+> **Advanced (optional):** to sign with your own key, add the repository secrets
+> `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`
+> and `ANDROID_KEY_PASSWORD`. Switching keys requires uninstalling the old app once.
 
 ---
 
@@ -214,10 +260,13 @@ Place `build-apk-exe.yml` inside `.github/workflows/build-apk-exe.yml` in your G
 
 ## 8. گٹ ہب ایکشنز سے خودکار APK اور EXE بنانا
 
-اس پروجیکٹ کی `.github/workflows/build-apk-exe.yml` فائل کو اپنے GitHub ریپوزٹری میں رکھیں۔ جب بھی آپ کوئی تبدیلی کر کے `commit` اور `push` کریں گے، GitHub خودکار طریقے سے:
-1. آپ کے موبائل کے لیے مکمل آف لائن فل اسکرین **Android APK** بنائے گا۔
-2. آپ کے کمپیوٹر کے لیے پورٹیبل مکمل آف لائن فل اسکرین **Windows EXE** بنائے گا۔
-دونوں فائلیں آپ کے کمپیوٹر کی جگہ استعمال کیے بغیر GitHub پر تیار ہو کر ڈاؤن لوڈ کے لیے دستیاب ہوں گی۔
+پورا بلڈ عمل `.github/workflows/build-apk-exe.yml` میں موجود ہے اور **مکمل طور پر گٹ ہب کے سرورز پر** چلتا ہے — آپ کے کمپیوٹر پر نہ اینڈرائیڈ اسٹوڈیو، نہ جاوا، نہ نود جے ایس اور نہ کوئی اضافی جگہ درکار ہے۔
+
+- **کب چلے گا:** جب بھی آپ `main` برانچ پر `commit` اور `push` کریں گے، خودکار طور پر چلے گا۔ یا **Actions → Build Offline APK & Portable EXE → Run workflow** سے دستی طور پر۔
+- **APK (`BrickPop-Nova-Ultimate.apk`):** سائن شدہ ریلیز اے پی کے، مکمل فل اسکرین، اسکرین آن رہتی ہے، ڈارک اسپلاش اسکرین، آئیکن آپ کے `logo-master.png` سے بنتا ہے، اور ایپ میں **انٹرنیٹ کی اجازت ہی نہیں** رکھی جاتی (یعنی مکمل آف لائن)۔ نیا ورژن پرانے کے اوپر براہِ راست انسٹال ہو جاتا ہے اور آپ کا سیو شدہ ڈیٹا محفوظ رہتا ہے۔
+- **EXE (`BrickPop-Nova-Ultimate-Portable.exe`):** ایک ہی پورٹیبل فائل، انسٹال کی ضرورت نہیں، ایڈمن رائٹس نہیں چاہیے، کھلتے ہی فل اسکرین (`F11` سے تبدیل کریں)، سیو ڈیٹا EXE کے ساتھ `BrickPop-Nova-SaveData` میں محفوظ ہوتا ہے۔
+- **ڈاؤن لوڈ:** `https://github.com/yasinULLAH/BricksPopGame/releases/latest` پر ہمیشہ تازہ ترین APK اور EXE موجود ہوں گے (ساتھ `SHA256SUMS.txt` بھی)۔ اس کے علاوہ ہر بلڈ کے **Actions → Artifacts** سے بھی ڈاؤن لوڈ ہو سکتے ہیں۔
+- **آف لائن کی ضمانت:** پیکج بناتے وقت CDN سے آنے والی `pwa-register.js` فائل نکال دی جاتی ہے اور چیک کیا جاتا ہے کہ گیم میں کوئی بیرونی لنک باقی نہ ہو۔ تمام گرافکس اور آوازیں خود گیم کے اندر بنتی ہیں۔
 
 ---
 

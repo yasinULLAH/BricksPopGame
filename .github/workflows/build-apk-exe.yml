@@ -1,252 +1,216 @@
 # =============================================================================
-# BRICKPOP NOVA ULTIMATE — Automated Offline Fullscreen APK & Portable EXE Build
+# BRICKPOP NOVA ULTIMATE — Automated Offline Android APK & Portable Windows EXE
 # Copyright (c) 2026 Yasin Ullah — Bannu Software Solutions
 # Dedicated to little Muhib Ullah
 #
-# HOW TO USE:
-# Place this file at: .github/workflows/build-apk-exe.yml
-# Every time you commit & push changes, GitHub Actions will automatically build:
-#   1) Standalone 100% Offline Fullscreen Android APK
-#   2) Standalone Portable 100% Offline Fullscreen Windows EXE
-# Zero local drive space or Android Studio / Electron SDK required on your PC!
+# Runs on every push: builds a signed, 100% offline, immersive-fullscreen APK
+# and a portable, standalone, 100% offline fullscreen Windows EXE, then
+# publishes both to a rolling GitHub Release ("Latest Build").
+#
+# Nothing is built on your PC — all CPU, disk and SDK downloads happen on
+# GitHub's cloud runners.
+#
+# Downloads after a successful run:
+#   Releases  -> https://github.com/yasinULLAH/BricksPopGame/releases/latest
+#   Artifacts -> Actions -> this workflow run -> Artifacts
 # =============================================================================
 
 name: Build Offline APK & Portable EXE
 
 on:
   push:
-    branches: ["main", "master"]
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
   contents: write
 
+# A newer commit cancels a build that is still running for the same branch.
+concurrency:
+  group: brickpop-build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
+  APP_ID: com.yasinullah.brickpopnova
+  # 4.0.<run number> -> every build is a newer version than the previous one,
+  # so the APK installs over the old one and keeps all saved progress.
+  APP_VERSION: "4.0.${{ github.run_number }}"
+  APP_VERSION_CODE: ${{ github.run_number }}
+
 jobs:
   # ===========================================================================
-  # JOB 1: STANDALONE OFFLINE FULLSCREEN ANDROID APK (CAPACITOR + GRADLE)
+  # JOB 1 — ANDROID APK (CAPACITOR 8 + GRADLE, SIGNED RELEASE BUILD)
   # ===========================================================================
-  build-android-apk:
-    name: Build Offline Android APK
+  android-apk:
+    name: Android APK (offline · fullscreen · signed)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Setup Java 17 (for Android Gradle)
+      - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
-          java-version: "17"
+          distribution: temurin
+          java-version: "21"
 
-      - name: Prepare Offline Web Bundle & Capacitor Project
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK packages
         run: |
-          mkdir -p build-android/www
-          cp index.html build-android/www/index.html
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager --install \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;36.0.0" \
+            "build-tools;35.0.0"
+
+      - name: Cache npm downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-linux-${{ hashFiles('.github/build/android/package.json') }}
+          restore-keys: npm-linux-
+
+      - name: Set up Gradle with caching
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Assemble the offline web bundle
+        run: node .github/build/scripts/prepare-web.mjs build-android/www
+
+      - name: Create Capacitor project
+        run: |
+          cp .github/build/android/package.json .github/build/android/capacitor.config.json build-android/
           cd build-android
-
-          cat << 'EOF' > package.json
-          {
-            "name": "brickpop-nova-ultimate",
-            "version": "4.0.0",
-            "description": "BrickPop Nova Ultimate by Yasin Ullah (Dedicated to little Muhib Ullah)",
-            "private": true,
-            "dependencies": {
-              "@capacitor/core": "^6.1.2",
-              "@capacitor/android": "^6.1.2"
-            },
-            "devDependencies": {
-              "@capacitor/cli": "^6.1.2"
-            }
-          }
-          EOF
-
-          cat << 'EOF' > capacitor.config.json
-          {
-            "appId": "com.yasinullah.brickpopnova",
-            "appName": "BrickPop Nova Ultimate",
-            "webDir": "www",
-            "bundledWebRuntime": false,
-            "android": {
-              "backgroundColor": "#0B0716",
-              "allowMixedContent": false
-            }
-          }
-          EOF
-
-          npm install
+          npm install --no-audit --no-fund
           npx cap add android
           npx cap sync android
 
-      - name: Enable Immersive Fullscreen Mode in Android Activity
+      - name: Generate Android launcher icons from logo-master.png
+        working-directory: build-android
         run: |
-          MAIN_ACT="build-android/android/app/src/main/java/com/yasinullah/brickpopnova/MainActivity.java"
-          cat << 'EOF' > "$MAIN_ACT"
-          package com.yasinullah.brickpopnova;
+          node ../.github/build/scripts/generate-icons.mjs \
+            --logo ../logo-master.png \
+            --android-res android/app/src/main/res
 
-          import android.os.Bundle;
-          import android.view.View;
-          import android.view.WindowManager;
-          import com.getcapacitor.BridgeActivity;
+      - name: Patch Android project (fullscreen · no internet · dark splash · version)
+        working-directory: build-android
+        run: node ../.github/build/scripts/patch-android.mjs android
 
-          public class MainActivity extends BridgeActivity {
-              @Override
-              protected void onCreate(Bundle savedInstanceState) {
-                  super.onCreate(savedInstanceState);
-                  enableFullscreen();
-              }
-
-              @Override
-              public void onWindowFocusChanged(boolean hasFocus) {
-                  super.onWindowFocusChanged(hasFocus);
-                  if (hasFocus) {
-                      enableFullscreen();
-                  }
-              }
-
-              private void enableFullscreen() {
-                  getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                  View decorView = getWindow().getDecorView();
-                  decorView.setSystemUiVisibility(
-                      View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                      | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                      | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                      | View.SYSTEM_UI_FLAG_FULLSCREEN
-                  );
-              }
-          }
-          EOF
-
-      - name: Compile Standalone Offline Android APK
+      - name: Build signed release APK
+        working-directory: build-android/android
         run: |
-          cd build-android/android
           chmod +x gradlew
-          ./gradlew assembleDebug
-          cp app/build/outputs/apk/debug/app-debug.apk ../../BrickPop-Nova-Ultimate-Android-Offline.apk
+          ./gradlew assembleRelease --no-daemon --stacktrace
+          bash ../../.github/build/scripts/sign-android-apk.sh \
+            app/build/outputs/apk/release/app-release-unsigned.apk \
+            ../../BrickPop-Nova-Ultimate.apk
 
-      - name: Upload Android APK Artifact
+      - name: Show APK details
+        run: |
+          ls -lh BrickPop-Nova-Ultimate.apk
+          echo "### 📱 Android APK" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Item | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| --- | --- |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Version | \`$APP_VERSION\` (\`$APP_VERSION_CODE\`) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Size | $(du -h BrickPop-Nova-Ultimate.apk | cut -f1) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Package | \`$APP_ID\` |" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: BrickPop-Nova-Ultimate-Android-APK
-          path: BrickPop-Nova-Ultimate-Android-Offline.apk
-          retention-days: 30
+          path: BrickPop-Nova-Ultimate.apk
+          if-no-files-found: error
+          retention-days: 90
 
   # ===========================================================================
-  # JOB 2: STANDALONE PORTABLE OFFLINE FULLSCREEN WINDOWS EXE (ELECTRON)
+  # JOB 2 — PORTABLE WINDOWS EXE (ELECTRON, SINGLE-FILE, NO INSTALLER)
   # ===========================================================================
-  build-windows-exe:
-    name: Build Portable Offline Windows EXE
+  windows-exe:
+    name: Windows EXE (portable · offline · fullscreen)
     runs-on: windows-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Prepare Portable Fullscreen Electron Project
+      - name: Cache npm downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-windows-${{ hashFiles('.github/build/windows/package.json') }}
+          restore-keys: npm-windows-
+
+      - name: Assemble the offline web bundle
+        run: node .github/build/scripts/prepare-web.mjs build-win/www
+
+      - name: Create Electron project
         shell: bash
         run: |
-          mkdir -p build-win
-          cp index.html build-win/index.html
+          cp .github/build/windows/package.json .github/build/windows/main.js build-win/
           cd build-win
+          npm install --no-audit --no-fund
 
-          cat << 'EOF' > main.js
-          const { app, BrowserWindow, globalShortcut } = require('electron');
-          const path = require('path');
+      - name: Generate Windows EXE icon from logo-master.png
+        working-directory: build-win
+        run: |
+          node ../.github/build/scripts/generate-icons.mjs \
+            --logo ../logo-master.png \
+            --png build/icon.png
 
-          function createWindow() {
-            const win = new BrowserWindow({
-              width: 1280,
-              height: 800,
-              fullscreen: true,
-              autoHideMenuBar: true,
-              backgroundColor: '#0B0716',
-              title: 'BrickPop Nova Ultimate — By Yasin Ullah',
-              webPreferences: {
-                contextIsolation: true,
-                nodeIntegration: false,
-                sandbox: true
-              }
-            });
+      - name: Stamp version into package.json
+        working-directory: build-win
+        run: node ../.github/build/scripts/set-version.mjs package.json "$APP_VERSION"
 
-            win.setMenuBarVisibility(false);
-            win.loadFile(path.join(__dirname, 'index.html'));
+      - name: Build portable EXE
+        working-directory: build-win
+        run: npm run dist
 
-            win.webContents.on('before-input-event', (event, input) => {
-              if (input.key === 'F11') {
-                win.setFullScreen(!win.isFullScreen());
-                event.preventDefault();
-              }
-            });
-          }
+      - name: Show EXE details
+        shell: bash
+        run: |
+          ls -lh dist/BrickPop-Nova-Ultimate-Portable.exe
+          echo "### 💻 Windows Portable EXE" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Item | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| --- | --- |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Version | \`$APP_VERSION\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Size | $(du -h dist/BrickPop-Nova-Ultimate-Portable.exe | cut -f1) |" >> "$GITHUB_STEP_SUMMARY"
 
-          app.whenReady().then(createWindow);
-          app.on('window-all-closed', () => {
-            if (process.platform !== 'darwin') app.quit();
-          });
-          EOF
-
-          cat << 'EOF' > package.json
-          {
-            "name": "brickpop-nova-ultimate",
-            "version": "4.0.0",
-            "description": "BrickPop Nova Ultimate — Offline Fullscreen Portable Arcade by Yasin Ullah",
-            "author": "Yasin Ullah (Bannu Software Solutions)",
-            "main": "main.js",
-            "scripts": {
-              "build": "electron-builder --win portable --x64"
-            },
-            "build": {
-              "appId": "com.yasinullah.brickpopnova",
-              "productName": "BrickPop Nova Ultimate",
-              "files": ["main.js", "index.html"],
-              "win": {
-                "target": [
-                  {
-                    "target": "portable",
-                    "arch": ["x64"]
-                  }
-                ]
-              },
-              "portable": {
-                "artifactName": "BrickPop-Nova-Ultimate-Portable-Offline.exe"
-              }
-            },
-            "devDependencies": {
-              "electron": "^31.0.0",
-              "electron-builder": "^24.13.3"
-            }
-          }
-          EOF
-
-          npm install
-          npm run build
-          cp dist/BrickPop-Nova-Ultimate-Portable-Offline.exe ../BrickPop-Nova-Ultimate-Portable-Offline.exe
-
-      - name: Upload Windows Portable EXE Artifact
+      - name: Upload EXE artifact
         uses: actions/upload-artifact@v4
         with:
           name: BrickPop-Nova-Ultimate-Windows-EXE
-          path: BrickPop-Nova-Ultimate-Portable-Offline.exe
-          retention-days: 30
+          path: build-win/dist/BrickPop-Nova-Ultimate-Portable.exe
+          if-no-files-found: error
+          retention-days: 90
 
   # ===========================================================================
-  # JOB 3: AUTOMATIC GITHUB RELEASE WITH BOTH APK & PORTABLE EXE
+  # JOB 3 — PUBLISH BOTH FILES TO THE ROLLING "LATEST BUILD" RELEASE
   # ===========================================================================
   publish-release:
-    name: Publish Latest Release (APK + EXE)
-    needs: [build-android-apk, build-windows-exe]
+    name: Publish GitHub Release
+    needs: [android-apk, windows-exe]
     runs-on: ubuntu-latest
 
     steps:
@@ -254,26 +218,60 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: BrickPop-Nova-Ultimate-Android-APK
-          path: release-files
+          path: release
 
-      - name: Download Windows Portable EXE
+      - name: Download Windows EXE
         uses: actions/download-artifact@v4
         with:
           name: BrickPop-Nova-Ultimate-Windows-EXE
-          path: release-files
+          path: release
 
-      - name: Create or Update GitHub Release
+      - name: Generate SHA-256 checksums
+        run: |
+          cd release
+          ls -lh
+          sha256sum *.apk *.exe > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest-build
-          name: "BrickPop Nova Ultimate — Latest Offline APK & Portable EXE"
+          name: "BrickPop Nova Ultimate — Latest Offline Build"
+          make_latest: true
+          fail_on_unmatched_files: true
           body: |
-            ### 🧱 BrickPop Nova Ultimate — Automated Offline Builds
-            - 📱 **Android APK:** `BrickPop-Nova-Ultimate-Android-Offline.apk` (100% offline, immersive fullscreen)
-            - 💻 **Windows Portable EXE:** `BrickPop-Nova-Ultimate-Portable-Offline.exe` (100% offline, standalone portable, fullscreen)
+            ## 🧱 BrickPop Nova Ultimate — Offline Build ${{ env.APP_VERSION }}
 
+            Built automatically from commit `${{ github.sha }}` on ${{ github.ref_name }}.
+
+            ### 📱 Android
+            **`BrickPop-Nova-Ultimate.apk`** — signed release APK
+            - 100% offline (the app does not even request the INTERNET permission)
+            - Immersive fullscreen, portrait, screen kept awake
+            - Launcher icon + splash generated from `logo-master.png`
+            - Installs over older builds and keeps your saved progress
+
+            **Install:** download on your phone → open it → allow "Install unknown apps" for your browser/file manager → Install.
+
+            ### 💻 Windows
+            **`BrickPop-Nova-Ultimate-Portable.exe`** — single portable file
+            - No installation, no admin rights — just double-click
+            - Starts fullscreen (F11 toggles fullscreen)
+            - Saves are stored in `BrickPop-Nova-SaveData` next to the EXE
+            - Works with no internet connection at all
+
+            `SHA256SUMS.txt` is included so you can verify the downloads.
+
+            ---
             *Copyright © 2026 Yasin Ullah — Bannu Software Solutions · Dedicated to little Muhib Ullah ❤️*
           files: |
-            release-files/BrickPop-Nova-Ultimate-Android-Offline.apk
-            release-files/BrickPop-Nova-Ultimate-Portable-Offline.exe
-          make_latest: true
+            release/BrickPop-Nova-Ultimate.apk
+            release/BrickPop-Nova-Ultimate-Portable.exe
+            release/SHA256SUMS.txt
+
+      - name: Release summary
+        run: |
+          echo "### 🚀 Release published" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Tag: \`latest-build\` · Version: \`$APP_VERSION\`" >> "$GITHUB_STEP_SUMMARY"

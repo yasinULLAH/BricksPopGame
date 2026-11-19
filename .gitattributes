@@ -1,2 +1,13 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# CI scripts must always use Unix line endings (bash runs them on Linux)
+*.sh text eol=lf
+*.mjs text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+# Signing keystore is binary — never touch it
+*.jks binary
+*.keystore binary

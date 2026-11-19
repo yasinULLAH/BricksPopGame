@@ -70,6 +70,10 @@
       --card-bg: linear-gradient(160deg, var(--surface) 0%, #140D26 100%);
       --sheet-bg: linear-gradient(180deg, #221741 0%, #150E29 100%);
       --inset-bg: rgba(8, 4, 18, .58);
+      --track-bg: rgba(8, 4, 18, .68);
+      --gold-text: #FFC53D;
+      --gold-bg: rgba(255, 197, 61, .12);
+      --gold-line: rgba(255, 197, 61, .38);
       --hud-bg: linear-gradient(180deg, rgba(14, 9, 28, .98), rgba(11, 7, 22, .92));
       --aur1: #7C4DFF;
       --aur2: #FF3D8A;
@@ -216,39 +220,76 @@
       --aur1: #FF3D8A; --aur2: #FF6B35; --aur3: #A855F7;
     }
 
-    /* Light-theme readability adjustments */
-    body.light-theme #bg .aur { opacity: .35 }
-    body.light-theme .hero::before {
-      background: linear-gradient(135deg, color-mix(in srgb, var(--wa, #2563EB) 16%, #FFFFFF), #FFFFFF 60%, color-mix(in srgb, var(--wb, #EC4899) 14%, #FFFFFF));
+    /* Light-theme & cross-theme contrast adjustments */
+    body.light-theme {
+      --inset-bg: color-mix(in srgb, var(--surface3) 65%, var(--surface2));
+      --track-bg: rgba(15, 23, 42, .13);
+      --gold-text: #B45309;
+      --gold-bg: rgba(245, 158, 11, .15);
+      --gold-line: rgba(180, 83, 9, .38);
     }
+    body.light-theme #bg .aur { opacity: .28 }
+    body.light-theme .hero::before {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--wa, #2563EB) 18%, #FFFFFF), #FFFFFF 58%, color-mix(in srgb, var(--wb, #EC4899) 15%, #FFFFFF));
+    }
+    body.light-theme .hero-kicker { color: color-mix(in srgb, var(--wa, #2563EB) 75%, #0F172A) }
     body.light-theme .hero-num {
-      background: linear-gradient(180deg, var(--text), var(--wa, #2563EB));
+      background: linear-gradient(180deg, var(--text), color-mix(in srgb, var(--wa, #2563EB) 80%, #0F172A));
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
     body.light-theme .wbanner::before {
-      background: linear-gradient(120deg, color-mix(in srgb, var(--wa) 18%, #FFFFFF), #FFFFFF 65%, color-mix(in srgb, var(--wb) 14%, #FFFFFF));
+      background: linear-gradient(120deg, color-mix(in srgb, var(--wa) 20%, #FFFFFF), #FFFFFF 62%, color-mix(in srgb, var(--wb) 16%, #FFFFFF));
     }
     body.light-theme .mode::before {
-      background: linear-gradient(150deg, color-mix(in srgb, var(--violet) 12%, #FFFFFF), #FFFFFF 70%);
+      background: linear-gradient(150deg, color-mix(in srgb, var(--violet) 14%, #FFFFFF), #FFFFFF 72%);
     }
+    body.light-theme .mode.endless::before { background: linear-gradient(150deg, rgba(99, 102, 241, .18), #FFFFFF 70%) }
+    body.light-theme .mode.timed::before { background: linear-gradient(150deg, rgba(245, 158, 11, .2), #FFFFFF 70%) }
+    body.light-theme .mode.dailyc::before { background: linear-gradient(150deg, rgba(236, 72, 153, .18), #FFFFFF 70%) }
+    body.light-theme .mode.bossrush::before { background: linear-gradient(150deg, rgba(239, 68, 68, .18), #FFFFFF 70%) }
+    body.light-theme .mode.studio::before { background: linear-gradient(150deg, rgba(16, 185, 129, .18), #FFFFFF 70%) }
+    body.light-theme .mode.random::before { background: linear-gradient(150deg, rgba(14, 165, 233, .2), #FFFFFF 70%) }
+    body.light-theme .mode.help::before { background: linear-gradient(150deg, rgba(6, 182, 212, .18), #FFFFFF 70%) }
     body.light-theme .dedication-strip {
-      background: linear-gradient(90deg, rgba(245, 158, 11, .14), rgba(236, 72, 153, .12), rgba(99, 102, 241, .12));
-      color: #92400E; border-color: rgba(217, 119, 6, .3);
+      background: linear-gradient(90deg, rgba(245, 158, 11, .16), rgba(236, 72, 153, .13), rgba(99, 102, 241, .13));
+      color: #78350F; border-color: rgba(217, 119, 6, .35);
     }
-    body.light-theme .rank-pill-hdr { color: var(--violet2); background: color-mix(in srgb, var(--violet) 12%, #fff); border-color: color-mix(in srgb, var(--violet) 35%, transparent) }
-    body.light-theme .coins-chip { color: #B45309; background: rgba(245, 158, 11, .14); border-color: rgba(217, 119, 6, .35) }
+    body.light-theme .rank-pill-hdr { color: var(--violet2); background: color-mix(in srgb, var(--violet) 14%, #fff); border-color: color-mix(in srgb, var(--violet) 38%, transparent) }
+    body.light-theme .rank-banner {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--violet) 14%, #FFFFFF), color-mix(in srgb, var(--cyan) 12%, #FFFFFF));
+      border-color: color-mix(in srgb, var(--violet) 35%, transparent);
+    }
+    body.light-theme .rank-hero-card {
+      background: linear-gradient(145deg, color-mix(in srgb, var(--violet) 14%, #FFFFFF), color-mix(in srgb, var(--cyan) 10%, #FFFFFF), color-mix(in srgb, var(--magenta) 12%, #FFFFFF));
+      border-color: var(--line2);
+    }
+    body.light-theme .rank-hero-emblem { background: #1E1B4B; color: #FFFFFF }
+    body.light-theme .rl-ic { background: var(--surface2); border-color: var(--line2) }
+    body.light-theme .coins-chip, body.light-theme .hud-coins { color: var(--gold-text); background: var(--gold-bg); border-color: var(--gold-line) }
     body.light-theme #hudScore { color: var(--text); text-shadow: none }
-    body.light-theme .hud-coins { background: rgba(245, 158, 11, .14); color: #B45309; border-color: rgba(217, 119, 6, .35) }
+    body.light-theme #hudCombo { background: rgba(225, 29, 72, .12); color: #BE123C; border-color: rgba(225, 29, 72, .4) }
+    body.light-theme #bossBar { background: rgba(225, 29, 72, .1); border-color: rgba(225, 29, 72, .35) }
+    body.light-theme #bossBar .bb-title { color: #BE123C }
+    body.light-theme #bossBar .bb-hp { color: #B45309 }
     body.light-theme .btn-icon { background: var(--surface2); color: var(--text) }
+    body.light-theme .chip-btn { background: var(--surface2); color: var(--text); border-color: var(--line2) }
     body.light-theme .chip-btn.boost-ic { background: #FFFFFF; box-shadow: 0 2px 8px rgba(15, 23, 42, .1) }
     body.light-theme .chip-btn.boost-ic .b-key { background: #F1F5F9; color: #334155 }
     body.light-theme .chip-btn.boost-ic .b-cnt { background: #0F172A; color: #FFFFFF }
     body.light-theme .fx-chip { background: #FFFFFF }
-    body.light-theme .nova-btn { background: #FFFFFF; color: var(--cyan) }
-    body.light-theme .keys-card { background: rgba(255, 255, 255, .88) }
-    body.light-theme .toast { background: rgba(255, 255, 255, .97); color: var(--text) }
-    body.light-theme .about .copy-box { background: var(--inset-bg); color: var(--text) }
-    body.light-theme #gameHint { background: rgba(255, 255, 255, .92); color: var(--text) }
+    body.light-theme .nova-btn { background: #FFFFFF; color: var(--cyan); border-color: var(--cyan) }
+    body.light-theme .tpad-btn { background: rgba(255, 255, 255, .9); color: var(--text); border-color: var(--line2) }
+    body.light-theme .tpad-btn.mid { background: rgba(2, 132, 199, .15); color: var(--cyan); border-color: var(--cyan) }
+    body.light-theme .keys-card { background: rgba(255, 255, 255, .92) }
+    body.light-theme .toast { background: rgba(255, 255, 255, .98); color: var(--text); box-shadow: 0 8px 28px rgba(15, 23, 42, .18) }
+    body.light-theme .about .copy-box { background: var(--inset-bg); color: var(--text); border-color: var(--gold-line) }
+    body.light-theme #gameHint { background: rgba(255, 255, 255, .94); color: var(--text) }
+    body.light-theme #fpsBadge { background: rgba(255, 255, 255, .92); color: #15803D; border-color: var(--line2) }
+    body.light-theme .tag-best { color: #15803D; background: rgba(22, 163, 74, .12); border-color: rgba(22, 163, 74, .4) }
+    body.light-theme .hazard-note { color: #B45309; background: rgba(245, 158, 11, .12); border-color: rgba(217, 119, 6, .35) }
+    body.light-theme .big-star { color: #CBD5E1 }
+    body.light-theme .lvl-stars { color: #CBD5E1 }
+    body.light-theme #hudLives .ic.empty { color: #CBD5E1 }
     body.light-theme #screen-game, body.light-theme #stageWrap { background: #DCE6F2 }
 
     body.high-contrast {
@@ -1022,14 +1063,16 @@
 
     .btn-cyan {
       background: var(--grad-cyan);
-      color: #08131F;
+      color: #FFFFFF;
+      text-shadow: 0 1px 3px rgba(6, 10, 24, .55);
       box-shadow: 0 6px 22px rgba(34, 211, 238, .28)
     }
 
     .btn-gold {
-      background: var(--grad-hot);
-      color: #1E0914;
-      box-shadow: 0 6px 20px rgba(255, 176, 32, .32)
+      background: linear-gradient(135deg, #FDE047 0%, #F59E0B 55%, #EA580C 100%);
+      color: #1C0A00;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .35);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, .32)
     }
 
     .btn-ghost {
@@ -1213,10 +1256,10 @@
     .hero-bar {
       height: 7px;
       border-radius: 4px;
-      background: rgba(8, 4, 18, .6);
+      background: var(--track-bg);
       overflow: hidden;
       margin-bottom: 12px;
-      border: 1px solid rgba(160, 140, 255, .1)
+      border: 1px solid var(--line)
     }
 
     .hero-bar i {
@@ -1251,7 +1294,7 @@
       width: 46px;
       height: 46px;
       border-radius: 14px;
-      background: rgba(8, 4, 18, .6);
+      background: var(--inset-bg);
       border: 1px solid var(--line2);
       display: flex;
       align-items: center;
@@ -1279,7 +1322,7 @@
     .xp-bar {
       height: 6px;
       border-radius: 4px;
-      background: rgba(8, 4, 18, .7);
+      background: var(--track-bg);
       overflow: hidden;
       margin-top: 6px
     }
@@ -1500,7 +1543,7 @@
     .filter-row {
       display: flex;
       gap: 5px;
-      background: rgba(8, 4, 18, .6);
+      background: var(--inset-bg);
       border: 1px solid var(--line);
       border-radius: 11px;
       padding: 3px
@@ -1552,7 +1595,7 @@
     .wchip.active {
       color: var(--text);
       border-color: var(--wa);
-      background: linear-gradient(140deg, color-mix(in srgb, var(--wa) 20%, #171029), #171029)
+      background: linear-gradient(140deg, color-mix(in srgb, var(--wa) 22%, var(--surface2)), var(--surface))
     }
 
     .wchip.locked {
@@ -1600,7 +1643,7 @@
       flex: 1;
       height: 6px;
       border-radius: 3px;
-      background: rgba(8, 4, 18, .6);
+      background: var(--track-bg);
       overflow: hidden
     }
 
@@ -1752,7 +1795,7 @@
       font-family: var(--font-d);
       font-size: 24px;
       font-weight: 900;
-      color: #FFC53D;
+      color: var(--gold-text);
       display: block;
       line-height: 1.1
     }
@@ -1821,9 +1864,9 @@
       gap: 5px;
       font-weight: 800;
       font-size: 12.5px;
-      color: #FFC53D;
-      background: rgba(255, 197, 61, .1);
-      border: 1px solid rgba(255, 197, 61, .35);
+      color: var(--gold-text);
+      background: var(--gold-bg);
+      border: 1px solid var(--gold-line);
       padding: 8px 11px;
       border-radius: 10px
     }
@@ -1994,7 +2037,7 @@
     .subtabs {
       display: flex;
       gap: 5px;
-      background: rgba(8, 4, 18, .65);
+      background: var(--inset-bg);
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 4px;
@@ -2037,7 +2080,7 @@
 
     .name-input {
       width: 100%;
-      background: rgba(8, 4, 18, .65);
+      background: var(--inset-bg);
       border: 1px solid var(--line2);
       border-radius: 10px;
       padding: 8px 11px;
@@ -2154,9 +2197,9 @@
       font-family: var(--font-d);
       font-size: 10px;
       font-weight: 900;
-      background: rgba(8, 4, 18, .6);
-      border: 1px solid var(--line);
-      color: var(--faint)
+      background: var(--inset-bg);
+      border: 1px solid var(--line2);
+      color: var(--muted)
     }
 
     .rank-div-pip.on {
@@ -2278,7 +2321,7 @@
       gap: 6px;
       height: 96px;
       padding: 8px 4px 2px;
-      background: rgba(8, 4, 18, .5);
+      background: var(--inset-bg);
       border-radius: 12px;
       border: 1px solid var(--line);
       margin-top: 8px
@@ -2327,7 +2370,7 @@
     .btype-track {
       height: 6px;
       border-radius: 4px;
-      background: rgba(8, 4, 18, .7);
+      background: var(--track-bg);
       overflow: hidden
     }
 
@@ -2393,7 +2436,7 @@
     .ach-bar {
       height: 5px;
       border-radius: 3px;
-      background: rgba(8, 4, 18, .7);
+      background: var(--track-bg);
       margin-top: 5px;
       overflow: hidden
     }
@@ -2414,9 +2457,9 @@
       font-weight: 800;
       padding: 7px 10px;
       border-radius: 10px;
-      background: rgba(255, 197, 61, .12);
-      border: 1px solid rgba(255, 197, 61, .4);
-      color: #FFC53D
+      background: var(--gold-bg);
+      border: 1px solid var(--gold-line);
+      color: var(--gold-text)
     }
 
     .ach-claim.off {
@@ -2432,7 +2475,7 @@
     /* ============ SETTINGS ============ */
     .seg {
       display: flex;
-      background: rgba(8, 4, 18, .6);
+      background: var(--inset-bg);
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 4px;
@@ -3188,7 +3231,7 @@
     }
 
     .res {
-      background: rgba(8, 4, 18, .5);
+      background: var(--inset-bg);
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 9px 12px;
@@ -3210,8 +3253,8 @@
     }
 
     .coin-lines {
-      background: rgba(8, 4, 18, .5);
-      border: 1px solid rgba(255, 197, 61, .25);
+      background: var(--inset-bg);
+      border: 1px solid var(--gold-line);
       border-radius: 14px;
       padding: 11px 14px;
       margin-bottom: 16px
@@ -3233,17 +3276,17 @@
     }
 
     .coin-lines>div .ic {
-      color: #FFC53D;
+      color: var(--gold-text);
       font-size: 14px
     }
 
     .coin-lines>div b {
-      color: #FFC53D;
+      color: var(--gold-text);
       font-weight: 800
     }
 
     .coin-lines .total {
-      border-top: 1px solid rgba(255, 197, 61, .2);
+      border-top: 1px solid var(--gold-line);
       margin-top: 5px;
       padding-top: 8px;
       color: var(--text);
@@ -3263,7 +3306,7 @@
 
     .quick-rows {
       margin-bottom: 14px;
-      background: rgba(8, 4, 18, .4);
+      background: var(--inset-bg);
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 2px 13px
@@ -3283,8 +3326,8 @@
       gap: 8px;
       font-size: 12px;
       color: var(--muted);
-      background: rgba(56, 189, 248, .07);
-      border: 1px solid rgba(56, 189, 248, .25);
+      background: rgba(56, 189, 248, .09);
+      border: 1px solid rgba(56, 189, 248, .3);
       border-radius: 12px;
       padding: 10px 12px;
       margin-bottom: 14px
@@ -3308,7 +3351,7 @@
       display: flex;
       gap: 11px;
       align-items: center;
-      background: rgba(8, 4, 18, .4);
+      background: var(--inset-bg);
       border: 1px solid var(--line);
       border-radius: 13px;
       padding: 10px 12px
@@ -3347,7 +3390,7 @@
       display: flex;
       gap: 8px;
       align-items: center;
-      background: rgba(8, 4, 18, .4);
+      background: var(--inset-bg);
       border: 1px solid var(--line);
       border-radius: 11px;
       padding: 7px 9px
@@ -3624,7 +3667,7 @@
       text-align: left;
       padding: 12px;
       border-radius: 15px;
-      background: rgba(8, 4, 18, .55);
+      background: var(--inset-bg);
       border: 1.5px solid var(--line2);
       transition: transform .14s, border-color .2s, box-shadow .2s;
     }
@@ -3632,7 +3675,7 @@
     .rand-opt.active {
       border-color: var(--rc, var(--cyan));
       box-shadow: 0 0 0 1px var(--rc, var(--cyan)), 0 0 18px color-mix(in srgb, var(--rc, #22D3EE) 30%, transparent);
-      background: color-mix(in srgb, var(--rc, #22D3EE) 12%, rgba(14, 9, 28, .9));
+      background: color-mix(in srgb, var(--rc, #22D3EE) 14%, var(--surface2));
     }
     .rand-opt .ro-head {
       display: flex;
@@ -3750,7 +3793,7 @@
       margin-bottom: 12px;
     }
     .codex-card {
-      background: rgba(8, 4, 18, .48);
+      background: var(--inset-bg);
       border: 1px solid var(--line);
       border-radius: 13px;
       padding: 10px;
@@ -4414,6 +4457,10 @@
       syncBgmLoop();
     }
     function currentTheme() { return THEMES.find(t => t.id === S.set.theme) || THEMES[0] }
+    function uiCol(hex) {
+      if (!currentTheme().light || !hex || hex[0] !== '#') return hex;
+      return shade(hex, -38);
+    }
     function applyDisplaySet() {
       const th = currentTheme();
       document.body.dataset.theme = th.id;
@@ -6022,16 +6069,18 @@
       ctx.fillStyle = bgGrad; ctx.fillRect(-viewX - 2, 0, VW + viewX * 2 + 4, VH);
       ctx.save();
       if (G.shake > 0) ctx.translate((R() - .5) * G.shake, (R() - .5) * G.shake);
+      const isLightBg = currentTheme().light;
       if (S.set.bgStars !== false) {
         for (const s of G.stars) {
           const y = (s.y * VH + G.t * 6 * s.z) % VH;
           const x = -viewX + s.x * (VW + viewX * 2);
-          ctx.globalAlpha = (.2 + .3 * (0.5 + 0.5 * Math.sin(G.t * 2 + s.tw))) * s.z;
-          ctx.fillStyle = '#CFC6FF'; ctx.fillRect(x, y, s.z * 1.7, s.z * 1.7);
+          ctx.globalAlpha = (.22 + .3 * (0.5 + 0.5 * Math.sin(G.t * 2 + s.tw))) * s.z;
+          ctx.fillStyle = isLightBg ? '#475569' : '#CFC6FF'; ctx.fillRect(x, y, s.z * 1.7, s.z * 1.7);
         }
       }
       ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = S.set.fx ? .45 : .25;
+      ctx.globalCompositeOperation = isLightBg ? 'source-over' : 'lighter';
+      ctx.globalAlpha = isLightBg ? .16 : (S.set.fx ? .45 : .25);
       const drift = S.set.reducedMotion ? 0 : (S.set.fx ? 1 : .15);
       ctx.drawImage(auroraA, VW * .22 + Math.sin(G.t * .13 * drift) * 60 - 190, VH * .2 + Math.cos(G.t * .1 * drift) * 40 - 190, 380, 380);
       ctx.drawImage(auroraB, VW * .8 + Math.cos(G.t * .09 * drift) * 50 - 230, VH * .55 + Math.sin(G.t * .12 * drift) * 60 - 230, 460, 460);
@@ -6135,14 +6184,14 @@
         let dx = Math.sin(ang), dy = -Math.cos(ang);
         const steps = S.set.aimGuide === 'short' ? 6 : 14;
         let cx = stickyB.x, cy = stickyB.y;
-        ctx.fillStyle = 'rgba(255,255,255,.78)';
+        ctx.fillStyle = isLightArena ? 'rgba(15,23,42,.78)' : 'rgba(255,255,255,.82)';
         for (let i = 1; i <= steps; i++) {
           cx += dx * 16; cy += dy * 16;
           if (cx < BALL_R) { cx = BALL_R + (BALL_R - cx); dx = -dx }
           else if (cx > VW - BALL_R) { cx = (VW - BALL_R) - (cx - (VW - BALL_R)); dx = -dx }
           if (cy < topWall + BALL_R) break;
-          ctx.globalAlpha = .8 * (1 - i / (steps + 2));
-          ctx.beginPath(); ctx.arc(cx, cy, 2.3, 0, 7); ctx.fill();
+          ctx.globalAlpha = .85 * (1 - i / (steps + 2));
+          ctx.beginPath(); ctx.arc(cx, cy, 2.4, 0, 7); ctx.fill();
         }
         ctx.globalAlpha = 1;
       }
@@ -6421,7 +6470,7 @@
 
         '<div class="rank-banner" data-action="tab" data-arg="awards" style="cursor:pointer">' +
         '<div class="rank-emblem">' + rk.icon + '</div>' +
-        '<div class="rank-info"><b>' + S.avatar + ' ' + S.name + ' · <span style="color:' + rk.color + '">' + rk.title + '</span></b>' +
+        '<div class="rank-info"><b>' + S.avatar + ' ' + S.name + ' · <span style="color:' + uiCol(rk.color) + '">' + rk.title + '</span></b>' +
         '<small>Rank Level ' + rk.level + ' · ' + fmt(rk.curXP) + ' / ' + fmt(rk.needed) + ' XP to next rank</small>' +
         '<div class="xp-bar"><i style="width:' + rk.pct + '%"></i></div></div></div>' +
 
@@ -6582,28 +6631,30 @@
           const tierStartXP = cumXP;
           for (let l = startLvl; l <= endLvl; l++) cumXP += xpForLevel(l);
           const unlocked = rk.level >= startLvl, current = rk.tierIdx === ti && rk.prestige === 0;
+          const tc = uiCol(t.color);
           const statusTxt = current ? ('ACTIVE · DIV ' + rk.divRoman) : unlocked ? 'MASTERED ✓' : ('REQ ' + fmt(tierStartXP) + ' XP');
-          const statusBg = current ? t.color : unlocked ? 'rgba(52,211,153,.2)' : 'rgba(255,255,255,.06)';
-          const statusCol = current ? '#0B0716' : unlocked ? '#34D399' : 'var(--faint)';
-          return '<div class="rl-card ' + (current ? 'current' : unlocked ? 'unlocked' : 'locked') + '" style="--rc:' + t.color + '">' +
+          const statusBg = current ? t.color : unlocked ? 'rgba(16,185,129,.18)' : 'var(--inset-bg)';
+          const statusCol = current ? '#0B0716' : unlocked ? uiCol('#34D399') : 'var(--muted)';
+          return '<div class="rl-card ' + (current ? 'current' : unlocked ? 'unlocked' : 'locked') + '" style="--rc:' + tc + '">' +
             '<div class="rl-ic">' + t.icon + '</div>' +
-            '<div class="rl-info"><b style="color:' + (unlocked ? t.color : 'var(--text)') + '">T' + (ti + 1) + ' · ' + t.name + '</b>' +
+            '<div class="rl-info"><b style="color:' + (unlocked ? tc : 'var(--text)') + '">T' + (ti + 1) + ' · ' + t.name + '</b>' +
             '<span>Ranks #' + startLvl + '–' + endLvl + ' (I–V) · ' + t.perk + '</span>' +
             '<span class="rl-badge" style="background:' + statusBg + ';color:' + statusCol + '">' + statusTxt + '</span></div></div>';
         }).join('');
         const masteryRows = masteries.map(item => {
-          const md = item.m;
+          const md = item.m, mc = uiCol(item.col);
           return '<div class="cat-rank-row"><div class="cat-rank-top"><span>' + item.ic + ' <strong>' + item.name + '</strong> <small style="color:var(--muted)">(' + fmt(md.val) + ' / ' + fmt(md.next) + ' ' + item.unit + ')</small></span>' +
-            '<b style="color:' + item.col + '">' + md.label + ' (Lv.' + md.level + ')</b></div>' +
+            '<b style="color:' + mc + '">' + md.label + ' (Lv.' + md.level + ')</b></div>' +
             '<div class="btype-track"><i style="width:' + md.pct + '%;background:' + item.col + '"></i></div></div>';
         }).join('');
+        const rkc = uiCol(rk.color);
         body =
           '<div class="card"><div class="profile-box"><button class="avatar-btn" data-action="cycle-avatar" title="Tap to change avatar">' + S.avatar + '</button>' +
           '<div style="flex:1"><div style="font-size:11px;color:var(--muted);font-weight:700">PLAYER CALLSIGN (TAP AVATAR TO CYCLE ICON)</div><input class="name-input" id="playerNameInput" maxlength="22" value="' + S.name.replace(/"/g, '&quot;') + '" aria-label="Player Name"></div></div>' +
-          '<div class="rank-hero-card" style="--rc:' + rk.color + '">' +
+          '<div class="rank-hero-card" style="--rc:' + rkc + '">' +
           '<div class="rank-hero-top"><div class="rank-hero-emblem">' + rk.icon + '</div>' +
-          '<div style="flex:1;min-width:0"><div style="font-size:10.5px;font-weight:900;letter-spacing:1.6px;color:' + rk.color + '">TIER ' + rk.tierNum + ' OF ' + RANK_TIERS.length + ' · RANK #' + rk.level + (rk.prestige > 0 ? ' · PRESTIGE P' + rk.prestige : '') + '</div>' +
-          '<div class="rank-hero-title" style="color:' + rk.color + '">' + rk.title + '</div>' +
+          '<div style="flex:1;min-width:0"><div style="font-size:10.5px;font-weight:900;letter-spacing:1.6px;color:' + rkc + '">TIER ' + rk.tierNum + ' OF ' + RANK_TIERS.length + ' · RANK #' + rk.level + (rk.prestige > 0 ? ' · PRESTIGE P' + rk.prestige : '') + '</div>' +
+          '<div class="rank-hero-title" style="color:' + rkc + '">' + rk.title + '</div>' +
           '<div style="font-size:12px;color:var(--muted);margin-top:2px">Perk Title: <b style="color:var(--text)">' + rk.perk + '</b> · Total XP: <b style="color:var(--lime)">' + fmt(S.xp) + '</b></div>' +
           '<div class="rank-div-pips">' + pips + '</div></div></div>' +
           '<div style="display:flex;justify-content:space-between;font-size:11.5px;font-weight:800;margin:12px 0 5px;color:var(--muted)"><span>Next Rank Progression (' + Math.floor(rk.pct) + '%)</span><span style="color:var(--text)">' + fmt(rk.curXP) + ' / ' + fmt(rk.needed) + ' XP</span></div>' +
@@ -7041,7 +7092,7 @@
         copyTextFallback(str);
         openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--lime)">SHARE &amp; IMPORT</div><h2 class="sheet-title">Stage Level Code</h2></div>' +
           '<p style="font-size:12px;color:var(--muted);margin-bottom:8px">Your stage code is ready below (copied to clipboard). To load someone else\'s stage, paste their code and tap Import:</p>' +
-          '<textarea id="edCodeTxt" rows="4" style="width:100%;background:rgba(8,4,18,.75);border:1px solid var(--line2);border-radius:12px;padding:10px;color:var(--text);font-family:monospace;font-size:11.5px;margin-bottom:12px">' + str + '</textarea>' +
+          '<textarea id="edCodeTxt" rows="4" style="width:100%;background:var(--inset-bg);border:1px solid var(--line2);border-radius:12px;padding:10px;color:var(--text);font-family:monospace;font-size:11.5px;margin-bottom:12px">' + str + '</textarea>' +
           '<div class="sheet-btns"><div class="btn-row"><button class="btn btn-cyan" data-action="ed-copy-code">' + icon('check') + ' Copy Code</button>' +
           '<button class="btn btn-primary" data-action="ed-import-code">' + icon('wand') + ' Import Code</button></div>' +
           '<button class="btn btn-ghost" data-action="open-editor">' + icon('x') + ' Back to Studio</button></div>', 'edcode', 'open-editor');
@@ -7214,7 +7265,7 @@
         openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--cyan)">RESTORE BACKUP</div><h2 class="sheet-title">Import Save Data</h2></div>' +
           '<p style="font-size:12px;color:var(--muted);margin-bottom:10px">Paste your exported JSON backup below or choose a backup file:</p>' +
           '<input type="file" id="importFileInp" accept=".json,application/json" style="width:100%;margin-bottom:10px;font-size:12px;color:var(--muted)">' +
-          '<textarea id="importJsonTxt" rows="5" placeholder="Paste exported JSON here..." style="width:100%;background:rgba(8,4,18,.75);border:1px solid var(--line2);border-radius:12px;padding:10px;color:var(--text);font-family:monospace;font-size:11.5px;margin-bottom:14px"></textarea>' +
+          '<textarea id="importJsonTxt" rows="5" placeholder="Paste exported JSON here..." style="width:100%;background:var(--inset-bg);border:1px solid var(--line2);border-radius:12px;padding:10px;color:var(--text);font-family:monospace;font-size:11.5px;margin-bottom:14px"></textarea>' +
           '<div class="sheet-btns"><button class="btn btn-primary" data-action="confirm-import">' + icon('check') + ' Restore Save Data</button>' +
           '<button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Cancel</button></div>', 'import', 'close-sheet');
         setTimeout(() => {

@@ -1,0 +1,16 @@
+{
+  "name": "brickpop-nova-ultimate",
+  "version": "4.0.0",
+  "private": true,
+  "description": "BrickPop Nova Ultimate — offline Android package by Yasin Ullah",
+  "author": "Yasin Ullah — Bannu Software Solutions",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@capacitor/android": "8.6.2",
+    "@capacitor/core": "8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.2",
+    "sharp": "0.35.5"
+  }
+}

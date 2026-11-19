@@ -70,11 +70,11 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "4db77ff16baa22741af649ac12545487"
+        "revision": "5a3a9bd4b2202d8457b2a9b93ea27d8b"
     },
     {
         "url": "index.html.bak",
-        "revision": "335b0cad3ee255c696b9e0b0fe37af19"
+        "revision": "4db77ff16baa22741af649ac12545487"
     },
     {
         "url": "indexV1.html",
@@ -114,11 +114,11 @@ if (workbox) {
     },
     {
         "url": "README.md",
-        "revision": "ccadd90b523ef4203004b7ef1f24524d"
+        "revision": "a511234da60734751a752c931e570af2"
     },
     {
         "url": "sw.js",
-        "revision": "47253a2f526da5d18e5d4185ef02a8a1"
+        "revision": "edae06c9598c14595c58eeab97af0d70"
     }
 ]);
 

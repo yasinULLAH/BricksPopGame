@@ -1,0 +1,14 @@
+{
+  "appId": "com.yasinullah.brickpopnova",
+  "appName": "BrickPop Nova Ultimate",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "backgroundColor": "#0B0716",
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  }
+}

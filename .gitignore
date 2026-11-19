@@ -1,0 +1,11 @@
+# GitHub Actions build workspaces (created only on the runners)
+build-android/
+build-win/
+dist/
+
+# Local npm installs (only needed if you run the build helpers locally)
+node_modules/
+
+# Local build output
+*.apk
+*.exe

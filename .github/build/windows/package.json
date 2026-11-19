@@ -1,0 +1,53 @@
+{
+  "name": "brickpop-nova-ultimate",
+  "version": "4.0.0",
+  "private": true,
+  "description": "BrickPop Nova Ultimate — 100% offline fullscreen arcade game by Yasin Ullah",
+  "author": "Yasin Ullah — Bannu Software Solutions",
+  "license": "UNLICENSED",
+  "main": "main.js",
+  "scripts": {
+    "dist": "electron-builder --win portable --x64"
+  },
+  "build": {
+    "appId": "com.yasinullah.brickpopnova",
+    "productName": "BrickPop Nova Ultimate",
+    "copyright": "Copyright © 2026 Yasin Ullah — Bannu Software Solutions",
+    "asar": true,
+    "compression": "maximum",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "www/**/*",
+      "!**/*.map",
+      "!**/*.md"
+    ],
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "BrickPop-Nova-Ultimate-Portable.exe",
+      "requestedExecutionLevel": "asInvoker",
+      "legalTrademarks": "BrickPop Nova Ultimate — Yasin Ullah"
+    },
+    "portable": {
+      "artifactName": "BrickPop-Nova-Ultimate-Portable.exe",
+      "requestExecutionLevel": "user",
+      "unpackDirName": "BrickPopNovaUltimate"
+    }
+  },
+  "devDependencies": {
+    "electron": "45.4.1",
+    "electron-builder": "26.18.0",
+    "sharp": "0.35.5"
+  }
+}
