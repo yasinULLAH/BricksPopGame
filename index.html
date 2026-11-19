@@ -246,11 +246,11 @@
     }
 
     .side-l {
-      left: max(24px, calc(50vw - 565px))
+      left: max(20px, calc(50vw - 720px))
     }
 
     .side-r {
-      right: max(24px, calc(50vw - 565px));
+      right: max(20px, calc(50vw - 720px));
       pointer-events: auto
     }
 
@@ -372,7 +372,7 @@
       line-height: 1.5
     }
 
-    @media(min-width:1180px) {
+    @media(min-width:1460px) {
       .side {
         display: block
       }
@@ -383,7 +383,6 @@
       position: relative;
       z-index: 2;
       width: 100vw;
-      width: min(100vw, calc(100dvh * .74));
       height: 100vh;
       height: 100dvh;
       background: linear-gradient(180deg, #100A20 0%, #0B0716 60%, #0D0818 100%);
@@ -394,11 +393,69 @@
 
     @media(min-width:700px) {
       #app {
-        height: min(calc(100dvh - 36px), 960px);
-        width: min(620px, calc((100dvh - 36px)*.74));
-        border-radius: 34px;
+        height: calc(100dvh - 24px);
+        width: min(94vw, 920px);
+        border-radius: 26px;
         border: 1px solid var(--line2);
         box-shadow: 0 0 0 1px rgba(10, 5, 25, .9), 0 30px 90px rgba(3, 1, 10, .8), 0 0 90px rgba(124, 77, 255, .22), 0 0 40px rgba(255, 61, 138, .12);
+      }
+
+      .screen {
+        padding: 16px 24px 30px
+      }
+
+      .mode-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px
+      }
+
+      .lvl-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 11px
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 11px
+      }
+
+      .codex-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px
+      }
+
+      .hero {
+        padding: 22px 24px
+      }
+
+      .hero-num {
+        font-size: 46px
+      }
+
+      .hero-prev {
+        width: 156px;
+        height: 100px
+      }
+
+      .hud-inner {
+        max-width: 720px
+      }
+
+      #hudScore {
+        font-size: 27px
+      }
+
+      .sheet {
+        max-width: 680px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 26px 26px 0 0
+      }
+    }
+
+    @media(min-width:1200px) {
+      #app {
+        width: min(92vw, 980px);
       }
     }
 
@@ -524,14 +581,20 @@
       align-items: center;
       justify-content: center;
       gap: 5px;
+      width: 34px;
+      height: 34px;
       font-size: 12px;
       font-weight: 700;
-      padding: 7px 9px;
+      padding: 0;
       border-radius: 999px;
       border: 1px solid rgba(34, 211, 238, .4);
       color: var(--cyan);
       background: rgba(34, 211, 238, .08);
       transition: all .2s
+    }
+
+    .mute-btn .m-label {
+      display: none
     }
 
     .mute-btn .ic,
@@ -622,7 +685,7 @@
     #app:fullscreen #hdr,
     #app:fullscreen #tabbar,
     #app:fullscreen .screen:not(#screen-game) {
-      max-width: 680px;
+      max-width: 1040px;
       margin-left: auto;
       margin-right: auto;
       left: 0;
@@ -630,7 +693,7 @@
     }
 
     #app:fullscreen .sheet {
-      max-width: 640px;
+      max-width: 720px;
       margin-left: auto;
       margin-right: auto
     }
@@ -806,7 +869,8 @@
     }
 
     .btn[disabled],
-    .btn.dis {
+    .btn.dis,
+    .btn.cant {
       opacity: .45;
       filter: saturate(.4)
     }
@@ -2179,7 +2243,7 @@
     }
 
     .hud-inner {
-      max-width: 680px;
+      max-width: 520px;
       margin: 0 auto
     }
 
@@ -2351,16 +2415,30 @@
     .fx-chip {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
+      gap: 3px;
+      min-width: 28px;
+      height: 26px;
       font-size: 10px;
       font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 999px;
-      background: rgba(20, 12, 34, .85);
+      padding: 0 6px;
+      border-radius: 9px;
+      background: rgba(20, 12, 34, .9);
       border: 1px solid var(--fc, #22D3EE);
       color: var(--fc, #22D3EE);
       position: relative;
-      overflow: hidden
+      overflow: hidden;
+      box-shadow: 0 0 10px color-mix(in srgb, var(--fc, #22D3EE) 22%, transparent)
+    }
+
+    .fx-chip .ic {
+      font-size: 13px
+    }
+
+    .fx-chip .fx-cnt {
+      font-family: var(--font-d);
+      font-size: 9.5px;
+      line-height: 1
     }
 
     .fx-chip .fx-bar {
@@ -2382,23 +2460,21 @@
     #boostBar.show {
       display: flex;
       align-items: center;
-      gap: 7px
+      justify-content: center;
+      gap: 6px
     }
 
     #boostBar .bb-label {
-      font-size: 8.5px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-      color: var(--faint);
-      white-space: nowrap;
-      flex: none
+      display: none
     }
 
     #boostBar .bb-row {
       display: flex;
-      gap: 5px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       overflow-x: auto;
-      flex: 1;
+      padding: 2px 4px;
       scrollbar-width: none
     }
 
@@ -2421,13 +2497,90 @@
     }
 
     .chip-btn:active {
-      transform: scale(.94)
+      transform: scale(.92)
     }
 
-    .chip-btn.armed {
+    .chip-btn.boost-ic {
+      position: relative;
+      width: 36px;
+      height: 34px;
+      padding: 0;
+      border-radius: 11px;
+      justify-content: center;
+      background: rgba(24, 16, 44, .92);
+      border: 1px solid color-mix(in srgb, var(--bc, #8B5CF6) 55%, rgba(160, 140, 255, .25));
+      color: var(--bc, var(--text));
+      box-shadow: 0 2px 10px rgba(4, 2, 12, .45), inset 0 1px 0 rgba(255, 255, 255, .08);
+      transition: transform .14s, box-shadow .2s, background .2s, border-color .2s
+    }
+
+    .chip-btn.boost-ic:hover {
+      border-color: var(--bc, var(--cyan));
+      box-shadow: 0 0 14px color-mix(in srgb, var(--bc, #22D3EE) 40%, transparent);
+      transform: translateY(-1px)
+    }
+
+    .chip-btn.boost-ic .ic {
+      font-size: 16px
+    }
+
+    .chip-btn.boost-ic .b-key {
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      min-width: 14px;
+      height: 14px;
+      padding: 0 3px;
+      border-radius: 5px;
+      background: #140D26;
+      border: 1px solid var(--line2);
+      color: var(--muted);
+      font-size: 8.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1
+    }
+
+    .chip-btn.boost-ic .b-cnt {
+      position: absolute;
+      bottom: -4px;
+      right: -5px;
+      min-width: 16px;
+      height: 14px;
+      padding: 0 3.5px;
+      border-radius: 999px;
+      background: var(--surface3);
+      border: 1px solid color-mix(in srgb, var(--bc, #8B5CF6) 65%, transparent);
+      color: #fff;
+      font-family: var(--font-d);
+      font-size: 8.5px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1
+    }
+
+    .chip-btn.boost-ic.armed {
       color: #0B0716;
       background: var(--grad-acid);
-      border-color: transparent
+      border-color: #fff;
+      box-shadow: 0 0 16px rgba(163, 230, 53, .65);
+      transform: translateY(-1px)
+    }
+
+    .chip-btn.boost-ic.armed .b-cnt {
+      background: #0B0716;
+      color: var(--lime);
+      border-color: var(--lime)
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .chip-btn.boost-ic .b-key {
+        display: none
+      }
     }
 
     #fpsBadge {
@@ -3182,12 +3335,12 @@
 
   <div class="side side-l" aria-hidden="true">
     <div class="side-logo">BRICK<b>POP</b></div>
-    <p class="side-tag">Nova Ultimate Edition — Unlimited levels, dynamic ranks, 4 arcade modes, bosses, missions &amp;
+    <p class="side-tag">Nova Ultimate Edition — Unlimited levels, dynamic ranks, 6 arcade modes, bosses, missions &amp;
       pro stats. 100% offline.</p>
     <p class="side-ded">Dedicated to my little Muhib Ullah</p>
     <div class="side-chips">
       <span class="side-chip">UNLIMITED LEVELS</span><span class="side-chip m">UNLIMITED RANKS</span>
-      <span class="side-chip l">4 MODES</span><span class="side-chip g">PRO STATS</span>
+      <span class="side-chip l">6 MODES</span><span class="side-chip g">PRO STATS</span>
     </div>
   </div>
 
@@ -3255,7 +3408,7 @@
               <div class="hud-sub-left">
                 <div id="hudLives"></div>
                 <div id="hudCombo"><span id="comboMult">×2</span><i id="comboBar"></i></div>
-                <button class="nova-btn" id="novaBtn" data-action="nova" title="Nova Blast Ultimate (E)"><i class="nv-fill" id="novaFill" style="width:0%"></i><span style="position:relative;z-index:1" id="novaTxt">⚡ NOVA 0%</span></button>
+                <button class="nova-btn" id="novaBtn" data-action="nova" aria-label="Nova Blast Ultimate" title="Nova Blast Ultimate (E / Shift)"><i class="nv-fill" id="novaFill" style="width:0%"></i><span style="position:relative;z-index:1" id="novaTxt">⚡ 0%</span></button>
               </div>
               <div id="hudFx"></div>
             </div>
@@ -3271,9 +3424,9 @@
           <div id="vignette"></div>
           <div id="fpsBadge">60 FPS</div>
           <div id="touchPad">
-            <button class="tpad-btn" id="tpadLeft" aria-label="Move Left">◀ LEFT</button>
-            <button class="tpad-btn mid" id="tpadLaunch" data-action="tap-launch" aria-label="Launch or Nova">🚀 LAUNCH</button>
-            <button class="tpad-btn" id="tpadRight" aria-label="Move Right">RIGHT ▶</button>
+            <button class="tpad-btn" id="tpadLeft" aria-label="Move Left" title="Move Left">◀</button>
+            <button class="tpad-btn mid" id="tpadLaunch" data-action="tap-launch" aria-label="Launch or Nova" title="Launch / Nova Blast">🚀</button>
+            <button class="tpad-btn" id="tpadRight" aria-label="Move Right" title="Move Right">▶</button>
           </div>
           <div id="gameHint">Drag to move · Tap to launch</div>
         </div>
@@ -3309,6 +3462,20 @@
     const fmt = n => Math.round(n || 0).toLocaleString('en-US');
     const R = Math.random;
     function todayStr() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') }
+    function yesterdayStr() { const d = new Date(); d.setDate(d.getDate() - 1); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') }
+    function toB64(str) { const bytes = new TextEncoder().encode(str); let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b)); return btoa(bin) }
+    function fromB64(b64) { const bin = atob(b64); const bytes = Uint8Array.from(bin, c => c.charCodeAt(0)); return new TextDecoder().decode(bytes) }
+    function copyTextFallback(str) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(str).catch(() => {
+          const ta = document.createElement('textarea'); ta.value = str; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select(); try { document.execCommand('copy') } catch (e) { } ta.remove();
+        });
+      }
+      const ta = document.createElement('textarea'); ta.value = str; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); try { document.execCommand('copy') } catch (e) { } ta.remove();
+      return Promise.resolve();
+    }
     function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296 } }
     function shade(hex, p) { const n = parseInt(hex.slice(1), 16); let r = n >> 16 & 255, g = n >> 8 & 255, b = n & 255; const t = p < 0 ? 0 : 255, q = Math.abs(p) / 100; r = Math.round(lerp(r, t, q)); g = Math.round(lerp(g, t, q)); b = Math.round(lerp(b, t, q)); return `rgb(${r},${g},${b})` }
     function rgba(hex, a) { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})` }
@@ -3543,9 +3710,10 @@
           stats: { ...f.stats, ...(p.stats || {}), brickTypes: { ...f.stats.brickTypes, ...(p.stats?.brickTypes || {}) } },
           daily: { ...f.daily, ...(p.daily || {}) },
           stars: p.stars || {}, bestLevelScore: p.bestLevelScore || {}, ach: p.ach || {},
-          skins: p.skins || ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : [],
+          skins: Array.isArray(p.skins) && p.skins.length ? p.skins : ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : [],
           customLevels: Array.isArray(p.customLevels) ? p.customLevels : []
         };
+        if (!SKINS.some(x => x.id === S.skin)) S.skin = 'classic';
       }
     } catch (e) { }
     function ensureDaily() { if (!S.daily || S.daily.date !== todayStr()) S.daily = freshDaily() }
@@ -3653,7 +3821,7 @@
       warn() { tone({ f: 180, f2: 140, d: .2, type: 'square', v: .08, lp: 700 }) }
     };
     function setMuted(m) { S.muted = m; markDirty(); saveNow(); applyAudioSet(); syncMute(); syncBgmLoop() }
-    function syncMute() { $$('.mute-btn').forEach(b => { b.classList.toggle('off', S.muted); b.innerHTML = icon(S.muted ? 'volx' : 'vol') + '<span class="m-label">' + (S.muted ? 'Muted' : 'Sound') + '</span>'; b.setAttribute('aria-pressed', String(!S.muted)) }) }
+    function syncMute() { $$('.mute-btn').forEach(b => { b.classList.toggle('off', S.muted); b.innerHTML = icon(S.muted ? 'volx' : 'vol') + '<span class="m-label">' + (S.muted ? 'Muted' : 'Sound') + '</span>'; b.setAttribute('aria-pressed', String(!S.muted)); b.title = S.muted ? 'Unmute Sound (M)' : 'Mute Sound (M)' }) }
     function applyAudioSet() {
       if (!AU.ctx) { if (S.set.bgm && !S.muted) initAudio(); return }
       const mv = S.muted ? 0 : ((S.set.masterVol ?? 90) / 100);
@@ -4039,12 +4207,13 @@
       const maxDpr = S.set.graphicsQuality === 'low' ? 1 : S.set.graphicsQuality === 'medium' ? 1.5 : (S.set.fx ? 2 : 1.35);
       dpr = Math.min(maxDpr, window.devicePixelRatio || 1);
       cv.width = Math.round(cssW * dpr); cv.height = Math.round(cssH * dpr);
-      if (cv.width / cv.height <= VW / MIN_VH) {
+      const desktopVH = (cssW >= 680 && cssW / Math.max(1, cssH) > 0.8) ? 560 : MIN_VH;
+      if (cv.width / cv.height <= VW / desktopVH) {
         scale = cv.width / VW;
-        VH = Math.max(MIN_VH, cv.height / scale);
+        VH = Math.max(desktopVH, cv.height / scale);
         viewX = 0;
       } else {
-        VH = MIN_VH;
+        VH = desktopVH;
         scale = cv.height / VH;
         viewX = (cv.width / scale - VW) / 2;
       }
@@ -4059,7 +4228,7 @@
         shieldGrad.addColorStop(0, 'rgba(139,92,246,0)'); shieldGrad.addColorStop(.2, '#8B5CF6'); shieldGrad.addColorStop(.5, '#22D3EE'); shieldGrad.addColorStop(.8, '#8B5CF6'); shieldGrad.addColorStop(1, 'rgba(139,92,246,0)');
       }
     }
-    function spawnBall() { G.balls.push({ x: G.paddle.x, y: G.paddle.y - BALL_R - 1, vx: 0, vy: 0, r: BALL_R, sticky: true, off: 0, trail: [] }) }
+    function spawnBall() { G.balls.push({ x: G.paddle.x, y: G.paddle.y - BALL_R - 1, vx: 0, vy: 0, r: BALL_R, sticky: true, off: 0, trail: [], noBrickHits: 0 }) }
     function ballSpeed() {
       const userMult = clamp((S.set.ballSpeedPct ?? 100) / 100, 0.6, 1.6);
       let s = (G.speedBase + G.ramp) * userMult * (G.fx.slow ? 0.72 : 1) * (G.fx.fast ? 1.28 : 1);
@@ -4156,13 +4325,14 @@
       pushPart({ type: 'ring', x: VW / 2, y: VH * .5, t: 0, life: .5, size: 10, grow: 560, color: '#A3E635' });
       G.hazards.length = 0;
       if (G.drone) hitDrone();
+      const stageRef = G.bricks;
       const aliveList = G.bricks.filter(b => b.alive);
       for (const b of aliveList) {
-        if (G.state !== 'play' && G.state !== 'ready') break;
+        if (!G || G.bricks !== stageRef || (G.state !== 'play' && G.state !== 'ready')) break;
         if (b.code === 5) { if (R() < .35) hitBrick(b, 2, 'fire') }
         else hitBrick(b, 2, 'fire');
       }
-      processBlasts();
+      if (G && G.bricks === stageRef) processBlasts();
     }
     function splitBalls() {
       const cur = G.balls.filter(b => !b.sticky), src = cur.length ? cur : G.balls;
@@ -4298,7 +4468,7 @@
       if (b.code === 6) { coinFX(b.rx + BW / 2, b.y + BH / 2); sfx.coin() }
       if (b.code === 4) G.blastQ.push(b);
       if (b.code === 7 || b.code === 8 || (b.code !== 5 && R() < .135)) spawnDrop(b);
-      if (G.breakable <= 0 && G.state === 'play') {
+      if (G.breakable <= 0 && (G.state === 'play' || G.state === 'ready')) {
         if (G.mode === 'campaign' || G.mode === 'daily' || G.mode === 'custom') doWin();
         else if (G.mode === 'timed') nextTimedStage();
         else if (G.mode === 'bossrush') nextBossRushStage();
@@ -4307,11 +4477,12 @@
     }
     function processBlasts() {
       if (G.blasting || !G.blastQ.length) return; G.blasting = true;
-      while (G.blastQ.length && (G.state === 'play' || G.state === 'ready')) {
+      const stageRef = G.bricks;
+      while (G.blastQ.length && G.bricks === stageRef && (G.state === 'play' || G.state === 'ready')) {
         const e = G.blastQ.shift();
         explodeFX(e.rx + BW / 2, e.y + BH / 2); sfx.boom(); shake(12); G.flash = Math.max(G.flash, .2); haptic(18);
         for (let dr = -1; dr <= 1; dr++)for (let dc = -1; dc <= 1; dc++) {
-          if (G.state !== 'play' && G.state !== 'ready') break;
+          if (G.bricks !== stageRef || (G.state !== 'play' && G.state !== 'ready')) break;
           if (!dr && !dc) continue;
           const nb = brickAt(e.c + dc, e.r + dr);
           if (nb && nb.alive) hitBrick(nb, 2, 'blast');
@@ -4382,7 +4553,7 @@
       else if (G.mode === 'campaign') { S.bestLevelScore[G.idx] = Math.max(S.bestLevelScore[G.idx] || 0, G.score) }
     }
     function doWin() {
-      if (G.state !== 'play') return;
+      if (G.state !== 'play' && G.state !== 'ready') return;
       G.state = 'won'; G.winT = 1.0; G.sheetShown = false;
       for (const b of G.balls) ballBurst(b); G.balls.length = 0; G.drops.length = 0; G.lasers.length = 0; G.hazards.length = 0;
       confettiFX(); sfx.win(); haptic([15, 30, 15, 30, 60]); shake(7);
@@ -4669,11 +4840,11 @@
             bounced = true; break;
           }
           processBlasts();
-          if (bounced) {
-            if ((b.noBrickHits || 0) > 12) {
-              b.vy += (b.vy >= 0 ? 1 : -1) * 45;
-              b.noBrickHits = 0;
-            }
+          if ((b.noBrickHits || 0) > 14) {
+            b.vy += (b.vy >= 0 ? 1 : -1) * 55;
+            b.noBrickHits = 0;
+            antiFlat(b);
+          } else if (bounced) {
             antiFlat(b);
           }
           if (b.y - b.r > VH + 10) { G.balls.splice(i, 1); removed = true; ballBurst(b); break }
@@ -4871,9 +5042,9 @@
       let h = '';
       for (const id in G.fx) {
         const p = POWERS[id];
-        h += '<span class="fx-chip" data-fx="' + id + '" style="--fc:' + p.color + '">' + icon(p.icon) + p.name.split(' ')[0] + '<i class="fx-bar"></i></span>';
+        h += '<span class="fx-chip" data-fx="' + id + '" style="--fc:' + p.color + '" title="' + p.name + ' — ' + p.desc + '" aria-label="' + p.name + '">' + icon(p.icon) + '<i class="fx-bar"></i></span>';
       }
-      if (G.shield > 0) h += '<span class="fx-chip" style="--fc:#8B5CF6">' + icon('shield') + 'Shield ×' + G.shield + '</span>';
+      if (G.shield > 0) h += '<span class="fx-chip" style="--fc:#8B5CF6" title="Safety Shield — ' + G.shield + ' floor rescue charges" aria-label="Safety Shield ' + G.shield + ' charges">' + icon('shield') + '<span class="fx-cnt">×' + G.shield + '</span></span>';
       $('#hudFx').innerHTML = h;
     }
     function renderBoostBar() {
@@ -4883,8 +5054,13 @@
       const owned = BOOSTERS.filter(b => S.inv[b.id] > 0);
       if (!owned.length) { bar.classList.remove('show'); return }
       bar.classList.add('show');
-      $('#boostBarLabel').textContent = G.launched ? 'BOOST (1-7):' : 'ARM (1-7):';
-      $('#boostRow').innerHTML = owned.map((b, i) => '<button class="chip-btn' + (G.queued[b.id] ? ' armed' : '') + '" data-action="boost" data-arg="' + b.id + '">' + icon(b.icon) + b.name.split(' ')[0] + ' ×' + S.inv[b.id] + '</button>').join('');
+      $('#boostBarLabel').textContent = G.launched ? 'BOOST (1-7)' : 'ARM (1-7)';
+      $('#boostRow').innerHTML = owned.map((b, i) => {
+        const keyNum = i + 1;
+        const tip = b.name + ' (Key ' + keyNum + ') — ' + b.desc + (G.launched ? '' : ' [Click to arm for launch]');
+        return '<button class="chip-btn boost-ic' + (G.queued[b.id] ? ' armed' : '') + '" data-action="boost" data-arg="' + b.id + '" style="--bc:' + b.color + '" title="' + tip + '" aria-label="' + tip + '">' +
+          '<span class="b-key">' + keyNum + '</span>' + icon(b.icon) + '<span class="b-cnt">×' + S.inv[b.id] + '</span></button>';
+      }).join('');
     }
     function syncHUD(force) {
       if (!G) return;
@@ -4915,7 +5091,8 @@
         const np = Math.floor(G.novaCharge || 0);
         nb.classList.toggle('ready', np >= 100);
         $('#novaFill').style.width = np + '%';
-        $('#novaTxt').textContent = np >= 100 ? '⚡ NOVA READY (E)' : ('⚡ NOVA ' + np + '%');
+        $('#novaTxt').textContent = np >= 100 ? '⚡ READY' : ('⚡ ' + np + '%');
+        nb.title = np >= 100 ? 'Nova Blast Ready! Press E or click to unleash' : ('Nova Blast Ultimate (' + np + '%) — break bricks to charge');
       }
       /* On-Screen Touch Buttons for Tap Control Mode */
       const tp = $('#touchPad');
@@ -4924,7 +5101,11 @@
         tp.classList.toggle('show', showTp);
         if (showTp) {
           const tl = $('#tpadLaunch');
-          if (tl) tl.textContent = G.balls.some(b => b.sticky) ? '🚀 LAUNCH' : (G.novaCharge >= 100 ? '⚡ NOVA BLAST' : '🚀 BALL ACTIVE');
+          if (tl) {
+            const sticky = G.balls.some(b => b.sticky);
+            tl.textContent = sticky ? '🚀' : (G.novaCharge >= 100 ? '⚡' : '●');
+            tl.title = sticky ? 'Launch Ball' : (G.novaCharge >= 100 ? 'Unleash Nova Blast' : 'Ball Active');
+          }
         }
       }
       if (G.livesDirty || force) { G.livesDirty = false; renderLives() }
@@ -4954,7 +5135,8 @@
       if (UI.sheet === 'pause') { actions.resume(); return }
       G.prevState = G.state; G.state = 'paused';
       const d = DIFFS[S.set.diff] || DIFFS.classic;
-      openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--cyan)">' + (G.mode === 'campaign' ? 'LEVEL ' + (G.idx + 1) + ' · ' + G.name : G.mode.toUpperCase()) + '</div><h2 class="sheet-title">Game Paused</h2></div>' +
+      const modeKicker = G.mode === 'campaign' ? ('LEVEL ' + (G.idx + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1) + ' ' + G.name) : G.mode === 'custom' ? ('CUSTOM STUDIO · ' + G.name) : 'DAILY CHALLENGE';
+      openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--cyan)">' + modeKicker + '</div><h2 class="sheet-title">Game Paused</h2></div>' +
         '<div class="quick-rows">' +
         swRow('sfx', 'Sound FX', 'Pops, zaps & booms', 'zap', S.set.sfx) +
         swRow('bgm', 'Synthwave Music', 'Procedural arcade soundtrack', 'music', S.set.bgm) +
@@ -4971,8 +5153,8 @@
     function openWinSheet() {
       const w = WORLDS[G.wi], stars = G.earnedStars;
       const total = G.coinsRun + G.bonusBase + G.flaw + G.bossB;
-      const kicker = G.mode === 'daily' ? 'DAILY CHALLENGE CLEARED' : (G.boss ? 'BOSS DEFEATED · LEVEL ' + (G.idx + 1) : 'LEVEL ' + (G.idx + 1) + ' · ' + G.name);
-      const title = G.mode === 'daily' ? 'Daily Hero!' : (G.boss ? 'Boss Conquered!' : 'Level Clear!');
+      const kicker = G.mode === 'daily' ? 'DAILY CHALLENGE CLEARED' : G.mode === 'custom' ? ('CUSTOM STUDIO · ' + G.name) : (G.boss ? 'BOSS DEFEATED · LEVEL ' + (G.idx + 1) : 'LEVEL ' + (G.idx + 1) + ' · ' + G.name);
+      const title = G.mode === 'daily' ? 'Daily Hero!' : G.mode === 'custom' ? 'Stage Cleared!' : (G.boss ? 'Boss Conquered!' : 'Level Clear!');
       openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:' + w.hues[0] + '">' + kicker + '</div><h2 class="sheet-title">' + title + '</h2>' +
         (G.newBest ? '<span class="tag-best">' + icon('sparkles') + ' NEW BEST</span>' : '') + '</div>' +
         '<div class="stars-row">' + [0, 1, 2].map(i => '<span class="big-star' + (i < stars ? ' earned' : '') + '">' + icon('star') + '</span>').join('') + '</div>' +
@@ -4982,7 +5164,7 @@
         (G.flaw ? '<div><span>' + icon('sparkles') + ' Flawless 3★</span><b>+' + G.flaw + '</b></div>' : '') +
         (G.bossB ? '<div><span>' + icon('crown') + ' Boss Bounty</span><b>+' + G.bossB + '</b></div>' : '') +
         '<div class="total"><span>Total Coins</span><b id="winCoins">0</b></div></div>' +
-        '<div class="sheet-btns"><button class="btn btn-primary" data-action="' + (G.mode === 'daily' ? 'home' : 'next') + '">' + icon(G.mode === 'daily' ? 'home' : 'play') + ' ' + (G.mode === 'daily' ? 'Finish & Home' : 'Next Level (Lvl ' + (G.idx + 2) + ')') + '</button>' +
+        '<div class="sheet-btns"><button class="btn btn-primary" data-action="' + (G.mode === 'daily' ? 'home' : 'next') + '">' + icon(G.mode === 'daily' ? 'home' : G.mode === 'custom' ? 'wand' : 'play') + ' ' + (G.mode === 'daily' ? 'Finish & Home' : G.mode === 'custom' ? 'Back to Level Studio' : 'Next Level (Lvl ' + (G.idx + 2) + ')') + '</button>' +
         '<div class="btn-row"><button class="btn btn-ghost" data-action="replay">' + icon('restart') + ' Replay</button>' +
         '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>' +
         '<button class="btn btn-danger" data-action="home">' + icon('home') + ' Quit</button></div></div>', 'win', null);
@@ -4998,7 +5180,8 @@
       const canCont = G.mode === 'campaign' && !G.usedContinue && S.coins >= 50;
       const tip = TIPS[(R() * TIPS.length) | 0];
       const heading = G.loseReason === 'crushed' ? 'The Wall Reached You!' : G.loseReason === 'time' ? 'Time\'s Up!' : 'Out of Balls!';
-      openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--danger)">' + (endless ? 'ENDLESS · WAVE ' + G.wave : timed ? 'TIME ATTACK' : 'LEVEL ' + (G.idx + 1)) + '</div>' +
+      const loseKicker = endless ? ('ENDLESS · WAVE ' + G.wave) : timed ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1)) : G.mode === 'daily' ? 'DAILY CHALLENGE' : G.mode === 'custom' ? ('CUSTOM STUDIO · ' + G.name) : ('LEVEL ' + (G.idx + 1));
+      openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--danger)">' + loseKicker + '</div>' +
         '<h2 class="sheet-title">' + heading + '</h2>' +
         (G.newRecord ? '<span class="tag-best">' + icon('sparkles') + ' NEW RECORD</span>' : '') + '</div>' +
         '<div class="res-grid"><div class="res"><span>Score</span><b>' + fmt(G.score) + '</b></div><div class="res"><span>Bricks</span><b>' + G.bricksRun + '</b></div>' +
@@ -5024,7 +5207,7 @@
       openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--cyan)">HOW TO PLAY</div><h2 class="sheet-title">BrickPop Nova Ultimate</h2></div>' +
         '<div class="help-steps">' + steps.map(s => '<div class="hstep"><span class="hs-ic" style="background:' + s[3] + '">' + icon(s[0]) + '</span><div><b>' + s[1] + '</b><p>' + s[2] + '</p></div></div>').join('') + '</div>' +
         '<div class="sec-title" style="margin-top:4px">ALL 11 POWER-UPS &amp; TRAPS</div><div class="legend">' + legend + '</div>' +
-        '<div class="hazard-note">' + icon('alert') + ' Red-ringed capsules are traps — dodge them! Keys 1–5 activate owned boosters mid-game.</div>' +
+        '<div class="hazard-note">' + icon('alert') + ' Red-ringed capsules are traps — dodge them! Keys 1–7 activate owned boosters mid-game.</div>' +
         '<div class="sheet-btns"><button class="btn btn-primary" data-action="close-sheet">' + icon('check') + ' Got It</button></div>', 'help', 'close-sheet');
     }
     function swRow(key, label, desc, ic, on) {
@@ -5066,7 +5249,7 @@
       const unlocked = getUnlocked(), lvl = getLevel(unlocked), w = WORLDS[lvl.wi];
       const ws = worldStars(lvl.absWorld), rk = rankForXP(S.xp);
       const claimed = S.daily.rewardClaimed;
-      const nextStreak = claimed ? S.streak : (S.lastClaimDate === new Date(Date.now() - 864e5).toISOString().slice(0, 10) ? S.streak + 1 : 1);
+      const nextStreak = claimed ? S.streak : (S.lastClaimDate === yesterdayStr() ? S.streak + 1 : 1);
       const reward = 100 + Math.min(nextStreak, 7) * 25;
       const freeSpin = !S.daily.freeSpinUsed;
       $('#screen-home').innerHTML =
@@ -5321,7 +5504,7 @@
         swRow('hitFlash', 'Explosion Screen Flash', 'Brief flash on bomb blasts &amp; ball loss', 'flame', S.set.hitFlash !== false) +
         swRow('bgStars', 'Animated Starfield Backdrop', 'Drifting deep-space stars behind bricks', 'sparkles', S.set.bgStars !== false) +
         swRow('floatTexts', 'Floating Score &amp; Combo Popups', 'Show +points popups when bricks break', 'trend', S.set.floatTexts !== false) +
-        swRow('showBoostBar', 'Show Booster Bar in HUD', 'Display quick-trigger 1-5 booster pills in game HUD', 'bag', S.set.showBoostBar !== false) +
+        swRow('showBoostBar', 'Show Booster Bar in HUD', 'Display quick-trigger 1–7 booster icons in game HUD', 'bag', S.set.showBoostBar !== false) +
         swRow('showFps', 'Show Live FPS Counter', 'Display real-time frame rate badge in corner', 'gauge', !!S.set.showFps) +
         '</div>' +
 
@@ -5338,17 +5521,10 @@
         '<button class="btn btn-ghost btn-sm" data-action="reset-settings" style="width:100%;margin-bottom:9px">' + icon('restart') + ' Restore Default Settings (Keep Progress)</button>' +
         '<button class="btn btn-danger btn-sm" data-action="reset-progress" style="width:100%">' + icon('trash') + ' Erase All Progress &amp; Save Data</button></div>' +
 
-        '<div class="card about"><b>BRICKPOP NOVA ULTIMATE</b>Unlimited Levels &amp; Ranks · 4 Modes · 11 Power-Ups · 100% Offline<br>💛 Dedicated to my little <b>Muhib Ullah</b>' +
+        '<div class="card about"><b>BRICKPOP NOVA ULTIMATE</b>Unlimited Levels &amp; Ranks · 6 Modes · 11 Power-Ups · 100% Offline<br>💛 Dedicated to my little <b>Muhib Ullah</b>' +
         '<div class="copy-box"><b>&copy; 2026 Yasin Ullah — Bannu Software Solutions</b><br>WhatsApp: 0336-1593533<br>Copying, modification, redistribution, or reuse is strictly prohibited without explicit permission and attribution to the original author (Yasin Ullah).</div></div>';
     }
 
-    /* ---------- ACTIONS ---------- */
-    function toggleFullscreen() {
-      const target = $('#app');
-      if (document.fullscreenElement) { document.exitFullscreen?.().catch(() => { }) }
-      else if (target.requestFullscreen) { target.requestFullscreen().catch(() => toast('Fullscreen unavailable in this view', 'info', 'info')) }
-      else toast('Fullscreen unavailable here', 'info', 'info');
-    }
     /* ---------- LUCKY WHEEL & CUSTOM LEVEL STUDIO ---------- */
     const WHEEL_PRIZES = [
       { label: '+120 Coins', type: 'coins', val: 120, color: '#FFC53D' },
@@ -5360,7 +5536,7 @@
       { label: 'Safety Shield ×1', type: 'boost', val: 'shield', color: '#38BDF8' },
       { label: 'JACKPOT 500', type: 'coins', val: 500, color: '#E879F9' }
     ];
-    let wheelRot = 0, wheelSpinning = false;
+    let wheelRot = 0, wheelSpinning = false, wheelTimer = null;
     function drawWheelCanvas() {
       const cnv = $('#wheelCv'); if (!cnv) return;
       const c = cnv.getContext('2d'), r = cnv.width / 2, step = (Math.PI * 2) / WHEEL_PRIZES.length;
@@ -5381,7 +5557,8 @@
     }
     function openLuckyWheel() {
       ensureDaily();
-      wheelSpinning = false;
+      if (wheelSpinning) return;
+      clearTimeout(wheelTimer); wheelRot = 0;
       const free = !S.daily.freeSpinUsed;
       openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--amber)">DAILY PRIZE SPINNER</div><h2 class="sheet-title">Nova Lucky Wheel</h2></div>' +
         '<div class="wheel-box"><div class="wheel-ptr">▼</div><canvas id="wheelCv" width="240" height="240"></canvas></div>' +
@@ -5397,15 +5574,19 @@
       if (!free && S.coins < 120) { sfx.deny(); toast('Need 120 Coins for an extra spin!', 'coin', 'warn'); return }
       if (free) S.daily.freeSpinUsed = true;
       else { S.coins -= 120; syncHeader(true) }
+      saveNow();
       wheelSpinning = true;
+      UI.dismiss = null;
       const idx = (R() * WHEEL_PRIZES.length) | 0;
       const stepDeg = 360 / WHEEL_PRIZES.length;
       wheelRot += 1440 + (360 - (wheelRot % 360)) + (360 - idx * stepDeg);
       const cnv = $('#wheelCv');
       if (cnv) cnv.style.transform = 'rotate(' + wheelRot + 'deg)';
+      const btn0 = $('#btnSpinWheel'); if (btn0) btn0.disabled = true;
       sfx.launch();
-      setTimeout(() => {
+      wheelTimer = setTimeout(() => {
         wheelSpinning = false;
+        UI.dismiss = 'close-sheet';
         const pr = WHEEL_PRIZES[idx];
         if (pr.type === 'coins') addCoins(pr.val, true);
         else if (pr.type === 'xp') addXP(pr.val);
@@ -5414,7 +5595,7 @@
         sfx.win(); haptic([15, 30, 20]);
         const msg = $('#wheelMsg'), btn = $('#btnSpinWheel');
         if (msg) msg.innerHTML = '<b style="color:var(--lime)">YOU WON: ' + pr.label + '!</b>';
-        if (btn) btn.innerHTML = '🎡 Spin Again — 120 Coins';
+        if (btn) { btn.disabled = false; btn.innerHTML = '🎡 Spin Again — 120 Coins' }
         toast('Won ' + pr.label + '!', 'gift', 'gold');
         if (UI.screen === 'home') renderHome();
         else if (UI.screen === 'shop') renderShop();
@@ -5460,14 +5641,14 @@
       const savedList = (S.customLevels || []).map((cl, i) => '<button class="chip-btn" data-action="ed-load" data-arg="' + i + '">📂 ' + cl.name + '</button>').join('');
       openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--lime)">CUSTOM LEVEL STUDIO</div><h2 class="sheet-title">Build &amp; Test Stage</h2></div>' +
         '<div style="display:flex;gap:7px;margin-bottom:9px"><input class="name-input" id="edNameInp" maxlength="22" value="' + ed.name.replace(/"/g, '&quot;') + '" placeholder="Stage Name" style="margin:0;flex:1">' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-sym" id="edSymBtn">' + (ed.sym ? '🪞 Mirror: ON' : '🪞 Mirror: OFF') + '</button></div>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-sym" id="edSymBtn" title="Toggle Horizontal Mirror Symmetry" aria-label="Toggle Mirror Symmetry">' + (ed.sym ? '🪞 ON' : '🪞 OFF') + '</button></div>' +
         '<div class="ed-palette" id="edPalette">' + tools + '</div>' +
         '<div class="ed-grid" id="edGridWrap"></div>' +
         '<div class="btn-row" style="margin-bottom:9px">' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-template">🎲 Random</button>' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-clear">🧹 Clear</button>' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-save">💾 Save</button>' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-code">📋 Code</button></div>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-template" title="Generate Random Symmetric Pattern" aria-label="Random Pattern">🎲</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-clear" title="Clear All Bricks" aria-label="Clear Grid">🧹</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-save" title="Save Stage to Studio Slots" aria-label="Save Stage">💾</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-code" title="Share or Import Level Code" aria-label="Share or Import Code">📋</button></div>' +
         (savedList ? '<div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px">' + savedList + '</div>' : '') +
         '<div class="sheet-btns"><button class="btn btn-primary" data-action="ed-play">' + icon('play') + ' Test Play Custom Stage</button>' +
         '<button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Close Studio</button></div>', 'editor', 'close-sheet');
@@ -5480,13 +5661,15 @@
           const target = document.elementFromPoint(e.clientX, e.clientY)?.closest('.ed-cell');
           if (!target) return;
           const r = +target.dataset.r, c = +target.dataset.c;
+          if (!ed.grid[r]) return;
           ed.grid[r][c] = ed.brush;
           if (ed.sym) ed.grid[r][COLS - 1 - c] = ed.brush;
           renderEditorCells();
         };
-        gw.addEventListener('pointerdown', e => { painting = true; paintAt(e); e.preventDefault() });
+        gw.addEventListener('pointerdown', e => { painting = true; try { gw.setPointerCapture(e.pointerId) } catch (err) { } paintAt(e); e.preventDefault() });
         gw.addEventListener('pointermove', e => { if (painting) paintAt(e) });
-        window.addEventListener('pointerup', () => { painting = false }, { once: false });
+        gw.addEventListener('pointerup', () => { painting = false });
+        gw.addEventListener('pointercancel', () => { painting = false });
       }, 30);
     }
 
@@ -5525,7 +5708,7 @@
       },
       'ed-sym'() {
         ensureEditorData(); UI.editorData.sym = !UI.editorData.sym; sfx.click();
-        const b = $('#edSymBtn'); if (b) b.textContent = UI.editorData.sym ? '🪞 Mirror: ON' : '🪞 Mirror: OFF';
+        const b = $('#edSymBtn'); if (b) b.textContent = UI.editorData.sym ? '🪞 ON' : '🪞 OFF';
       },
       'ed-clear'() {
         ensureEditorData();
@@ -5550,6 +5733,8 @@
         const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || 'Custom Stage';
         const copy = JSON.parse(JSON.stringify(UI.editorData));
         S.customLevels = S.customLevels || [];
+        const existingIdx = S.customLevels.findIndex(x => x.name === copy.name);
+        if (existingIdx >= 0) S.customLevels.splice(existingIdx, 1);
         S.customLevels.unshift(copy);
         if (S.customLevels.length > 8) S.customLevels.pop();
         saveNow(); sfx.power(); toast('Stage saved to Studio slots!', 'check', 'good');
@@ -5563,19 +5748,38 @@
       'ed-code'() {
         ensureEditorData();
         const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || 'Custom Stage';
-        const str = btoa(unescape(encodeURIComponent(JSON.stringify({ name: UI.editorData.name, wi: UI.editorData.wi, grid: UI.editorData.grid }))));
-        if (navigator.clipboard?.writeText) navigator.clipboard.writeText(str).catch(() => { });
-        const pasted = prompt('Shareable Level Code (copied to clipboard! Or paste another code here to load):', str);
-        if (pasted && pasted !== str) {
-          try {
-            const parsed = JSON.parse(decodeURIComponent(escape(atob(pasted.trim()))));
-            if (Array.isArray(parsed.grid)) {
-              UI.editorData.name = parsed.name || 'Imported Stage';
-              UI.editorData.grid = parsed.grid;
-              sfx.power(); toast('Level code imported!', 'check', 'good'); openLevelEditor();
-            }
-          } catch (e) { sfx.deny(); toast('Invalid level code', 'alert', 'bad') }
-        }
+        const str = toB64(JSON.stringify({ name: UI.editorData.name, wi: UI.editorData.wi, grid: UI.editorData.grid }));
+        copyTextFallback(str);
+        openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--lime)">SHARE &amp; IMPORT</div><h2 class="sheet-title">Stage Level Code</h2></div>' +
+          '<p style="font-size:12px;color:var(--muted);margin-bottom:8px">Your stage code is ready below (copied to clipboard). To load someone else\'s stage, paste their code and tap Import:</p>' +
+          '<textarea id="edCodeTxt" rows="4" style="width:100%;background:rgba(8,4,18,.75);border:1px solid var(--line2);border-radius:12px;padding:10px;color:var(--text);font-family:monospace;font-size:11.5px;margin-bottom:12px">' + str + '</textarea>' +
+          '<div class="sheet-btns"><div class="btn-row"><button class="btn btn-cyan" data-action="ed-copy-code">' + icon('check') + ' Copy Code</button>' +
+          '<button class="btn btn-primary" data-action="ed-import-code">' + icon('wand') + ' Import Code</button></div>' +
+          '<button class="btn btn-ghost" data-action="open-editor">' + icon('x') + ' Back to Studio</button></div>', 'edcode', 'open-editor');
+      },
+      'ed-copy-code'() {
+        const val = $('#edCodeTxt')?.value?.trim(); if (!val) return;
+        copyTextFallback(val); sfx.click(); toast('Level code copied!', 'check', 'good');
+      },
+      'ed-import-code'() {
+        const raw = $('#edCodeTxt')?.value?.trim();
+        if (!raw) { sfx.deny(); toast('Paste a valid level code first', 'alert', 'warn'); return }
+        try {
+          const parsed = JSON.parse(fromB64(raw));
+          if (!Array.isArray(parsed.grid)) throw new Error('Bad grid');
+          const cleanGrid = Array.from({ length: 8 }, (_, r) =>
+            Array.from({ length: COLS }, (_, c) => {
+              const v = Number(parsed.grid[r]?.[c] || 0);
+              return Number.isInteger(v) && v >= 0 && v <= 8 ? v : 0;
+            })
+          );
+          ensureEditorData();
+          UI.editorData.name = String(parsed.name || 'Imported Stage').trim().slice(0, 22) || 'Imported Stage';
+          UI.editorData.wi = clamp(Number(parsed.wi || 0) | 0, 0, 7);
+          UI.editorData.grid = cleanGrid;
+          sfx.power(); toast('Level code imported!', 'check', 'good');
+          openLevelEditor();
+        } catch (e) { sfx.deny(); toast('Invalid level code format', 'alert', 'bad') }
       },
       'ed-play'() {
         ensureEditorData();
@@ -5610,15 +5814,15 @@
       'continue-run'() {
         if (!G || S.coins < 50) return;
         S.coins -= 50; markDirty(); syncHeader(true); saveNow();
-        G.usedContinue = true; G.lives = 2; G.maxLives = Math.max(G.maxLives, 2); G.livesDirty = true;
+        G.usedContinue = true; G.comboRecorded = false; G.countedWin = false;
+        G.lives = 2; G.maxLives = Math.max(G.maxLives, 2); G.livesDirty = true; renderLives();
         G.state = 'ready'; spawnBall(); closeSheet(); sfx.life(); toast('Second chance! +2 Lives', 'heart', 'good');
       },
       boost(arg) { triggerBoosterMidGame(arg) },
       'claim-daily'() {
         ensureDaily();
         if (S.daily.rewardClaimed) { sfx.deny(); return }
-        const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
-        S.streak = S.lastClaimDate === yest ? S.streak + 1 : 1;
+        S.streak = S.lastClaimDate === yesterdayStr() ? S.streak + 1 : 1;
         S.lastClaimDate = todayStr(); S.daily.rewardClaimed = true;
         const reward = 100 + Math.min(S.streak, 7) * 25;
         addCoins(reward, true); addXP(50); saveNow(); sfx.coin(); haptic([10, 20, 10]);
@@ -5670,6 +5874,7 @@
         if (!key) return;
         S.set[key] = (key === 'startLives') ? +arg : arg;
         saveNow(); applyAudioSet(); applyDisplaySet();
+        if (G && (key === 'graphicsQuality' || key === 'paddleHeightOffset')) resize();
         sfx.click(); haptic(5);
         if (UI.screen === 'settings') renderSettings();
       },
@@ -5689,7 +5894,7 @@
           document.body.appendChild(a); a.click(); a.remove();
           setTimeout(() => URL.revokeObjectURL(url), 1000);
         } catch (e) { }
-        if (navigator.clipboard?.writeText) navigator.clipboard.writeText(data).catch(() => { });
+        copyTextFallback(data);
         toast('Save backup downloaded & copied to clipboard!', 'check', 'good');
       },
       'import-save'() {
@@ -5724,9 +5929,10 @@
             stats: { ...f.stats, ...(p.stats || {}), brickTypes: { ...f.stats.brickTypes, ...(p.stats?.brickTypes || {}) } },
             daily: { ...f.daily, ...(p.daily || {}) },
             stars: p.stars || {}, bestLevelScore: p.bestLevelScore || {}, ach: p.ach || {},
-            skins: p.skins || ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : [],
+            skins: Array.isArray(p.skins) && p.skins.length ? p.skins : ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : [],
             customLevels: Array.isArray(p.customLevels) ? p.customLevels : []
           };
+          if (!SKINS.some(x => x.id === S.skin)) S.skin = 'classic';
           saveNow(); closeSheet(); applyAudioSet(); applyDisplaySet(); syncHeader(true); syncMute(); updateBadges();
           sfx.win(); toast('Save backup restored successfully!', 'check', 'good');
           renderSettings();
@@ -5767,6 +5973,9 @@
       markDirty();
       const lbl = $('#lbl_' + k); if (lbl) lbl.textContent = v + '%';
       if (k === 'masterVol' || k === 'sfxVol' || k === 'bgmVol') applyAudioSet();
+    });
+    document.addEventListener('change', e => {
+      if (e.target.closest('[data-range]')) saveNow();
     });
     function logicalX(e) {
       const r = cv.getBoundingClientRect();
