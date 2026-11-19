@@ -1,4 +1,4 @@
-# 🧱 BRICKPOP NOVA ULTIMATE — Comprehensive Feature & Module Report
+# 🧱 BRICKPOP NOVA ULTIMATE — Comprehensive Feature & Module Report.
 
 > **Dedicated to little Muhib Ullah ❤️** · *Unified V3 Main Engine + Complete V1 & V2 Feature Parity + Unlimited Levels, Unlimited Ranks & Pro Analytics*
 
