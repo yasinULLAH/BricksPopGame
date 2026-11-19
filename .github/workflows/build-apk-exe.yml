@@ -62,8 +62,13 @@ jobs:
           distribution: temurin
           java-version: "21"
 
+      # v4 is required: Google removed the legacy "tools" package, which v3
+      # still tries to install ("Failed to find package 'tools'" -> exit 1).
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
+        with:
+          # platform-tools is installed by the next step; skip the extra pass.
+          packages: ""
 
       - name: Install Android SDK packages
         run: |
@@ -188,6 +193,7 @@ jobs:
 
       - name: Show EXE details
         shell: bash
+        working-directory: build-win
         run: |
           ls -lh dist/BrickPop-Nova-Ultimate-Portable.exe
           echo "### 💻 Windows Portable EXE" >> "$GITHUB_STEP_SUMMARY"

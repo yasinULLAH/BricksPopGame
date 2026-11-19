@@ -78,7 +78,7 @@ Every Rank-Up triggers a live celebratory banner, sound fanfare, and bonus coin 
 - **Campaign Mastery:** Initiate → Scout → Vanguard → Commander → Warlord → Galactic → Ascendant → Apex Tier+
 - **Endless Mastery:** Survivor → Runner → Gladiator → Titan → Immortal → Eternal → Apex Tier+
 - **Time Attack Mastery:** Sprinter → Blitzer → Velocity → Lightspeed → Chrono → Apex Tier+
-- **Combo Mastery:** Spark → Chain → Flow → Surge → Overload → Godlike → Apex Tier+
+- **Combo Mastery:** Spark → Chain → Flow → Surge → Overload → Legendary → Apex Tier+
 - **Boss Slayer:** Challenger → Hunter → Slayer → Destroyer → Nemesis → Executioner → Apex Tier+
 
 ## 5. Complete Brick Types (8 Types)

@@ -4075,7 +4075,7 @@
       { name: 'Quantum Valkyrie', icon: '🧬', color: '#2DD4BF', perk: 'Quantum Split' },
       { name: 'Galactic Archon', icon: '🪐', color: '#C084FC', perk: 'Nebula Ruler' },
       { name: 'Mythic Overlord', icon: '👑', color: '#FF3D8A', perk: 'Mythic Crown' },
-      { name: 'Transcendent God', icon: '🌌', color: '#00F5D4', perk: 'Void Monarch' },
+      { name: 'Transcendent Ascendant', icon: '🌌', color: '#00F5D4', perk: 'Void Monarch' },
       { name: 'Eternal Omniverse', icon: '♾️', color: '#FFD166', perk: 'Infinite Mastery' },
       { name: 'Supreme Muhib Sovereign', icon: '💛', color: '#FFC53D', perk: 'Ultimate Legend' }
     ];
@@ -4185,14 +4185,14 @@
       { id: 'teslacoil', name: 'Thunderbolt Arc Coil', tier: 'Mythic', style: 'tesla', ball: 'lightning', price: 4800, c: ['#00F5D4', '#3B82F6', '#FDE047'] },
       { id: 'abyssalkraken', name: 'Abyssal Leviathan', tier: 'Mythic', style: 'leviathan', ball: 'eye', price: 5100, c: ['#10B981', '#064E3B', '#A3E635'] },
       { id: 'nightcity', name: 'Cyberpunk 2099', tier: 'Mythic', style: 'cyberpunk', ball: 'hexcore', price: 5400, c: ['#FACC15', '#00F5D4', '#FF2A85'] },
-      { id: 'seraphwing', name: 'Seraphim Sanctuary', tier: 'Legendary', style: 'seraph', ball: 'halo', price: 5800, c: ['#FEF08A', '#F59E0B', '#FFFFFF'] },
+      { id: 'radiantwing', name: 'Radiant Aegis Sanctuary', tier: 'Legendary', style: 'radiant', ball: 'ringlight', price: 5800, c: ['#FEF08A', '#F59E0B', '#FFFFFF'] },
       { id: 'anubisking', name: 'Pharaoh Tomb Guard', tier: 'Legendary', style: 'pharaoh', ball: 'eye', price: 6200, c: ['#FBBF24', '#1D4ED8', '#10B981'] },
       { id: 'phoenixcrest', name: 'Solaris Phoenix Wing', tier: 'Legendary', style: 'phoenix', ball: 'fireballx', price: 6600, c: ['#FF4D5E', '#F97316', '#FEF08A'] },
       { id: 'runelord', name: 'Eldritch Runestone', tier: 'Legendary', style: 'runic', ball: 'hexcore', price: 7000, c: ['#A855F7', '#3B0764', '#22D3EE'] },
       { id: 'hellsaw', name: 'Hellfire Grinder', tier: 'Legendary', style: 'chainsaw', ball: 'meteor', price: 7400, c: ['#FF6B35', '#7F1D1D', '#FDE047'] },
       { id: 'shogunsteel', name: 'Cyber Shogun Katana', tier: 'Legendary', style: 'katana', ball: 'saw', price: 7800, c: ['#00F5D4', '#0F172A', '#FF3D8A'] },
       { id: 'venomfang', name: 'Hydra Venom Jaw', tier: 'Legendary', style: 'leviathan', ball: 'skull', price: 8200, c: ['#A3E635', '#14532D', '#D946EF'] },
-      { id: 'stormlord', name: 'Zeus Megavolt Reactor', tier: 'Legendary', style: 'tesla', ball: 'atom', price: 8600, c: ['#60A5FA', '#1E3A8A', '#FEF08A'] },
+      { id: 'stormlord', name: 'Stormlord Megavolt Reactor', tier: 'Legendary', style: 'tesla', ball: 'atom', price: 8600, c: ['#60A5FA', '#1E3A8A', '#FEF08A'] },
       { id: 'stealthhawk', name: 'Nighthawk Stealth Jet', tier: 'Legendary', style: 'starfighter', ball: 'hexcore', price: 9000, c: ['#94A3B8', '#090D16', '#38BDF8'] },
       { id: 'neotokyo', name: 'Akira Kaneda Drift', tier: 'Legendary', style: 'cyberpunk', ball: 'lightning', price: 9500, c: ['#EF4444', '#111827', '#22D3EE'] },
       { id: 'eventhorizon', name: 'Black Hole Singularity', tier: 'Cosmic', style: 'blackhole', ball: 'galaxyorb', price: 10200, c: ['#C084FC', '#090414', '#F97316'] },
@@ -4200,22 +4200,35 @@
       { id: 'meteorforge', name: 'Supernova Asteroid', tier: 'Cosmic', style: 'phoenix', ball: 'meteor', price: 11500, c: ['#FB923C', '#431407', '#38BDF8'] },
       { id: 'quantumcore', name: 'Subatomic Collider', tier: 'Cosmic', style: 'tesla', ball: 'atom', price: 12200, c: ['#2DD4BF', '#134E4A', '#F472B6'] },
       { id: 'voidreaper', name: 'Dark Matter Scythe', tier: 'Cosmic', style: 'katana', ball: 'skull', price: 13000, c: ['#C084FC', '#1E1B4B', '#F43F5E'] },
-      { id: 'sunpharaoh', name: 'Ra Sun-God Chariot', tier: 'Cosmic', style: 'pharaoh', ball: 'fireballx', price: 13800, c: ['#FDE047', '#B45309', '#38BDF8'] },
+      { id: 'sunpharaoh', name: 'Solaris Sunfire Chariot', tier: 'Cosmic', style: 'pharaoh', ball: 'fireballx', price: 13800, c: ['#FDE047', '#B45309', '#38BDF8'] },
       { id: 'arcanevoid', name: 'Forbidden Grimoire', tier: 'Cosmic', style: 'runic', ball: 'eye', price: 14600, c: ['#F43F5E', '#1F122B', '#A3E635'] },
-      { id: 'nebulaangel', name: 'Archangel of Orion', tier: 'Cosmic', style: 'seraph', ball: 'galaxyorb', price: 15500, c: ['#67E8F9', '#3B82F6', '#F472B6'] },
+      { id: 'nebulasentinel', name: 'Nebula Sentinel of Orion', tier: 'Cosmic', style: 'radiant', ball: 'galaxyorb', price: 15500, c: ['#67E8F9', '#3B82F6', '#F472B6'] },
       { id: 'immortaljade', name: 'Dragon Emperor Seal', tier: 'Immortal', style: 'pharaoh', ball: 'infinityorb', price: 16800, c: ['#34D399', '#064E3B', '#FBBF24'] },
-      { id: 'valkyrieprime', name: 'Celestial Arch-Valkyrie', tier: 'Immortal', style: 'seraph', ball: 'halo', price: 18000, c: ['#FFFFFF', '#60A5FA', '#F43F5E'] },
-      { id: 'chronoengine', name: 'Chronos Time Weaver', tier: 'Immortal', style: 'omega', ball: 'infinityorb', price: 19500, c: ['#FCD34D', '#1E293B', '#22D3EE'] },
-      { id: 'eldergod', name: 'Cthulhu Deep Mind', tier: 'Immortal', style: 'leviathan', ball: 'eye', price: 21000, c: ['#2DD4BF', '#042F2E', '#FB7185'] },
+      { id: 'valkyrieprime', name: 'Celestial Star-Valkyrie', tier: 'Immortal', style: 'radiant', ball: 'ringlight', price: 18000, c: ['#FFFFFF', '#60A5FA', '#F43F5E'] },
+      { id: 'chronoengine', name: 'Chrono Time Weaver', tier: 'Immortal', style: 'omega', ball: 'infinityorb', price: 19500, c: ['#FCD34D', '#1E293B', '#22D3EE'] },
+      { id: 'abyssalmind', name: 'Abyssal Deep Mind', tier: 'Immortal', style: 'leviathan', ball: 'eye', price: 21000, c: ['#2DD4BF', '#042F2E', '#FB7185'] },
       { id: 'bloodmoon', name: 'Crimson Eclipse Blade', tier: 'Immortal', style: 'blackhole', ball: 'shuriken', price: 22500, c: ['#FF1E42', '#090306', '#FDE047'] },
       { id: 'hellphoenix', name: 'Ashen Immortal Bird', tier: 'Immortal', style: 'phoenix', ball: 'fireballx', price: 24000, c: ['#00F5D4', '#0F172A', '#A855F7'] },
-      { id: 'runesovereign', name: 'Odin Bifrost Runes', tier: 'Immortal', style: 'runic', ball: 'lightning', price: 26000, c: ['#38BDF8', '#1E1B4B', '#FACC15'] },
+      { id: 'runesovereign', name: 'Bifrost Rune Matrix', tier: 'Immortal', style: 'runic', ball: 'lightning', price: 26000, c: ['#38BDF8', '#1E1B4B', '#FACC15'] },
       { id: 'mechaomega', name: 'Gundam Zero Wing', tier: 'Immortal', style: 'omega', ball: 'hexcore', price: 28000, c: ['#F8FAFC', '#2563EB', '#EF4444'] },
       { id: 'omniverse1', name: 'Omniverse Genesis', tier: 'Omniverse', style: 'omega', ball: 'infinityorb', price: 32000, c: ['#00F5D4', '#FF3D8A', '#FDE047'] },
       { id: 'omniverse2', name: 'Cosmic Singularity X', tier: 'Omniverse', style: 'blackhole', ball: 'atom', price: 36000, c: ['#FF3D8A', '#090414', '#00F5D4'] },
-      { id: 'omniverse3', name: 'Seraph of Eternity', tier: 'Omniverse', style: 'seraph', ball: 'infinityorb', price: 42000, c: ['#FDE047', '#A855F7', '#22D3EE'] },
-      { id: 'muhibsupreme', name: 'Muhib Sovereign Crown', tier: 'Omniverse', style: 'omega', ball: 'halo', price: 50000, c: ['#FFD166', '#FF3D8A', '#00F5D4'] }
+      { id: 'omniverse3', name: 'Aurora of Eternity', tier: 'Omniverse', style: 'radiant', ball: 'infinityorb', price: 42000, c: ['#FDE047', '#A855F7', '#22D3EE'] },
+      { id: 'muhibsupreme', name: 'Muhib Sovereign Crown', tier: 'Omniverse', style: 'omega', ball: 'ringlight', price: 50000, c: ['#FFD166', '#FF3D8A', '#00F5D4'] }
     ];
+    /* Keeps older save files working after cosmetic skin renames */
+    const SKIN_ID_MIGRATIONS = { seraphwing: 'radiantwing', nebulaangel: 'nebulasentinel' };
+    function migrateSkinIds(obj) {
+      const map = id => {
+        if (typeof id !== 'string') return id;
+        if (id.slice(0, 5) === 'elder') return 'abyssalmind';
+        return SKIN_ID_MIGRATIONS[id] || id;
+      };
+      if (Array.isArray(obj.skins)) obj.skins = Array.from(new Set(obj.skins.map(map)));
+      obj.skin = map(obj.skin);
+      if (!SKINS.some(x => x.id === obj.skin)) obj.skin = 'classic';
+      return obj;
+    }
     const UPGRADES = [
       { id: 'magnetRad', name: 'Tractor Beam', desc: 'Pulls nearby power-up capsules toward paddle (+26px/lvl)', icon: 'magnet', color: '#C084FC', baseCost: 160, stepCost: 140, max: 5 },
       { id: 'coinMult', name: 'Fortune Minter', desc: '+10% bonus coins from bricks, drops & clears per level', icon: 'coin', color: '#FFC53D', baseCost: 200, stepCost: 180, max: 5 },
@@ -4339,7 +4352,7 @@
           skins: Array.isArray(p.skins) && p.skins.length ? p.skins : ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : [],
           customLevels: Array.isArray(p.customLevels) ? p.customLevels : []
         };
-        if (!SKINS.some(x => x.id === S.skin)) S.skin = 'classic';
+        migrateSkinIds(S);
       }
     } catch (e) { }
     function ensureDaily() { if (!S.daily || S.daily.date !== todayStr()) S.daily = freshDaily() }
@@ -5073,8 +5086,8 @@
           c.strokeStyle = '#FFF'; c.lineWidth = 1.4; c.stroke();
           c.fillStyle = '#FFF'; c.beginPath(); c.arc(rx, cy, 2.5, 0, 7); c.fill();
         });
-      } else if (st === 'seraph') {
-        // Feathered angelic wings + levitating golden halo + diamond core
+      } else if (st === 'radiant') {
+        // Feathered energy wings + levitating light ring + diamond core
         c.fillStyle = sk.c[0];
         for (let k = 0; k < 3; k++) {
           const off = k * 4;
@@ -5184,7 +5197,7 @@
           c.strokeStyle = '#FFF'; c.lineWidth = 1; c.stroke();
         });
       } else if (st === 'omega') {
-        // Segmented Omniverse God-Engine with detached wing blades & triple reactor core
+        // Segmented Omniverse Core-Engine with detached wing blades & triple reactor core
         c.fillStyle = '#090D16';
         c.fillRect(cx - 20, y - 1, 4, h + 2); c.fillRect(cx + 16, y - 1, 4, h + 2);
         c.fillStyle = sk.c[2];
@@ -5295,7 +5308,7 @@
         }
         c.closePath(); c.fill(); c.stroke();
         c.fillStyle = c2; c.beginPath(); c.arc(-2, -1, r * .28, 0, 7); c.arc(2.5, 2, r * .22, 0, 7); c.fill();
-      } else if (bs === 'halo') {
+      } else if (bs === 'ringlight') {
         c.strokeStyle = '#FFF'; c.lineWidth = 1.6;
         c.beginPath(); c.ellipse(0, -r * .95, r * .85, r * .26, 0, 0, 7); c.stroke();
         c.fillStyle = c0;
@@ -7295,7 +7308,7 @@
             skins: Array.isArray(p.skins) && p.skins.length ? p.skins : ['classic'], recentRuns: Array.isArray(p.recentRuns) ? p.recentRuns : [],
             customLevels: Array.isArray(p.customLevels) ? p.customLevels : []
           };
-          if (!SKINS.some(x => x.id === S.skin)) S.skin = 'classic';
+          migrateSkinIds(S);
           saveNow(); closeSheet(); applyAudioSet(); applyDisplaySet(); syncHeader(true); syncMute(); updateBadges();
           sfx.win(); toast('Save backup restored successfully!', 'check', 'good');
           renderSettings();
