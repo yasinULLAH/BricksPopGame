@@ -1,22 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0B0716">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description"
-    content="BRICKPOP — a neon arcade brick breaker. 120 levels, 8 worlds, endless mode, power-ups, boosters, skins and achievements.">
-  <title>BRICKPOP — Neon Arcade Brick Breaker</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Outfit:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="#0B0716" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="BRICKPOP — a neon arcade brick breaker. 120 levels, 8 worlds, endless mode, power-ups, boosters, skins and achievements." name="description"/>
+<title>BRICKPOP — Neon Arcade Brick Breaker</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&amp;family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
     /* ============ TOKENS ============ */
     :root {
       --bg: #0B0716;
@@ -2621,112 +2617,95 @@
       }
     }
   </style>
-</head>
-
+<link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
-
-  <div id="bg" aria-hidden="true">
-    <div class="aur a1"></div>
-    <div class="aur a2"></div>
-    <div class="aur a3"></div>
-    <div class="fbrick"
-      style="width:70px;height:30px;left:8%;top:16%;background:linear-gradient(135deg,#22D3EE,#8B5CF6);animation-delay:-2s">
-    </div>
-    <div class="fbrick"
-      style="width:52px;height:22px;left:14%;top:70%;background:linear-gradient(135deg,#FF3D8A,#FFB020);animation-delay:-6s">
-    </div>
-    <div class="fbrick"
-      style="width:60px;height:26px;right:10%;top:24%;background:linear-gradient(135deg,#A3E635,#22D3EE);animation-delay:-9s">
-    </div>
-    <div class="fbrick"
-      style="width:44px;height:20px;right:16%;top:78%;background:linear-gradient(135deg,#8B5CF6,#FF3D8A);animation-delay:-4s">
-    </div>
-    <div class="fbrick"
-      style="width:36px;height:16px;left:40%;top:6%;background:linear-gradient(135deg,#FFB020,#FF4D5E);animation-delay:-11s">
-    </div>
-    <div class="grain"></div>
-  </div>
-
-  <div class="side side-l" aria-hidden="true">
-    <div class="side-logo">BRICK<b>POP</b></div>
-    <p class="side-tag">A neon arcade breaker built for every screen. Drag, launch, and pop the whole grid.</p>
-    <div class="side-chips">
-      <span class="side-chip">120 LEVELS</span><span class="side-chip m">8 WORLDS</span>
-      <span class="side-chip l">ENDLESS MODE</span><span class="side-chip">11 POWER-UPS</span>
-    </div>
-  </div>
-  <div class="side side-r" aria-hidden="true">
-    <div class="keys-card">
-      <h4>CONTROLS</h4>
-      <div class="key-row"><span>Move paddle</span><span><kbd>←</kbd> <kbd>→</kbd> / mouse</span></div>
-      <div class="key-row"><span>Launch ball</span><kbd>SPACE</kbd></div>
-      <div class="key-row"><span>Pause</span><kbd>P</kbd></div>
-      <div class="key-row"><span>Restart</span><kbd>R</kbd></div>
-      <div class="key-row"><span>Mute all</span><kbd>M</kbd></div>
-    </div>
-  </div>
-
-  <div id="app">
-    <header id="hdr">
-      <div class="logo"><span class="l1">BRICK</span><span class="dia"></span><span class="l2">POP</span></div>
-      <div class="sp"></div>
-      <button class="coins-chip" data-action="tab" data-arg="shop" aria-label="Open shop"><span class="ic"
-          data-ic="coin"></span><span id="coinVal">0</span></button>
-      <button class="mute-btn" data-action="mute" aria-label="Toggle sound"></button>
-    </header>
-
-    <main id="screens">
-      <section class="screen" id="screen-home" aria-label="Home"></section>
-      <section class="screen" id="screen-levels" aria-label="Levels"></section>
-      <section class="screen" id="screen-shop" aria-label="Shop"></section>
-      <section class="screen" id="screen-awards" aria-label="Awards"></section>
-      <section class="screen" id="screen-settings" aria-label="Settings"></section>
-      <section class="screen" id="screen-game" aria-label="Game">
-        <canvas id="cv"></canvas>
-        <div id="gameOverlayFx"></div>
-        <div id="vignette"></div>
-        <div id="hud">
-          <div class="hud-top">
-            <button class="btn-icon" data-action="pause" aria-label="Pause"><span class="ic"
-                data-ic="pause"></span></button>
-            <div class="hud-mid">
-              <div id="hudLevel">LEVEL 1-1</div>
-              <div id="hudScore">0</div>
-            </div>
-            <div class="hud-right">
-              <button class="mute-btn" data-action="mute" aria-label="Toggle sound"></button>
-              <div class="hud-coins"><span class="ic" data-ic="coin"></span><span id="hudCoinsVal">0</span></div>
-            </div>
-          </div>
-          <div class="hud-sub">
-            <div id="hudLives"></div>
-            <div id="hudCombo"><span id="comboMult">×2</span><i id="comboBar"></i></div>
-            <div id="hudFx"></div>
-          </div>
-          <div id="boostBar">
-            <div class="bb-label">BOOSTERS — TAP TO ARM FOR THIS RUN</div>
-            <div class="bb-row" id="boostRow"></div>
-          </div>
-        </div>
-        <div id="gameHint">Drag to move · Tap to launch</div>
-      </section>
-    </main>
-
-    <nav id="tabbar" aria-label="Navigation">
-      <button class="tab" data-action="tab" data-arg="home"><span class="ic" data-ic="home"></span>Home</button>
-      <button class="tab" data-action="tab" data-arg="levels"><span class="ic" data-ic="grid"></span>Levels</button>
-      <button class="tab" data-action="tab" data-arg="shop"><span class="ic" data-ic="bag"></span>Shop</button>
-      <button class="tab" data-action="tab" data-arg="awards"><span class="ic" data-ic="trophy"></span>Awards<span
-          class="badge" id="badgeAwards" hidden>0</span></button>
-      <button class="tab" data-action="tab" data-arg="settings"><span class="ic"
-          data-ic="sliders"></span>Settings</button>
-    </nav>
-
-    <div id="sheetRoot"></div>
-    <div id="toastRoot"></div>
-  </div>
-
-  <script>
+<div aria-hidden="true" id="bg">
+<div class="aur a1"></div>
+<div class="aur a2"></div>
+<div class="aur a3"></div>
+<div class="fbrick" style="width:70px;height:30px;left:8%;top:16%;background:linear-gradient(135deg,#22D3EE,#8B5CF6);animation-delay:-2s">
+</div>
+<div class="fbrick" style="width:52px;height:22px;left:14%;top:70%;background:linear-gradient(135deg,#FF3D8A,#FFB020);animation-delay:-6s">
+</div>
+<div class="fbrick" style="width:60px;height:26px;right:10%;top:24%;background:linear-gradient(135deg,#A3E635,#22D3EE);animation-delay:-9s">
+</div>
+<div class="fbrick" style="width:44px;height:20px;right:16%;top:78%;background:linear-gradient(135deg,#8B5CF6,#FF3D8A);animation-delay:-4s">
+</div>
+<div class="fbrick" style="width:36px;height:16px;left:40%;top:6%;background:linear-gradient(135deg,#FFB020,#FF4D5E);animation-delay:-11s">
+</div>
+<div class="grain"></div>
+</div>
+<div aria-hidden="true" class="side side-l">
+<div class="side-logo">BRICK<b>POP</b></div>
+<p class="side-tag">A neon arcade breaker built for every screen. Drag, launch, and pop the whole grid.</p>
+<div class="side-chips">
+<span class="side-chip">120 LEVELS</span><span class="side-chip m">8 WORLDS</span>
+<span class="side-chip l">ENDLESS MODE</span><span class="side-chip">11 POWER-UPS</span>
+</div>
+</div>
+<div aria-hidden="true" class="side side-r">
+<div class="keys-card">
+<h4>CONTROLS</h4>
+<div class="key-row"><span>Move paddle</span><span><kbd>←</kbd> <kbd>→</kbd> / mouse</span></div>
+<div class="key-row"><span>Launch ball</span><kbd>SPACE</kbd></div>
+<div class="key-row"><span>Pause</span><kbd>P</kbd></div>
+<div class="key-row"><span>Restart</span><kbd>R</kbd></div>
+<div class="key-row"><span>Mute all</span><kbd>M</kbd></div>
+</div>
+</div>
+<div id="app">
+<header id="hdr">
+<div class="logo"><span class="l1">BRICK</span><span class="dia"></span><span class="l2">POP</span></div>
+<div class="sp"></div>
+<button aria-label="Open shop" class="coins-chip" data-action="tab" data-arg="shop"><span class="ic" data-ic="coin"></span><span id="coinVal">0</span></button>
+<button aria-label="Toggle sound" class="mute-btn" data-action="mute"></button>
+</header>
+<main id="screens">
+<section aria-label="Home" class="screen" id="screen-home"></section>
+<section aria-label="Levels" class="screen" id="screen-levels"></section>
+<section aria-label="Shop" class="screen" id="screen-shop"></section>
+<section aria-label="Awards" class="screen" id="screen-awards"></section>
+<section aria-label="Settings" class="screen" id="screen-settings"></section>
+<section aria-label="Game" class="screen" id="screen-game">
+<canvas id="cv"></canvas>
+<div id="gameOverlayFx"></div>
+<div id="vignette"></div>
+<div id="hud">
+<div class="hud-top">
+<button aria-label="Pause" class="btn-icon" data-action="pause"><span class="ic" data-ic="pause"></span></button>
+<div class="hud-mid">
+<div id="hudLevel">LEVEL 1-1</div>
+<div id="hudScore">0</div>
+</div>
+<div class="hud-right">
+<button aria-label="Toggle sound" class="mute-btn" data-action="mute"></button>
+<div class="hud-coins"><span class="ic" data-ic="coin"></span><span id="hudCoinsVal">0</span></div>
+</div>
+</div>
+<div class="hud-sub">
+<div id="hudLives"></div>
+<div id="hudCombo"><span id="comboMult">×2</span><i id="comboBar"></i></div>
+<div id="hudFx"></div>
+</div>
+<div id="boostBar">
+<div class="bb-label">BOOSTERS — TAP TO ARM FOR THIS RUN</div>
+<div class="bb-row" id="boostRow"></div>
+</div>
+</div>
+<div id="gameHint">Drag to move · Tap to launch</div>
+</section>
+</main>
+<nav aria-label="Navigation" id="tabbar">
+<button class="tab" data-action="tab" data-arg="home"><span class="ic" data-ic="home"></span>Home</button>
+<button class="tab" data-action="tab" data-arg="levels"><span class="ic" data-ic="grid"></span>Levels</button>
+<button class="tab" data-action="tab" data-arg="shop"><span class="ic" data-ic="bag"></span>Shop</button>
+<button class="tab" data-action="tab" data-arg="awards"><span class="ic" data-ic="trophy"></span>Awards<span class="badge" hidden="" id="badgeAwards">0</span></button>
+<button class="tab" data-action="tab" data-arg="settings"><span class="ic" data-ic="sliders"></span>Settings</button>
+</nav>
+<div id="sheetRoot"></div>
+<div id="toastRoot"></div>
+</div>
+<script>
     'use strict';
     /* ================================================================
        BRICKPOP — single-file neon arcade brick breaker
@@ -4243,6 +4222,5 @@
     }
     init();
   </script>
-</body>
-
+<script src="./pwa-register.js" type="module"></script></body>
 </html>

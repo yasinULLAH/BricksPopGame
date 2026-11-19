@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-  <meta name="theme-color" content="#070810">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Brick Blitz</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" name="viewport"/>
+<meta content="#070810" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<title>Brick Blitz</title>
+<style>
     /* ============================== TOKENS ============================== */
     * {
       box-sizing: border-box;
@@ -1012,166 +1011,146 @@
       margin-top: 0
     }
   </style>
-</head>
-
+<link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
-  <div id="app">
-
-    <div class="bg-orbs"><i></i><i></i><i></i></div>
-
-    <!-- ================================ HOME ================================ -->
-    <section class="screen active" id="screen-home">
-      <div class="home-wrap">
-        <div class="logo">
-          <div class="logo-mark">🧱</div>
-          <h1>BRICK<span>BLITZ</span></h1>
-          <p>Smash · Combo · Conquer</p>
+<div id="app">
+<div class="bg-orbs"><i></i><i></i><i></i></div>
+<!-- ================================ HOME ================================ -->
+<section class="screen active" id="screen-home">
+<div class="home-wrap">
+<div class="logo">
+<div class="logo-mark">🧱</div>
+<h1>BRICK<span>BLITZ</span></h1>
+<p>Smash · Combo · Conquer</p>
+</div>
+<div class="home-stats">
+<div class="stat"><b id="stBest">0</b><span>Best</span></div>
+<div class="stat"><b id="stStars">0</b><span>Stars</span></div>
+<div class="stat"><b id="stCoins">0</b><span>Coins</span></div>
+</div>
+<div class="btn-col">
+<button class="btn primary big" id="btnPlay"><span>▶</span><span id="playLabel">Play Level 1</span></button>
+<div class="btn-row">
+<button class="btn" id="btnLevels">🗂 Levels</button>
+<button class="btn" id="btnDaily">🎁 Daily</button>
+</div>
+<div class="btn-row">
+<button class="btn" id="btnAchievements">🏆 Achievements</button>
+<button class="btn" id="btnStats">📊 Stats</button>
+</div>
+<div class="btn-row">
+<button class="btn" id="btnSettings">⚙ Settings</button>
+<button class="btn" id="btnHelp">❔ How to Play</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ================================ LEVELS ================================ -->
+<section class="screen" id="screen-levels">
+<div class="topbar">
+<button class="icon-btn" data-back="">←</button>
+<h2>Select Level</h2>
+<div style="flex:1"></div>
+<div id="levelsProgress" style="font-size:12px;color:var(--muted);font-weight:700">0 / 60</div>
+</div>
+<div class="levels-grid" id="levelsGrid"></div>
+</section>
+<!-- ================================ SETTINGS ================================ -->
+<section class="screen" id="screen-settings">
+<div class="topbar">
+<button class="icon-btn" data-back="">←</button>
+<h2>Settings</h2>
+</div>
+<div class="list">
+<label class="row"><span>Sound Effects<small>Blips, boops &amp; fanfares</small></span><input class="switch" id="setSound" type="checkbox"/></label>
+<label class="row"><span>Haptics<small>Vibration feedback</small></span><input class="switch" id="setHaptics" type="checkbox"/></label>
+<label class="row"><span>Ball Trail<small>Motion streak effect</small></span><input class="switch" id="setTrail" type="checkbox"/></label>
+<label class="row"><span>Screen Shake<small>Impact feedback</small></span><input class="switch" id="setShake" type="checkbox"/></label>
+<label class="row"><span>Reduced Effects<small>Fewer particles (low-end devices)</small></span><input class="switch" id="setReduced" type="checkbox"/></label>
+<button class="btn danger" id="btnReset" style="margin-top:10px">Reset All Progress</button>
+<div style="text-align:center;color:var(--muted);font-size:11.5px;margin-top:14px;line-height:1.7">
+          Brick Blitz · v2.0 · 60 levels<br/>Built with ❤️
         </div>
-
-        <div class="home-stats">
-          <div class="stat"><b id="stBest">0</b><span>Best</span></div>
-          <div class="stat"><b id="stStars">0</b><span>Stars</span></div>
-          <div class="stat"><b id="stCoins">0</b><span>Coins</span></div>
-        </div>
-
-        <div class="btn-col">
-          <button class="btn primary big" id="btnPlay"><span>▶</span><span id="playLabel">Play Level 1</span></button>
-          <div class="btn-row">
-            <button class="btn" id="btnLevels">🗂 Levels</button>
-            <button class="btn" id="btnDaily">🎁 Daily</button>
-          </div>
-          <div class="btn-row">
-            <button class="btn" id="btnAchievements">🏆 Achievements</button>
-            <button class="btn" id="btnStats">📊 Stats</button>
-          </div>
-          <div class="btn-row">
-            <button class="btn" id="btnSettings">⚙ Settings</button>
-            <button class="btn" id="btnHelp">❔ How to Play</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================================ LEVELS ================================ -->
-    <section class="screen" id="screen-levels">
-      <div class="topbar">
-        <button class="icon-btn" data-back>←</button>
-        <h2>Select Level</h2>
-        <div style="flex:1"></div>
-        <div style="font-size:12px;color:var(--muted);font-weight:700" id="levelsProgress">0 / 60</div>
-      </div>
-      <div class="levels-grid" id="levelsGrid"></div>
-    </section>
-
-    <!-- ================================ SETTINGS ================================ -->
-    <section class="screen" id="screen-settings">
-      <div class="topbar">
-        <button class="icon-btn" data-back>←</button>
-        <h2>Settings</h2>
-      </div>
-      <div class="list">
-        <label class="row"><span>Sound Effects<small>Blips, boops &amp; fanfares</small></span><input type="checkbox"
-            class="switch" id="setSound"></label>
-        <label class="row"><span>Haptics<small>Vibration feedback</small></span><input type="checkbox" class="switch"
-            id="setHaptics"></label>
-        <label class="row"><span>Ball Trail<small>Motion streak effect</small></span><input type="checkbox"
-            class="switch" id="setTrail"></label>
-        <label class="row"><span>Screen Shake<small>Impact feedback</small></span><input type="checkbox" class="switch"
-            id="setShake"></label>
-        <label class="row"><span>Reduced Effects<small>Fewer particles (low-end devices)</small></span><input
-            type="checkbox" class="switch" id="setReduced"></label>
-        <button class="btn danger" id="btnReset" style="margin-top:10px">Reset All Progress</button>
-        <div style="text-align:center;color:var(--muted);font-size:11.5px;margin-top:14px;line-height:1.7">
-          Brick Blitz · v2.0 · 60 levels<br>Built with ❤️
-        </div>
-      </div>
-    </section>
-
-    <!-- ================================ ACHIEVEMENTS ================================ -->
-    <section class="screen" id="screen-achievements">
-      <div class="topbar">
-        <button class="icon-btn" data-back>←</button>
-        <h2>Achievements</h2>
-        <div style="flex:1"></div>
-        <div style="font-size:12px;color:var(--muted);font-weight:700" id="achProgress">0 / 15</div>
-      </div>
-      <div class="ach-list" id="achList"></div>
-    </section>
-
-    <!-- ================================ STATS ================================ -->
-    <section class="screen" id="screen-stats">
-      <div class="topbar">
-        <button class="icon-btn" data-back>←</button>
-        <h2>Statistics</h2>
-      </div>
-      <div class="stat-list" id="statsList"></div>
-    </section>
-
-    <!-- ================================ HELP ================================ -->
-    <section class="screen" id="screen-help">
-      <div class="topbar">
-        <button class="icon-btn" data-back>←</button>
-        <h2>How to Play</h2>
-      </div>
-      <div class="help-sec">
-        <h3>Objective</h3>
-        <p>Destroy every brick on the screen without letting the ball fall past your paddle. Each level awards up to 3
+</div>
+</section>
+<!-- ================================ ACHIEVEMENTS ================================ -->
+<section class="screen" id="screen-achievements">
+<div class="topbar">
+<button class="icon-btn" data-back="">←</button>
+<h2>Achievements</h2>
+<div style="flex:1"></div>
+<div id="achProgress" style="font-size:12px;color:var(--muted);font-weight:700">0 / 15</div>
+</div>
+<div class="ach-list" id="achList"></div>
+</section>
+<!-- ================================ STATS ================================ -->
+<section class="screen" id="screen-stats">
+<div class="topbar">
+<button class="icon-btn" data-back="">←</button>
+<h2>Statistics</h2>
+</div>
+<div class="stat-list" id="statsList"></div>
+</section>
+<!-- ================================ HELP ================================ -->
+<section class="screen" id="screen-help">
+<div class="topbar">
+<button class="icon-btn" data-back="">←</button>
+<h2>How to Play</h2>
+</div>
+<div class="help-sec">
+<h3>Objective</h3>
+<p>Destroy every brick on the screen without letting the ball fall past your paddle. Each level awards up to 3
           stars based on how many lives you have left.</p>
-      </div>
-      <div class="help-sec">
-        <h3>Controls</h3>
-        <p><b>Touch / Mouse:</b> Drag anywhere on the play area to move the paddle. Tap to launch the ball.</p>
-        <p><b>Keyboard:</b> ← → or A / D to move. Space or Enter to launch / pause. Esc to pause.</p>
-        <p><b>Pause:</b> Tap the ❚❚ button in the top-left during play.</p>
-      </div>
-      <div class="help-sec">
-        <h3>Brick Types</h3>
-        <p><b>Colored bricks</b> — Normal, 1–4 hits. Pip count shows remaining HP.</p>
-        <p><b>Grey metal bricks</b> — Tougher (double HP) and never drop power-ups.</p>
-        <p><b>Red explosive bricks</b> — Explode on destruction, damaging nearby bricks.</p>
-        <p><b>Crown boss bricks</b> — High HP, appear every 10th level. Focus fire!</p>
-      </div>
-      <div class="help-sec">
-        <h3>Power-Ups</h3>
-        <div class="pw"><span class="ic" style="color:#5eead4">↔</span>Wide — Bigger paddle for a while</div>
-        <div class="pw"><span class="ic" style="color:#ffd166">●●●</span>Multi — Splits into extra balls</div>
-        <div class="pw"><span class="ic" style="color:#60a5fa">⏱</span>Slow — Slows the ball</div>
-        <div class="pw"><span class="ic" style="color:#ff5c7a">⚡</span>Laser — Paddle fires automatically</div>
-        <div class="pw"><span class="ic" style="color:#c084fc">◎</span>Sticky — Ball sticks to paddle</div>
-        <div class="pw"><span class="ic" style="color:#f472b6">♥</span>Life — Extra life</div>
-      </div>
-      <div class="help-sec">
-        <h3>Tips</h3>
-        <p>• Chain brick hits without touching the paddle to build a <b>combo multiplier</b> — more score per brick.</p>
-        <p>• The ball speeds up with each level, so aim for the top corners.</p>
-        <p>• Earn coins by clearing levels and finishing the daily challenge. Spend 50 coins to continue after a game
+</div>
+<div class="help-sec">
+<h3>Controls</h3>
+<p><b>Touch / Mouse:</b> Drag anywhere on the play area to move the paddle. Tap to launch the ball.</p>
+<p><b>Keyboard:</b> ← → or A / D to move. Space or Enter to launch / pause. Esc to pause.</p>
+<p><b>Pause:</b> Tap the ❚❚ button in the top-left during play.</p>
+</div>
+<div class="help-sec">
+<h3>Brick Types</h3>
+<p><b>Colored bricks</b> — Normal, 1–4 hits. Pip count shows remaining HP.</p>
+<p><b>Grey metal bricks</b> — Tougher (double HP) and never drop power-ups.</p>
+<p><b>Red explosive bricks</b> — Explode on destruction, damaging nearby bricks.</p>
+<p><b>Crown boss bricks</b> — High HP, appear every 10th level. Focus fire!</p>
+</div>
+<div class="help-sec">
+<h3>Power-Ups</h3>
+<div class="pw"><span class="ic" style="color:#5eead4">↔</span>Wide — Bigger paddle for a while</div>
+<div class="pw"><span class="ic" style="color:#ffd166">●●●</span>Multi — Splits into extra balls</div>
+<div class="pw"><span class="ic" style="color:#60a5fa">⏱</span>Slow — Slows the ball</div>
+<div class="pw"><span class="ic" style="color:#ff5c7a">⚡</span>Laser — Paddle fires automatically</div>
+<div class="pw"><span class="ic" style="color:#c084fc">◎</span>Sticky — Ball sticks to paddle</div>
+<div class="pw"><span class="ic" style="color:#f472b6">♥</span>Life — Extra life</div>
+</div>
+<div class="help-sec">
+<h3>Tips</h3>
+<p>• Chain brick hits without touching the paddle to build a <b>combo multiplier</b> — more score per brick.</p>
+<p>• The ball speeds up with each level, so aim for the top corners.</p>
+<p>• Earn coins by clearing levels and finishing the daily challenge. Spend 50 coins to continue after a game
           over.</p>
-      </div>
-    </section>
-
-    <!-- ================================ GAME ================================ -->
-    <section class="screen" id="screen-game">
-      <div class="hud">
-        <button class="icon-btn" id="btnPause">❚❚</button>
-        <div class="hud-mid">
-          <div class="chip"><span class="lbl">Level</span><span id="hudLevel">1</span></div>
-          <div class="chip score"><span class="lbl">Score</span><span id="hudScore">0</span></div>
-        </div>
-        <div class="lives" id="hudLives">♥♥♥</div>
-      </div>
-
-      <div class="stage" id="stage">
-        <canvas id="game"></canvas>
-        <div class="level-banner" id="levelBanner"></div>
-        <div class="overlay" id="overlay" hidden></div>
-      </div>
-
-      <div class="fx-row" id="fxRow"></div>
-    </section>
-
-  </div>
-
-  <script>
+</div>
+</section>
+<!-- ================================ GAME ================================ -->
+<section class="screen" id="screen-game">
+<div class="hud">
+<button class="icon-btn" id="btnPause">❚❚</button>
+<div class="hud-mid">
+<div class="chip"><span class="lbl">Level</span><span id="hudLevel">1</span></div>
+<div class="chip score"><span class="lbl">Score</span><span id="hudScore">0</span></div>
+</div>
+<div class="lives" id="hudLives">♥♥♥</div>
+</div>
+<div class="stage" id="stage">
+<canvas id="game"></canvas>
+<div class="level-banner" id="levelBanner"></div>
+<div class="overlay" hidden="" id="overlay"></div>
+</div>
+<div class="fx-row" id="fxRow"></div>
+</section>
+</div>
+<script>
     "use strict";
     /* =====================================================================
        BRICK BLITZ — v2.0
@@ -2921,6 +2900,5 @@
 
     init();
   </script>
-</body>
-
+<script src="./pwa-register.js" type="module"></script></body>
 </html>

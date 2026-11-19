@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <!--
   =============================================================================
   BRICKPOP NOVA ULTIMATE — Neon Arcade Brick Breaker (Unified V3 Edition)
@@ -17,20 +18,17 @@
   =============================================================================
 -->
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0B0716">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="author" content="Yasin Ullah — Bannu Software Solutions">
-  <meta name="copyright" content="Copyright (c) 2026 Yasin Ullah. All Rights Reserved.">
-  <meta name="description"
-    content="BRICKPOP NOVA ULTIMATE — Offline neon arcade brick breaker with unlimited levels, dynamic ranks, 4 game modes, daily missions, 11 power-ups, bosses, skins, and pro stats. Created by Yasin Ullah, dedicated to little Muhib Ullah.">
-  <title>BRICKPOP NOVA ULTIMATE — By Yasin Ullah</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="#0B0716" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Yasin Ullah — Bannu Software Solutions" name="author"/>
+<meta content="Copyright (c) 2026 Yasin Ullah. All Rights Reserved." name="copyright"/>
+<meta content="BRICKPOP NOVA ULTIMATE — Offline neon arcade brick breaker with unlimited levels, dynamic ranks, 4 game modes, daily missions, 11 power-ups, bosses, skins, and pro stats. Created by Yasin Ullah, dedicated to little Muhib Ullah." name="description"/>
+<title>BRICKPOP NOVA ULTIMATE — By Yasin Ullah</title>
+<style>
     /* ============ TOKENS ============ */
     :root {
       --bg: #0B0716;
@@ -3615,145 +3613,127 @@
       }
     }
   </style>
-</head>
-
+<link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
-
-  <div id="bg" aria-hidden="true">
-    <div class="aur a1"></div>
-    <div class="aur a2"></div>
-    <div class="aur a3"></div>
-    <div class="fbrick"
-      style="width:70px;height:30px;left:8%;top:16%;background:linear-gradient(135deg,#22D3EE,#8B5CF6);animation-delay:-2s">
-    </div>
-    <div class="fbrick"
-      style="width:52px;height:22px;left:14%;top:70%;background:linear-gradient(135deg,#FF3D8A,#FFB020);animation-delay:-6s">
-    </div>
-    <div class="fbrick"
-      style="width:60px;height:26px;right:10%;top:24%;background:linear-gradient(135deg,#A3E635,#22D3EE);animation-delay:-9s">
-    </div>
-    <div class="fbrick"
-      style="width:44px;height:20px;right:16%;top:78%;background:linear-gradient(135deg,#8B5CF6,#FF3D8A);animation-delay:-4s">
-    </div>
-  </div>
-
-  <div class="side side-l" aria-hidden="true">
-    <div class="side-logo">BRICK<b>POP</b></div>
-    <p class="side-tag">Nova Ultimate Edition — Unlimited levels, infinite random mode, dynamic ranks, 7 arcade modes, bosses &amp;
+<div aria-hidden="true" id="bg">
+<div class="aur a1"></div>
+<div class="aur a2"></div>
+<div class="aur a3"></div>
+<div class="fbrick" style="width:70px;height:30px;left:8%;top:16%;background:linear-gradient(135deg,#22D3EE,#8B5CF6);animation-delay:-2s">
+</div>
+<div class="fbrick" style="width:52px;height:22px;left:14%;top:70%;background:linear-gradient(135deg,#FF3D8A,#FFB020);animation-delay:-6s">
+</div>
+<div class="fbrick" style="width:60px;height:26px;right:10%;top:24%;background:linear-gradient(135deg,#A3E635,#22D3EE);animation-delay:-9s">
+</div>
+<div class="fbrick" style="width:44px;height:20px;right:16%;top:78%;background:linear-gradient(135deg,#8B5CF6,#FF3D8A);animation-delay:-4s">
+</div>
+</div>
+<div aria-hidden="true" class="side side-l">
+<div class="side-logo">BRICK<b>POP</b></div>
+<p class="side-tag">Nova Ultimate Edition — Unlimited levels, infinite random mode, dynamic ranks, 7 arcade modes, bosses &amp;
       pro stats. 100% offline.</p>
-    <p class="side-ded">Dedicated to my little Muhib Ullah</p>
-    <div class="side-chips">
-      <span class="side-chip">UNLIMITED LEVELS</span><span class="side-chip m">INFINITE RANDOM</span>
-      <span class="side-chip l">7 MODES</span><span class="side-chip g">PRO STATS</span>
-    </div>
-  </div>
-
-  <div class="side side-r" aria-hidden="true">
-    <div class="keys-card">
-      <h4>CONTROLS</h4>
-      <div class="key-row"><span>Move paddle</span><span><kbd>←</kbd> <kbd>→</kbd> / Mouse</span></div>
-      <div class="key-row"><span>Launch ball</span><kbd>SPACE</kbd></div>
-      <div class="key-row"><span>Use booster</span><span><kbd>1</kbd>–<kbd>7</kbd></span></div>
-      <div class="key-row"><span>Nova Blast</span><kbd>E</kbd> / <kbd>SHIFT</kbd></div>
-      <div class="key-row"><span>Pause</span><kbd>P</kbd></div>
-      <div class="key-row"><span>Restart</span><kbd>R</kbd></div>
-      <div class="key-row"><span>Fullscreen</span><kbd>F</kbd></div>
-      <div class="key-row"><span>Mute all</span><kbd>M</kbd></div>
-    </div>
-    <p class="side-copy">&copy; 2026 <b>Yasin Ullah</b> (Bannu Software Solutions). All rights reserved. Copying or
+<p class="side-ded">Dedicated to my little Muhib Ullah</p>
+<div class="side-chips">
+<span class="side-chip">UNLIMITED LEVELS</span><span class="side-chip m">INFINITE RANDOM</span>
+<span class="side-chip l">7 MODES</span><span class="side-chip g">PRO STATS</span>
+</div>
+</div>
+<div aria-hidden="true" class="side side-r">
+<div class="keys-card">
+<h4>CONTROLS</h4>
+<div class="key-row"><span>Move paddle</span><span><kbd>←</kbd> <kbd>→</kbd> / Mouse</span></div>
+<div class="key-row"><span>Launch ball</span><kbd>SPACE</kbd></div>
+<div class="key-row"><span>Use booster</span><span><kbd>1</kbd>–<kbd>7</kbd></span></div>
+<div class="key-row"><span>Nova Blast</span><kbd>E</kbd> / <kbd>SHIFT</kbd></div>
+<div class="key-row"><span>Pause</span><kbd>P</kbd></div>
+<div class="key-row"><span>Restart</span><kbd>R</kbd></div>
+<div class="key-row"><span>Fullscreen</span><kbd>F</kbd></div>
+<div class="key-row"><span>Mute all</span><kbd>M</kbd></div>
+</div>
+<p class="side-copy">© 2026 <b>Yasin Ullah</b> (Bannu Software Solutions). All rights reserved. Copying or
       reuse prohibited without author attribution.</p>
-  </div>
-
-  <div id="app">
-    <header id="hdr">
-      <div class="logo"><span class="l1">BRICK</span><span class="dia"></span><span class="l2">POP</span></div>
-      <div class="sp"></div>
-      <button class="rank-pill-hdr" id="hdrRank" data-action="tab" data-arg="awards" title="View Rank & Stats">Novice
+</div>
+<div id="app">
+<header id="hdr">
+<div class="logo"><span class="l1">BRICK</span><span class="dia"></span><span class="l2">POP</span></div>
+<div class="sp"></div>
+<button class="rank-pill-hdr" data-action="tab" data-arg="awards" id="hdrRank" title="View Rank &amp; Stats">Novice
         I</button>
-      <button class="coins-chip" data-action="tab" data-arg="shop" aria-label="Open shop"><span class="ic"
-          data-ic="coin"></span><span id="coinVal">0</span></button>
-      <button class="fs-btn" data-action="cycle-theme" aria-label="Switch Theme" title="Switch Theme"><span
-          class="ic" data-ic="palette"></span></button>
-      <button class="fs-btn" data-action="fullscreen" aria-label="Toggle Fullscreen" title="Fullscreen (F)"><span
-          class="ic" data-ic="maximize"></span></button>
-      <button class="mute-btn" data-action="mute" aria-label="Toggle sound"></button>
-    </header>
-
-    <main id="screens">
-      <section class="screen" id="screen-home" aria-label="Home"></section>
-      <section class="screen" id="screen-levels" aria-label="Levels"></section>
-      <section class="screen" id="screen-shop" aria-label="Shop"></section>
-      <section class="screen" id="screen-awards" aria-label="Stats and Awards"></section>
-      <section class="screen" id="screen-settings" aria-label="Settings"></section>
-      <section class="screen" id="screen-game" aria-label="Game">
-        <div id="hud">
-          <div class="hud-inner">
-            <div class="hud-top">
-              <div class="hud-left">
-                <button class="btn-icon" data-action="pause" aria-label="Pause" title="Pause (P)"><span class="ic" data-ic="pause"></span></button>
-                <button class="btn-icon" data-action="fullscreen" aria-label="Fullscreen" title="Fullscreen (F)"><span class="ic" data-ic="maximize"></span></button>
-              </div>
-              <div class="hud-mid">
-                <div id="hudLevel">LEVEL 1-1</div>
-                <div id="hudScore">0</div>
-                <div id="hudTimer">2:30</div>
-              </div>
-              <div class="hud-right">
-                <div class="hud-coins"><span class="ic" data-ic="coin"></span><span id="hudCoinsVal">0</span></div>
-                <div class="hud-right-row">
-                  <button class="mute-btn" data-action="mute" aria-label="Toggle sound"></button>
-                </div>
-              </div>
-            </div>
-            <div id="bossBar">
-              <span class="bb-title" id="bossName">👑 BOSS</span>
-              <div class="bb-track"><i class="bb-fill" id="bossFill"></i></div>
-              <span class="bb-hp" id="bossHpTxt">100%</span>
-            </div>
-            <div class="hud-sub">
-              <div class="hud-sub-left">
-                <div id="hudLives"></div>
-                <div id="hudCombo"><span id="comboMult">×2</span><i id="comboBar"></i></div>
-                <button class="nova-btn" id="novaBtn" data-action="nova" aria-label="Nova Blast Ultimate" title="Nova Blast Ultimate (E / Shift)"><i class="nv-fill" id="novaFill" style="width:0%"></i><span style="position:relative;z-index:1" id="novaTxt">⚡ 0%</span></button>
-              </div>
-              <div id="hudFx"></div>
-            </div>
-            <div id="boostBar">
-              <div class="bb-label" id="boostBarLabel">BOOST (1-7)</div>
-              <div class="bb-row" id="boostRow"></div>
-            </div>
-          </div>
-        </div>
-        <div id="stageWrap">
-          <canvas id="cv"></canvas>
-          <div id="gameOverlayFx"></div>
-          <div id="vignette"></div>
-          <div id="fpsBadge">60 FPS</div>
-          <div id="touchPad">
-            <button class="tpad-btn" id="tpadLeft" aria-label="Move Left" title="Move Left">◀</button>
-            <button class="tpad-btn mid" id="tpadLaunch" data-action="tap-launch" aria-label="Launch or Nova" title="Launch / Nova Blast">🚀</button>
-            <button class="tpad-btn" id="tpadRight" aria-label="Move Right" title="Move Right">▶</button>
-          </div>
-          <div id="gameHint">Drag to move · Tap to launch</div>
-        </div>
-      </section>
-    </main>
-
-    <nav id="tabbar" aria-label="Navigation">
-      <button class="tab" data-action="tab" data-arg="home"><span class="ic" data-ic="home"></span>Home</button>
-      <button class="tab" data-action="tab" data-arg="levels"><span class="ic" data-ic="grid"></span>Levels</button>
-      <button class="tab" data-action="tab" data-arg="shop"><span class="ic" data-ic="bag"></span>Shop</button>
-      <button class="tab" data-action="tab" data-arg="awards"><span class="ic" data-ic="trophy"></span>Stats<span
-          class="badge" id="badgeAwards" hidden>0</span></button>
-      <button class="tab" data-action="tab" data-arg="settings"><span class="ic"
-          data-ic="sliders"></span>Settings</button>
-    </nav>
-
-    <div id="sheetRoot"></div>
-    <div id="toastRoot"></div>
-  </div>
-
-  <script>
+<button aria-label="Open shop" class="coins-chip" data-action="tab" data-arg="shop"><span class="ic" data-ic="coin"></span><span id="coinVal">0</span></button>
+<button aria-label="Switch Theme" class="fs-btn" data-action="cycle-theme" title="Switch Theme"><span class="ic" data-ic="palette"></span></button>
+<button aria-label="Toggle Fullscreen" class="fs-btn" data-action="fullscreen" title="Fullscreen (F)"><span class="ic" data-ic="maximize"></span></button>
+<button aria-label="Toggle sound" class="mute-btn" data-action="mute"></button>
+</header>
+<main id="screens">
+<section aria-label="Home" class="screen" id="screen-home"></section>
+<section aria-label="Levels" class="screen" id="screen-levels"></section>
+<section aria-label="Shop" class="screen" id="screen-shop"></section>
+<section aria-label="Stats and Awards" class="screen" id="screen-awards"></section>
+<section aria-label="Settings" class="screen" id="screen-settings"></section>
+<section aria-label="Game" class="screen" id="screen-game">
+<div id="hud">
+<div class="hud-inner">
+<div class="hud-top">
+<div class="hud-left">
+<button aria-label="Pause" class="btn-icon" data-action="pause" title="Pause (P)"><span class="ic" data-ic="pause"></span></button>
+<button aria-label="Fullscreen" class="btn-icon" data-action="fullscreen" title="Fullscreen (F)"><span class="ic" data-ic="maximize"></span></button>
+</div>
+<div class="hud-mid">
+<div id="hudLevel">LEVEL 1-1</div>
+<div id="hudScore">0</div>
+<div id="hudTimer">2:30</div>
+</div>
+<div class="hud-right">
+<div class="hud-coins"><span class="ic" data-ic="coin"></span><span id="hudCoinsVal">0</span></div>
+<div class="hud-right-row">
+<button aria-label="Toggle sound" class="mute-btn" data-action="mute"></button>
+</div>
+</div>
+</div>
+<div id="bossBar">
+<span class="bb-title" id="bossName">👑 BOSS</span>
+<div class="bb-track"><i class="bb-fill" id="bossFill"></i></div>
+<span class="bb-hp" id="bossHpTxt">100%</span>
+</div>
+<div class="hud-sub">
+<div class="hud-sub-left">
+<div id="hudLives"></div>
+<div id="hudCombo"><span id="comboMult">×2</span><i id="comboBar"></i></div>
+<button aria-label="Nova Blast Ultimate" class="nova-btn" data-action="nova" id="novaBtn" title="Nova Blast Ultimate (E / Shift)"><i class="nv-fill" id="novaFill" style="width:0%"></i><span id="novaTxt" style="position:relative;z-index:1">⚡ 0%</span></button>
+</div>
+<div id="hudFx"></div>
+</div>
+<div id="boostBar">
+<div class="bb-label" id="boostBarLabel">BOOST (1-7)</div>
+<div class="bb-row" id="boostRow"></div>
+</div>
+</div>
+</div>
+<div id="stageWrap">
+<canvas id="cv"></canvas>
+<div id="gameOverlayFx"></div>
+<div id="vignette"></div>
+<div id="fpsBadge">60 FPS</div>
+<div id="touchPad">
+<button aria-label="Move Left" class="tpad-btn" id="tpadLeft" title="Move Left">◀</button>
+<button aria-label="Launch or Nova" class="tpad-btn mid" data-action="tap-launch" id="tpadLaunch" title="Launch / Nova Blast">🚀</button>
+<button aria-label="Move Right" class="tpad-btn" id="tpadRight" title="Move Right">▶</button>
+</div>
+<div id="gameHint">Drag to move · Tap to launch</div>
+</div>
+</section>
+</main>
+<nav aria-label="Navigation" id="tabbar">
+<button class="tab" data-action="tab" data-arg="home"><span class="ic" data-ic="home"></span>Home</button>
+<button class="tab" data-action="tab" data-arg="levels"><span class="ic" data-ic="grid"></span>Levels</button>
+<button class="tab" data-action="tab" data-arg="shop"><span class="ic" data-ic="bag"></span>Shop</button>
+<button class="tab" data-action="tab" data-arg="awards"><span class="ic" data-ic="trophy"></span>Stats<span class="badge" hidden="" id="badgeAwards">0</span></button>
+<button class="tab" data-action="tab" data-arg="settings"><span class="ic" data-ic="sliders"></span>Settings</button>
+</nav>
+<div id="sheetRoot"></div>
+<div id="toastRoot"></div>
+</div>
+<script>
     'use strict';
     /* ============================================================================
        BRICKPOP NOVA ULTIMATE — Unified V3 Engine + V1/V2 Features + Unlimited
@@ -6833,6 +6813,5 @@
     }
     window.onload = init;
   </script>
-</body>
-
+<script src="./pwa-register.js" type="module"></script></body>
 </html>
