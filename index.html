@@ -2739,7 +2739,8 @@
       width: 100%;
       min-height: 0;
       overflow: hidden;
-      background: #0B0716
+      background: #0B0716;
+      touch-action: none
     }
 
     #cv {
@@ -4003,7 +4004,203 @@
       color: #0B0716;
     }
 
-    @media(max-width:360px) {
+    /* ============ MOBILE ERGONOMICS, PERFORMANCE & UI/UX ============ */
+    body.in-game #bg {
+      display: none !important
+    }
+
+    @media(max-width:699px) {
+      #bg .aur {
+        filter: blur(42px)
+      }
+
+      #hdr {
+        padding: env(safe-area-inset-top, 0px) 10px 0;
+        gap: 6px;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none
+      }
+
+      .logo {
+        font-size: 15px
+      }
+
+      .rank-pill-hdr {
+        font-size: 11px;
+        padding: 5px 8px;
+        max-width: 116px
+      }
+
+      .coins-chip {
+        font-size: 12px;
+        padding: 5px 9px
+      }
+
+      #hud {
+        padding: calc(env(safe-area-inset-top, 0px) + 5px) 8px 6px;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none
+      }
+
+      #hud .btn-icon,
+      #hud .mute-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        font-size: 15px
+      }
+
+      .hud-mid {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1px
+      }
+
+      #hudLevel {
+        font-size: 9px;
+        max-width: 190px;
+        letter-spacing: .8px
+      }
+
+      #hudScore {
+        font-size: 19px
+      }
+
+      .hud-coins {
+        padding: 4px 8px;
+        font-size: 11.5px
+      }
+
+      .hud-sub {
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 5px;
+        overflow-x: visible
+      }
+
+      .hud-sub-left {
+        width: 100%;
+        justify-content: space-between;
+        gap: 6px
+      }
+
+      #hudLives {
+        font-size: 13.5px;
+        gap: 3px
+      }
+
+      .nova-btn {
+        margin-left: auto;
+        padding: 4px 11px;
+        font-size: 11px;
+        min-height: 26px
+      }
+
+      #boostBar.show {
+        width: 100%;
+        margin-left: 0;
+        justify-content: center;
+        padding-top: 4px;
+        border-top: 1px solid var(--line)
+      }
+
+      #boostBar .bb-row {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px
+      }
+
+      .chip-btn.boost-ic {
+        width: 36px;
+        height: 28px;
+        border-radius: 9px
+      }
+
+      .chip-btn.boost-ic .ic {
+        font-size: 14px
+      }
+
+      .chip-btn.boost-ic .b-cnt {
+        min-width: 15px;
+        height: 13px;
+        font-size: 8px;
+        bottom: -3px;
+        right: -3px
+      }
+
+      #gameHint {
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 116px);
+        font-size: 11px;
+        padding: 5px 12px
+      }
+
+      #touchPad {
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+        gap: 8px
+      }
+
+      .tpad-btn {
+        height: 52px;
+        font-size: 15px;
+        border-radius: 15px
+      }
+
+      .mode-grid {
+        gap: 9px
+      }
+
+      .mode {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 88px;
+        padding: 12px
+      }
+
+      .daily {
+        gap: 10px
+      }
+
+      .seg button {
+        min-width: calc(33.33% - 4px);
+        padding: 9px 6px;
+        font-size: 12px
+      }
+
+      .sheet {
+        padding: 10px 14px calc(env(safe-area-inset-bottom, 0px) + 18px)
+      }
+
+      .sheet-head {
+        flex-wrap: wrap
+      }
+
+      .btn-row {
+        gap: 7px;
+        flex-wrap: wrap
+      }
+
+      .btn-row .btn {
+        min-width: calc(33.33% - 6px);
+        padding: 11px 8px;
+        font-size: 12.5px;
+        min-height: 44px
+      }
+
+      .rand-prev-card {
+        padding: 10px;
+        gap: 10px
+      }
+
+      .rand-prev-cv {
+        width: 96px;
+        height: 64px
+      }
+    }
+
+    @media(max-width:370px) {
       .rank-pill-hdr {
         display: none
       }
@@ -6239,7 +6436,8 @@
     }
     const MAXP = () => {
       if (S.set.reducedMotion) return 40;
-      const base = S.set.fx ? 500 : 200;
+      const touch = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || cssW < 640;
+      const base = S.set.fx ? (touch ? 220 : 500) : (touch ? 110 : 200);
       return Math.max(30, Math.round(base * ((S.set.particlePct ?? 100) / 100)));
     };
 
@@ -6910,17 +7108,20 @@
       return (window.matchMedia && matchMedia('(pointer: coarse)').matches) || cssW < 640;
     }
     function paddleOffset() {
-      // Keep paddle elevated above the thumb touch-drag zone so the player's finger never hides the paddle
+      // Elevate paddle on mobile to create a dedicated bottom Thumb Control Deck so fingers never cover the paddle
       const touch = isTouchErgonomic();
       if (touch) {
-        return S.set.paddleHeightOffset === 'high' ? 148 : S.set.paddleHeightOffset === 'low' ? 96 : 122;
+        const base = S.set.paddleHeightOffset === 'high' ? 210 : S.set.paddleHeightOffset === 'low' ? 145 : 180;
+        const extra = Math.max(0, (VH - MIN_VH) * 0.25);
+        return Math.round(clamp(base + extra, 140, Math.max(185, VH * 0.30)));
       }
       return S.set.paddleHeightOffset === 'high' ? 114 : S.set.paddleHeightOffset === 'low' ? 72 : 92;
     }
     function resize() {
       const rect = cv.getBoundingClientRect(); if (rect.width < 2 || rect.height < 2) return;
       cssW = rect.width; cssH = rect.height;
-      const maxDpr = S.set.graphicsQuality === 'low' ? 1 : S.set.graphicsQuality === 'medium' ? 1.5 : (S.set.fx ? 2 : 1.35);
+      const touch = isTouchErgonomic();
+      const maxDpr = S.set.graphicsQuality === 'low' ? 1 : S.set.graphicsQuality === 'medium' ? (touch ? 1.25 : 1.5) : (S.set.fx ? (touch ? 1.5 : 2) : 1.25);
       dpr = Math.min(maxDpr, window.devicePixelRatio || 1);
       cv.width = Math.round(cssW * dpr); cv.height = Math.round(cssH * dpr);
       const desktopVH = (cssW >= 680 && cssW / Math.max(1, cssH) > 0.8) ? 660 : MIN_VH;
@@ -6937,7 +7138,10 @@
       topWall = 6;
       if (G) {
         G.paddle.y = VH - paddleOffset();
-        for (const b of G.balls) { b.y = Math.min(b.y, G.paddle.y - BALL_R - 1); b.x = clamp(b.x, BALL_R, VW - BALL_R) }
+        for (const b of G.balls) {
+          b.y = b.sticky ? (G.paddle.y - b.r - 1) : Math.min(b.y, G.paddle.y - b.r - 1);
+          b.x = clamp(b.sticky ? (G.paddle.x + b.off) : b.x, b.r + 2, VW - b.r - 2);
+        }
         bgGrad = ctx.createLinearGradient(0, 0, 0, VH);
         const th = currentTheme(), w = WORLDS[G.wi];
         if (th.light) {
@@ -7020,7 +7224,7 @@
         timedRound: 0, bossStage: 0,
         shake: 0, flash: 0, winT: 0, loseT: 0, sheetShown: false, wave: 1, waveDelay: 0, descT: 14, descInt: 14,
         laserAcc: 0, usedContinue: false, livesDirty: true, fxDirty: true, labelDirty: true, scoreShown: -1, coinsShown: -1, comboShown: -1,
-        stars: Array.from({ length: 100 }, () => ({ x: R(), y: R(), z: .3 + R() * .7, tw: R() * 6.28 })),
+        stars: Array.from({ length: isTouchErgonomic() ? 45 : 100 }, () => ({ x: R(), y: R(), z: .3 + R() * .7, tw: R() * 6.28 })),
         newRecord: false, hintMode: ''
       };
       spawnBall();
@@ -7633,8 +7837,12 @@
         const tw = paddleTargetW();
         if (Math.abs(p.w - tw) > .5) { p.w = tw; buildPaddleSprite() }
         p.tx = clamp(p.tx, p.w / 2 + 4, VW - p.w / 2 - 4);
-        const smoothRate = S.set.paddleSmoothing === 'instant' ? 60 : S.set.paddleSmoothing === 'weighted' ? 11 : 22;
-        p.x = lerp(p.x, p.tx, 1 - Math.exp(-smoothRate * dt));
+        if (drag && S.set.paddleSmoothing !== 'weighted') {
+          p.x = p.tx;
+        } else {
+          const smoothRate = S.set.paddleSmoothing === 'instant' ? 75 : S.set.paddleSmoothing === 'weighted' ? 14 : 38;
+          p.x = lerp(p.x, p.tx, 1 - Math.exp(-smoothRate * dt));
+        }
         p.pulse = Math.max(0, p.pulse - dt * 5);
         for (const id in G.fx) { G.fx[id].t -= dt; if (G.fx[id].t <= 0) { delete G.fx[id]; G.fxDirty = true } }
         if (G.comboT > 0) { G.comboT -= dt; if (G.comboT <= 0) { G.combo = 0; G.mult = 1 } }
@@ -7674,7 +7882,7 @@
             }
             continue;
           }
-          if (h.y > VH + 20) G.hazards.splice(i, 1);
+          if (h.y > Math.min(VH + 20, p.y + PH + 42)) G.hazards.splice(i, 1);
         }
         /* Power-up Capsule Drops + Tractor Beam Magnet Upgrade */
         const tractorR = (S.upg?.magnetRad || 0) * 26 + (G.fx.magnet ? 75 : 0);
@@ -7688,7 +7896,7 @@
             if (dist < p.w / 2 + tractorR) d.x = lerp(d.x, p.x, 1 - Math.exp(-7 * dt));
           }
           if (Math.abs(d.x - p.x) < p.w / 2 + 14 && d.y + 16 >= p.y && d.y - 16 <= p.y + PH) { applyPower(d.type, false); G.drops.splice(i, 1); continue }
-          if (d.y > VH + 24) G.drops.splice(i, 1);
+          if (d.y > Math.min(VH + 24, p.y + PH + 46)) G.drops.splice(i, 1);
         }
         updateBalls(dt);
         if (playing && G.mode === 'endless') {
@@ -7995,37 +8203,63 @@
         ctx.restore();
         // Industry-standard ergonomic thumb track & touch slider handle below the paddle so finger never covers the paddle
         if (S.set.controlMode !== 'tap') {
-          const trackY = Math.min(VH - 22, p.y + PH + 34);
+          const touchDeck = isTouchErgonomic();
+          const deckSpace = VH - (p.y + PH);
+          const trackY = touchDeck
+            ? Math.min(VH - 28, p.y + PH + Math.max(46, Math.min(105, deckSpace * 0.55)))
+            : Math.min(VH - 22, p.y + PH + 34);
           if (trackY > p.y + PH + 14) {
             ctx.save();
-            ctx.strokeStyle = isLightBg ? 'rgba(15,23,42,0.14)' : 'rgba(160,140,255,0.16)';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(28, trackY); ctx.lineTo(VW - 28, trackY);
-            ctx.stroke();
-            ctx.strokeStyle = isLightBg ? 'rgba(15,23,42,0.22)' : 'rgba(34,211,238,0.28)';
-            ctx.lineWidth = 1.2;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y + PH + 3); ctx.lineTo(p.x, trackY - 8);
-            ctx.stroke();
-            rr(ctx, p.x - 24, trackY - 7, 48, 14, 7);
-            ctx.fillStyle = isLightBg ? 'rgba(15,23,42,0.18)' : 'rgba(23,16,41,0.78)';
+            if (touchDeck && deckSpace >= 90) {
+              const floorY = p.y + PH + 24;
+              ctx.fillStyle = isLightBg ? 'rgba(15,23,42,0.045)' : 'rgba(6,3,16,0.42)';
+              ctx.fillRect(0, floorY, VW, VH - floorY);
+              ctx.strokeStyle = isLightBg ? 'rgba(15,23,42,0.12)' : 'rgba(139,92,246,0.22)';
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(14, floorY); ctx.lineTo(VW - 14, floorY);
+              ctx.stroke();
+            }
+            rr(ctx, 22, trackY - 3, VW - 44, 6, 3);
+            ctx.fillStyle = isLightBg ? 'rgba(15,23,42,0.12)' : 'rgba(160,140,255,0.14)';
             ctx.fill();
-            ctx.strokeStyle = curSkPad.c[0];
-            ctx.lineWidth = 1.3;
+            const activeDrag = !!drag;
+            ctx.strokeStyle = isLightBg
+              ? (activeDrag ? 'rgba(2,132,199,0.5)' : 'rgba(15,23,42,0.22)')
+              : (activeDrag ? rgba(curSkPad.c[0], 0.72) : 'rgba(34,211,238,0.28)');
+            ctx.lineWidth = activeDrag ? 2 : 1.3;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y + PH + 3); ctx.lineTo(p.x, trackY - (touchDeck ? 12 : 8));
             ctx.stroke();
-            ctx.fillStyle = isLightBg ? '#0F172A' : '#E2E8F0';
-            ctx.font = '800 9px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.fillText('‹ ● ›', p.x, trackY + 0.5);
+            const hw = touchDeck ? 38 : 24, hh = touchDeck ? 12 : 7;
+            rr(ctx, p.x - hw, trackY - hh, hw * 2, hh * 2, hh);
+            ctx.fillStyle = isLightBg
+              ? (activeDrag ? '#FFFFFF' : 'rgba(255,255,255,0.92)')
+              : (activeDrag ? 'rgba(38,24,72,0.95)' : 'rgba(23,16,41,0.84)');
+            ctx.fill();
+            ctx.strokeStyle = activeDrag ? '#FFFFFF' : curSkPad.c[0];
+            ctx.lineWidth = activeDrag ? 2 : 1.4;
+            ctx.stroke();
+            ctx.fillStyle = isLightBg ? '#0F172A' : '#F4F1FF';
+            ctx.font = (touchDeck ? '800 10.5px ' : '800 9px ') + 'sans-serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(touchDeck ? '◀  ●  ▶' : '‹ ● ›', p.x, trackY + 0.5);
+            if (touchDeck && !G.launched && G.state === 'ready') {
+              ctx.fillStyle = isLightBg ? 'rgba(15,23,42,0.48)' : 'rgba(200,190,255,0.5)';
+              ctx.font = '700 9px sans-serif';
+              ctx.fillText('THUMB SLIDE ZONE · PADDLE MOVES ABOVE FINGER', VW / 2, Math.min(VH - 8, trackY + hh + 14));
+            }
             ctx.restore();
           }
         }
       }
       const fire = !!G.fx.fire, curSk = skin(), isLightArena = currentTheme().light;
-      const fastSwarmRender = G.balls.length > 36;
+      const touchFast = isTouchErgonomic();
+      const fastSwarmRender = G.balls.length > (touchFast ? 12 : 36);
+      const maxFullBalls = touchFast ? 8 : 24;
       for (let bi = 0; bi < G.balls.length; bi++) {
         const b = G.balls[bi];
-        if (fastSwarmRender && bi >= 24) {
+        if (fastSwarmRender && bi >= maxFullBalls) {
           ctx.fillStyle = fire ? '#FF8A3D' : curSk.c[0];
           ctx.beginPath(); ctx.arc(b.x, b.y, b.r * 0.94, 0, 7); ctx.fill();
           ctx.fillStyle = '#FFFFFF';
@@ -8138,46 +8372,64 @@
       if (!G) return;
       if (G.score !== G.scoreShown || force) { G.scoreShown = G.score; $('#hudScore').textContent = fmt(G.score) }
       if (G.coinsRun !== G.coinsShown || force) { G.coinsShown = G.coinsRun; $('#hudCoinsVal').textContent = fmt(G.coinsRun) }
-      const tEl = $('#hudTimer');
-      if ((G.mode === 'timed' || S.set.enableTimer) && G.timeLeft > 0) { tEl.classList.add('show'); tEl.textContent = '⏱ ' + fmtTime(G.timeLeft) }
-      else tEl.classList.remove('show');
-      if (G.labelDirty || force || S.set.showLiveBricksLeft !== false || G.mission) {
-        G.labelDirty = false;
-        const baseLbl = G.mode === 'campaign' ? ('LVL ' + (G.idx + 1) + ' · S' + (G.sector + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1) + ' ' + G.name) : (G.mode === 'random' || G.mode === 'megabrick') ? (G.mission ? ('MISSION #' + G.mission.seq + ' · ' + G.mission.archName.toUpperCase() + ' · ' + missionProgressText(G)) : ((G.mode === 'megabrick' ? 'MAZE · ' : 'RANDOM · ') + G.name)) : G.mode === 'custom' ? ('STUDIO · ' + G.name) : 'DAILY CHALLENGE';
-        $('#hudLevel').textContent = baseLbl + (S.set.showLiveBricksLeft !== false ? (' · ' + G.breakable + ' LEFT') : '');
+      const showTimer = (G.mode === 'timed' || S.set.enableTimer) && G.timeLeft > 0;
+      const secLeft = showTimer ? Math.ceil(G.timeLeft) : -1;
+      if (secLeft !== G.timeShown || force) {
+        G.timeShown = secLeft;
+        const tEl = $('#hudTimer');
+        if (showTimer) { tEl.classList.add('show'); tEl.textContent = '⏱ ' + fmtTime(G.timeLeft) }
+        else tEl.classList.remove('show');
+      }
+      const mProg = G.mission ? missionProgressText(G) : '';
+      const brkLeft = S.set.showLiveBricksLeft !== false ? G.breakable : -1;
+      if (G.labelDirty || force || brkLeft !== G.brkShown || mProg !== G.mProgShown) {
+        G.labelDirty = false; G.brkShown = brkLeft; G.mProgShown = mProg;
+        const baseLbl = G.mode === 'campaign' ? ('LVL ' + (G.idx + 1) + ' · S' + (G.sector + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1) + ' ' + G.name) : (G.mode === 'random' || G.mode === 'megabrick') ? (G.mission ? ('MISSION #' + G.mission.seq + ' · ' + G.mission.archName.toUpperCase() + ' · ' + mProg) : ((G.mode === 'megabrick' ? 'MAZE · ' : 'RANDOM · ') + G.name)) : G.mode === 'custom' ? ('STUDIO · ' + G.name) : 'DAILY CHALLENGE';
+        $('#hudLevel').textContent = baseLbl + (brkLeft >= 0 ? (' · ' + brkLeft + ' LEFT') : '');
       }
       /* Boss HP Bar */
-      const bb = $('#bossBar');
-      if (bb) {
-        if (G.boss && G.bossMaxHp > 0) {
-          bb.classList.add('show');
-          const pct = clamp(Math.round(G.bossHp / G.bossMaxHp * 100), 0, 100);
-          $('#bossName').textContent = (G.bossEnraged ? '🔥 ' : '👑 ') + G.name;
-          $('#bossFill').style.width = pct + '%';
-          $('#bossHpTxt').textContent = pct + '%';
-        } else bb.classList.remove('show');
+      const bossPct = (G.boss && G.bossMaxHp > 0) ? clamp(Math.round(G.bossHp / G.bossMaxHp * 100), 0, 100) : -1;
+      if (bossPct !== G.bossPctShown || G.bossEnraged !== G.bossEnragedShown || force) {
+        G.bossPctShown = bossPct; G.bossEnragedShown = G.bossEnraged;
+        const bb = $('#bossBar');
+        if (bb) {
+          if (bossPct >= 0) {
+            bb.classList.add('show');
+            $('#bossName').textContent = (G.bossEnraged ? '🔥 ' : '👑 ') + G.name;
+            $('#bossFill').style.width = bossPct + '%';
+            $('#bossHpTxt').textContent = bossPct + '%';
+          } else bb.classList.remove('show');
+        }
       }
       /* Nova Blast Charge Button */
-      const nb = $('#novaBtn');
-      if (nb) {
-        nb.style.display = S.set.showNovaBtn === false ? 'none' : '';
-        const np = Math.floor(G.novaCharge || 0);
-        nb.classList.toggle('ready', np >= 100);
-        $('#novaFill').style.width = np + '%';
-        $('#novaTxt').textContent = np >= 100 ? '⚡ READY' : ('⚡ ' + np + '%');
-        nb.title = np >= 100 ? 'Nova Blast Ready! Press E or click to unleash' : ('Nova Blast Ultimate (' + np + '%) — break bricks to charge');
+      const np = S.set.showNovaBtn === false ? -1 : Math.floor(G.novaCharge || 0);
+      if (np !== G.novaShown || force) {
+        G.novaShown = np;
+        const nb = $('#novaBtn');
+        if (nb) {
+          nb.style.display = np < 0 ? 'none' : '';
+          if (np >= 0) {
+            nb.classList.toggle('ready', np >= 100);
+            $('#novaFill').style.width = np + '%';
+            $('#novaTxt').textContent = np >= 100 ? '⚡ READY' : ('⚡ ' + np + '%');
+            nb.title = np >= 100 ? 'Nova Blast Ready! Press E or tap to unleash' : ('Nova Blast Ultimate (' + np + '%) — break bricks to charge');
+          }
+        }
       }
       /* On-Screen Touch Buttons for Tap Control Mode */
-      const tp = $('#touchPad');
-      if (tp) {
-        const showTp = S.set.controlMode === 'tap';
-        tp.classList.toggle('show', showTp);
-        if (showTp) {
-          const tl = $('#tpadLaunch');
-          if (tl) {
-            const sticky = G.balls.some(b => b.sticky);
-            tl.textContent = sticky ? '🚀' : (G.novaCharge >= 100 ? '⚡' : '●');
-            tl.title = sticky ? 'Launch Ball' : (G.novaCharge >= 100 ? 'Unleash Nova Blast' : 'Ball Active');
+      const showTp = S.set.controlMode === 'tap';
+      const tpMode = !showTp ? 'off' : (G.balls.some(b => b.sticky) ? 'launch' : (G.novaCharge >= 100 ? 'nova' : 'on'));
+      if (tpMode !== G.tpModeShown || force) {
+        G.tpModeShown = tpMode;
+        const tp = $('#touchPad');
+        if (tp) {
+          tp.classList.toggle('show', showTp);
+          if (showTp) {
+            const tl = $('#tpadLaunch');
+            if (tl) {
+              tl.textContent = tpMode === 'launch' ? '🚀' : (tpMode === 'nova' ? '⚡' : '●');
+              tl.title = tpMode === 'launch' ? 'Launch Ball' : (tpMode === 'nova' ? 'Unleash Nova Blast' : 'Ball Active');
+            }
           }
         }
       }
@@ -8196,7 +8448,7 @@
       const hint = $('#gameHint');
       let mode = '';
       if (S.set.controlMode !== 'tap') {
-        if (G.state === 'ready') mode = 'Drag to move · Tap or Space to launch';
+        if (G.state === 'ready') mode = 'Slide thumb zone below paddle · Tap to launch';
         else if (G.state === 'play' && G.balls.some(b => b.sticky)) mode = 'Magnet hold — tap to release';
       }
       if (mode !== G.hintMode) { G.hintMode = mode; if (mode) { hint.textContent = mode; hint.classList.remove('hide') } else hint.classList.add('hide') }
@@ -8303,6 +8555,7 @@
       UI.screen = name;
       $$('.screen').forEach(s => s.classList.toggle('active', s.id === 'screen-' + name));
       $('#app').classList.toggle('in-game', name === 'game');
+      document.body.classList.toggle('in-game', name === 'game');
       $$('.tab').forEach(t => t.classList.toggle('active', t.dataset.arg === name));
       if (name === 'home') renderHome();
       else if (name === 'levels') renderLevels();
@@ -9617,7 +9870,21 @@
       const r = cv.getBoundingClientRect();
       return ((e.clientX - r.left) / Math.max(1, r.width) * (cv.width / scale)) - viewX;
     }
+    function logicalY(e) {
+      const r = cv.getBoundingClientRect();
+      return (e.clientY - r.top) / Math.max(1, r.height) * VH;
+    }
+    function syncStickyBalls() {
+      if (!G) return;
+      for (const b of G.balls) {
+        if (b.sticky) {
+          b.x = clamp(G.paddle.x + b.off, b.r + 2, VW - b.r - 2);
+          b.y = G.paddle.y - b.r - 1;
+        }
+      }
+    }
     function steerTo(rawX, isDrag, dragObj) {
+      if (!G) return;
       const inv = S.set.invertControls ? -1 : 1;
       const mode = S.set.controlMode || 'drag';
       if (mode === 'tap') {
@@ -9625,12 +9892,24 @@
         keys.r = rawX >= VW / 2;
         return;
       }
+      const minX = G.paddle.w / 2 + 4, maxX = VW - G.paddle.w / 2 - 4;
       if (mode === 'direct' || (dragObj && dragObj.type === 'mouse') || !isDrag) {
         const target = S.set.invertControls ? (VW - rawX) : rawX;
-        G.paddle.tx = clamp(target, G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4);
+        G.paddle.tx = clamp(target, minX, maxX);
       } else if (dragObj) {
+        const mult = 1.15 * (S.set.sens ?? 1);
         const dx = (rawX - dragObj.startX) * inv;
-        G.paddle.tx = clamp(dragObj.paddleStart + dx * 1.15 * (S.set.sens ?? 1), G.paddle.w / 2 + 4, VW - G.paddle.w / 2 - 4);
+        const unclamped = dragObj.paddleStart + dx * mult;
+        G.paddle.tx = clamp(unclamped, minX, maxX);
+        // Dynamic anchor clamping so reversing finger direction near a wall responds immediately with 0 dead-zone
+        if (unclamped !== G.paddle.tx) {
+          dragObj.startX = rawX;
+          dragObj.paddleStart = G.paddle.tx;
+        }
+      }
+      if (S.set.paddleSmoothing !== 'weighted') {
+        G.paddle.x = G.paddle.tx;
+        syncStickyBalls();
       }
     }
     function onDown(e) {
@@ -9638,18 +9917,33 @@
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       if (!G || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
       if (drag) return;
-      const x = logicalX(e);
-      drag = { id: e.pointerId, startX: x, paddleStart: G.paddle.tx, moved: 0, t0: performance.now(), type: e.pointerType };
+      const x = logicalX(e), y = logicalY(e);
+      const inThumbDeck = y >= G.paddle.y + PH - 6;
+      drag = { id: e.pointerId, startX: x, startY: y, lastX: x, paddleStart: G.paddle.x, moved: 0, t0: performance.now(), type: e.pointerType, inThumbDeck };
       try { cv.setPointerCapture(e.pointerId) } catch (err) { }
-      if (e.pointerType === 'mouse' || S.set.controlMode === 'direct' || S.set.controlMode === 'tap') steerTo(x, true, drag);
+      if (e.pointerType === 'mouse' || S.set.controlMode === 'direct' || S.set.controlMode === 'tap') {
+        steerTo(x, true, drag);
+      } else if (inThumbDeck) {
+        // Touching the bottom thumb track away from the puck snaps the paddle above the thumb & tracks 1:1
+        const target = S.set.invertControls ? (VW - x) : x;
+        if (Math.abs(target - G.paddle.x) > G.paddle.w * 0.55) {
+          const minX = G.paddle.w / 2 + 4, maxX = VW - G.paddle.w / 2 - 4;
+          const nx = clamp(target, minX, maxX);
+          G.paddle.tx = nx;
+          if (S.set.paddleSmoothing !== 'weighted') { G.paddle.x = nx; syncStickyBalls(); }
+          drag.paddleStart = nx;
+          drag.startX = x;
+        }
+      }
       e.preventDefault();
     }
     function onMove(e) {
       if (!G || UI.screen !== 'game' || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
       if (e.pointerType === 'mouse' && !drag && S.set.controlMode !== 'tap') { steerTo(logicalX(e), false, null); return }
       if (!drag || e.pointerId !== drag.id) return;
-      const x = logicalX(e), dx = x - drag.startX;
-      drag.moved = Math.max(drag.moved, Math.abs(dx));
+      const x = logicalX(e);
+      drag.moved += Math.abs(x - drag.lastX);
+      drag.lastX = x;
       steerTo(x, true, drag);
       e.preventDefault();
     }
@@ -9657,7 +9951,7 @@
     function onUp(e) {
       if (!drag || e.pointerId !== drag.id) return;
       const now = performance.now();
-      const quick = now - drag.t0 < 400 && drag.moved < 10;
+      const quick = now - drag.t0 < 420 && drag.moved < 14;
       drag = null;
       if (S.set.controlMode === 'tap') { keys.l = false; keys.r = false }
       if (quick && G && !UI.sheet) {
