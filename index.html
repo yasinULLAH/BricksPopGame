@@ -4642,27 +4642,27 @@
     const MEGA_TIERS = {
       easy: {
         id: 'easy', label: 'Easy', color: '#34D399', icon: 'leaf',
-        lives: 4, speed: 285, paddle: 118, gapW: 3, armorP: 0.04, maxHp: 1,
+        lives: 4, speed: 285, paddle: 118, gapW: 5, armorP: 0.04, maxHp: 1,
         orbs: 6, triggers: 3, startBalls: 3, coinBonus: 95, xpBonus: 125,
-        desc: 'Wide 4-tile tunnel entry · 3 start balls · relaxed speed · 6 orbs (×3/+3)'
+        desc: 'Wide 6-tile tunnel entry · 3 start balls · relaxed speed · 6 orbs (×3/+3)'
       },
       medium: {
         id: 'medium', label: 'Medium', color: '#38BDF8', icon: 'zap',
-        lives: 3, speed: 325, paddle: 102, gapW: 2, armorP: 0.16, maxHp: 2,
+        lives: 3, speed: 325, paddle: 102, gapW: 4, armorP: 0.16, maxHp: 2,
         orbs: 5, triggers: 2, startBalls: 2, coinBonus: 150, xpBonus: 190,
-        desc: '3-tile tunnel entry · 2 start balls · 5 multiplier orbs · light armor shell'
+        desc: 'Wide 5-tile tunnel entry · 2 start balls · 5 multiplier orbs · light armor shell'
       },
       hard: {
         id: 'hard', label: 'Hard', color: '#FFB020', icon: 'flame',
-        lives: 3, speed: 365, paddle: 90, gapW: 2, armorP: 0.32, maxHp: 3,
+        lives: 3, speed: 365, paddle: 90, gapW: 4, armorP: 0.32, maxHp: 3,
         orbs: 4, triggers: 2, startBalls: 1, coinBonus: 230, xpBonus: 280,
-        desc: 'Precision chimney entry · deep yellow/red pocket triggers · multi-hit armor'
+        desc: '5-tile chimney entry · deep yellow/red pocket triggers · multi-hit armor'
       },
       hardest: {
         id: 'hardest', label: 'Hardest', color: '#FF3D8A', icon: 'crown',
-        lives: 2, speed: 405, paddle: 82, gapW: 1, armorP: 0.48, maxHp: 4,
+        lives: 2, speed: 405, paddle: 82, gapW: 3, armorP: 0.48, maxHp: 4,
         orbs: 4, triggers: 3, startBalls: 1, coinBonus: 350, xpBonus: 430,
-        desc: 'Tight entry hole · fortified cavern walls & high-HP cores · max payout'
+        desc: '4-tile entry funnel · fortified cavern walls & high-HP cores · max payout'
       }
     };
     const MEGA_ARCHETYPES = [
@@ -5419,7 +5419,7 @@
 
       // Difficulty-scaled Unbreakable Steel (code 5) & Hard Armor (code 3) row count
       const unbreakRowsTarget = cfg.id === 'easy' ? 1 : cfg.id === 'medium' ? 2 : cfg.id === 'hard' ? 2 : 3;
-      const gapWidth = cfg.id === 'easy' ? 3 : cfg.id === 'medium' ? 2 : cfg.id === 'hard' ? 2 : 1;
+      const gapWidth = cfg.id === 'easy' ? 4 : cfg.id === 'medium' ? 3 : cfg.id === 'hard' ? 3 : 2;
 
       const applyUnbreakableRow = (r, gapCenter, gW, plugCode) => {
         if (r < 0 || r >= rows) return;
@@ -5986,28 +5986,26 @@
       const bricks = [], orbs = [];
       let breakable = 0, entryX = VW / 2, entryY = 420;
 
-      // Special Format 1: Armored Rainbow Vault (Screenshot 2 - Full unbreakable silver outer rows + hard silver inner ring + diagonal rainbow core)
       if (archId === 'rainbowvault') {
         const C = 13, Rw = 10, side = 14, gap = 2.2, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 18, topY = 16;
         const rainbow = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#3B82F6', '#D946EF'];
         const shift = (rng() * 7) | 0;
         const gateC = 5 + ((rng() * 3) | 0);
-        const gSpan = cfg.id === 'easy' ? 1 : 0;
+        const gSpan = cfg.id === 'easy' ? 2 : 1;
         for (let r = 0; r < Rw; r++) {
           for (let c = 0; c < C; c++) {
             const isOuter1 = (r === 0 || r === Rw - 1 || c === 0 || c === C - 1);
-            const isOuter2 = (!isOuter1 && (r === 1 || r === Rw - 2 || c === 1 || c === C - 2 || (r >= 2 && r <= Rw - 3 && (c === 2 || c === C - 3) && (r === 2 || r === Rw - 3))));
+            const isOuter2 = (!isOuter1 && (r === 1 || r === Rw - 2 || c === 1 || c === C - 2));
             let code = 1, mhp = 1, col = rainbow[(c - r + shift + 14) % 7], unbreak = false, doorPlug = false;
             if (r === Rw - 1 && Math.abs(c - gateC) <= gSpan) {
-              continue; // Open entry gap in the unbreakable bottom row
-            } else if (r === Rw - 2 && Math.abs(c - gateC) <= gSpan) {
+              continue;
+            } else if (r === Rw - 2 && Math.abs(c - gateC) <= gSpan + 1) {
               code = 9; col = '#FACC15'; mhp = 1; doorPlug = true;
             } else if (isOuter1) {
               code = 5; mhp = 1; col = '#CBD5E1'; unbreak = true;
             } else if (isOuter2) {
-              code = (cfg.id === 'hard' || cfg.id === 'hardest') && (r === Rw - 2) ? 5 : 3;
-              unbreak = code === 5;
-              mhp = code === 5 ? 1 : (cfg.maxHp + 2);
+              code = 3;
+              mhp = cfg.maxHp + 1;
               col = '#94A3B8';
             } else {
               mhp = rng() < cfg.armorP ? 2 : 1;
@@ -6021,9 +6019,8 @@
         }
         entryX = side + (gateC + 0.5) * (bw + gap);
         entryY = topY + (Rw - 1) * (bh + gap);
-        orbs.push({ x: entryX, y: entryY + 20, r: 9, type: 'add3', label: '+3', color: '#FF8A2B', alive: true });
+        orbs.push({ x: entryX, y: entryY + 18, r: 9, type: 'add3', label: '+3', color: '#FF8A2B', alive: true });
       }
-      // Special Format 2: Numbered Neon Quest Blocks (Screenshot 3 - 9x8 large glowing numbered squares + unbreakable floor barrier)
       else if (archId === 'neonquest') {
         const C = 9, Rw = 8, side = 16, gap = 4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 28, topY = 16;
         const rowCols = ['#10B981', '#EF4444', '#3B82F6', '#D946EF', '#84CC16', '#F59E0B', '#06B6D4', '#A855F7'];
@@ -6032,7 +6029,7 @@
         for (let r = 0; r < Rw; r++) {
           for (let c = 0; c < C; c++) {
             const cc = flip ? (C - 1 - c) : c;
-            if (r === Rw - 1 && cc !== 4 && cc !== 5) {
+            if (r === Rw - 1 && (cc < 3 || cc > 5)) {
               const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
               bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, customCol: '#64748B', code: 5, mhp: 1, hp: 1, alive: true, unbreakable: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
               continue;
@@ -6057,14 +6054,13 @@
           }
         }
       }
-      // High-Density Micro-Brick Grid Formats (Screenshots 1, 4, 5, 6, 7 - 25x24 square micro-tiles with permanent unbreakable steel rows)
       else {
         const C = 25, Rw = 22, side = 15, gap = 1.1, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 11.2, topY = 14;
         const grid = Array.from({ length: Rw }, () => Array(C).fill(1));
         const colMap = Array.from({ length: Rw }, () => Array(C).fill(''));
         const doorMap = Array.from({ length: Rw }, () => Array(C).fill(false));
         const outerMap = Array.from({ length: Rw }, () => Array(C).fill(false));
-        const gapW = Math.max(2, cfg.gapW + 1);
+        const gapW = Math.max(4, cfg.gapW + 1);
 
         const palettes = ['#8D6E63', '#F97316', '#65A30D', '#06B6D4', '#E11D48', '#8B5CF6', '#10B981', '#3B82F6'];
         let mainCol = palettes[(rng() * palettes.length) | 0];
@@ -6095,95 +6091,68 @@
         };
 
         if (archId === 'multi_rows') {
-          // 2 to 4 Full Horizontal Unbreakable Steel Rows dividing the micro-brick mass into stacked tiers
           const numRows = cfg.id === 'easy' ? 2 : cfg.id === 'medium' ? 3 : 4;
-          sealOuterBox(11, gapW);
-          const shelfRows = numRows === 2 ? [Rw - 1, 12] : numRows === 3 ? [Rw - 1, 16, 8] : [Rw - 1, 18, 12, 6];
+          const gCenter = Math.floor((C - gapW) / 2);
+          sealOuterBox(gCenter, gapW);
+          for (let g = -1; g <= gapW; g++) {
+            const gc = clamp(gCenter + g, 2, C - 3);
+            grid[Rw - 2][gc] = 0;
+          }
+          const shelfRows = numRows === 2 ? [Rw - 1, 12] : numRows === 3 ? [Rw - 1, 16, 8] : [Rw - 1, 17, 12, 6];
           shelfRows.forEach((sr, idx) => {
             if (sr === Rw - 1) return;
-            const gStart = idx % 2 === 0 ? 4 : (C - 4 - gapW);
+            const dW = Math.max(4, gapW);
+            const g1 = idx % 2 === 0 ? 4 : (C - 4 - dW);
+            const g2 = Math.floor((C - dW) / 2);
             for (let c = 1; c < C - 1; c++) {
-              if (c >= gStart && c < gStart + gapW) {
+              if ((c >= g1 && c < g1 + dW) || (c >= g2 && c < g2 + dW)) {
                 grid[sr][c] = idx % 2 === 0 ? 9 : 10;
                 doorMap[sr][c] = true;
               } else {
                 grid[sr][c] = 5;
               }
             }
-            // Hard armor row directly above each unbreakable steel row
-            if (sr - 1 >= 1) {
-              for (let c = 1; c < C - 1; c++) {
-                if (grid[sr - 1][c] === 1) { grid[sr - 1][c] = 3; colMap[sr - 1][c] = '#94A3B8'; }
-              }
-            }
-            placeOrbAt(gStart + gapW * 0.5, sr + 2, idx % 2 === 0 ? 'add3' : 'mul3');
+            placeOrbAt(g1 + dW * 0.5, sr + 1.5, idx % 2 === 0 ? 'add3' : 'mul3');
           });
           placeOrbAt(12, Rw - 2, 'add3');
         } else if (archId === 'chimney') {
-          // Screenshot 6: Permanent unbreakable bottom row & chimney tunnel walls leading to the Yellow Doorway Plug at top
-          const gateC = 9 + ((rng() * 5) | 0);
-          sealOuterBox(gateC, gapW);
-          if (cfg.id !== 'easy') {
-            for (let c = 1; c < C - 1; c++) if (c < gateC || c >= gateC + gapW) { grid[Rw - 2][c] = 5; outerMap[Rw - 2][c] = true; }
-            for (let g = 0; g < gapW; g++) grid[Rw - 2][gateC + g] = 0;
-          }
-          const turnR = 11 + ((rng() * 3) | 0);
-          const dir = (gateC > 12 ? -1 : 1);
-          const path = [];
-          for (let r = Rw - 1; r >= turnR; r--) path.push([r, gateC]);
-          let curC = gateC, curR = turnR;
-          for (let s = 0; s < 4; s++) { curR--; curC = clamp(curC + dir, 3, C - 5); path.push([curR, curC]); }
-          // Line chimney walls with permanent unbreakable grey steel (code 5)
-          for (const [pr, pc] of path) {
-            for (let dr = -1; dr <= 1; dr++) {
-              for (let dc = -1; dc <= gapW; dc++) {
-                const nr = pr + dr, nc = clamp(pc + dc, 1, C - 2);
-                if (nr >= 1 && nr < Rw - 1 && grid[nr][nc] === 1) grid[nr][nc] = 5;
-              }
+          const chW = Math.max(5, gapW);
+          const gateC = clamp(8 + ((rng() * 5) | 0), 4, C - 4 - chW);
+          sealOuterBox(gateC, chW);
+          const topR = 9;
+          for (let r = Rw - 2; r >= topR; r--) {
+            if (gateC - 1 >= 1) grid[r][gateC - 1] = 5;
+            if (gateC + chW <= C - 2) grid[r][gateC + chW] = 5;
+            for (let w = 0; w < chW; w++) grid[r][gateC + w] = 0;
+            if (r === topR + 2 || r === topR + 6) {
+              if (gateC - 1 >= 2) { grid[r][gateC - 1] = 10; doorMap[r][gateC - 1] = true; }
+              if (gateC + chW <= C - 3) { grid[r][gateC + chW] = 10; doorMap[r][gateC + chW] = true; }
             }
           }
-          for (const [pr, pc] of path) {
-            for (let w = 0; w < gapW; w++) {
-              const nc = clamp(pc + w, 1, C - 2);
-              grid[pr][nc] = 0;
-            }
+          for (let c = Math.max(2, gateC - 1); c <= Math.min(C - 3, gateC + chW); c++) {
+            grid[topR - 1][c] = (c === gateC || c === gateC + chW - 1) ? 10 : 9;
+            doorMap[topR - 1][c] = true;
           }
-          // Carve T-head chamber at top of chimney with Yellow Plug doorway opening directly into the brown bricks!
-          const chR = curR - 1;
-          for (let r = chR - 1; r <= chR + 1; r++) {
-            for (let c = curC - 2; c <= curC + 2 + gapW - 1; c++) {
-              const nr = clamp(r, 2, Rw - 3), nc = clamp(c, 2, C - 3);
-              if (r === chR - 1 || c === curC - 2 || c === curC + 2 + gapW - 1) {
-                // Top & side exits of the T-head are Yellow/Red doorway plugs that break open into the main brick mass!
-                grid[nr][nc] = (r === chR - 1) ? 9 : 10;
-                doorMap[nr][nc] = true;
-              } else {
-                grid[nr][nc] = 0;
-              }
-            }
-          }
-          placeOrbAt(gateC + (gapW - 1) * 0.5, Rw - 3, 'add3');
-          placeOrbAt(gateC + (gapW - 1) * 0.5, turnR + 1, 'mul3');
+          placeOrbAt(gateC + (chW - 1) * 0.5, Rw - 3, 'add3');
+          placeOrbAt(gateC + (chW - 1) * 0.5, topR + 3, 'mul3');
+          placeOrbAt(gateC + (chW - 1) * 0.5, topR + 1, 'add3');
         } else if (archId === 'stickman') {
-          // Screenshot 7: Permanent unbreakable bottom row & grey X-corridor walls with Red Doorway Plugs into all orange chambers
-          const gateC = 5 + ((rng() * 3) | 0);
+          const entW = Math.max(5, gapW);
+          const gateC = Math.floor((C - entW) / 2);
           for (let c = 0; c < C; c++) { grid[Rw - 1][c] = 5; outerMap[Rw - 1][c] = true; }
-          for (let g = 0; g < gapW; g++) grid[Rw - 1][gateC + g] = 0;
-          entryX = side + (gateC + gapW / 2) * (bw + gap);
+          for (let g = 0; g < entW; g++) grid[Rw - 1][gateC + g] = 0;
+          entryX = side + (gateC + entW / 2) * (bw + gap);
           entryY = topY + (Rw - 1) * (bh + gap);
 
           const carved = Array.from({ length: Rw }, () => Array(C).fill(false));
           for (let r = 1; r < Rw - 1; r++) {
             for (let c = 1; c < C - 1; c++) {
               const dHead = Math.hypot(c - 12, (r - 4.2) * 1.1);
-              const inTorso = (Math.abs(c - 12) <= 1.5 && r >= 6 && r <= 14);
-              const inArmL = (r >= 5 && r <= 12 && Math.abs((c - 12) - (r - 11) * 1.15) <= 1.5);
-              const inArmR = (r >= 5 && r <= 12 && Math.abs((c - 12) + (r - 11) * 1.15) <= 1.5);
-              const inLegL = (r >= 12 && r < Rw - 1 && Math.abs(c - lerp(12, gateC + 0.5, (r - 12) / Math.max(1, Rw - 13))) <= Math.max(1.5, gapW * 0.7));
-              const inLegR = (r >= 12 && r <= Rw - 3 && Math.abs((c - 12) - (r - 12) * 0.9) <= 1.5);
-              // Keep the lower center area between the legs open so no closed bottom triangle can ever form!
-              const inBetweenLegs = (r >= 13 && r < Rw - 1 && Math.abs(c - 12) <= (r - 12) * 0.85);
-              if (dHead <= 3.1 || inTorso || inArmL || inArmR || inLegL || inLegR || inBetweenLegs) carved[r][c] = true;
+              const inTorso = (Math.abs(c - 12) <= 2.2 && r >= 6 && r < Rw - 1);
+              const inArmL = (r >= 5 && r <= 12 && Math.abs((c - 12) - (r - 11) * 1.15) <= 1.8);
+              const inArmR = (r >= 5 && r <= 12 && Math.abs((c - 12) + (r - 11) * 1.15) <= 1.8);
+              const inBase = (r >= 14 && r < Rw - 1 && Math.abs(c - 12) <= 3.5);
+              if (dHead <= 3.2 || inTorso || inArmL || inArmR || inBase) carved[r][c] = true;
             }
           }
           for (let r = 1; r < Rw - 1; r++) {
@@ -6196,26 +6165,32 @@
               }
             }
           }
-          // Wide Red & Yellow doorway plugs cut through every side of the grey X-walls into all orange compartments
-          [[5, 5, 10], [5, 6, 10], [6, 5, 10], [5, 18, 10], [5, 19, 10], [6, 19, 10], [Rw - 4, 17, 10], [Rw - 3, 17, 10], [Rw - 3, 18, 10], [1, 11, 9], [1, 12, 9], [1, 13, 9], [10, 8, 10], [11, 8, 10], [10, 16, 10], [11, 16, 10], [14, 5, 10], [15, 5, 10]].forEach(([tr, tc, code]) => {
-            if (grid[tr] && grid[tr][tc] !== undefined) { grid[tr][tc] = code; doorMap[tr][tc] = true; }
-          });
-          placeOrbAt(gateC + 1, Rw - 3, 'add3');
+          for (let r = 3; r < Rw - 2; r++) {
+            for (let c = 2; c < C - 2; c++) {
+              if (grid[r][c] === 5 && ((r >= 4 && r <= 7) || (r >= 10 && r <= 13) || (r >= 15 && r <= 17))) {
+                grid[r][c] = (r % 2 === 0) ? 9 : 10;
+                doorMap[r][c] = true;
+              }
+            }
+          }
+          placeOrbAt(12, Rw - 3, 'add3');
           placeOrbAt(12, 11, 'mul3');
           placeOrbAt(12, 5, 'add3');
         } else if (archId === 'greenhook') {
-          // Screenshot 1: Neon green block enclosed by permanent unbreakable grey border & bottom row with right-hand hook channel
-          const chW = Math.max(2, gapW + 1);
-          const chRight = C - 3, chLeft = chRight - chW + 1;
+          const chW = Math.max(4, gapW);
+          const chRight = C - 2, chLeft = chRight - chW + 1;
           sealOuterBox(chLeft, chW);
           for (let r = 1; r < Rw - 1; r++) {
             for (let c = 1; c < C - 1; c++) {
-              if (r === 1 || c === 1 || c === C - 2 || (r === Rw - 2 && c < chLeft)) { grid[r][c] = 5; outerMap[r][c] = true; }
-              else if (c >= chLeft && c <= chRight && r >= 2) grid[r][c] = 0;
-              else if (r >= 2 && r <= 3 && c >= 4 && c <= chRight) grid[r][c] = 0;
-              else if (c === chLeft - 1 && r >= 4 && r <= Rw - 3 && r % 4 === 0) {
-                grid[r][c] = (r === 8 || r === 16) ? 9 : 10;
-                doorMap[r][c] = true;
+              if (c >= chLeft && c <= chRight && r >= 1) grid[r][c] = 0;
+              else if (r >= 1 && r <= 3 && c >= 3 && c <= chRight) grid[r][c] = 0;
+              else if (c === chLeft - 1 && r >= 4 && r <= Rw - 2) {
+                if (r % 3 !== 0) {
+                  grid[r][c] = (r % 2 === 0) ? 9 : 10;
+                  doorMap[r][c] = true;
+                } else {
+                  grid[r][c] = 5;
+                }
               }
             }
           }
@@ -6224,36 +6199,34 @@
             if (or >= 3) placeOrbAt(chLeft + (chW - 1) * 0.5, or, k % 2 === 0 ? 'add3' : 'mul3');
           }
         } else if (archId === 'dualmaze') {
-          // Screenshot 5: Left slotted blue columns + Right cyan G-labyrinth with unbreakable grey walls
-          sealOuterBox(4, gapW);
-          for (let g = 0; g < gapW; g++) grid[Rw - 1][15 + g] = 0;
+          const gW = Math.max(4, gapW);
+          sealOuterBox(3, gW);
+          for (let g = 0; g < gW; g++) grid[Rw - 1][15 + g] = 0;
           for (let r = 1; r < Rw - 1; r++) {
-            grid[r][11] = (r >= 4 && r <= 6) ? 9 : 5;
-            if (grid[r][11] === 9) doorMap[r][11] = true;
-            for (let c = 1; c <= 10; c++) {
+            grid[r][12] = ((r >= 3 && r <= 7) || (r >= 12 && r <= 15)) ? 9 : 5;
+            if (grid[r][12] === 9) doorMap[r][12] = true;
+            for (let c = 1; c <= 11; c++) {
               colMap[r][c] = '#38BDF8';
-              if ((c === 2 || c === 5 || c === 8) && r >= 2 && r <= Rw - 2) grid[r][c] = 0;
-              else if (r === Rw - 2 && c >= 2 && c <= 9) grid[r][c] = 0;
+              if ((c === 2 || c === 3 || c === 6 || c === 7 || c === 10) && r >= 2 && r <= Rw - 2) grid[r][c] = 0;
+              else if (r >= Rw - 3 && c >= 2 && c <= 10) grid[r][c] = 0;
             }
-            for (let c = 12; c < C - 1; c++) {
+            for (let c = 13; c < C - 1; c++) {
               colMap[r][c] = '#00F5D4';
-              const inG = (c >= 14 && c <= 14 + Math.max(1, gapW - 1) && r >= 4 && r <= Rw - 1) ||
-                          (r >= 3 && r <= 4 && c >= 14 && c <= C - 3) ||
-                          (c >= C - 4 && c <= C - 3 && r >= 4 && r <= 16) ||
-                          (r >= 15 && r <= 16 && c >= 17 && c <= C - 3) ||
-                          (c === 17 && r >= 9 && r <= 16);
+              const inG = (c >= 15 && c <= 18 && r >= 3 && r <= Rw - 1) ||
+                          (r >= 2 && r <= 4 && c >= 15 && c <= C - 2) ||
+                          (c >= C - 4 && c <= C - 2 && r >= 4 && r <= 16) ||
+                          (r >= 14 && r <= 16 && c >= 18 && c <= C - 2);
               if (inG) grid[r][c] = 0;
             }
           }
-          grid[10][4] = 9; grid[9][18] = 9; grid[14][20] = 10;
+          grid[10][4] = 9; grid[9][19] = 9; grid[13][20] = 10;
           placeOrbAt(5, Rw - 3, 'add3'); placeOrbAt(5, 12, 'mul3');
-          placeOrbAt(15, Rw - 3, 'add3'); placeOrbAt(15, 8, 'mul3'); placeOrbAt(21, 10, 'add3');
+          placeOrbAt(16.5, Rw - 3, 'add3'); placeOrbAt(16.5, 8, 'mul3'); placeOrbAt(21, 10, 'add3');
         } else if (archId === 'terraced') {
-          // Screenshot 4: Red upper core + green mid-band + unbreakable & hard grey bottom stepped terrace
           for (let r = 0; r < Rw; r++) {
             for (let c = 0; c < C; c++) {
               const dc = Math.abs(c - 12);
-              const maxR = Rw - 2 - Math.floor(dc * 0.45);
+              const maxR = Rw - 2 - Math.floor(dc * 0.42);
               if (r > maxR) { grid[r][c] = 0; continue; }
               if (r === maxR) { grid[r][c] = 5; colMap[r][c] = '#64748B'; outerMap[r][c] = true; }
               else if (r === maxR - 1) { grid[r][c] = 3; colMap[r][c] = '#94A3B8'; }
@@ -6261,92 +6234,117 @@
               else { grid[r][c] = 1; colMap[r][c] = '#EF4444'; }
             }
           }
-          [7, 17].forEach(vc => {
+          const chW = 4;
+          [5, 16].forEach(vc => {
             for (let r = 8; r < Rw; r++) {
-              for (let w = 0; w < Math.max(2, gapW - 1); w++) if (grid[r]) grid[r][vc + w] = 0;
+              for (let w = 0; w < chW; w++) if (grid[r]) grid[r][vc + w] = 0;
             }
-            grid[7][vc] = 9; grid[11][vc] = 10;
-            placeOrbAt(vc + 0.5, 15, 'add3'); placeOrbAt(vc + 0.5, 10, 'mul3');
+            for (let w = 0; w < chW; w++) {
+              grid[7][vc + w] = 9; doorMap[7][vc + w] = true;
+              grid[11][vc + w] = 10; doorMap[11][vc + w] = true;
+            }
+            placeOrbAt(vc + 1.5, 15, 'add3'); placeOrbAt(vc + 1.5, 9.5, 'mul3');
           });
           grid[6][12] = 9;
-          entryX = side + 7.5 * (bw + gap); entryY = topY + 16 * (bh + gap);
+          entryX = side + 7 * (bw + gap); entryY = topY + 16 * (bh + gap);
         } else if (archId === 'antfarm') {
-          sealOuterBox(11, gapW);
-          if (cfg.id !== 'easy') {
-            for (let c = 1; c < C - 1; c++) if (c < 11 || c >= 11 + gapW) grid[Rw - 2][c] = 5;
-          }
+          const entW = Math.max(5, gapW);
+          const gStart = Math.floor((C - entW) / 2);
+          sealOuterBox(gStart, entW);
           const dig = (r0, c0, r1, c1) => {
-            let r = r0, c = c0;
-            while (r !== r1 || c !== c1) {
-              for (let w = 0; w < Math.max(2, gapW); w++) if (grid[r]) grid[r][clamp(c + w, 2, C - 3)] = 0;
-              if (r !== r1 && (c === c1 || rng() < 0.6)) r += (r1 > r ? 1 : -1);
-              else if (c !== c1) c += (c1 > c ? 1 : -1);
+            const steps = Math.max(Math.abs(r1 - r0), Math.abs(c1 - c0), 1);
+            for (let s = 0; s <= steps; s++) {
+              const r = Math.round(lerp(r0, r1, s / steps));
+              const c = Math.round(lerp(c0, c1, s / steps));
+              for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 2; dc++) {
+                  const nr = clamp(r + dr, 2, Rw - 2), nc = clamp(c + dc, 2, C - 3);
+                  grid[nr][nc] = 0;
+                }
+              }
             }
           };
-          dig(Rw - 1, 11, 14, 11);
-          dig(14, 11, 6, 5); dig(14, 11, 5, 12); dig(14, 11, 6, 19);
-          [[5, 5, 9], [4, 12, 9], [5, 19, 10], [10, 8, 10], [10, 16, 10]].forEach(([r, c, code]) => {
-            for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) if (grid[r + dr]) grid[r + dr][c + dc] = 0;
+          dig(Rw - 2, 11, 13, 11);
+          dig(13, 11, 6, 5); dig(13, 11, 5, 12); dig(13, 11, 6, 18);
+          [[5, 5, 9], [4, 12, 9], [5, 18, 10], [10, 8, 10], [10, 16, 10]].forEach(([r, c, code]) => {
             grid[r][c] = code; doorMap[r][c] = true;
+            if (grid[r][c + 1] !== undefined) { grid[r][c + 1] = code; doorMap[r][c + 1] = true; }
           });
-          placeOrbAt(11.5, Rw - 3, 'add3'); placeOrbAt(11.5, 14, 'mul3');
-          placeOrbAt(7, 9, 'add3'); placeOrbAt(17, 9, 'add3');
+          placeOrbAt(12, Rw - 3, 'add3'); placeOrbAt(12, 13, 'mul3');
+          placeOrbAt(6, 8, 'add3'); placeOrbAt(17, 8, 'add3');
         } else if (archId === 'spiral_core') {
-          sealOuterBox(C - 3 - gapW, gapW);
+          const chW = Math.max(4, gapW);
+          sealOuterBox(C - 2 - chW, chW);
           for (let r = 2; r < Rw - 2; r++) {
             for (let c = 2; c < C - 2; c++) {
               const dTop = r, dBot = Rw - 1 - r, dLeft = c, dRight = C - 1 - c;
               const ring = Math.min(dTop, dBot, dLeft, dRight);
-              if (ring % 3 === 1) {
-                const gapDoor = (ring === 1 && c >= C - 5 && r >= Rw - 5) || (ring === 4 && c <= 6 && r <= 7) || (ring === 7 && r >= Rw - 9 && c >= 10 && c <= 15);
+              if (ring === 4) {
+                const gapDoor = (c <= 7 && r <= 8) || (r >= Rw - 7 && c >= 9 && c <= 16);
                 if (!gapDoor) grid[r][c] = 5;
-                else if (ring > 1) { grid[r][c] = 10; doorMap[r][c] = true; }
-              } else if (ring === 2 || ring === 5) {
-                if ((r + c) % 4 === 0) grid[r][c] = 0;
+                else { grid[r][c] = 9; doorMap[r][c] = true; }
+              } else if (ring < 4) {
+                if (c >= C - 1 - chW || r <= 3 || (c <= 4 && r >= Rw - 5)) grid[r][c] = 0;
               }
             }
           }
-          for (let r = 2; r < Rw - 1; r++) for (let w = 0; w < gapW; w++) grid[r][C - 2 - w] = 0;
-          grid[12][12] = 9; grid[12][11] = 10; grid[12][13] = 10;
-          placeOrbAt(C - 2.5, Rw - 3, 'add3'); placeOrbAt(C - 2.5, 8, 'mul3'); placeOrbAt(12, 15, 'mul2');
+          grid[11][12] = 9; grid[11][11] = 10; grid[11][13] = 10;
+          placeOrbAt(C - 3, Rw - 3, 'add3'); placeOrbAt(C - 3, 8, 'mul3'); placeOrbAt(12, 15, 'mul2');
         } else if (archId === 'pinball_box') {
-          sealOuterBox(11, gapW);
-          for (let c = 1; c < C - 1; c++) if (c < 11 || c >= 11 + gapW) grid[Rw - 2][c] = 5;
-          for (let r = Rw - 7; r < Rw - 2; r++) {
+          const entW = Math.max(5, gapW + 1);
+          const gStart = Math.floor((C - entW) / 2);
+          sealOuterBox(gStart, entW);
+          for (let r = Rw - 7; r <= Rw - 2; r++) {
             for (let c = 2; c < C - 2; c++) grid[r][c] = 0;
           }
-          [[Rw - 5, 6], [Rw - 5, 18], [Rw - 4, 12], [11, 12]].forEach(([br, bc]) => {
+          [[Rw - 5, 5], [Rw - 5, 19]].forEach(([br, bc]) => {
             grid[br][bc] = 5;
             if (grid[br][bc - 1] !== undefined) grid[br][bc - 1] = 5;
-            if (grid[br][bc + 1] !== undefined) grid[br][bc + 1] = 5;
           });
-          grid[Rw - 8][6] = 9; grid[Rw - 8][12] = 10; grid[Rw - 8][18] = 9;
-          placeOrbAt(12, Rw - 3, 'add3'); placeOrbAt(8, Rw - 5, 'mul3'); placeOrbAt(16, Rw - 5, 'mul3');
+          for (let c = 3; c < C - 3; c++) {
+            if ((c >= 4 && c <= 7) || (c >= 10 && c <= 14) || (c >= 17 && c <= 20)) {
+              grid[Rw - 8][c] = (c >= 10 && c <= 14) ? 10 : 9;
+              doorMap[Rw - 8][c] = true;
+            }
+          }
+          placeOrbAt(12, Rw - 3, 'add3');
+          placeOrbAt(9, Rw - 5, 'mul3'); placeOrbAt(15, Rw - 5, 'mul3');
           placeOrbAt(4, Rw - 6, 'add3'); placeOrbAt(20, Rw - 6, 'add3');
         } else if (archId === 'twin_chimneys') {
-          sealOuterBox(5, gapW);
-          for (let g = 0; g < gapW; g++) grid[Rw - 1][17 + g] = 0;
+          const chW = Math.max(4, gapW);
+          sealOuterBox(4, chW);
+          for (let g = 0; g < chW; g++) grid[Rw - 1][16 + g] = 0;
           for (let r = 1; r < Rw - 1; r++) {
-            grid[r][12] = (r >= 4 && r <= 6) ? 10 : 5;
-            for (let w = 0; w < Math.max(2, gapW); w++) {
-              if (r >= 6) { grid[r][5 + w] = 0; grid[r][17 + w] = 0; }
+            grid[r][12] = (r >= 4 && r <= 8) ? 10 : 5;
+            if (grid[r][12] === 10) doorMap[r][12] = true;
+            for (let w = 0; w < chW; w++) {
+              if (r >= 10) { grid[r][4 + w] = 0; grid[r][16 + w] = 0; }
             }
           }
-          grid[5][5] = 9; grid[5][6] = 9; grid[5][17] = 9; grid[5][18] = 9; grid[9][3] = 10; grid[9][20] = 10;
-          placeOrbAt(5.5, Rw - 3, 'add3'); placeOrbAt(5.5, 11, 'mul3');
-          placeOrbAt(17.5, Rw - 3, 'add3'); placeOrbAt(17.5, 11, 'mul3');
+          for (let w = 0; w < chW; w++) {
+            grid[9][4 + w] = 9; doorMap[9][4 + w] = true;
+            grid[9][16 + w] = 9; doorMap[9][16 + w] = true;
+          }
+          grid[12][3] = 10; grid[12][20] = 10;
+          placeOrbAt(4 + (chW - 1) * 0.5, Rw - 3, 'add3'); placeOrbAt(4 + (chW - 1) * 0.5, 12, 'mul3');
+          placeOrbAt(16 + (chW - 1) * 0.5, Rw - 3, 'add3'); placeOrbAt(16 + (chW - 1) * 0.5, 12, 'mul3');
         } else {
-          sealOuterBox(11, gapW);
+          const entW = Math.max(5, gapW + 1);
+          const gStart = Math.floor((C - entW) / 2);
+          sealOuterBox(gStart, entW);
           for (let r = 2; r < Rw - 1; r++) {
             for (let c = 2; c < C - 2; c++) {
-              const dLow = Math.abs(c - 12) + Math.abs(r - 17) * 1.2;
-              const dHigh = Math.abs(c - 12) + Math.abs(r - 7) * 1.2;
-              const inShaft = Math.abs(c - 12) <= Math.max(1, gapW - 1) && r >= 7;
-              if (dLow <= 4.2 || dHigh <= 4.2 || inShaft) grid[r][c] = 0;
-              else if (Math.abs(dLow - 5) < 0.9 || Math.abs(dHigh - 5) < 0.9) grid[r][c] = 5;
+              const dLow = Math.abs(c - 12) + Math.abs(r - 17) * 1.1;
+              const dHigh = Math.abs(c - 12) + Math.abs(r - 7) * 1.1;
+              const inShaft = Math.abs(c - 12) <= 2 && r >= 7;
+              if (dLow <= 4.6 || dHigh <= 4.6 || inShaft) grid[r][c] = 0;
+              else if (Math.abs(dLow - 5.4) < 0.9 || Math.abs(dHigh - 5.4) < 0.9) {
+                if (r % 2 === 0) { grid[r][c] = 10; doorMap[r][c] = true; }
+                else grid[r][c] = 5;
+              }
             }
           }
-          [[3, 11, 9], [3, 12, 9], [3, 13, 9], [7, 7, 10], [7, 8, 10], [7, 16, 10], [7, 17, 10], [17, 7, 10], [17, 8, 10], [17, 16, 10], [17, 17, 10]].forEach(([r, c, code]) => {
+          [[2, 11, 9], [2, 12, 9], [2, 13, 9], [7, 6, 10], [7, 7, 10], [7, 17, 10], [7, 18, 10], [17, 6, 10], [17, 7, 10], [17, 17, 10], [17, 18, 10]].forEach(([r, c, code]) => {
             if (grid[r]) { grid[r][c] = code; doorMap[r][c] = true; }
           });
           placeOrbAt(12, Rw - 2, 'add3'); placeOrbAt(12, 17, 'mul3'); placeOrbAt(12, 12, 'add3'); placeOrbAt(12, 7, 'mul3');
