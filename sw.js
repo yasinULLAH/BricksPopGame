@@ -70,7 +70,7 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "939dc58bb3afbdf88036e0a007b15710"
+        "revision": "e06de8032aba76a08f5c7b6e019ca0a2"
     },
     {
         "url": "index.html.bak",
@@ -109,10 +109,6 @@ if (workbox) {
         "revision": "ad17d01f02bb01615fbc0509f5aee82a"
     },
     {
-        "url": "patch.json",
-        "revision": "da0324f78365ba6c485f59a425b09805"
-    },
-    {
         "url": "pwa-register.js",
         "revision": "3ec872e4f752840ad8f85922ff6cebe7"
     },
@@ -122,7 +118,7 @@ if (workbox) {
     },
     {
         "url": "sw.js",
-        "revision": "a822facb155e7d0a2b9ed02380eb39ba"
+        "revision": "94d1053a4aa50ba141611b454cc8859b"
     }
 ]);
 

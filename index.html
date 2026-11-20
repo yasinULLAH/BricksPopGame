@@ -2783,22 +2783,22 @@
       position: relative;
       flex: none;
       width: 100%;
-      padding: calc(env(safe-area-inset-top, 0px) + 7px) 12px 7px;
+      padding: calc(env(safe-area-inset-top, 0px) + 4px) 10px 4px;
       background: var(--hud-bg);
       border-bottom: 1px solid var(--line2);
       z-index: 10;
-      box-shadow: 0 4px 18px rgba(3, 1, 10, .55)
+      box-shadow: 0 3px 12px rgba(3, 1, 10, .45)
     }
 
     .hud-inner {
-      max-width: 520px;
+      max-width: 760px;
       margin: 0 auto
     }
 
     .hud-top {
       display: grid;
       grid-template-columns: auto 1fr auto;
-      gap: 8px;
+      gap: 6px;
       align-items: center
     }
 
@@ -2809,65 +2809,86 @@
       pointer-events: auto
     }
 
+    #hud .btn-icon,
+    #hud .mute-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      font-size: 14px
+    }
+
     .hud-left {
       display: flex;
-      gap: 6px;
+      gap: 5px;
       align-items: center
     }
 
     .hud-mid {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
       text-align: center;
       min-width: 0
     }
 
     #hudLevel {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
-      letter-spacing: 1.6px;
+      letter-spacing: 1.1px;
       color: var(--muted);
       text-transform: uppercase;
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis
+      text-overflow: ellipsis;
+      max-width: 260px
+    }
+
+    @media(min-width:600px) {
+      #hudLevel {
+        max-width: 420px;
+        font-size: 10.5px
+      }
     }
 
     #hudScore {
       font-family: var(--font-d);
       font-weight: 900;
-      font-size: 23px;
-      line-height: 1.08;
+      font-size: 18px;
+      line-height: 1;
       color: #fff;
-      text-shadow: 0 0 16px rgba(139, 92, 246, .8)
+      text-shadow: 0 0 12px rgba(139, 92, 246, .75)
     }
 
     body.large-hud #hudLevel {
-      font-size: 12px
+      font-size: 11px
     }
 
     body.large-hud #hudScore {
-      font-size: 28px
+      font-size: 22px
     }
 
     #hudTimer {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
       color: var(--amber);
       display: none
     }
 
     #hudTimer.show {
-      display: block
+      display: inline-block
     }
 
     .hud-right {
       display: flex;
       align-items: center;
-      gap: 6px
+      gap: 5px
     }
 
     .hud-right-row {
       display: flex;
-      gap: 5px
+      gap: 4px
     }
 
     #hud .mute-btn .m-label {
@@ -2877,13 +2898,13 @@
     .hud-coins {
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 11.5px;
+      gap: 3px;
+      font-size: 11px;
       font-weight: 800;
       color: #FFC53D;
       background: rgba(20, 12, 34, .82);
       border: 1px solid rgba(255, 197, 61, .35);
-      padding: 5px 9px;
+      padding: 3px 8px;
       border-radius: 999px
     }
 
@@ -2891,23 +2912,29 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 7px;
-      margin-top: 5px;
-      flex-wrap: wrap;
-      min-height: 22px
+      gap: 6px;
+      margin-top: 3px;
+      flex-wrap: nowrap;
+      min-height: 24px;
+      overflow-x: auto;
+      scrollbar-width: none
+    }
+
+    .hud-sub::-webkit-scrollbar {
+      display: none
     }
 
     .hud-sub-left {
       display: flex;
       align-items: center;
-      gap: 7px;
-      flex-wrap: wrap
+      gap: 6px;
+      flex: none
     }
 
     #hudLives {
       display: flex;
-      gap: 3px;
-      font-size: 14px
+      gap: 2px;
+      font-size: 12.5px
     }
 
     #hudLives .ic {
@@ -2929,14 +2956,14 @@
     #hudCombo {
       display: none;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       background: rgba(255, 61, 138, .14);
       border: 1px solid rgba(255, 61, 138, .5);
       border-radius: 999px;
-      padding: 2px 9px;
+      padding: 1px 7px;
       font-family: var(--font-d);
       font-weight: 800;
-      font-size: 11.5px;
+      font-size: 10px;
       color: var(--magenta);
       position: relative;
       overflow: hidden
@@ -2950,42 +2977,41 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      height: 2.5px;
+      height: 2px;
       background: var(--magenta)
     }
 
     #hudFx {
       display: flex;
-      gap: 4px;
-      flex-wrap: wrap
+      gap: 3px;
+      flex: none
     }
 
     .fx-chip {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 3px;
-      min-width: 28px;
-      height: 26px;
-      font-size: 10px;
+      gap: 2px;
+      min-width: 22px;
+      height: 21px;
+      font-size: 9px;
       font-weight: 800;
-      padding: 0 6px;
-      border-radius: 9px;
+      padding: 0 4px;
+      border-radius: 6px;
       background: rgba(20, 12, 34, .9);
       border: 1px solid var(--fc, #22D3EE);
       color: var(--fc, #22D3EE);
       position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 10px color-mix(in srgb, var(--fc, #22D3EE) 22%, transparent)
+      overflow: hidden
     }
 
     .fx-chip .ic {
-      font-size: 13px
+      font-size: 11px
     }
 
     .fx-chip .fx-cnt {
       font-family: var(--font-d);
-      font-size: 9.5px;
+      font-size: 8.5px;
       line-height: 1
     }
 
@@ -2993,23 +3019,21 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      height: 2.5px;
+      height: 2px;
       background: var(--fc)
     }
 
     #boostBar {
       display: none;
-      margin-top: 5px;
-      padding-top: 5px;
-      border-top: 1px solid rgba(160, 140, 255, .1);
-      pointer-events: auto
+      margin-left: auto;
+      pointer-events: auto;
+      flex: none
     }
 
     #boostBar.show {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 6px
+      gap: 4px
     }
 
     #boostBar .bb-label {
@@ -3019,15 +3043,8 @@
     #boostBar .bb-row {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 2px 4px;
-      scrollbar-width: none
-    }
-
-    #boostBar .bb-row::-webkit-scrollbar {
-      display: none
+      gap: 5px;
+      padding: 1px 2px
     }
 
     .chip-btn {
@@ -3035,9 +3052,9 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
-      padding: 4px 8px;
+      padding: 3px 7px;
       border-radius: 999px;
       background: rgba(29, 20, 52, .9);
       border: 1px solid var(--line2);
@@ -3050,40 +3067,33 @@
 
     .chip-btn.boost-ic {
       position: relative;
-      width: 36px;
-      height: 34px;
+      width: 26px;
+      height: 23px;
       padding: 0;
-      border-radius: 11px;
+      border-radius: 7px;
       justify-content: center;
       background: rgba(24, 16, 44, .92);
       border: 1px solid color-mix(in srgb, var(--bc, #8B5CF6) 55%, rgba(160, 140, 255, .25));
       color: var(--bc, var(--text));
-      box-shadow: 0 2px 10px rgba(4, 2, 12, .45), inset 0 1px 0 rgba(255, 255, 255, .08);
-      transition: transform .14s, box-shadow .2s, background .2s, border-color .2s
-    }
-
-    .chip-btn.boost-ic:hover {
-      border-color: var(--bc, var(--cyan));
-      box-shadow: 0 0 14px color-mix(in srgb, var(--bc, #22D3EE) 40%, transparent);
-      transform: translateY(-1px)
+      transition: transform .14s, border-color .2s
     }
 
     .chip-btn.boost-ic .ic {
-      font-size: 16px
+      font-size: 12.5px
     }
 
     .chip-btn.boost-ic .b-key {
       position: absolute;
-      top: -4px;
-      left: -4px;
-      min-width: 14px;
-      height: 14px;
-      padding: 0 3px;
-      border-radius: 5px;
+      top: -3px;
+      left: -3px;
+      min-width: 11px;
+      height: 11px;
+      padding: 0 2px;
+      border-radius: 4px;
       background: #140D26;
       border: 1px solid var(--line2);
       color: var(--muted);
-      font-size: 8.5px;
+      font-size: 7px;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -3093,17 +3103,17 @@
 
     .chip-btn.boost-ic .b-cnt {
       position: absolute;
-      bottom: -4px;
-      right: -5px;
-      min-width: 16px;
-      height: 14px;
-      padding: 0 3.5px;
+      bottom: -3px;
+      right: -4px;
+      min-width: 13px;
+      height: 11px;
+      padding: 0 2.5px;
       border-radius: 999px;
       background: var(--surface3);
       border: 1px solid color-mix(in srgb, var(--bc, #8B5CF6) 65%, transparent);
       color: #fff;
       font-family: var(--font-d);
-      font-size: 8.5px;
+      font-size: 7px;
       font-weight: 900;
       display: flex;
       align-items: center;
@@ -3114,9 +3124,7 @@
     .chip-btn.boost-ic.armed {
       color: #0B0716;
       background: var(--grad-acid);
-      border-color: #fff;
-      box-shadow: 0 0 16px rgba(163, 230, 53, .65);
-      transform: translateY(-1px)
+      border-color: #fff
     }
 
     .chip-btn.boost-ic.armed .b-cnt {
@@ -3730,6 +3738,11 @@
       background: linear-gradient(150deg, rgba(56, 189, 248, .34), rgba(255, 61, 138, .2) 48%, rgba(20, 13, 38, .94) 76%), var(--surface);
     }
     .mode.random .m-ic { color: #38BDF8 }
+    .mode.megabrick::before {
+      background: linear-gradient(150deg, rgba(16, 185, 129, .36), rgba(250, 204, 21, .22) 50%, rgba(20, 13, 38, .94) 78%), var(--surface);
+    }
+    .mode.megabrick .m-ic { color: #4ADE80 }
+    body.light-theme .mode.megabrick::before { background: linear-gradient(150deg, rgba(16, 185, 129, .22), #FFFFFF 70%) }
     .rand-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3766,6 +3779,100 @@
       font-size: 11px;
       color: var(--muted);
       line-height: 1.35;
+    }
+    .arch-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 2px 1px 8px;
+      margin-bottom: 10px;
+    }
+    .arch-chip {
+      flex: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 800;
+      background: var(--inset-bg);
+      border: 1px solid var(--line2);
+      color: var(--muted);
+      transition: all .16s;
+    }
+    .arch-chip.active {
+      background: var(--grad-primary);
+      color: #fff;
+      border-color: rgba(255,255,255,.55);
+      box-shadow: 0 0 14px rgba(139, 92, 246, .45);
+    }
+    .rand-prev-card {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: var(--inset-bg);
+      border: 1px solid var(--line2);
+      border-radius: 16px;
+      padding: 11px;
+      margin-bottom: 12px;
+    }
+    .rand-prev-cv {
+      width: 118px;
+      height: 76px;
+      border-radius: 10px;
+      background: rgba(8, 4, 18, .65);
+      border: 1px solid var(--line);
+      flex: none;
+    }
+    .um-list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+    @media(min-width:620px) {
+      .um-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .um-card {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: var(--inset-bg);
+      border: 1.5px solid var(--line2);
+      border-radius: 15px;
+      padding: 10px;
+      min-width: 0;
+    }
+    .um-card.focus {
+      border-color: var(--rc, var(--cyan));
+      box-shadow: 0 0 16px color-mix(in srgb, var(--rc, #22D3EE) 25%, transparent);
+    }
+    .um-prev {
+      width: 86px;
+      height: 58px;
+      border-radius: 8px;
+      background: rgba(8, 4, 18, .65);
+      border: 1px solid var(--line);
+      flex: none;
+    }
+    .um-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .um-info b {
+      font-size: 12.5px;
+      display: block;
+      overflow-wrap: break-word;
+      line-height: 1.25;
+    }
+    .um-info p {
+      font-size: 10.5px;
+      color: var(--muted);
+      margin: 2px 0 4px;
+      line-height: 1.3;
     }
     .upg-item {
       display: flex;
@@ -3998,12 +4105,12 @@
 <div id="hudLives"></div>
 <div id="hudCombo"><span id="comboMult">×2</span><i id="comboBar"></i></div>
 <button aria-label="Nova Blast Ultimate" class="nova-btn" data-action="nova" id="novaBtn" title="Nova Blast Ultimate (E / Shift)"><i class="nv-fill" id="novaFill" style="width:0%"></i><span id="novaTxt" style="position:relative;z-index:1">⚡ 0%</span></button>
-</div>
 <div id="hudFx"></div>
 </div>
 <div id="boostBar">
 <div class="bb-label" id="boostBarLabel">BOOST (1-7)</div>
 <div class="bb-row" id="boostRow"></div>
+</div>
 </div>
 </div>
 </div>
@@ -4223,6 +4330,80 @@
         coinBonus: 200, xpBonus: 250, desc: '8–11 rows · 2 lives · boss cores, plasma fire & max payout'
       }
     };
+    const RANDOM_ARCHETYPES = [
+      { id: 'auto', name: 'Auto Mix (∞)', icon: '🎲', desc: 'Infinite procedural blend with unbreakable steel rows' },
+      { id: 'steel_floor', name: 'Unbreakable Floor', icon: '🧱', desc: '1–3 full unbreakable bottom rows with narrow entry gap' },
+      { id: 'double_shelf', name: 'Unbreakable Shelves', icon: '🪜', desc: 'Staggered full unbreakable horizontal barrier rows' },
+      { id: 'triple_bunker', name: 'Triple Steel Tiers', icon: '🛡️', desc: 'Multi-tier unbreakable rows & hard armor strata' },
+      { id: 'rainbow_shell', name: 'Silver Shell Prism', icon: '🌈', desc: 'Full unbreakable & hard silver rows framing a rainbow core' },
+      { id: 'caged_core', name: 'Sealed Steel Cage', icon: '🔒', desc: 'Unbreakable steel box with red/yellow breach doorway plugs' },
+      { id: 'vault', name: 'Bomb Vaults', icon: '💣', desc: 'Armored chambers packed with bombs & gold' },
+      { id: 'channels', name: 'Pinball Lanes', icon: '🛤️', desc: 'Vertical ricochet chutes & jackpot pockets' },
+      { id: 'fortress', name: 'Citadel Fortress', icon: '🏰', desc: 'Fortified outer walls with inner core sanctum' },
+      { id: 'invader', name: 'Space Invader', icon: '👾', desc: 'Procedural alien & mecha boss silhouettes' },
+      { id: 'diamond', name: 'Diamond Prism', icon: '💎', desc: 'Concentric diamond rings & treasure center' },
+      { id: 'honeycomb', name: 'Honeycomb Hex', icon: '🐝', desc: 'Cellular hex pockets wired with chain bombs' },
+      { id: 'towers', name: 'Twin Towers', icon: '🏙️', desc: 'High-rise brick pillars with narrow alleys' },
+      { id: 'chevron', name: 'V-Wing Squadron', icon: '🦅', desc: 'Swept arrowhead formations & flank guards' },
+      { id: 'hourglass', name: 'Chrono Hourglass', icon: '⏳', desc: 'Dual chambers linked by a reactor nexus' },
+      { id: 'tunnels', name: 'Laser Tunnels', icon: '🚇', desc: 'Crossfire corridors & shielded side bunkers' },
+      { id: 'spiral', name: 'Vortex Maze', icon: '🌀', desc: 'Winding spiral arms & orbital rings' },
+      { id: 'pendulum', name: 'Kinetic Waves', icon: '🌊', desc: 'Sinusoidal ribbons & counter-sliding rows' },
+      { id: 'minefield', name: 'Chain Minefield', icon: '💥', desc: 'High-density explosive grid for mega chains' },
+      { id: 'pyramid', name: 'Pharaoh Pyramid', icon: '🔺', desc: 'Stepped ziggurat tiers with royal apex' }
+    ];
+    const RANDOM_MODIFIERS = [
+      { id: 'standard', name: 'Balanced Arena', tag: 'Classic arcade setup', col: '#38BDF8' },
+      { id: 'bombfiesta', name: 'Bomb Fiesta', tag: '+4 Explosive Bombs', col: '#FF6B35' },
+      { id: 'goldrush', name: 'Gold Vein Rush', tag: '+6 Gold Coin Bricks', col: '#FFC53D' },
+      { id: 'armorsiege', name: 'Armor Siege', tag: 'Reinforced heavy plating', col: '#8B5CF6' },
+      { id: 'kinetic', name: 'Kinetic Shift', tag: 'Counter-sliding rows', col: '#22D3EE' },
+      { id: 'giftshower', name: 'Gift Bonanza', tag: '+3 Power-Up Gift Bricks', col: '#FF3D8A' },
+      { id: 'corehunt', name: 'Reactor Core Hunt', tag: 'Bonus Boss Crystal Cores', col: '#E879F9' }
+    ];
+    const MISSION_OPS = ['Operation', 'Contract', 'Protocol', 'Directive', 'Siege', 'Blitz', 'Assault', 'Vanguard'];
+    const MEGA_TIERS = {
+      easy: {
+        id: 'easy', label: 'Easy', color: '#34D399', icon: 'leaf',
+        lives: 4, speed: 285, paddle: 118, gapW: 3, armorP: 0.04, maxHp: 1,
+        orbs: 6, triggers: 3, startBalls: 3, coinBonus: 95, xpBonus: 125,
+        desc: 'Wide 4-tile tunnel entry · 3 start balls · relaxed speed · 6 orbs (×3/+3)'
+      },
+      medium: {
+        id: 'medium', label: 'Medium', color: '#38BDF8', icon: 'zap',
+        lives: 3, speed: 325, paddle: 102, gapW: 2, armorP: 0.16, maxHp: 2,
+        orbs: 5, triggers: 2, startBalls: 2, coinBonus: 150, xpBonus: 190,
+        desc: '3-tile tunnel entry · 2 start balls · 5 multiplier orbs · light armor shell'
+      },
+      hard: {
+        id: 'hard', label: 'Hard', color: '#FFB020', icon: 'flame',
+        lives: 3, speed: 365, paddle: 90, gapW: 2, armorP: 0.32, maxHp: 3,
+        orbs: 4, triggers: 2, startBalls: 1, coinBonus: 230, xpBonus: 280,
+        desc: 'Precision chimney entry · deep yellow/red pocket triggers · multi-hit armor'
+      },
+      hardest: {
+        id: 'hardest', label: 'Hardest', color: '#FF3D8A', icon: 'crown',
+        lives: 2, speed: 405, paddle: 82, gapW: 1, armorP: 0.48, maxHp: 4,
+        orbs: 4, triggers: 3, startBalls: 1, coinBonus: 350, xpBonus: 430,
+        desc: 'Tight entry hole · fortified cavern walls & high-HP cores · max payout'
+      }
+    };
+    const MEGA_ARCHETYPES = [
+      { id: 'auto', name: 'Auto Mix (∞)', icon: '🎲', desc: 'Unlimited random mix of all viral Brick Break tunnel & grid setups' },
+      { id: 'rainbowvault', name: 'Armored Rainbow', icon: '🌈', desc: 'Full unbreakable & hard silver rows encasing a diagonal rainbow prism core' },
+      { id: 'multi_rows', name: 'Unbreakable Tiers', icon: '🧱', desc: '2–4 full horizontal unbreakable steel rows with breach doors & micro-bricks' },
+      { id: 'chimney', name: 'Chimney Tunnel', icon: '🕳️', desc: 'Full unbreakable bottom row & chimney tunnel with yellow breach plug' },
+      { id: 'stickman', name: 'X-Cavern Pocket', icon: '🧍', desc: 'Orange micro-grid with hollow X-cavern & red pocket multiball triggers' },
+      { id: 'greenhook', name: 'Right-Hook Maze', icon: '🟩', desc: 'Neon green micro-block with right-side hook channel & ×3/+3 ball orbs' },
+      { id: 'dualmaze', name: 'Dual Slot & Maze', icon: '🌀', desc: 'Left slotted columns + right G-spiral labyrinth packed with multiplier orbs' },
+      { id: 'neonquest', name: 'Neon Number Blocks', icon: '🔢', desc: 'Glowing numbered HP blocks with diagonal multiball stream corridors' },
+      { id: 'terraced', name: 'Terraced Pixel Wall', icon: '🛡️', desc: 'Red mega-core with green mid-band & grey armored bottom shield terrace' },
+      { id: 'antfarm', name: 'Ant-Farm Burrows', icon: '🐜', desc: 'Branching underground tunnels leading to 3 buried multiball chambers' },
+      { id: 'spiral_core', name: 'Deep Snail Spiral', icon: '🐚', desc: 'Inward-coiling steel maze filled with micro-bricks & multiplier orbs' },
+      { id: 'pinball_box', name: 'Sealed Pinball Box', icon: '🎰', desc: 'Steel vault with bottom entry funnel, diamond bumpers & 7 multiplier orbs' },
+      { id: 'twin_chimneys', name: 'Twin Bunker Chimneys', icon: '⛩️', desc: 'Dual sealed micro-brick fortresses with twin narrow entry chimneys' },
+      { id: 'hourglass_cave', name: 'Reactor Caverns', icon: '⏳', desc: 'Upper & lower hollow diamond caverns linked by an orb-filled throat' }
+    ];
     const THEMES = [
       { id: 'nova', name: 'Nova Cyber', mode: 'Dark', light: false, sw: ['#0B0716', '#7C4DFF', '#FF3D8A', '#22D3EE'], arena: ['#130A2E', '#0B0716'] },
       { id: 'daylight', name: 'Daylight Studio', mode: 'Light', light: true, sw: ['#F8FAFC', '#2563EB', '#6366F1', '#0EA5E9'], arena: ['#E2ECF8', '#CBD8EA'] },
@@ -4440,6 +4621,7 @@
       { id: 'drone5', name: 'Drone Hunter', desc: 'Shoot down 5 Golden Supply Drones', icon: 'target', reward: 160, max: 5, cur: s => s.stats.dronesHit || 0 },
       { id: 'upg5', name: 'Tech Engineer', desc: 'Purchase 5 permanent Workshop upgrades', icon: 'sliders', reward: 190, max: 5, cur: s => Object.values(s.upg || {}).reduce((a, b) => a + b, 0) },
       { id: 'daily1', name: 'Daily Hero', desc: 'Complete a Daily Challenge', icon: 'calendar', reward: 125, max: 1, cur: s => s.stats.dailyWins },
+      { id: 'umiss10', name: 'Contract Mercenary', desc: 'Complete 10 Unlimited Random Missions', icon: 'shuffle', reward: 220, max: 10, cur: s => s.stats.missionsDone || 0 },
       { id: 'time60', name: 'Marathon Player', desc: 'Play for 60 minutes total', icon: 'timer', reward: 200, max: 3600, cur: s => s.stats.playtime }
     ];
 
@@ -4448,7 +4630,7 @@
     function freshDaily() { return { date: todayStr(), bricks: 0, powers: 0, wins: 0, novas: 0, claims: [], rewardClaimed: false, challengeDone: false, freeSpinUsed: false } }
     function freshSet() {
       return {
-        diff: 'classic', randomDiff: 'medium', ballSpeedPct: 100, paddleSizePct: 100, ballSizePct: 100, startLives: 0, aimGuide: 'full', trapDrops: true,
+        diff: 'classic', randomDiff: 'medium', randomArch: 'auto', megaDiff: 'easy', megaArch: 'auto', enableTimer: false, ballSpeedPct: 100, paddleSizePct: 100, ballSizePct: 100, startLives: 0, aimGuide: 'full', trapDrops: true,
         dropRatePct: 100, dropSpeedPct: 100, speedRampPct: 100, edgeAngleMode: 'standard', autoLaunchDelay: 'off', autoCatchMagnet: true, droneFreq: 'normal', bossHazards: true,
         controlMode: 'drag', sens: 1, keySpeedPct: 100, paddleHeightOffset: 'medium', paddleSmoothing: 'smooth', invertControls: false, tapLaunch: true, doubleTapNova: false, wheelControl: true, cursorHideInGame: false, autoPauseBlur: true, confirmActions: true,
         haptics: true, hapticStrength: 'medium',
@@ -4470,7 +4652,7 @@
           bricks: 0, brickTypes: { normal: 0, armored: 0, explosive: 0, gold: 0, core: 0, steel: 0 },
           bestCombo: 0, comboSum: 0, comboRuns: 0, playtime: 0, ballsLost: 0, powers: 0, trapsHit: 0, boostersUsed: 0,
           gamesPlayed: 0, gamesWon: 0, perfectClears: 0, bossesDefeated: 0, bestScore: 0, totalScore: 0,
-          endlessBest: 0, endlessWave: 0, timedBest: 0, dailyBest: 0, dailyWins: 0, bossRushBest: 0, bossRushStage: 0, randomBest: 0, randomClears: 0,
+          endlessBest: 0, endlessWave: 0, timedBest: 0, dailyBest: 0, dailyWins: 0, bossRushBest: 0, bossRushStage: 0, randomBest: 0, randomClears: 0, missionsDone: 0,
           novaBlasts: 0, dronesHit: 0, critHits: 0, coinsEarned: 250
         },
         recentRuns: [],
@@ -4662,7 +4844,7 @@
     function sheetBackdrop() { if (UI.dismiss) actions[UI.dismiss] && actions[UI.dismiss]() }
 
     /* ---------- UNLIMITED PROCEDURAL LEVEL GENERATOR ---------- */
-    const COLS = 11, VW = 480, MIN_VH = 690, SIDE = 14, GAP = 3, BW = (VW - 2 * SIDE - (COLS - 1) * GAP) / COLS, BH = 24, VGAP = 3, TOP = 42, PH = 16, BALL_R = 7;
+    const COLS = 11, VW = 480, MIN_VH = 720, SIDE = 14, GAP = 3, BW = (VW - 2 * SIDE - (COLS - 1) * GAP) / COLS, BH = 21, VGAP = 2.5, TOP = 22, PH = 16, BALL_R = 7;
     function bm(rows) { return rows.map(r => r.split('').map(c => c === '1')) }
     const PATTERNS = [
       { name: 'The Wall', fn: () => true },
@@ -4827,103 +5009,516 @@
       }
       return (((Date.now() * 1664525) ^ Math.floor(performance.now() * 1e6) ^ Math.imul(randomNonce, 2654435761) ^ ((Math.random() * 0xFFFFFFFF) >>> 0)) >>> 0);
     }
-    function genRandomLevel(tierId) {
+    function genProceduralMission(tierId, seqNum, forcedSeed) {
       const cfg = RANDOM_TIERS[tierId] || RANDOM_TIERS.medium;
-      const s1 = cryptoRand32(), s2 = cryptoRand32();
+      const s1 = (forcedSeed !== undefined && forcedSeed !== null) ? (forcedSeed >>> 0) : cryptoRand32();
+      const rng = mulberry32((s1 ^ Math.imul((seqNum || 1) + 17, 0x9E3779B9)) >>> 0);
+      const archPool = RANDOM_ARCHETYPES.filter(a => a.id !== 'auto');
+      const arch = archPool[(rng() * archPool.length) | 0];
+      const mod = RANDOM_MODIFIERS[(rng() * RANDOM_MODIFIERS.length) | 0];
+      const opName = MISSION_OPS[(rng() * MISSION_OPS.length) | 0];
+      const objRoll = rng();
+      let objType = 'clear', target = 0, bonusDesc = 'Objective: Demolish all breakable bricks', mult = 1;
+      if (objRoll < 0.25) {
+        objType = 'flawless'; target = 0; mult = 1.25;
+        bonusDesc = 'Clear Board · +50% Bonus for Flawless (0 deaths)';
+      } else if (objRoll < 0.52) {
+        objType = 'combo';
+        target = tierId === 'easy' ? 6 : tierId === 'medium' ? 10 : tierId === 'hard' ? 14 : 18;
+        mult = 1.2;
+        bonusDesc = 'Clear Board · +50% Bonus for ×' + target + ' Combo';
+      } else if (objRoll < 0.78 || !S.set?.enableTimer) {
+        objType = 'score';
+        target = tierId === 'easy' ? 1800 : tierId === 'medium' ? 3200 : tierId === 'hard' ? 5000 : 7500;
+        mult = 1.2;
+        bonusDesc = 'Clear Board · +50% Bonus for ' + fmt(target) + '+ Score';
+      } else {
+        objType = 'timed';
+        target = tierId === 'easy' ? 120 : tierId === 'medium' ? 110 : tierId === 'hard' ? 100 : 90;
+        mult = 1.3;
+        bonusDesc = 'Timed Blitz: Clear within ' + target + 's (+50% Bonus)';
+      }
+      const baseCoins = tierId === 'easy' ? 75 : tierId === 'medium' ? 135 : tierId === 'hard' ? 215 : 330;
+      const baseXp = tierId === 'easy' ? 95 : tierId === 'medium' ? 165 : tierId === 'hard' ? 260 : 400;
+      const rewardCoins = Math.round(baseCoins * mult);
+      const rewardXp = Math.round(baseXp * mult);
+      const seedTag = (s1 >>> 0).toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
+      return {
+        id: 'um_' + seqNum + '_' + seedTag,
+        seq: seqNum,
+        tier: cfg.id,
+        arch: arch.id,
+        archName: arch.name,
+        archIcon: arch.icon,
+        mod: mod.id,
+        modName: mod.name,
+        modCol: mod.col,
+        seed: s1 >>> 0,
+        seedTag,
+        title: opName + ' #' + seqNum + ': ' + arch.name,
+        objType,
+        target,
+        bonusDesc,
+        rewardCoins,
+        rewardXp
+      };
+    }
+    function ensureUnlimitedMissions() {
+      if (!S.uMissionSeq || S.uMissionSeq < 1) S.uMissionSeq = 1;
+      const tiers = ['easy', 'medium', 'hard', 'hardest'];
+      if (!Array.isArray(S.uMissions) || S.uMissions.length !== 4) {
+        S.uMissions = tiers.map(t => genProceduralMission(t, S.uMissionSeq++));
+        markDirty();
+      } else {
+        tiers.forEach((t, i) => {
+          if (!S.uMissions[i] || S.uMissions[i].tier !== t) {
+            S.uMissions[i] = genProceduralMission(t, S.uMissionSeq++);
+            markDirty();
+          }
+        });
+      }
+    }
+    function rerollUnlimitedMissions(onlyTier) {
+      ensureUnlimitedMissions();
+      const tiers = ['easy', 'medium', 'hard', 'hardest'];
+      let nextM = null;
+      tiers.forEach((t, i) => {
+        if (!onlyTier || onlyTier === t) {
+          S.uMissions[i] = genProceduralMission(t, S.uMissionSeq++);
+          if (onlyTier === t) nextM = S.uMissions[i];
+        }
+      });
+      saveNow();
+      return nextM;
+    }
+    function checkMissionBonus(g, m) {
+      if (!g || !m) return false;
+      if (m.objType === 'flawless') return g.deaths === 0;
+      if (m.objType === 'combo') return g.bestComboRun >= m.target;
+      if (m.objType === 'score') return g.score >= m.target;
+      if (m.objType === 'timed') return g.timeLeft > 0;
+      if (m.objType === 'no_trap') return (g.trapsRun || 0) === 0;
+      return true;
+    }
+    function missionProgressText(g) {
+      const m = g?.mission;
+      if (!m) return '';
+      if (m.objType === 'flawless') return g.deaths === 0 ? 'FLAWLESS ON ★' : 'CLEAR BOARD';
+      if (m.objType === 'combo') return 'COMBO ×' + g.bestComboRun + '/×' + m.target;
+      if (m.objType === 'score') return fmt(g.score) + '/' + fmt(m.target) + ' PTS';
+      if (m.objType === 'timed') return 'TIMED BLITZ';
+      if (m.objType === 'no_trap') return (g.trapsRun || 0) === 0 ? '0 TRAPS ✓' : 'CLEAR BOARD';
+      return 'CLEAR BOARD';
+    }
+    function genRandomLevel(tierId, opts) {
+      opts = opts || {};
+      const cfg = RANDOM_TIERS[tierId] || RANDOM_TIERS.medium;
+      const hasFixedSeed = opts.seed !== undefined && opts.seed !== null;
+      const s1 = hasFixedSeed ? (opts.seed >>> 0) : cryptoRand32();
+      const s2 = hasFixedSeed ? (Math.imul(s1 ^ 0x85EBCA6B, 0xC2B2AE35) >>> 0) : cryptoRand32();
       const rng = mulberry32((s1 ^ Math.imul(s2, 0x9E3779B9)) >>> 0);
       const seedTag = ((s1 ^ s2) >>> 0).toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
       const wi = (rng() * WORLDS.length) | 0;
       const rows = cfg.rowsMin + ((rng() * (cfg.rowsMax - cfg.rowsMin + 1)) | 0);
       const targetFill = lerp(cfg.fillMin, cfg.fillMax, rng());
-      // Pick one of 6 generative structural topologies combined with per-cell stochastic noise
-      const topo = (rng() * 6) | 0; // 0=horiz-mirror, 1=quad-mirror, 2=wave-sculpted, 3=clustered-islands, 4=diagonal-ribbon, 5=freeform-organic
-      const f1 = 0.4 + rng() * 1.4, f2 = 0.4 + rng() * 1.4, p1 = rng() * 6.283, p2 = rng() * 6.283;
-      const cx0 = 2 + rng() * (COLS - 5), cy0 = 1 + rng() * Math.max(1, rows - 2);
-      const cx1 = 2 + rng() * (COLS - 5), cy1 = 1 + rng() * Math.max(1, rows - 2);
-      const mask = Array.from({ length: rows }, () => Array(COLS).fill(false));
-      const halfC = Math.ceil(COLS / 2), halfR = Math.ceil(rows / 2);
 
-      if (topo === 0) {
+      const archPool = RANDOM_ARCHETYPES.filter(a => a.id !== 'auto');
+      const requestedArch = (opts.arch && opts.arch !== 'auto') ? RANDOM_ARCHETYPES.find(a => a.id === opts.arch) : null;
+      const archObj = requestedArch || archPool[(rng() * archPool.length) | 0];
+      const archId = archObj.id;
+
+      const requestedMod = opts.mod ? RANDOM_MODIFIERS.find(m => m.id === opts.mod) : null;
+      const modObj = requestedMod || RANDOM_MODIFIERS[(rng() * RANDOM_MODIFIERS.length) | 0];
+      const modId = modObj.id;
+
+      const mask = Array.from({ length: rows }, () => Array(COLS).fill(false));
+      const special = Array.from({ length: rows }, () => Array(COLS).fill(0));
+      const rowMotion = Array.from({ length: rows }, () => null);
+      const halfC = Math.ceil(COLS / 2), cy = (rows - 1) / 2;
+      const wallArmor = cfg.id === 'easy' ? 2 : (cfg.id === 'medium' ? 2 : 3);
+      const heavyArmor = cfg.id === 'easy' ? 2 : 3;
+      const barrierCode = cfg.id === 'easy' ? 2 : (cfg.id === 'medium' ? 3 : 5);
+
+      // Difficulty-scaled Unbreakable Steel (code 5) & Hard Armor (code 3) row count
+      const unbreakRowsTarget = cfg.id === 'easy' ? 1 : cfg.id === 'medium' ? 2 : cfg.id === 'hard' ? 2 : 3;
+      const gapWidth = cfg.id === 'easy' ? 3 : cfg.id === 'medium' ? 2 : cfg.id === 'hard' ? 2 : 1;
+
+      const applyUnbreakableRow = (r, gapCenter, gW, plugCode) => {
+        if (r < 0 || r >= rows) return;
+        const gStart = clamp(Math.round(gapCenter - gW / 2), 1, COLS - 1 - gW);
+        for (let c = 0; c < COLS; c++) {
+          mask[r][c] = true;
+          if (c >= gStart && c < gStart + gW) {
+            if (plugCode) { special[r][c] = plugCode; }
+            else { mask[r][c] = false; special[r][c] = 0; }
+          } else {
+            special[r][c] = 5;
+          }
+        }
+      };
+
+      const carveVault = (r0, r1, c0, c1) => {
+        r0 = clamp(r0, 0, rows - 1); r1 = clamp(r1, 0, rows - 1);
+        c0 = clamp(c0, 0, COLS - 1); c1 = clamp(c1, 0, COLS - 1);
+        for (let r = r0; r <= r1; r++) {
+          for (let c = c0; c <= c1; c++) {
+            mask[r][c] = true;
+            if (r === r0 || r === r1 || c === c0 || c === c1) special[r][c] = (r === r1) ? 5 : wallArmor;
+            else {
+              const pick = (r + c) % 3;
+              special[r][c] = pick === 0 ? 4 : pick === 1 ? 6 : 7;
+            }
+          }
+        }
+        const gm = Math.floor((c0 + c1) / 2);
+        special[r1][gm] = 9;
+        if (gapWidth >= 2 && gm + 1 < c1) { mask[r1][gm + 1] = false; special[r1][gm + 1] = 0; }
+      };
+
+      if (archId === 'steel_floor') {
         for (let r = 0; r < rows; r++) {
-          const rowBias = 0.14 * Math.sin(r * f1 + p1);
+          for (let c = 0; c < COLS; c++) {
+            mask[r][c] = true;
+            if (r === 0) special[r][c] = 3;
+            else if (r === 1 && c % 2 === 0) special[r][c] = 6;
+            else if (r === Math.floor(rows / 2) && (c === 3 || c === 7)) special[r][c] = 4;
+          }
+        }
+        const g1 = 3 + ((rng() * 5) | 0);
+        applyUnbreakableRow(rows - 1, g1, gapWidth, 0);
+        if (rows >= 6) {
+          for (let c = 0; c < COLS; c++) if (mask[rows - 2][c] && !special[rows - 2][c]) special[rows - 2][c] = 3;
+          special[rows - 2][clamp(g1, 1, COLS - 2)] = 9;
+        }
+      } else if (archId === 'double_shelf') {
+        for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) mask[r][c] = true;
+        const gBot = 2 + ((rng() * 3) | 0);
+        const gMid = COLS - 1 - gBot;
+        applyUnbreakableRow(rows - 1, gBot, gapWidth, 0);
+        applyUnbreakableRow(Math.max(2, Math.floor(rows * 0.5)), gMid, gapWidth, 10);
+        for (let c = 0; c < COLS; c++) { if (!special[0][c]) special[0][c] = 3; }
+        special[1][5] = 9;
+      } else if (archId === 'triple_bunker') {
+        for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
+          mask[r][c] = true;
+          if (r % 2 === 0) special[r][c] = 3;
+        }
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 0);
+        if (rows >= 6) applyUnbreakableRow(rows - 3, 2, gapWidth, 10);
+        if (rows >= 8) applyUnbreakableRow(2, 8, gapWidth, 9);
+      } else if (archId === 'rainbow_shell') {
+        // Screenshot 2 style in 11-col arena: Top & bottom full unbreakable/hard silver rows + stepped sides
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            mask[r][c] = true;
+            const isOuter = (r === 0 || r === rows - 1 || c === 0 || c === COLS - 1);
+            const isSecond = (!isOuter && (r === 1 || r === rows - 2 || c === 1 || c === COLS - 2));
+            if (isOuter) special[r][c] = 5;
+            else if (isSecond) special[r][c] = 3;
+            else if ((r + c) % 4 === 0) special[r][c] = 6;
+          }
+        }
+        const gC = 4 + ((rng() * 3) | 0);
+        applyUnbreakableRow(rows - 1, gC, gapWidth, 0);
+        special[rows - 2][clamp(gC, 2, COLS - 3)] = 9;
+      } else if (archId === 'caged_core') {
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            mask[r][c] = true;
+            if (r === 0 || r === rows - 1 || c === 0 || c === COLS - 1) special[r][c] = 5;
+            else if (r === 1 || r === rows - 2 || c === 1 || c === COLS - 2) special[r][c] = 3;
+            else special[r][c] = (c === 5 && r === Math.floor(rows / 2)) ? 9 : ((r + c) % 2 === 0 ? 6 : 4);
+          }
+        }
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 10);
+        special[rows - 2][5] = 4;
+      } else if (archId === 'vault') {
+        if (rows <= 6 || rng() < 0.45) {
+          carveVault(0, rows - 1, 1, 4);
+          carveVault(0, rows - 1, 6, 9);
+          for (let r = 0; r < rows; r++) { mask[r][5] = r % 2 === 0; if (mask[r][5]) special[r][5] = r === 0 ? 7 : 6; }
+        } else {
+          const mid = Math.floor(rows / 2) - 1;
+          carveVault(0, mid, 1, 4);
+          carveVault(0, mid, 6, 9);
+          carveVault(mid + 1, rows - 1, 2, 8);
+        }
+        for (let r = 0; r < rows - 1; r += 2) { mask[r][0] = mask[r][COLS - 1] = true; }
+      } else if (archId === 'channels') {
+        const divs = rng() < 0.55 ? [3, 7] : [2, 5, 8];
+        for (let c = 0; c < COLS; c++) {
+          mask[0][c] = true;
+          special[0][c] = divs.includes(c) ? 5 : (c % 2 === 0 ? 6 : 7);
+        }
+        for (let r = 1; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if (divs.includes(c)) {
+              mask[r][c] = true;
+              special[r][c] = (r >= rows - 2) ? 5 : 3;
+            } else if ((r + (c > 5 ? COLS - 1 - c : c)) % 2 === 0) {
+              mask[r][c] = true;
+              if (r % 2 === 1 && (c === 1 || c === 5 || c === 9)) special[r][c] = 4;
+            }
+          }
+        }
+      } else if (archId === 'fortress') {
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if (r === 0 || r === rows - 1 || c === 0 || c === COLS - 1) {
+              mask[r][c] = true;
+              special[r][c] = (r === rows - 1 || c === 0 || c === COLS - 1) ? 5 : 3;
+            } else if (r >= 2 && r <= rows - 2 && c >= 2 && c <= COLS - 3) {
+              mask[r][c] = true;
+              if (r === 2 || r === rows - 2 || c === 2 || c === COLS - 3) special[r][c] = heavyArmor;
+              else special[r][c] = (c === 5 && r === Math.floor(rows / 2)) ? 9 : ((r + c) % 2 === 0 ? 6 : 4);
+            }
+          }
+        }
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 0);
+        special[rows - 2][5] = 10;
+      } else if (archId === 'invader') {
+        for (let r = 0; r < rows; r++) {
           for (let c = 0; c < halfC; c++) {
-            const on = rng() < clamp(targetFill + rowBias, .18, .95);
-            mask[r][c] = on; mask[r][COLS - 1 - c] = on;
+            const mc = COLS - 1 - c;
+            let on = false, sp = 0;
+            if (r === 0) { on = (c === 2 || c === 3); sp = 6; }
+            else if (r === 1) { on = (c >= 2 && c <= 5); sp = wallArmor; }
+            else if (r === 2) { on = (c >= 1 && c <= 5); if (c === 3) sp = 9; else if (c === 5) sp = 7; }
+            else if (r <= rows - 2) {
+              on = !(c === 1 && (r + c) % 3 === 0);
+              if (c === 0 || c === 5) sp = wallArmor;
+              else if (c === 4 && r % 2 === 1) sp = 4;
+            } else {
+              on = true; sp = 5;
+            }
+            mask[r][c] = mask[r][mc] = on;
+            special[r][c] = special[r][mc] = sp;
           }
         }
-      } else if (topo === 1) {
-        for (let r = 0; r < halfR; r++) {
-          for (let c = 0; c < halfC; c++) {
-            const on = rng() < targetFill;
-            mask[r][c] = on; mask[r][COLS - 1 - c] = on;
-            mask[rows - 1 - r][c] = on; mask[rows - 1 - r][COLS - 1 - c] = on;
-          }
-        }
-      } else if (topo === 2) {
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 0);
+      } else if (archId === 'diamond') {
         for (let r = 0; r < rows; r++) {
           for (let c = 0; c < COLS; c++) {
-            const wv = 0.5 + 0.5 * Math.sin(c * f1 + r * f2 + p1) * Math.cos(r * f1 - c * 0.5 + p2);
-            mask[r][c] = (wv * 0.65 + rng() * 0.35) > (1 - targetFill);
+            const d = Math.abs(c - 5) / 5 + Math.abs(r - cy) / Math.max(2, cy + 0.45);
+            if (d <= 0.36) {
+              mask[r][c] = true;
+              special[r][c] = (c === 5 && Math.abs(r - cy) < 0.8) ? 9 : 6;
+            } else if (d >= 0.54 && d <= 1.08) {
+              mask[r][c] = true;
+              special[r][c] = d > 0.85 ? wallArmor : 0;
+              if ((c === 5 && (r === 0 || r === rows - 1)) || (Math.abs(r - cy) < 0.8 && (c === 0 || c === COLS - 1))) special[r][c] = 4;
+            } else if ((c <= 1 || c >= COLS - 2) && (r === 0 || r === rows - 1)) {
+              mask[r][c] = true; special[r][c] = 7;
+            }
           }
         }
-      } else if (topo === 3) {
-        const rad = 2.4 + rng() * 2.2;
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 0);
+      } else if (archId === 'honeycomb') {
         for (let r = 0; r < rows; r++) {
           for (let c = 0; c < COLS; c++) {
-            const d0 = Math.hypot(c - cx0, (r - cy0) * 1.25);
-            const d1 = Math.hypot(c - cx1, (r - cy1) * 1.25);
-            const near = Math.min(d0, d1) < rad;
-            mask[r][c] = near ? (rng() < Math.min(.94, targetFill + .26)) : (rng() < Math.max(.08, targetFill - .34));
+            const center = (r % 2 === 0) ? (c % 3 === 1) : ((c + 1) % 3 === 0);
+            mask[r][c] = true;
+            if (center) special[r][c] = (r + c) % 2 === 0 ? 4 : 6;
+            else if (r === 0) special[r][c] = 3;
           }
         }
-      } else if (topo === 4) {
-        const slope = (rng() < .5 ? 1 : -1) * (0.5 + rng() * 1.2);
-        const modN = 3 + ((rng() * 4) | 0);
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 0);
+      } else if (archId === 'towers') {
+        const triple = rng() < 0.6;
         for (let r = 0; r < rows; r++) {
           for (let c = 0; c < COLS; c++) {
-            const band = ((((Math.round(c + r * slope)) % modN) + modN) % modN) < Math.max(1, Math.round(modN * targetFill));
-            mask[r][c] = band ? (rng() < .86) : (rng() < .16);
+            const inAlley = triple ? (c === 3 || c === 7) : (c === 0 || c === 5 || c === 10);
+            if (r === 0) {
+              mask[r][c] = true;
+              special[r][c] = inAlley ? 7 : 5;
+            } else if (!inAlley) {
+              mask[r][c] = true;
+              if (r % 2 === 1 && (c === 1 || c === 5 || c === 9 || c === 2 || c === 8)) special[r][c] = (r + c) % 3 === 0 ? 4 : 6;
+              else if (r === rows - 1) special[r][c] = 5;
+            }
           }
         }
+      } else if (archId === 'chevron') {
+        const slope = 0.65 + rng() * 0.35;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            const v = Math.round(Math.abs(c - 5) * slope);
+            const band = ((r - v) % 3 + 3) % 3;
+            if (band < 2) {
+              mask[r][c] = true;
+              if (c === 5) special[r][c] = (r < 2) ? 9 : 4;
+              else if (c === 0 || c === COLS - 1) special[r][c] = 6;
+              else if (band === 1) special[r][c] = wallArmor;
+            }
+          }
+        }
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 0);
+      } else if (archId === 'hourglass') {
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            const hw = Math.round(1.3 + Math.abs(r - cy) * (3.8 / Math.max(1.5, cy)));
+            const dc = Math.abs(c - 5);
+            if (dc <= hw) {
+              mask[r][c] = true;
+              if (dc === hw) special[r][c] = 5;
+              else if (dc === 0 && Math.abs(r - cy) <= 1) special[r][c] = 9;
+              else if (r === 0 || r === rows - 1) special[r][c] = 6;
+            } else if (Math.abs(r - cy) <= 1 && (c <= 1 || c >= COLS - 2)) {
+              mask[r][c] = true;
+              special[r][c] = (c === 0 || c === COLS - 1) ? 7 : 4;
+            }
+          }
+        }
+      } else if (archId === 'tunnels') {
+        const tRow1 = Math.min(rows - 2, 2), tRow2 = rows >= 7 ? rows - 3 : -1;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            const isHRoad = (r === tRow1 || r === tRow2);
+            const isVRoad = (c === 5 || (rows >= 8 && (c === 2 || c === 8)));
+            if (isHRoad && isVRoad) { mask[r][c] = true; special[r][c] = 9; }
+            else if (!isHRoad && !isVRoad) {
+              mask[r][c] = true;
+              if (r === rows - 1) special[r][c] = 5;
+              else if (r === tRow1 - 1 || r === tRow1 + 1 || r === tRow2 - 1) special[r][c] = 3;
+            } else if (isHRoad && (c === 0 || c === COLS - 1)) {
+              mask[r][c] = true; special[r][c] = 7;
+            }
+          }
+        }
+      } else if (archId === 'spiral') {
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            const ring = Math.max(Math.floor(Math.abs(c - 5) * 0.7), Math.floor(Math.abs(r - cy)));
+            const gate = (ring % 2 === 0 && c === 5 && r > cy) || (ring % 2 === 1 && r === Math.round(cy) && (c === 2 || c === 8));
+            if (ring === 0) {
+              mask[r][c] = true;
+              special[r][c] = 9;
+            } else if (!gate && (Math.abs(c - 5) >= ring || Math.abs(r - cy) >= ring - 0.5)) {
+              mask[r][c] = true;
+              if (ring === 1) special[r][c] = 4;
+              else if (ring >= 3) special[r][c] = (r === rows - 1) ? 5 : wallArmor;
+            }
+          }
+        }
+      } else if (archId === 'pendulum') {
+        for (let r = 0; r < rows; r++) {
+          rowMotion[r] = { amp: 9 + (r % 2) * 4, spd: 0.95 + (r % 3) * 0.25, ph: r * Math.PI };
+          const waveShift = Math.round(Math.sin(r * 0.9 + rng() * 2) * 1.2);
+          for (let c = 1; c < COLS - 1; c++) {
+            if ((c + waveShift + r) % 4 !== 0) {
+              mask[r][c] = true;
+              if (c === 5) special[r][c] = r % 2 === 0 ? 4 : 6;
+              else if (c === 1 || c === COLS - 2) special[r][c] = wallArmor;
+            }
+          }
+        }
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 0);
+        rowMotion[rows - 1] = null;
+      } else if (archId === 'minefield') {
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if ((r + c) % 2 === 0 || r === 0) {
+              mask[r][c] = true;
+              if (r % 2 === 1 && c % 2 === 1) special[r][c] = 4;
+              else if (r === 0 && c % 3 === 1) special[r][c] = 6;
+            }
+          }
+        }
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 0);
       } else {
+        const inv = rng() < 0.35;
         for (let r = 0; r < rows; r++) {
-          for (let c = 0; c < COLS; c++) mask[r][c] = rng() < targetFill;
+          for (let c = 0; c < COLS; c++) {
+            const span = inv ? Math.max(1, 5 - Math.floor(r * (4 / Math.max(1, rows - 1)))) : Math.min(5, 1 + Math.floor(r * (4.5 / Math.max(1, rows - 1))));
+            const dc = Math.abs(c - 5);
+            if (dc <= span) {
+              mask[r][c] = true;
+              if (r === rows - 1) special[r][c] = 5;
+              else if (dc === span) special[r][c] = 3;
+              else if (dc <= 1 && Math.abs(r - cy) <= 1) special[r][c] = (c === 5 && Math.abs(r - cy) < 0.8) ? 9 : 6;
+            } else if (r === 0 && (c === 0 || c === COLS - 1)) {
+              mask[r][c] = true; special[r][c] = 7;
+            }
+          }
+        }
+        applyUnbreakableRow(rows - 1, 5, gapWidth, 0);
+      }
+
+      // Add additional full unbreakable horizontal shelf rows for Medium (2 rows), Hard (2-3 rows), Hardest (3 rows)
+      if (unbreakRowsTarget >= 2 && rows >= 6 && !['double_shelf', 'triple_bunker'].includes(archId)) {
+        const midR = Math.max(2, rows - 3);
+        const midGapC = (rng() < 0.5) ? 2 : (COLS - 3);
+        applyUnbreakableRow(midR, midGapC, gapWidth, 10);
+      }
+      if (unbreakRowsTarget >= 3 && rows >= 8 && archId !== 'triple_bunker') {
+        const topShelfR = 2;
+        applyUnbreakableRow(topShelfR, 5, gapWidth, 9);
+      }
+
+      // Symmetric organic mutation pass on non-special cells
+      for (let r = 0; r < rows - 1; r++) {
+        for (let c = 0; c < halfC; c++) {
+          const mc = COLS - 1 - c;
+          if (!special[r][c] && !special[r][mc] && rng() < 0.12) {
+            const flip = rng() < targetFill;
+            mask[r][c] = mask[r][mc] = flip;
+          }
         }
       }
 
-      // Guarantee playable brick count (never empty or overly sparse)
       let onCount = 0;
-      for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) if (mask[r][c]) onCount++;
-      const minNeeded = Math.max(16, Math.round(rows * COLS * cfg.fillMin * 0.75));
+      for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) if (mask[r][c] && special[r][c] !== 5) onCount++;
+      const minNeeded = Math.max(16, Math.round(rows * COLS * cfg.fillMin * 0.7));
       let guard = 0;
       while (onCount < minNeeded && guard++ < 200) {
-        const rr0 = (rng() * rows) | 0, cc0 = (rng() * COLS) | 0;
-        if (!mask[rr0][cc0]) { mask[rr0][cc0] = true; onCount++; }
+        const rr0 = (rng() * (rows - 1)) | 0, cc0 = (rng() * halfC) | 0, mc0 = COLS - 1 - cc0;
+        if (!mask[rr0][cc0] && special[rr0][cc0] !== 5) {
+          mask[rr0][cc0] = true; onCount++;
+          if (mc0 !== cc0 && !mask[rr0][mc0]) { mask[rr0][mc0] = true; onCount++; }
+        }
       }
 
-      // Unique vertical top offset & per-row horizontal stagger / vertical spacing variation
-      const topOffset = TOP + ((rng() * 26) | 0);
-      const rowStagger = Array.from({ length: rows }, () => {
+      const topOffset = TOP + ((rng() * 16) | 0);
+      const rowStagger = Array.from({ length: rows }, (_, r) => {
+        if (r === rows - 1) return 0;
         const roll = rng();
-        if (roll < 0.35) return 0;
-        return (roll < 0.68 ? 1 : -1) * Math.round(4 + rng() * 8);
+        if (roll < 0.55) return 0;
+        return (roll < 0.78 ? 1 : -1) * Math.round(3 + rng() * 5);
       });
-      const vGapExtra = rng() < 0.35 ? ((rng() * 5) | 0) : 0;
+      const vGapExtra = rng() < 0.35 ? ((rng() * 4) | 0) : 0;
+      const movingRows = Array.from({ length: rows }, (_, r) => r < rows - 1 && (!!rowMotion[r] || modId === 'kinetic' || rng() < cfg.movingP));
 
-      const movingRows = Array.from({ length: rows }, () => rng() < cfg.movingP);
+      const explTotal = cfg.expl + (modId === 'bombfiesta' ? 4 : 0);
+      const coinTotal = cfg.coins + (modId === 'goldrush' ? 6 : 0);
+      const giftTotal = cfg.gifts + (modId === 'giftshower' ? 3 : 0);
+      const toughP = clamp(cfg.toughP + (modId === 'armorsiege' ? 0.20 : 0), 0, 0.75);
+      const hardP = clamp(cfg.hardP + (modId === 'armorsiege' ? 0.14 : 0), 0, 0.55);
+      const extraCores = cfg.cores + (modId === 'corehunt' ? (cfg.id === 'easy' ? 1 : 2) : 0);
+
       const built = buildBricks(mask, rows, {
         rng, wi, li: cfg.id === 'hardest' ? 14 : cfg.id === 'hard' ? 10 : cfg.id === 'medium' ? 6 : 2,
         absWorld: cfg.id === 'hardest' ? 8 : cfg.id === 'hard' ? 5 : cfg.id === 'medium' ? 2 : 0,
         sector: cfg.id === 'hardest' ? 2 : cfg.id === 'hard' ? 1 : 0,
-        boss: cfg.cores > 0,
-        toughP: cfg.toughP, hardP: cfg.hardP, steelP: cfg.steelP,
-        expl: cfg.expl, coins: cfg.coins, gifts: cfg.gifts, moving: false
+        boss: extraCores > 0,
+        toughP, hardP, steelP: cfg.steelP,
+        expl: explTotal, coins: coinTotal, gifts: giftTotal, moving: false
       });
 
-      // Apply unique position offsets, custom per-row motion & extra cores for hardest
+      let steelUsed = 0;
+      const maxSteel = 999;
       for (const b of built.bricks) {
+        let sp = special[b.r]?.[b.c] || 0;
+        if (sp > 0) {
+          b.code = sp;
+          if (sp === 5) { steelUsed++; b.unbreakable = true; b.moveAmp = 0; }
+          b.mhp = sp === 2 ? 2 : sp === 3 ? (3 + (cfg.id === 'hardest' ? 2 : cfg.id === 'hard' ? 1 : 0)) : sp === 8 ? (6 + (cfg.id === 'hardest' ? 4 : cfg.id === 'hard' ? 2 : 0)) : 1;
+          b.hp = b.mhp;
+        } else if (b.code === 5) {
+          b.unbreakable = true;
+          steelUsed++;
+        }
         const stg = rowStagger[b.r] || 0;
-        const maxShift = Math.min(8, Math.abs(stg));
+        const maxShift = Math.min(7, Math.abs(stg));
         const nx = clamp(b.x + (stg < 0 ? -maxShift : maxShift), 6, VW - BW - 6);
         b.x = nx; b.rx = nx;
         b.y = topOffset + b.r * (BH + VGAP + vGapExtra);
@@ -4931,26 +5526,40 @@
           const roomLeft = b.x - 6, roomRight = (VW - BW - 6) - b.x;
           const maxAmp = Math.min(14, roomLeft, roomRight);
           if (maxAmp >= 3) {
-            b.moveAmp = Math.min(maxAmp, 4 + rng() * 10);
-            b.moveSpd = 0.75 + rng() * 1.15;
-            b.movePh = rng() * 6.283;
+            const rm = rowMotion[b.r];
+            b.moveAmp = Math.min(maxAmp, rm ? rm.amp : (4 + rng() * 9));
+            b.moveSpd = rm ? rm.spd : (0.75 + rng() * 1.15);
+            b.movePh = rm ? rm.ph : (b.r % 2 === 0 ? 0 : Math.PI);
           }
         }
       }
-      if (cfg.cores >= 2) {
+
+      let curCores = built.bricks.filter(b => b.code === 8).length;
+      while (curCores < extraCores) {
         const candidates = built.bricks.filter(b => b.code !== 5 && b.code !== 8 && b.r < Math.max(2, rows - 1));
-        if (candidates.length) {
-          const pick = candidates[(rng() * candidates.length) | 0];
-          pick.code = 8; pick.mhp = 8; pick.hp = 8;
-        }
+        if (!candidates.length) break;
+        const pick = candidates[(rng() * candidates.length) | 0];
+        pick.code = 8; pick.mhp = cfg.id === 'hardest' ? 10 : 7; pick.hp = pick.mhp;
+        curCores++;
       }
+
+      let breakableCount = 0;
+      for (const b of built.bricks) if (b.code !== 5) breakableCount++;
+      built.breakable = breakableCount;
 
       return {
         wi, absWorld: cfg.id === 'hardest' ? 7 : cfg.id === 'hard' ? 5 : cfg.id === 'medium' ? 2 : 0,
         sector: cfg.id === 'hardest' ? 2 : cfg.id === 'hard' ? 1 : 0,
-        li: 0, boss: cfg.bossFire,
-        name: cfg.label + ' #' + seedTag,
+        li: 0, boss: cfg.bossFire || curCores > 0,
+        name: cfg.label + ' · ' + archObj.name + ' #' + seedTag,
         randomTier: cfg.id,
+        archId: archObj.id,
+        archName: archObj.name,
+        archIcon: archObj.icon,
+        modId: modObj.id,
+        modName: modObj.name,
+        modCol: modObj.col,
+        seed: s1 >>> 0,
         seedTag,
         rows,
         bricks: built.bricks,
@@ -4997,6 +5606,622 @@
       for (const b of lvl.bricks) {
         c.fillStyle = codeColor(b, hues);
         rr(c, b.x * sx + 1, 4 + (b.y - TOP) * sy, BW * sx - 1.5, Math.max(2, BH * sy - 1.5), 2); c.fill();
+      }
+    }
+    function genMegaMission(tierId, seqNum, forcedSeed) {
+      const cfg = MEGA_TIERS[tierId] || MEGA_TIERS.easy;
+      const s1 = (forcedSeed !== undefined && forcedSeed !== null) ? (forcedSeed >>> 0) : cryptoRand32();
+      const rng = mulberry32((s1 ^ Math.imul((seqNum || 1) + 31, 0x9E3779B9)) >>> 0);
+      const archPool = MEGA_ARCHETYPES.filter(a => a.id !== 'auto');
+      const arch = archPool[(rng() * archPool.length) | 0];
+      const mod = RANDOM_MODIFIERS[(rng() * RANDOM_MODIFIERS.length) | 0];
+      const opName = MISSION_OPS[(rng() * MISSION_OPS.length) | 0];
+      const objRoll = rng();
+      let objType = 'clear', target = 0, bonusDesc = 'Breach the tunnel & clear all micro-bricks', mult = 1;
+      if (objRoll < 0.28) {
+        objType = 'flawless'; target = 0; mult = 1.25;
+        bonusDesc = 'Clear Maze · +50% Bonus for Flawless (0 deaths)';
+      } else if (objRoll < 0.58) {
+        objType = 'combo';
+        target = tierId === 'easy' ? 12 : tierId === 'medium' ? 18 : tierId === 'hard' ? 24 : 30;
+        mult = 1.22;
+        bonusDesc = 'Clear Maze · +50% Bonus for ×' + target + ' Swarm Combo';
+      } else if (objRoll < 0.85 || !S.set?.enableTimer) {
+        objType = 'score';
+        target = tierId === 'easy' ? 3500 : tierId === 'medium' ? 5500 : tierId === 'hard' ? 8000 : 11000;
+        mult = 1.22;
+        bonusDesc = 'Clear Maze · +50% Bonus for ' + fmt(target) + '+ Score';
+      } else {
+        objType = 'timed';
+        target = tierId === 'easy' ? 130 : tierId === 'medium' ? 120 : tierId === 'hard' ? 110 : 100;
+        mult = 1.3;
+        bonusDesc = 'Timed Swarm: Clear within ' + target + 's (+50% Bonus)';
+      }
+      const rewardCoins = Math.round(cfg.coinBonus * mult);
+      const rewardXp = Math.round(cfg.xpBonus * mult);
+      const seedTag = (s1 >>> 0).toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
+      return {
+        id: 'mm_' + seqNum + '_' + seedTag,
+        seq: seqNum,
+        tier: cfg.id,
+        arch: arch.id,
+        archName: arch.name,
+        archIcon: arch.icon,
+        mod: mod.id,
+        modName: mod.name,
+        modCol: mod.col,
+        seed: s1 >>> 0,
+        seedTag,
+        title: opName + ' #' + seqNum + ': ' + arch.name,
+        objType,
+        target,
+        bonusDesc,
+        rewardCoins,
+        rewardXp,
+        isMega: true
+      };
+    }
+    function ensureMegaMissions() {
+      if (!S.megaMissionSeq || S.megaMissionSeq < 1) S.megaMissionSeq = 1;
+      const tiers = ['easy', 'medium', 'hard', 'hardest'];
+      if (!Array.isArray(S.megaMissions) || S.megaMissions.length !== 4) {
+        S.megaMissions = tiers.map(t => genMegaMission(t, S.megaMissionSeq++));
+        markDirty();
+      } else {
+        tiers.forEach((t, i) => {
+          if (!S.megaMissions[i] || S.megaMissions[i].tier !== t) {
+            S.megaMissions[i] = genMegaMission(t, S.megaMissionSeq++);
+            markDirty();
+          }
+        });
+      }
+    }
+    function rerollMegaMissions(onlyTier) {
+      ensureMegaMissions();
+      const tiers = ['easy', 'medium', 'hard', 'hardest'];
+      let nextM = null;
+      tiers.forEach((t, i) => {
+        if (!onlyTier || onlyTier === t) {
+          S.megaMissions[i] = genMegaMission(t, S.megaMissionSeq++);
+          if (onlyTier === t) nextM = S.megaMissions[i];
+        }
+      });
+      saveNow();
+      return nextM;
+    }
+    function genMegaBrickLevel(tierId, opts) {
+      opts = opts || {};
+      const cfg = MEGA_TIERS[tierId] || MEGA_TIERS.easy;
+      const hasFixedSeed = opts.seed !== undefined && opts.seed !== null;
+      const s1 = hasFixedSeed ? (opts.seed >>> 0) : cryptoRand32();
+      const s2 = hasFixedSeed ? (Math.imul(s1 ^ 0x85EBCA6B, 0xC2B2AE35) >>> 0) : cryptoRand32();
+      const rng = mulberry32((s1 ^ Math.imul(s2, 0x9E3779B9)) >>> 0);
+      const seedTag = ((s1 ^ s2) >>> 0).toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
+      const wi = (rng() * WORLDS.length) | 0;
+
+      const archPool = MEGA_ARCHETYPES.filter(a => a.id !== 'auto');
+      const requestedArch = (opts.arch && opts.arch !== 'auto') ? MEGA_ARCHETYPES.find(a => a.id === opts.arch) : null;
+      const archObj = requestedArch || archPool[(rng() * archPool.length) | 0];
+      const archId = archObj.id;
+      const modObj = (opts.mod ? RANDOM_MODIFIERS.find(m => m.id === opts.mod) : null) || RANDOM_MODIFIERS[(rng() * RANDOM_MODIFIERS.length) | 0];
+
+      const bricks = [], orbs = [];
+      let breakable = 0, entryX = VW / 2, entryY = 420;
+
+      // Special Format 1: Armored Rainbow Vault (Screenshot 2 - Full unbreakable silver outer rows + hard silver inner ring + diagonal rainbow core)
+      if (archId === 'rainbowvault') {
+        const C = 13, Rw = 10, side = 14, gap = 2.2, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 18, topY = 16;
+        const rainbow = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#3B82F6', '#D946EF'];
+        const shift = (rng() * 7) | 0;
+        const gateC = 5 + ((rng() * 3) | 0);
+        const gSpan = cfg.id === 'easy' ? 1 : 0;
+        for (let r = 0; r < Rw; r++) {
+          for (let c = 0; c < C; c++) {
+            const isOuter1 = (r === 0 || r === Rw - 1 || c === 0 || c === C - 1);
+            const isOuter2 = (!isOuter1 && (r === 1 || r === Rw - 2 || c === 1 || c === C - 2 || (r >= 2 && r <= Rw - 3 && (c === 2 || c === C - 3) && (r === 2 || r === Rw - 3))));
+            let code = 1, mhp = 1, col = rainbow[(c - r + shift + 14) % 7], unbreak = false, doorPlug = false;
+            if (r === Rw - 1 && Math.abs(c - gateC) <= gSpan) {
+              continue; // Open entry gap in the unbreakable bottom row
+            } else if (r === Rw - 2 && Math.abs(c - gateC) <= gSpan) {
+              code = 9; col = '#FACC15'; mhp = 1; doorPlug = true;
+            } else if (isOuter1) {
+              code = 5; mhp = 1; col = '#CBD5E1'; unbreak = true;
+            } else if (isOuter2) {
+              code = (cfg.id === 'hard' || cfg.id === 'hardest') && (r === Rw - 2) ? 5 : 3;
+              unbreak = code === 5;
+              mhp = code === 5 ? 1 : (cfg.maxHp + 2);
+              col = '#94A3B8';
+            } else {
+              mhp = rng() < cfg.armorP ? 2 : 1;
+              if (r === Math.floor(Rw / 2) && (c === 4 || c === 8)) { code = 10; col = '#FF2A55'; mhp = 1; }
+              else if (r === 3 && c === 6) { code = 9; col = '#FACC15'; mhp = 1; }
+            }
+            const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
+            bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, customCol: col, code, mhp, hp: mhp, alive: true, unbreakable: unbreak, doorPlug, moveAmp: 0, moveSpd: 1, movePh: 0 });
+            if (code !== 5) breakable++;
+          }
+        }
+        entryX = side + (gateC + 0.5) * (bw + gap);
+        entryY = topY + (Rw - 1) * (bh + gap);
+        orbs.push({ x: entryX, y: entryY + 20, r: 9, type: 'add3', label: '+3', color: '#FF8A2B', alive: true });
+      }
+      // Special Format 2: Numbered Neon Quest Blocks (Screenshot 3 - 9x8 large glowing numbered squares + unbreakable floor barrier)
+      else if (archId === 'neonquest') {
+        const C = 9, Rw = 8, side = 16, gap = 4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 28, topY = 16;
+        const rowCols = ['#10B981', '#EF4444', '#3B82F6', '#D946EF', '#84CC16', '#F59E0B', '#06B6D4', '#A855F7'];
+        const baseHp = cfg.id === 'easy' ? 4 : cfg.id === 'medium' ? 8 : cfg.id === 'hard' ? 14 : 22;
+        const flip = rng() < 0.5;
+        for (let r = 0; r < Rw; r++) {
+          for (let c = 0; c < C; c++) {
+            const cc = flip ? (C - 1 - c) : c;
+            if (r === Rw - 1 && cc !== 4 && cc !== 5) {
+              const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
+              bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, customCol: '#64748B', code: 5, mhp: 1, hp: 1, alive: true, unbreakable: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
+              continue;
+            }
+            const onPath1 = (r >= 4 && Math.abs(cc - (r + 1)) <= 1);
+            const onPath2 = (r >= 1 && r <= 5 && Math.abs(cc - (6 - r)) <= 1);
+            if (onPath1 || onPath2) {
+              if ((r + cc) % 2 === 0 && orbs.length < cfg.orbs + 2) {
+                const bx = side + c * (bw + gap) + bw / 2, by = topY + r * (bh + gap) + bh / 2;
+                const isMul = orbs.length % 2 === 1;
+                orbs.push({ x: bx, y: by, r: 10, type: isMul ? 'mul2' : 'add5', label: isMul ? '×2' : '+5', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
+              }
+              continue;
+            }
+            let code = 2, mhp = Math.max(2, Math.round(baseHp * (0.6 + ((r + c * 3) % 5) * 0.25)));
+            let col = rowCols[r % rowCols.length];
+            if (r === 1 && (cc === 4 || cc === 5)) { code = 9; col = '#FACC15'; mhp = 2; }
+            else if (r === 3 && cc === 1) { code = 10; col = '#FF2A55'; mhp = 2; }
+            const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
+            bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, showHp: true, customCol: col, code, mhp, hp: mhp, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
+            breakable++;
+          }
+        }
+      }
+      // High-Density Micro-Brick Grid Formats (Screenshots 1, 4, 5, 6, 7 - 25x24 square micro-tiles with permanent unbreakable steel rows)
+      else {
+        const C = 25, Rw = 22, side = 15, gap = 1.1, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 11.2, topY = 14;
+        const grid = Array.from({ length: Rw }, () => Array(C).fill(1));
+        const colMap = Array.from({ length: Rw }, () => Array(C).fill(''));
+        const doorMap = Array.from({ length: Rw }, () => Array(C).fill(false));
+        const outerMap = Array.from({ length: Rw }, () => Array(C).fill(false));
+        const gapW = Math.max(2, cfg.gapW + 1);
+
+        const palettes = ['#8D6E63', '#F97316', '#65A30D', '#06B6D4', '#E11D48', '#8B5CF6', '#10B981', '#3B82F6'];
+        let mainCol = palettes[(rng() * palettes.length) | 0];
+        if (archId === 'chimney') mainCol = rng() < 0.65 ? '#8D6E63' : '#A16207';
+        else if (archId === 'stickman') mainCol = '#F97316';
+        else if (archId === 'greenhook') mainCol = '#65A30D';
+
+        const sealOuterBox = (gateStart, gateWidth) => {
+          for (let r = 0; r < Rw; r++) {
+            for (let c = 0; c < C; c++) {
+              if (r === 0 || r === Rw - 1 || c === 0 || c === C - 1) {
+                grid[r][c] = 5; outerMap[r][c] = true;
+              }
+            }
+          }
+          for (let g = 0; g < gateWidth; g++) {
+            const gc = clamp(gateStart + g, 2, C - 3);
+            grid[Rw - 1][gc] = 0;
+          }
+          entryX = side + (gateStart + gateWidth / 2) * (bw + gap);
+          entryY = topY + (Rw - 1) * (bh + gap);
+        };
+
+        const placeOrbAt = (c, r, type) => {
+          const bx = side + (c + 0.5) * (bw + gap), by = topY + (r + 0.5) * (bh + gap);
+          const isMul = type === 'mul3' || type === 'mul2';
+          orbs.push({ x: bx, y: by, r: 8.5, type, label: type === 'mul3' ? '×3' : type === 'mul2' ? '×2' : '+3', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
+        };
+
+        if (archId === 'multi_rows') {
+          // 2 to 4 Full Horizontal Unbreakable Steel Rows dividing the micro-brick mass into stacked tiers
+          const numRows = cfg.id === 'easy' ? 2 : cfg.id === 'medium' ? 3 : 4;
+          sealOuterBox(11, gapW);
+          const shelfRows = numRows === 2 ? [Rw - 1, 12] : numRows === 3 ? [Rw - 1, 16, 8] : [Rw - 1, 18, 12, 6];
+          shelfRows.forEach((sr, idx) => {
+            if (sr === Rw - 1) return;
+            const gStart = idx % 2 === 0 ? 4 : (C - 4 - gapW);
+            for (let c = 1; c < C - 1; c++) {
+              if (c >= gStart && c < gStart + gapW) {
+                grid[sr][c] = idx % 2 === 0 ? 9 : 10;
+                doorMap[sr][c] = true;
+              } else {
+                grid[sr][c] = 5;
+              }
+            }
+            // Hard armor row directly above each unbreakable steel row
+            if (sr - 1 >= 1) {
+              for (let c = 1; c < C - 1; c++) {
+                if (grid[sr - 1][c] === 1) { grid[sr - 1][c] = 3; colMap[sr - 1][c] = '#94A3B8'; }
+              }
+            }
+            placeOrbAt(gStart + gapW * 0.5, sr + 2, idx % 2 === 0 ? 'add3' : 'mul3');
+          });
+          placeOrbAt(12, Rw - 2, 'add3');
+        } else if (archId === 'chimney') {
+          // Screenshot 6: Permanent unbreakable bottom row & chimney tunnel walls leading to the Yellow Doorway Plug at top
+          const gateC = 9 + ((rng() * 5) | 0);
+          sealOuterBox(gateC, gapW);
+          if (cfg.id !== 'easy') {
+            for (let c = 1; c < C - 1; c++) if (c < gateC || c >= gateC + gapW) { grid[Rw - 2][c] = 5; outerMap[Rw - 2][c] = true; }
+            for (let g = 0; g < gapW; g++) grid[Rw - 2][gateC + g] = 0;
+          }
+          const turnR = 11 + ((rng() * 3) | 0);
+          const dir = (gateC > 12 ? -1 : 1);
+          const path = [];
+          for (let r = Rw - 1; r >= turnR; r--) path.push([r, gateC]);
+          let curC = gateC, curR = turnR;
+          for (let s = 0; s < 4; s++) { curR--; curC = clamp(curC + dir, 3, C - 5); path.push([curR, curC]); }
+          // Line chimney walls with permanent unbreakable grey steel (code 5)
+          for (const [pr, pc] of path) {
+            for (let dr = -1; dr <= 1; dr++) {
+              for (let dc = -1; dc <= gapW; dc++) {
+                const nr = pr + dr, nc = clamp(pc + dc, 1, C - 2);
+                if (nr >= 1 && nr < Rw - 1 && grid[nr][nc] === 1) grid[nr][nc] = 5;
+              }
+            }
+          }
+          for (const [pr, pc] of path) {
+            for (let w = 0; w < gapW; w++) {
+              const nc = clamp(pc + w, 1, C - 2);
+              grid[pr][nc] = 0;
+            }
+          }
+          // Carve T-head chamber at top of chimney with Yellow Plug doorway opening directly into the brown bricks!
+          const chR = curR - 1;
+          for (let r = chR - 1; r <= chR + 1; r++) {
+            for (let c = curC - 2; c <= curC + 2 + gapW - 1; c++) {
+              const nr = clamp(r, 2, Rw - 3), nc = clamp(c, 2, C - 3);
+              if (r === chR - 1 || c === curC - 2 || c === curC + 2 + gapW - 1) {
+                // Top & side exits of the T-head are Yellow/Red doorway plugs that break open into the main brick mass!
+                grid[nr][nc] = (r === chR - 1) ? 9 : 10;
+                doorMap[nr][nc] = true;
+              } else {
+                grid[nr][nc] = 0;
+              }
+            }
+          }
+          placeOrbAt(gateC + (gapW - 1) * 0.5, Rw - 3, 'add3');
+          placeOrbAt(gateC + (gapW - 1) * 0.5, turnR + 1, 'mul3');
+        } else if (archId === 'stickman') {
+          // Screenshot 7: Permanent unbreakable bottom row & grey X-corridor walls with Red Doorway Plugs into all orange chambers
+          const gateC = 5 + ((rng() * 3) | 0);
+          for (let c = 0; c < C; c++) { grid[Rw - 1][c] = 5; outerMap[Rw - 1][c] = true; }
+          for (let g = 0; g < gapW; g++) grid[Rw - 1][gateC + g] = 0;
+          entryX = side + (gateC + gapW / 2) * (bw + gap);
+          entryY = topY + (Rw - 1) * (bh + gap);
+
+          const carved = Array.from({ length: Rw }, () => Array(C).fill(false));
+          for (let r = 1; r < Rw - 1; r++) {
+            for (let c = 1; c < C - 1; c++) {
+              const dHead = Math.hypot(c - 12, (r - 4.2) * 1.1);
+              const inTorso = (Math.abs(c - 12) <= 1.5 && r >= 6 && r <= 14);
+              const inArmL = (r >= 5 && r <= 12 && Math.abs((c - 12) - (r - 11) * 1.15) <= 1.5);
+              const inArmR = (r >= 5 && r <= 12 && Math.abs((c - 12) + (r - 11) * 1.15) <= 1.5);
+              const inLegL = (r >= 12 && r < Rw - 1 && Math.abs(c - lerp(12, gateC + 0.5, (r - 12) / Math.max(1, Rw - 13))) <= Math.max(1.5, gapW * 0.7));
+              const inLegR = (r >= 12 && r <= Rw - 3 && Math.abs((c - 12) - (r - 12) * 0.9) <= 1.5);
+              // Keep the lower center area between the legs open so no closed bottom triangle can ever form!
+              const inBetweenLegs = (r >= 13 && r < Rw - 1 && Math.abs(c - 12) <= (r - 12) * 0.85);
+              if (dHead <= 3.1 || inTorso || inArmL || inArmR || inLegL || inLegR || inBetweenLegs) carved[r][c] = true;
+            }
+          }
+          for (let r = 1; r < Rw - 1; r++) {
+            for (let c = 1; c < C - 1; c++) {
+              if (carved[r][c]) grid[r][c] = 0;
+              else {
+                let near = false;
+                for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) if (carved[r + dr]?.[c + dc]) near = true;
+                if (near) grid[r][c] = 5;
+              }
+            }
+          }
+          // Wide Red & Yellow doorway plugs cut through every side of the grey X-walls into all orange compartments
+          [[5, 5, 10], [5, 6, 10], [6, 5, 10], [5, 18, 10], [5, 19, 10], [6, 19, 10], [Rw - 4, 17, 10], [Rw - 3, 17, 10], [Rw - 3, 18, 10], [1, 11, 9], [1, 12, 9], [1, 13, 9], [10, 8, 10], [11, 8, 10], [10, 16, 10], [11, 16, 10], [14, 5, 10], [15, 5, 10]].forEach(([tr, tc, code]) => {
+            if (grid[tr] && grid[tr][tc] !== undefined) { grid[tr][tc] = code; doorMap[tr][tc] = true; }
+          });
+          placeOrbAt(gateC + 1, Rw - 3, 'add3');
+          placeOrbAt(12, 11, 'mul3');
+          placeOrbAt(12, 5, 'add3');
+        } else if (archId === 'greenhook') {
+          // Screenshot 1: Neon green block enclosed by permanent unbreakable grey border & bottom row with right-hand hook channel
+          const chW = Math.max(2, gapW + 1);
+          const chRight = C - 3, chLeft = chRight - chW + 1;
+          sealOuterBox(chLeft, chW);
+          for (let r = 1; r < Rw - 1; r++) {
+            for (let c = 1; c < C - 1; c++) {
+              if (r === 1 || c === 1 || c === C - 2 || (r === Rw - 2 && c < chLeft)) { grid[r][c] = 5; outerMap[r][c] = true; }
+              else if (c >= chLeft && c <= chRight && r >= 2) grid[r][c] = 0;
+              else if (r >= 2 && r <= 3 && c >= 4 && c <= chRight) grid[r][c] = 0;
+              else if (c === chLeft - 1 && r >= 4 && r <= Rw - 3 && r % 4 === 0) {
+                grid[r][c] = (r === 8 || r === 16) ? 9 : 10;
+                doorMap[r][c] = true;
+              }
+            }
+          }
+          for (let k = 0; k < cfg.orbs; k++) {
+            const or = Rw - 3 - k * 3;
+            if (or >= 3) placeOrbAt(chLeft + (chW - 1) * 0.5, or, k % 2 === 0 ? 'add3' : 'mul3');
+          }
+        } else if (archId === 'dualmaze') {
+          // Screenshot 5: Left slotted blue columns + Right cyan G-labyrinth with unbreakable grey walls
+          sealOuterBox(4, gapW);
+          for (let g = 0; g < gapW; g++) grid[Rw - 1][15 + g] = 0;
+          for (let r = 1; r < Rw - 1; r++) {
+            grid[r][11] = (r >= 4 && r <= 6) ? 9 : 5;
+            if (grid[r][11] === 9) doorMap[r][11] = true;
+            for (let c = 1; c <= 10; c++) {
+              colMap[r][c] = '#38BDF8';
+              if ((c === 2 || c === 5 || c === 8) && r >= 2 && r <= Rw - 2) grid[r][c] = 0;
+              else if (r === Rw - 2 && c >= 2 && c <= 9) grid[r][c] = 0;
+            }
+            for (let c = 12; c < C - 1; c++) {
+              colMap[r][c] = '#00F5D4';
+              const inG = (c >= 14 && c <= 14 + Math.max(1, gapW - 1) && r >= 4 && r <= Rw - 1) ||
+                          (r >= 3 && r <= 4 && c >= 14 && c <= C - 3) ||
+                          (c >= C - 4 && c <= C - 3 && r >= 4 && r <= 16) ||
+                          (r >= 15 && r <= 16 && c >= 17 && c <= C - 3) ||
+                          (c === 17 && r >= 9 && r <= 16);
+              if (inG) grid[r][c] = 0;
+            }
+          }
+          grid[10][4] = 9; grid[9][18] = 9; grid[14][20] = 10;
+          placeOrbAt(5, Rw - 3, 'add3'); placeOrbAt(5, 12, 'mul3');
+          placeOrbAt(15, Rw - 3, 'add3'); placeOrbAt(15, 8, 'mul3'); placeOrbAt(21, 10, 'add3');
+        } else if (archId === 'terraced') {
+          // Screenshot 4: Red upper core + green mid-band + unbreakable & hard grey bottom stepped terrace
+          for (let r = 0; r < Rw; r++) {
+            for (let c = 0; c < C; c++) {
+              const dc = Math.abs(c - 12);
+              const maxR = Rw - 2 - Math.floor(dc * 0.45);
+              if (r > maxR) { grid[r][c] = 0; continue; }
+              if (r === maxR) { grid[r][c] = 5; colMap[r][c] = '#64748B'; outerMap[r][c] = true; }
+              else if (r === maxR - 1) { grid[r][c] = 3; colMap[r][c] = '#94A3B8'; }
+              else if (r >= maxR - 5) { grid[r][c] = 1; colMap[r][c] = '#22C55E'; }
+              else { grid[r][c] = 1; colMap[r][c] = '#EF4444'; }
+            }
+          }
+          [7, 17].forEach(vc => {
+            for (let r = 8; r < Rw; r++) {
+              for (let w = 0; w < Math.max(2, gapW - 1); w++) if (grid[r]) grid[r][vc + w] = 0;
+            }
+            grid[7][vc] = 9; grid[11][vc] = 10;
+            placeOrbAt(vc + 0.5, 15, 'add3'); placeOrbAt(vc + 0.5, 10, 'mul3');
+          });
+          grid[6][12] = 9;
+          entryX = side + 7.5 * (bw + gap); entryY = topY + 16 * (bh + gap);
+        } else if (archId === 'antfarm') {
+          sealOuterBox(11, gapW);
+          if (cfg.id !== 'easy') {
+            for (let c = 1; c < C - 1; c++) if (c < 11 || c >= 11 + gapW) grid[Rw - 2][c] = 5;
+          }
+          const dig = (r0, c0, r1, c1) => {
+            let r = r0, c = c0;
+            while (r !== r1 || c !== c1) {
+              for (let w = 0; w < Math.max(2, gapW); w++) if (grid[r]) grid[r][clamp(c + w, 2, C - 3)] = 0;
+              if (r !== r1 && (c === c1 || rng() < 0.6)) r += (r1 > r ? 1 : -1);
+              else if (c !== c1) c += (c1 > c ? 1 : -1);
+            }
+          };
+          dig(Rw - 1, 11, 14, 11);
+          dig(14, 11, 6, 5); dig(14, 11, 5, 12); dig(14, 11, 6, 19);
+          [[5, 5, 9], [4, 12, 9], [5, 19, 10], [10, 8, 10], [10, 16, 10]].forEach(([r, c, code]) => {
+            for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) if (grid[r + dr]) grid[r + dr][c + dc] = 0;
+            grid[r][c] = code; doorMap[r][c] = true;
+          });
+          placeOrbAt(11.5, Rw - 3, 'add3'); placeOrbAt(11.5, 14, 'mul3');
+          placeOrbAt(7, 9, 'add3'); placeOrbAt(17, 9, 'add3');
+        } else if (archId === 'spiral_core') {
+          sealOuterBox(C - 3 - gapW, gapW);
+          for (let r = 2; r < Rw - 2; r++) {
+            for (let c = 2; c < C - 2; c++) {
+              const dTop = r, dBot = Rw - 1 - r, dLeft = c, dRight = C - 1 - c;
+              const ring = Math.min(dTop, dBot, dLeft, dRight);
+              if (ring % 3 === 1) {
+                const gapDoor = (ring === 1 && c >= C - 5 && r >= Rw - 5) || (ring === 4 && c <= 6 && r <= 7) || (ring === 7 && r >= Rw - 9 && c >= 10 && c <= 15);
+                if (!gapDoor) grid[r][c] = 5;
+                else if (ring > 1) { grid[r][c] = 10; doorMap[r][c] = true; }
+              } else if (ring === 2 || ring === 5) {
+                if ((r + c) % 4 === 0) grid[r][c] = 0;
+              }
+            }
+          }
+          for (let r = 2; r < Rw - 1; r++) for (let w = 0; w < gapW; w++) grid[r][C - 2 - w] = 0;
+          grid[12][12] = 9; grid[12][11] = 10; grid[12][13] = 10;
+          placeOrbAt(C - 2.5, Rw - 3, 'add3'); placeOrbAt(C - 2.5, 8, 'mul3'); placeOrbAt(12, 15, 'mul2');
+        } else if (archId === 'pinball_box') {
+          sealOuterBox(11, gapW);
+          for (let c = 1; c < C - 1; c++) if (c < 11 || c >= 11 + gapW) grid[Rw - 2][c] = 5;
+          for (let r = Rw - 7; r < Rw - 2; r++) {
+            for (let c = 2; c < C - 2; c++) grid[r][c] = 0;
+          }
+          [[Rw - 5, 6], [Rw - 5, 18], [Rw - 4, 12], [11, 12]].forEach(([br, bc]) => {
+            grid[br][bc] = 5;
+            if (grid[br][bc - 1] !== undefined) grid[br][bc - 1] = 5;
+            if (grid[br][bc + 1] !== undefined) grid[br][bc + 1] = 5;
+          });
+          grid[Rw - 8][6] = 9; grid[Rw - 8][12] = 10; grid[Rw - 8][18] = 9;
+          placeOrbAt(12, Rw - 3, 'add3'); placeOrbAt(8, Rw - 5, 'mul3'); placeOrbAt(16, Rw - 5, 'mul3');
+          placeOrbAt(4, Rw - 6, 'add3'); placeOrbAt(20, Rw - 6, 'add3');
+        } else if (archId === 'twin_chimneys') {
+          sealOuterBox(5, gapW);
+          for (let g = 0; g < gapW; g++) grid[Rw - 1][17 + g] = 0;
+          for (let r = 1; r < Rw - 1; r++) {
+            grid[r][12] = (r >= 4 && r <= 6) ? 10 : 5;
+            for (let w = 0; w < Math.max(2, gapW); w++) {
+              if (r >= 6) { grid[r][5 + w] = 0; grid[r][17 + w] = 0; }
+            }
+          }
+          grid[5][5] = 9; grid[5][6] = 9; grid[5][17] = 9; grid[5][18] = 9; grid[9][3] = 10; grid[9][20] = 10;
+          placeOrbAt(5.5, Rw - 3, 'add3'); placeOrbAt(5.5, 11, 'mul3');
+          placeOrbAt(17.5, Rw - 3, 'add3'); placeOrbAt(17.5, 11, 'mul3');
+        } else {
+          sealOuterBox(11, gapW);
+          for (let r = 2; r < Rw - 1; r++) {
+            for (let c = 2; c < C - 2; c++) {
+              const dLow = Math.abs(c - 12) + Math.abs(r - 17) * 1.2;
+              const dHigh = Math.abs(c - 12) + Math.abs(r - 7) * 1.2;
+              const inShaft = Math.abs(c - 12) <= Math.max(1, gapW - 1) && r >= 7;
+              if (dLow <= 4.2 || dHigh <= 4.2 || inShaft) grid[r][c] = 0;
+              else if (Math.abs(dLow - 5) < 0.9 || Math.abs(dHigh - 5) < 0.9) grid[r][c] = 5;
+            }
+          }
+          [[3, 11, 9], [3, 12, 9], [3, 13, 9], [7, 7, 10], [7, 8, 10], [7, 16, 10], [7, 17, 10], [17, 7, 10], [17, 8, 10], [17, 16, 10], [17, 17, 10]].forEach(([r, c, code]) => {
+            if (grid[r]) { grid[r][c] = code; doorMap[r][c] = true; }
+          });
+          placeOrbAt(12, Rw - 2, 'add3'); placeOrbAt(12, 17, 'mul3'); placeOrbAt(12, 12, 'add3'); placeOrbAt(12, 7, 'mul3');
+        }
+
+        // Universal Mathematical Flood-Fill (BFS) Reachability & Anti-Pinch Pass:
+        // Guarantees 100% of breakable brick compartments have a wide passable doorway from the entry gap!
+        {
+          // 1. Remove interior diagonal 1-tile steel corner pinches
+          for (let r = 1; r < Rw - 2; r++) {
+            for (let c = 1; c < C - 2; c++) {
+              if (grid[r][c] === 5 && grid[r + 1][c + 1] === 5 && grid[r][c + 1] !== 5 && grid[r + 1][c] !== 5) {
+                grid[r + 1][c + 1] = 0;
+              } else if (grid[r][c + 1] === 5 && grid[r + 1][c] === 5 && grid[r][c] !== 5 && grid[r + 1][c + 1] !== 5) {
+                grid[r + 1][c] = 0;
+              }
+            }
+          }
+          // 2. Ensure bottom row has an open entry mouth
+          let hasBottomEntry = false;
+          for (let c = 1; c < C - 1; c++) if (grid[Rw - 1][c] !== 5) hasBottomEntry = true;
+          if (!hasBottomEntry) {
+            for (let c = 11; c <= 13; c++) grid[Rw - 1][c] = 0;
+          }
+          // 3. Iterative BFS Flood-Fill from all open perimeter cells; auto-carve Red/Yellow Breach Doors into any closed pocket
+          for (let pass = 0; pass < 16; pass++) {
+            const vis = Array.from({ length: Rw }, () => Array(C).fill(false));
+            const q = [];
+            for (let c = 0; c < C; c++) {
+              if (grid[Rw - 1][c] !== 5) { vis[Rw - 1][c] = true; q.push([Rw - 1, c]); }
+              if (grid[0][c] !== 5) { vis[0][c] = true; q.push([0, c]); }
+            }
+            for (let r = 0; r < Rw; r++) {
+              if (grid[r][0] !== 5 && !vis[r][0]) { vis[r][0] = true; q.push([r, 0]); }
+              if (grid[r][C - 1] !== 5 && !vis[r][C - 1]) { vis[r][C - 1] = true; q.push([r, C - 1]); }
+            }
+            while (q.length) {
+              const [cr, cc] = q.shift();
+              for (const [dr, dc] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+                const nr = cr + dr, nc = cc + dc;
+                if (nr >= 0 && nr < Rw && nc >= 0 && nc < C && !vis[nr][nc] && grid[nr][nc] !== 5) {
+                  vis[nr][nc] = true;
+                  q.push([nr, nc]);
+                }
+              }
+            }
+            let closedCell = null;
+            for (let r = 1; r < Rw - 1 && !closedCell; r++) {
+              for (let c = 1; c < C - 1; c++) {
+                if (grid[r][c] > 0 && grid[r][c] !== 5 && !vis[r][c]) { closedCell = [r, c]; break; }
+              }
+            }
+            if (!closedCell) break;
+            // Find nearest visited cell and punch a 3-tile wide breach doorway through the steel wall separating them
+            const [ur, uc] = closedCell;
+            let best = null, bestD = 9999;
+            for (let r = 1; r < Rw; r++) {
+              for (let c = 1; c < C - 1; c++) {
+                if (vis[r][c]) {
+                  const d = Math.abs(r - ur) + Math.abs(c - uc);
+                  if (d < bestD) { bestD = d; best = [r, c]; }
+                }
+              }
+            }
+            if (!best) break;
+            let cr = ur, cc = uc;
+            while (cr !== best[0] || cc !== best[1]) {
+              if (cr !== best[0]) cr += (best[0] > cr ? 1 : -1);
+              else if (cc !== best[1]) cc += (best[1] > cc ? 1 : -1);
+              for (let d = -1; d <= 1; d++) {
+                const nr = clamp(cr, 1, Rw - 2), nc = clamp(cc + d, 1, C - 2);
+                if (grid[nr][nc] === 5) {
+                  grid[nr][nc] = 10;
+                  doorMap[nr][nc] = true;
+                  outerMap[nr][nc] = false;
+                }
+              }
+            }
+          }
+        }
+        for (let r = 0; r < Rw; r++) {
+          for (let c = 0; c < C; c++) {
+            let code = grid[r][c];
+            if (!code) continue;
+            let mhp = 1;
+            let col = colMap[r][c] || mainCol;
+            if (code === 1) {
+              if (rng() < cfg.armorP) { code = cfg.maxHp >= 3 && rng() < 0.35 ? 3 : 2; mhp = code; }
+              else if (rng() < 0.025) code = 4;
+              else if (rng() < 0.03) code = 6;
+              if (!colMap[r][c] && ((r + c) % 7 === 0)) col = shade(mainCol, 16);
+            } else if (code === 3) {
+              mhp = Math.max(2, cfg.maxHp);
+            } else if (code === 5) {
+              col = outerMap[r][c] ? '#64748B' : '#94A3B8';
+            } else if (code === 9) {
+              col = '#FACC15';
+            } else if (code === 10) {
+              col = '#FF2A55';
+            }
+            const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
+            bricks.push({
+              c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true,
+              customCol: col, code, mhp, hp: mhp, alive: true,
+              unbreakable: code === 5, doorPlug: doorMap[r][c], outerGate: outerMap[r][c],
+              moveAmp: 0, moveSpd: 1, movePh: 0
+            });
+            if (code !== 5) breakable++;
+          }
+        }
+      }
+
+      return {
+        wi, absWorld: cfg.id === 'hardest' ? 7 : cfg.id === 'hard' ? 5 : cfg.id === 'medium' ? 2 : 0,
+        sector: cfg.id === 'hardest' ? 2 : cfg.id === 'hard' ? 1 : 0,
+        li: 0, boss: false,
+        name: cfg.label + ' · ' + archObj.name + ' #' + seedTag,
+        randomTier: cfg.id,
+        archId: archObj.id,
+        archName: archObj.name,
+        archIcon: archObj.icon,
+        modId: modObj.id,
+        modName: modObj.name,
+        modCol: modObj.col,
+        seed: s1 >>> 0,
+        seedTag,
+        rows: 24,
+        bricks,
+        orbs,
+        entryX,
+        entryY,
+        breakable
+      };
+    }
+    function drawLevelObjPreview(canvas, lvl) {
+      if (!canvas || !lvl) return;
+      const c = canvas.getContext('2d'), cw = canvas.width, ch = canvas.height;
+      c.clearRect(0, 0, cw, ch);
+      const maxY = lvl.bricks.reduce((m, b) => Math.max(m, b.y + (b.h || BH)), TOP + (lvl.rows || 10) * (BH + VGAP));
+      const spanY = Math.max(96, maxY - TOP + 14);
+      const sx = cw / VW, sy = (ch - 10) / spanY, hues = WORLDS[lvl.wi].hues;
+      for (const b of lvl.bricks) {
+        const bw = b.w || BW, bh = b.h || BH;
+        c.fillStyle = b.customCol || codeColor(b, hues);
+        rr(c, b.x * sx + 0.5, 5 + (b.y - TOP) * sy, Math.max(1.5, bw * sx - 0.8), Math.max(1.5, bh * sy - 0.8), b.micro ? 1 : 2); c.fill();
+      }
+      if (lvl.orbs && lvl.orbs.length) {
+        for (const ob of lvl.orbs) {
+          c.beginPath();
+          c.arc(ob.x * sx, 5 + (ob.y - TOP) * sy, Math.max(2.8, ob.r * sx * 0.95), 0, 7);
+          c.fillStyle = ob.color; c.fill();
+          c.strokeStyle = '#FFF'; c.lineWidth = 0.8; c.stroke();
+        }
       }
     }
 
@@ -5681,8 +6906,16 @@
     function buildPaddleSprite() {
       paddleSprite = { m: 22 };
     }
+    function isTouchErgonomic() {
+      return (window.matchMedia && matchMedia('(pointer: coarse)').matches) || cssW < 640;
+    }
     function paddleOffset() {
-      return S.set.paddleHeightOffset === 'high' ? 88 : S.set.paddleHeightOffset === 'low' ? 46 : 64;
+      // Keep paddle elevated above the thumb touch-drag zone so the player's finger never hides the paddle
+      const touch = isTouchErgonomic();
+      if (touch) {
+        return S.set.paddleHeightOffset === 'high' ? 148 : S.set.paddleHeightOffset === 'low' ? 96 : 122;
+      }
+      return S.set.paddleHeightOffset === 'high' ? 114 : S.set.paddleHeightOffset === 'low' ? 72 : 92;
     }
     function resize() {
       const rect = cv.getBoundingClientRect(); if (rect.width < 2 || rect.height < 2) return;
@@ -5690,7 +6923,7 @@
       const maxDpr = S.set.graphicsQuality === 'low' ? 1 : S.set.graphicsQuality === 'medium' ? 1.5 : (S.set.fx ? 2 : 1.35);
       dpr = Math.min(maxDpr, window.devicePixelRatio || 1);
       cv.width = Math.round(cssW * dpr); cv.height = Math.round(cssH * dpr);
-      const desktopVH = (cssW >= 680 && cssW / Math.max(1, cssH) > 0.8) ? 560 : MIN_VH;
+      const desktopVH = (cssW >= 680 && cssW / Math.max(1, cssH) > 0.8) ? 660 : MIN_VH;
       if (cv.width / cv.height <= VW / desktopVH) {
         scale = cv.width / VW;
         VH = Math.max(desktopVH, cv.height / scale);
@@ -5730,7 +6963,7 @@
       return Math.min(760, s);
     }
     function paddleTargetW() {
-      const baseP = (G && G.mode === 'random') ? (RANDOM_TIERS[G.randomTier]?.paddle || 94) : (DIFFS[S.set.diff] || DIFFS.classic).paddle;
+      const baseP = (G && G.mode === 'random') ? (RANDOM_TIERS[G.randomTier]?.paddle || 94) : (G && G.mode === 'megabrick') ? (MEGA_TIERS[G.randomTier]?.paddle || 100) : (DIFFS[S.set.diff] || DIFFS.classic).paddle;
       const userMult = clamp((S.set.paddleSizePct ?? 100) / 100, 0.7, 1.5);
       return clamp(baseP * userMult * (G.fx.wide ? 1.45 : 1) * (G.fx.shrink ? 0.7 : 1), 52, 195);
     }
@@ -5742,33 +6975,48 @@
       resetInputs();
       closeSheet(true); ensureDaily();
       const d = DIFFS[S.set.diff] || DIFFS.classic;
-      const rTier = (mode === 'random') ? (RANDOM_TIERS[typeof idx === 'string' ? idx : (S.set.randomDiff || 'medium')] || RANDOM_TIERS.medium) : null;
+      const rTier = (mode === 'random') ? (RANDOM_TIERS[typeof idx === 'string' ? idx : (S.set.randomDiff || 'medium')] || RANDOM_TIERS.medium) : (mode === 'megabrick') ? (MEGA_TIERS[typeof idx === 'string' ? idx : (S.set.megaDiff || 'easy')] || MEGA_TIERS.easy) : null;
       const customLives = S.set.startLives > 0 ? S.set.startLives : (rTier ? rTier.lives : d.lives);
       let lvl;
       if (mode === 'campaign') lvl = getLevel(idx || 0);
       else if (mode === 'endless') lvl = genEndless(1);
       else if (mode === 'daily') lvl = genDailyChallenge();
       else if (mode === 'bossrush') lvl = genBossRush(0);
-      else if (mode === 'random') lvl = genRandomLevel(rTier.id);
+      else if (mode === 'random') {
+        const rOpts = (customData && typeof customData === 'object') ? customData : { arch: S.set.randomArch || 'auto' };
+        lvl = genRandomLevel(rTier.id, rOpts);
+      }
+      else if (mode === 'megabrick') {
+        const mOpts = (customData && typeof customData === 'object') ? customData : { arch: S.set.megaArch || 'auto' };
+        lvl = genMegaBrickLevel(rTier.id, mOpts);
+      }
       else if (mode === 'custom') lvl = genCustomLevel(customData || UI.editorData || { name: 'Custom Stage', wi: 0, grid: [] });
       else lvl = genTimeAttack(0);
       const wi = lvl.wi;
       const speedEsc = mode === 'campaign' ? Math.min(200, lvl.absWorld * 14 + lvl.li * 1.5 + lvl.sector * 18) : mode === 'daily' ? 50 : mode === 'bossrush' ? 45 : mode === 'timed' ? 30 : 0;
       const clonedBricks = lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x }));
+      const clonedOrbs = (lvl.orbs || []).map(o => ({ ...o, alive: true }));
       const initBossHp = calcBossTotalHp(clonedBricks);
       const initPadW = (rTier ? rTier.paddle : d.paddle) * ((S.set.paddleSizePct ?? 100) / 100);
+      const activeMission = ((mode === 'random' || mode === 'megabrick') && customData && customData.mission) ? customData.mission : null;
+      const startX = (mode === 'megabrick' && lvl.entryX) ? clamp(lvl.entryX, initPadW / 2 + 10, VW - initPadW / 2 - 10) : (VW / 2);
       G = {
-        id: ++runSeq, mode, idx: mode === 'random' ? 0 : (idx || 0), randomTier: rTier ? rTier.id : null, seedTag: lvl.seedTag || '', customData: customData || null, absWorld: lvl.absWorld || 0, sector: lvl.sector || 0, wi, li: lvl.li || 0, boss: !!lvl.boss, name: lvl.name,
-        bricks: clonedBricks, breakable: lvl.breakable, rows: lvl.rows,
+        id: ++runSeq, mode, idx: (mode === 'random' || mode === 'megabrick') ? 0 : (idx || 0), randomTier: rTier ? rTier.id : null,
+        randomArch: lvl.archId || 'auto', randomArchName: lvl.archName || '', randomModName: lvl.modName || '',
+        mission: activeMission, nextMission: null, missionBonusHit: false, missionCoinReward: 0, missionXpReward: 0, trapsRun: 0,
+        initialBreakable: lvl.breakable, outerBreached: false, entryX: lvl.entryX || (VW / 2), entryY: lvl.entryY || 420, lastPopSfxT: 0,
+        seedTag: lvl.seedTag || '', customData: customData || null, absWorld: lvl.absWorld || 0, sector: lvl.sector || 0, wi, li: lvl.li || 0, boss: !!lvl.boss, name: lvl.name,
+        bricks: clonedBricks, orbs: clonedOrbs, breakable: lvl.breakable, rows: lvl.rows,
         bossMaxHp: initBossHp, bossHp: initBossHp, bossEnraged: false, bossFireT: 3.8,
         balls: [], drops: [], lasers: [], hazards: [], drone: null, droneT: 11 + R() * 8, parts: [], texts: [], blastQ: [], blasting: false,
-        paddle: { x: VW / 2, tx: VW / 2, w: initPadW, y: VH - paddleOffset(), pulse: 0 },
+        paddle: { x: startX, tx: startX, w: initPadW, y: VH - paddleOffset(), pulse: 0 },
         fx: {}, shield: 0, lives: customLives, maxLives: customLives, deaths: 0,
         novaCharge: 0,
         score: 0, scoreRecorded: 0, combo: 0, comboT: 0, mult: 1, bestComboRun: 0, coinsRun: 0, xpRun: 0, xpAwarded: 0, bricksRun: 0,
         speedBase: (rTier ? rTier.speed : d.speed) + speedEsc, ramp: 0,
         state: 'ready', prevState: 'ready', launched: false, queued: {}, t: 0, runT: 0, lastRunT: 0,
-        timeLeft: mode === 'timed' ? 150 : (mode === 'daily' ? 180 : 0),
+        timeLeft: mode === 'timed' ? 150 : (S.set.enableTimer ? (mode === 'daily' ? 180 : (activeMission && activeMission.objType === 'timed' ? activeMission.target : ((mode === 'random' || mode === 'megabrick') ? 135 : 0))) : 0),
+        noBreakT: 0,
         timedRound: 0, bossStage: 0,
         shake: 0, flash: 0, winT: 0, loseT: 0, sheetShown: false, wave: 1, waveDelay: 0, descT: 14, descInt: 14,
         laserAcc: 0, usedContinue: false, livesDirty: true, fxDirty: true, labelDirty: true, scoreShown: -1, coinsShown: -1, comboShown: -1,
@@ -5776,13 +7024,20 @@
         newRecord: false, hintMode: ''
       };
       spawnBall();
+      if (mode === 'megabrick' && rTier && rTier.startBalls > 1) {
+        const br = activeBallRadius();
+        for (let sb = 1; sb < rTier.startBalls; sb++) {
+          const off = (sb % 2 === 1 ? -1 : 1) * Math.ceil(sb / 2) * 7;
+          G.balls.push({ x: G.paddle.x + off, y: G.paddle.y - br - 1, vx: 0, vy: 0, r: br, sticky: true, off, trail: [], noBrickHits: 0 });
+        }
+      }
       buildSprites(wi);
       showScreen('game');
       requestAnimationFrame(() => {
         resize(); buildPaddleSprite();
-        const headline = mode === 'campaign' ? ('LEVEL ' + (G.idx + 1)) : mode === 'endless' ? 'ENDLESS MODE' : mode === 'timed' ? 'TIME ATTACK' : mode === 'bossrush' ? 'BOSS RUSH' : mode === 'random' ? ('RANDOM · ' + (RANDOM_TIERS[G.randomTier]?.label || 'MEDIUM').toUpperCase()) : mode === 'custom' ? 'CUSTOM STUDIO' : 'DAILY CHALLENGE';
+        const headline = mode === 'campaign' ? ('LEVEL ' + (G.idx + 1)) : mode === 'endless' ? 'ENDLESS MODE' : mode === 'timed' ? 'TIME ATTACK' : mode === 'bossrush' ? 'BOSS RUSH' : (mode === 'random' || mode === 'megabrick') ? (G.mission ? ('MISSION #' + G.mission.seq + ' · ' + ((MEGA_TIERS[G.randomTier] || RANDOM_TIERS[G.randomTier])?.label || 'EASY').toUpperCase()) : ((mode === 'megabrick' ? 'BRICK BREAK · ' : 'RANDOM · ') + ((MEGA_TIERS[G.randomTier] || RANDOM_TIERS[G.randomTier])?.label || 'MEDIUM').toUpperCase())) : mode === 'custom' ? 'CUSTOM STUDIO' : 'DAILY CHALLENGE';
         banner(headline, WORLDS[wi].hues[0]);
-        setTimeout(() => { if (G && G.state === 'ready') banner((G.boss ? '👑 ' : '') + G.name.toUpperCase(), G.boss ? '#FFD166' : '#FFFFFF', .62) }, 420);
+        setTimeout(() => { if (G && G.state === 'ready') banner((G.boss ? '👑 ' : '') + (G.mission ? G.mission.archName : G.name).toUpperCase(), G.boss ? '#FFD166' : '#FFFFFF', .62) }, 420);
       });
       renderLives(); renderBoostBar(); syncHUD(true);
       $('#vignette').classList.remove('danger');
@@ -5793,7 +7048,30 @@
       G = null;
       showScreen(dest || 'home');
     }
-    function restartGame() { if (!G) return; startGame(G.mode, G.mode === 'random' ? G.randomTier : G.idx, G.customData) }
+    function restartGame() {
+      if (!G) return;
+      if (G.mode === 'random' || G.mode === 'megabrick') {
+        const isMega = G.mode === 'megabrick';
+        const nextSeed = cryptoRand32();
+        const defArch = isMega ? (S.set.megaArch || 'auto') : (S.set.randomArch || 'auto');
+        const nextData = G.customData ? { ...G.customData, seed: nextSeed } : { arch: defArch, seed: nextSeed };
+        if (nextData.mission) {
+          nextData.mission = { ...nextData.mission, seed: nextSeed };
+          if (isMega) {
+            ensureMegaMissions();
+            const mIdx = S.megaMissions.findIndex(x => x.id === nextData.mission.id || x.tier === nextData.mission.tier);
+            if (mIdx >= 0) S.megaMissions[mIdx] = nextData.mission;
+          } else {
+            ensureUnlimitedMissions();
+            const mIdx = S.uMissions.findIndex(x => x.id === nextData.mission.id || x.tier === nextData.mission.tier);
+            if (mIdx >= 0) S.uMissions[mIdx] = nextData.mission;
+          }
+        }
+        startGame(G.mode, G.randomTier, nextData);
+        return;
+      }
+      startGame(G.mode, G.idx, G.customData);
+    }
 
     /* ---------- EFFECTS, BOOSTERS, NOVA BLAST & POWERS ---------- */
     function comboMaxTime() { return 3.2 + (S.upg?.comboTime || 0) * 0.45 }
@@ -5833,11 +7111,79 @@
       }
       if (G && G.bricks === stageRef) processBlasts();
     }
+    function spawnSwarmBalls(x, y, count) {
+      if (!G) return 0;
+      const cap = G.mode === 'megabrick' ? 42 : 12;
+      const spd = ballSpeed(), br = activeBallRadius();
+      let added = 0;
+      for (let i = 0; i < count && G.balls.length < cap; i++) {
+        const ang = (i / Math.max(1, count)) * Math.PI * 2 + (R() - 0.5) * 0.35;
+        const nb = { x, y, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd, r: br, sticky: false, off: 0, trail: [], noBrickHits: 0 };
+        antiFlat(nb);
+        G.balls.push(nb);
+        added++;
+      }
+      return added;
+    }
+    function breachDoorwayAround(triggerBrick) {
+      if (!G || !triggerBrick) return;
+      // Open adjacent doorway plugs AND punch a 3-tile breach through immediately adjacent interior steel walls!
+      for (const b of G.bricks) {
+        if (!b.alive || b === triggerBrick) continue;
+        const dc = Math.abs(b.c - triggerBrick.c), dr = Math.abs(b.r - triggerBrick.r);
+        if (dc <= 2 && dr <= 1) {
+          if (b.doorPlug && b.code !== 5) {
+            hitBrick(b, 99, 'blast');
+          } else if (b.code === 5 && !b.outerGate && dc <= 1 && dr <= 1) {
+            b.code = 1; b.unbreakable = false; b.mhp = 1; b.hp = 1;
+            G.breakable++;
+            hitBrick(b, 99, 'blast');
+          }
+        }
+      }
+    }
+    function crackShieldWallsAroundRemaining() {
+      if (!G) return;
+      const rem = G.bricks.filter(b => b.alive && b.code !== 5);
+      if (!rem.length) return;
+      let cracked = 0;
+      for (const b of G.bricks) {
+        if (!b.alive || b.code !== 5) continue;
+        for (const rb of rem) {
+          if (Math.abs(b.c - rb.c) <= 2 && Math.abs(b.r - rb.r) <= 2) {
+            b.code = 1; b.unbreakable = false; b.mhp = 1; b.hp = 1;
+            G.breakable++;
+            killBrick(b, 'blast');
+            cracked++;
+            break;
+          }
+        }
+      }
+      if (cracked > 0) {
+        G.labelDirty = true;
+        banner('⚡ POCKET WALLS BREACHED!', '#34D399', .4);
+      }
+    }
+    function triggerArenaOrb(ob) {
+      if (!G || !ob || !ob.alive) return;
+      ob.alive = false;
+      const cap = G.mode === 'megabrick' ? 42 : 12;
+      const activeCount = Math.max(1, G.balls.filter(b => !b.sticky).length);
+      let toSpawn = 3;
+      if (ob.type === 'mul2') toSpawn = clamp(activeCount, 2, 10);
+      else if (ob.type === 'mul3') toSpawn = clamp(activeCount * 2, 4, 15);
+      else if (ob.type === 'add5') toSpawn = 5;
+      const got = spawnSwarmBalls(ob.x, ob.y, Math.min(toSpawn, cap - G.balls.length));
+      sfx.power(); haptic(10); chargeNova(8);
+      pushPart({ type: 'ring', x: ob.x, y: ob.y, t: 0, life: 0.32, size: 6, grow: 140, color: ob.color });
+      if (got > 0) pushText(ob.label + ' BALLS!', ob.x, ob.y - 6, ob.color, 13);
+    }
     function splitBalls() {
+      const cap = (G && G.mode === 'megabrick') ? 42 : 7;
       const cur = G.balls.filter(b => !b.sticky), src = cur.length ? cur : G.balls;
       for (const b of src) {
         for (const a of [-.42, .42]) {
-          if (G.balls.length >= 7) return;
+          if (G.balls.length >= cap) return;
           let vx = b.vx, vy = b.vy;
           if (b.sticky) { vx = Math.sin(a) * ballSpeed(); vy = -Math.cos(a) * ballSpeed() }
           else { const ca = Math.cos(a), sa = Math.sin(a); const nx = vx * ca - vy * sa, ny = vx * sa + vy * ca; vx = nx; vy = ny }
@@ -5848,7 +7194,7 @@
     function applyPower(id, fromBooster) {
       const p = POWERS[id]; if (!p) return;
       S.stats.powers++; S.daily.powers++; if (fromBooster) S.stats.boostersUsed++;
-      if (p.bad) S.stats.trapsHit++;
+      if (p.bad) { S.stats.trapsHit++; if (G) G.trapsRun = (G.trapsRun || 0) + 1; }
       markDirty();
       pushText(p.name.toUpperCase(), G.paddle.x, G.paddle.y - 26, p.color, 13);
       if (p.bad) { sfx.bad(); haptic([15, 30, 15]); shake(6) } else { sfx.power(); haptic(12); chargeNova(8) }
@@ -5918,20 +7264,24 @@
     }
     function hitBrick(b, dmg, src) {
       if (!b.alive) return;
-      if (b.code === 5 && src !== 'fire') { sparkFX(b.rx + BW / 2, b.y + BH / 2, '#C7D2F5', 4); sfx.steel(); return }
+      const bw = b.w || BW, bh = b.h || BH;
+      if (b.code === 5 && src !== 'fire') {
+        if (!b.micro || G.balls.length <= 8) { sparkFX(b.rx + bw / 2, b.y + bh / 2, '#C7D2F5', 3); sfx.steel(); }
+        return;
+      }
       let finalDmg = dmg;
       const critP = (S.upg?.critChance || 0) * 0.08;
       if (src === 'ball' && critP > 0 && b.hp > 1 && R() < critP) {
         finalDmg *= 2;
         S.stats.critHits = (S.stats.critHits || 0) + 1;
-        pushText('CRIT ×2!', b.rx + BW / 2, b.y - 4, '#A3E635', 11);
+        if (G.balls.length <= 8) pushText('CRIT ×2!', b.rx + bw / 2, b.y - 4, '#A3E635', 11);
       }
       b.hp -= finalDmg;
-      chargeNova(b.code === 8 ? 5 : 2.2);
+      chargeNova(b.code === 8 ? 5 : (b.micro ? 0.65 : 2.2));
       if (b.hp <= 0) killBrick(b, src);
       else {
-        sparkFX(b.rx + BW / 2, b.y + BH / 2, codeColor(b, WORLDS[G.wi].hues), 3);
-        sfx.pop(Math.max(0, G.combo - 1));
+        if (G.balls.length <= 10) sparkFX(b.rx + bw / 2, b.y + bh / 2, b.customCol || codeColor(b, WORLDS[G.wi].hues), 2);
+        if (G.t - (G.lastPopSfxT || 0) > 0.036) { G.lastPopSfxT = G.t; sfx.pop(Math.max(0, G.combo - 1)); }
       }
       if (G.boss) {
         G.bossHp = calcBossTotalHp(G.bricks);
@@ -5944,32 +7294,54 @@
     }
     function killBrick(b, src) {
       if (!b.alive) return; b.alive = false;
-      const hues = WORLDS[G.wi].hues, col = codeColor(b, hues);
-      if (b.code !== 5) G.breakable--;
+      const bw = b.w || BW, bh = b.h || BH;
+      const hues = WORLDS[G.wi].hues, col = b.customCol || codeColor(b, hues);
+      if (b.code !== 5) { G.breakable--; G.noBreakT = 0; }
       G.combo++; G.comboT = comboMaxTime(); G.mult = Math.min(8, 1 + Math.floor(G.combo / 5));
       if (G.combo > S.stats.bestCombo) { S.stats.bestCombo = G.combo; markDirty() }
       G.bestComboRun = Math.max(G.bestComboRun, G.combo);
-      const base = { 1: 12, 2: 24, 3: 40, 4: 30, 5: 60, 6: 20, 7: 20, 8: 120 }[b.code] || 12;
+      const base = { 1: 12, 2: 24, 3: 40, 4: 30, 5: 60, 6: 20, 7: 20, 8: 120, 9: 150, 10: 120 }[b.code] || 12;
       const pts = base * G.mult; G.score += pts;
-      const cn = { 1: 1, 2: 2, 3: 3, 4: 2, 5: 3, 6: 12, 7: 2, 8: 15 }[b.code] || 1;
+      const cn = { 1: 1, 2: 2, 3: 3, 4: 2, 5: 3, 6: 12, 7: 2, 8: 15, 9: 20, 10: 14 }[b.code] || 1;
       const got = addCoins(cn); G.coinsRun += got;
-      const xpGain = { 1: 2, 2: 4, 3: 6, 4: 5, 5: 8, 6: 4, 7: 4, 8: 20 }[b.code] || 2;
+      const xpGain = { 1: 2, 2: 4, 3: 6, 4: 5, 5: 8, 6: 4, 7: 4, 8: 20, 9: 25, 10: 18 }[b.code] || 2;
       G.xpRun += xpGain;
       G.bricksRun++; S.stats.bricks++; S.daily.bricks++;
       const bt = S.stats.brickTypes;
-      if (b.code === 1) bt.normal++; else if (b.code === 2 || b.code === 3) bt.armored++; else if (b.code === 4) bt.explosive++;
-      else if (b.code === 5) bt.steel++; else if (b.code === 6) bt.gold++; else if (b.code === 8) bt.core++; else bt.normal++;
+      if (b.code === 1) bt.normal++; else if (b.code === 2 || b.code === 3) bt.armored++; else if (b.code === 4 || b.code === 10) bt.explosive++;
+      else if (b.code === 5) bt.steel++; else if (b.code === 6 || b.code === 9) bt.gold++; else if (b.code === 8) bt.core++; else bt.normal++;
       markDirty();
-      brickBurst(b, col);
-      pushText('+' + pts + (G.mult > 1 ? ' ×' + G.mult : ''), b.rx + BW / 2, b.y, shade(col === '#7C86A8' ? '#8B5CF6' : hues[b.r % 4], 40), 12);
-      sfx.pop(G.combo);
-      if (G.combo > 0 && G.combo % 5 === 0) { banner('COMBO ×' + G.mult, '#FF3D8A', .42); sfx.combo(G.mult); if (G.combo >= 10) { shake(5); if (S.set.comboConfetti !== false) sparkFX(b.rx + BW / 2, b.y + BH / 2, '#FFD166', 10) } }
-      if (b.code === 6) { coinFX(b.rx + BW / 2, b.y + BH / 2); sfx.coin() }
-      if (b.code === 4) G.blastQ.push(b);
-      const dropChance = 0.135 * clamp((S.set.dropRatePct ?? 100) / 100, 0.5, 2.0);
-      if (b.code === 7 || b.code === 8 || (b.code !== 5 && R() < dropChance)) spawnDrop(b);
+      const swarm = G.balls.length > 8;
+      if (!swarm) {
+        brickBurst(b, col);
+        pushText('+' + pts + (G.mult > 1 ? ' ×' + G.mult : ''), b.rx + bw / 2, b.y, shade(col === '#7C86A8' ? '#8B5CF6' : hues[b.r % 4], 40), 12);
+      } else if (R() < 0.25) {
+        pushPart({ type: 'shard', x: b.rx + bw / 2, y: b.y + bh / 2, vx: (R() - .5) * 180, vy: -R() * 120, g: 380, t: 0, life: .32, size: 3, color: col, rot: R() * 6, vr: 6 });
+      }
+      if (G.t - (G.lastPopSfxT || 0) > 0.035) { G.lastPopSfxT = G.t; sfx.pop(G.combo); }
+      if (G.combo > 0 && G.combo % (b.micro ? 20 : 5) === 0) { banner('COMBO ×' + G.mult, '#FF3D8A', .42); sfx.combo(G.mult); if (G.combo >= 10) { shake(4); if (!swarm && S.set.comboConfetti !== false) sparkFX(b.rx + bw / 2, b.y + bh / 2, '#FFD166', 8) } }
+      if (b.code === 6) { if (!swarm) coinFX(b.rx + bw / 2, b.y + bh / 2); sfx.coin() }
+      if (b.code === 9) {
+        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 10);
+        breachDoorwayAround(b);
+        sfx.power(); sfx.boom(); shake(8);
+        banner('💥 BREACH PLUG OPEN · +10 BALLS!', '#FACC15', .38);
+      } else if (b.code === 10) {
+        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 7);
+        breachDoorwayAround(b);
+        G.blastQ.push(b);
+        sfx.power(); shake(7);
+        banner('🔥 POCKET DOOR OPEN · +7 BALLS!', '#FF2A55', .38);
+      } else if (b.code === 4) {
+        G.blastQ.push(b);
+      }
+      if ((G.mode === 'megabrick' || G.mode === 'random') && G.breakable > 0 && G.breakable <= Math.max(10, Math.round((G.initialBreakable || 80) * 0.08))) {
+        crackShieldWallsAroundRemaining();
+      }
+      const dropChance = (b.micro ? 0.032 : 0.135) * clamp((S.set.dropRatePct ?? 100) / 100, 0.5, 2.0);
+      if (b.code === 7 || b.code === 8 || (b.code !== 5 && G.drops.length < 6 && R() < dropChance)) spawnDrop(b);
       if (G.breakable <= 0 && (G.state === 'play' || G.state === 'ready')) {
-        if (G.mode === 'campaign' || G.mode === 'daily' || G.mode === 'custom' || G.mode === 'random') doWin();
+        if (G.mode === 'campaign' || G.mode === 'daily' || G.mode === 'custom' || G.mode === 'random' || G.mode === 'megabrick') doWin();
         else if (G.mode === 'timed') nextTimedStage();
         else if (G.mode === 'bossrush') nextBossRushStage();
         else waveClear();
@@ -5980,12 +7352,16 @@
       const stageRef = G.bricks;
       while (G.blastQ.length && G.bricks === stageRef && (G.state === 'play' || G.state === 'ready')) {
         const e = G.blastQ.shift();
-        explodeFX(e.rx + BW / 2, e.y + BH / 2); sfx.boom(); shake(12); G.flash = Math.max(G.flash, .2); haptic(18);
-        for (let dr = -1; dr <= 1; dr++)for (let dc = -1; dc <= 1; dc++) {
+        const ew = e.w || BW, eh = e.h || BH;
+        explodeFX(e.rx + ew / 2, e.y + eh / 2); sfx.boom(); shake(10); G.flash = Math.max(G.flash, .18); haptic(16);
+        const rad = e.code === 10 ? 2 : 1;
+        for (const nb of G.bricks) {
           if (G.bricks !== stageRef || (G.state !== 'play' && G.state !== 'ready')) break;
-          if (!dr && !dc) continue;
-          const nb = brickAt(e.c + dc, e.r + dr);
-          if (nb && nb.alive) hitBrick(nb, 2, 'blast');
+          if (!nb.alive || nb === e) continue;
+          if (Math.abs(nb.c - e.c) <= rad && Math.abs(nb.r - e.r) <= rad) {
+            if (nb.code === 5) continue; // Unbreakable steel rows stay 100% unbreakable against bombs
+            hitBrick(nb, e.code === 10 ? 4 : 2, 'blast');
+          }
         }
       }
       G.blastQ.length = 0;
@@ -6020,7 +7396,7 @@
     function coinFX(x, y) { for (let i = 0; i < (S.set.fx ? 7 : 3); i++)pushPart({ type: 'ember', x, y, vx: (R() - .5) * 150, vy: -R() * 190 - 40, g: 380, t: 0, life: .46 + R() * .25, size: 2.5 + R() * 2, color: '#FFC53D' }) }
     function wallFX(b) { if (S.set.fx) pushPart({ type: 'ember', x: b.x, y: b.y, vx: (R() - .5) * 60, vy: (R() - .5) * 60, g: 0, t: 0, life: .2, size: 2, color: '#8B5CF6' }) }
     function paddleFX(b) { for (let i = 0; i < (S.set.fx ? 5 : 2); i++)pushPart({ type: 'ember', x: b.x, y: G.paddle.y, vx: (R() - .5) * 120, vy: -R() * 80, g: 200, t: 0, life: .28, size: 2, color: skin().c[0] }) }
-    function shieldFX(b) { pushPart({ type: 'ring', x: b.x, y: VH - 24, t: 0, life: .4, size: 8, grow: 190, color: '#22D3EE' }); sparkFX(b.x, VH - 24, '#8B5CF6', 7) }
+    function shieldFX(b) { const sy = G ? (G.paddle.y + PH + 10) : (VH - 24); pushPart({ type: 'ring', x: b.x, y: sy, t: 0, life: .4, size: 8, grow: 190, color: '#22D3EE' }); sparkFX(b.x, sy, '#8B5CF6', 7) }
     function ballBurst(b) { for (let i = 0; i < (S.set.fx ? 12 : 5); i++) { const a = R() * 6.28, s = 60 + R() * 190; pushPart({ type: 'ember', x: b.x, y: b.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, g: 200, t: 0, life: .46, size: 2.5, color: skin().c[2] }) } }
     function confettiFX() {
       const n = (RM_SYS || S.set.reducedMotion) ? 25 : (S.set.fx ? 130 : 60), cols = [...WORLDS[G.wi].hues, '#FFFFFF', '#FFC53D'];
@@ -6050,7 +7426,7 @@
       else if (G.mode === 'timed') { S.stats.timedBest = Math.max(S.stats.timedBest, G.score) }
       else if (G.mode === 'daily') { S.stats.dailyBest = Math.max(S.stats.dailyBest, G.score) }
       else if (G.mode === 'bossrush') { S.stats.bossRushBest = Math.max(S.stats.bossRushBest || 0, G.score); S.stats.bossRushStage = Math.max(S.stats.bossRushStage || 0, G.bossStage + 1) }
-      else if (G.mode === 'random') { S.stats.randomBest = Math.max(S.stats.randomBest || 0, G.score); if (won) S.stats.randomClears = (S.stats.randomClears || 0) + 1 }
+      else if (G.mode === 'random' || G.mode === 'megabrick') { S.stats.randomBest = Math.max(S.stats.randomBest || 0, G.score); if (won) S.stats.randomClears = (S.stats.randomClears || 0) + 1 }
       else if (G.mode === 'campaign') { S.bestLevelScore[G.idx] = Math.max(S.bestLevelScore[G.idx] || 0, G.score) }
     }
     function doWin() {
@@ -6069,15 +7445,31 @@
         if (!S.daily.challengeDone) { S.daily.challengeDone = true; S.stats.dailyWins++ }
       }
       S.daily.wins++;
-      const bonusBase = G.mode === 'daily' ? 160 : G.mode === 'custom' ? 40 : G.mode === 'random' ? (RANDOM_TIERS[G.randomTier]?.coinBonus || 80) : (25 + stars * 15 + G.sector * 15);
+      const tierObj = G.mode === 'megabrick' ? MEGA_TIERS[G.randomTier] : RANDOM_TIERS[G.randomTier];
+      const bonusBase = G.mode === 'daily' ? 160 : G.mode === 'custom' ? 40 : (G.mode === 'random' || G.mode === 'megabrick') ? (tierObj?.coinBonus || 90) : (25 + stars * 15 + G.sector * 15);
       const flaw = stars === 3 ? 25 : 0, bossB = G.boss ? 80 : 0;
       G.bonusBase = Math.round(bonusBase * coinMultiplier()); G.flaw = Math.round(flaw * coinMultiplier()); G.bossB = Math.round(bossB * coinMultiplier());
+      if (G.mode === 'random' || G.mode === 'megabrick') {
+        const isMega = G.mode === 'megabrick';
+        if (isMega) ensureMegaMissions(); else ensureUnlimitedMissions();
+        const pool = isMega ? S.megaMissions : S.uMissions;
+        const activeM = G.mission || pool.find(x => x.tier === G.randomTier);
+        if (activeM) {
+          G.mission = activeM;
+          G.missionBonusHit = checkMissionBonus(G, activeM);
+          const bMult = (G.missionBonusHit && activeM.objType !== 'clear') ? 1.5 : 1;
+          G.missionCoinReward = Math.round(activeM.rewardCoins * bMult * coinMultiplier());
+          G.missionXpReward = Math.round(activeM.rewardXp * bMult);
+          S.stats.missionsDone = (S.stats.missionsDone || 0) + 1;
+          G.nextMission = isMega ? rerollMegaMissions(activeM.tier) : rerollUnlimitedMissions(activeM.tier);
+        }
+      }
       const unrewardedXp = Math.max(0, G.xpRun - (G.xpAwarded || 0));
-      const xpTotal = unrewardedXp + (G.mode === 'random' ? (RANDOM_TIERS[G.randomTier]?.xpBonus || 100) : (G.boss ? 140 : 60)) + stars * 25 + G.sector * 30;
+      const xpTotal = unrewardedXp + ((G.mode === 'random' || G.mode === 'megabrick') ? (tierObj?.xpBonus || 110) : (G.boss ? 140 : 60)) + (G.missionXpReward || 0) + stars * 25 + G.sector * 30;
       G.xpAwarded = G.xpRun;
       G.xpTotal = xpTotal;
       recordRunStats(true);
-      addCoins(G.bonusBase + G.flaw + G.bossB, true);
+      addCoins(G.bonusBase + G.flaw + G.bossB + (G.missionCoinReward || 0), true);
       addXP(xpTotal);
       for (let i = 0; i < stars; i++)sfx.star(i);
       banner(stars === 3 ? 'FLAWLESS!' : 'LEVEL CLEAR!', stars === 3 ? '#A3E635' : '#22D3EE');
@@ -6088,8 +7480,8 @@
       G.state = 'lost'; G.loseT = .9; G.sheetShown = false; G.loseReason = reason;
       for (const b of G.balls) ballBurst(b); G.balls.length = 0; G.hazards.length = 0;
       shake(12); if (S.set.hitFlash !== false) G.flash = .16; sfx.lose(); haptic([30, 40, 30]);
-      const prevBest = G.mode === 'endless' ? S.stats.endlessBest : G.mode === 'timed' ? S.stats.timedBest : G.mode === 'bossrush' ? (S.stats.bossRushBest || 0) : G.mode === 'random' ? (S.stats.randomBest || 0) : 0;
-      G.newRecord = (G.mode === 'endless' || G.mode === 'timed' || G.mode === 'bossrush' || G.mode === 'random') && G.score > prevBest;
+      const prevBest = G.mode === 'endless' ? S.stats.endlessBest : G.mode === 'timed' ? S.stats.timedBest : G.mode === 'bossrush' ? (S.stats.bossRushBest || 0) : (G.mode === 'random' || G.mode === 'megabrick') ? (S.stats.randomBest || 0) : 0;
+      G.newRecord = (G.mode === 'endless' || G.mode === 'timed' || G.mode === 'bossrush' || G.mode === 'random' || G.mode === 'megabrick') && G.score > prevBest;
       recordRunStats(false);
       const unrewardedXp = Math.max(0, G.xpRun - (G.xpAwarded || 0));
       G.xpAwarded = G.xpRun;
@@ -6163,9 +7555,17 @@
         if (playing) {
           const rampMult = clamp((S.set.speedRampPct ?? 100) / 100, 0, 2);
           G.ramp = Math.min(100, G.ramp + dt * 1.3 * rampMult);
-          if (G.mode === 'timed' || G.mode === 'daily') {
+          const timerOn = (G.mode === 'timed' || (S.set.enableTimer && G.timeLeft > 0));
+          if (timerOn && G.timeLeft > 0) {
             G.timeLeft -= dt;
             if (G.timeLeft <= 0) { G.timeLeft = 0; doLose('time'); return }
+          }
+          if ((G.mode === 'megabrick' || G.mode === 'random') && G.breakable > 0 && G.balls.some(b => !b.sticky)) {
+            G.noBreakT = (G.noBreakT || 0) + dt;
+            if (G.noBreakT >= 6.5) {
+              G.noBreakT = 0;
+              crackShieldWallsAroundRemaining();
+            }
           }
           /* Golden Supply Drone Spawner */
           if (S.set.droneFreq !== 'off') {
@@ -6223,7 +7623,8 @@
           }
           if (!dead) for (const b of G.bricks) {
             if (!b.alive) continue;
-            if (L.x >= b.rx && L.x <= b.rx + BW && L.y <= b.y + BH && L.y >= b.y - 8) { hitBrick(b, 1, 'laser'); sparkFX(L.x, b.y + BH, '#FF3D8A', 3); dead = true; break }
+            const bw = b.w || BW, bh = b.h || BH;
+            if (L.x >= b.rx && L.x <= b.rx + bw && L.y <= b.y + bh && L.y >= b.y - 8) { hitBrick(b, 1, 'laser'); sparkFX(L.x, b.y + bh, '#FF3D8A', 3); dead = true; break }
           }
           if (dead) G.lasers.splice(i, 1);
         }
@@ -6313,7 +7714,8 @@
           if (G.drone && Math.abs(b.x - G.drone.x) <= G.drone.w / 2 + b.r && Math.abs(b.y - G.drone.y) <= G.drone.h / 2 + b.r) {
             hitDrone();
           }
-          if (G.shield > 0 && b.vy > 0 && b.y + b.r >= VH - 24) { b.y = VH - 24 - b.r; b.vy = -Math.abs(b.vy); G.shield--; G.fxDirty = true; sfx.shield(); shieldFX(b) }
+          const shieldY = py + PH + 10;
+          if (G.shield > 0 && b.vy > 0 && b.y + b.r >= shieldY && b.y - b.r <= shieldY + 12) { b.y = shieldY - b.r; b.vy = -Math.abs(b.vy); G.shield--; G.fxDirty = true; sfx.shield(); shieldFX(b) }
           if (b.vy > 0 && b.y + b.r >= py && b.y - b.r <= py + PH && Math.abs(b.x - px) <= pw / 2 + b.r) {
             const maxAng = S.set.edgeAngleMode === 'extreme' ? 1.26 : S.set.edgeAngleMode === 'sharp' ? 1.15 : 1.04;
             const rel = clamp((b.x - px) / (pw / 2), -1, 1), ang = rel * maxAng;
@@ -6329,15 +7731,21 @@
             continue;
           }
           let bounced = false;
+          if (G.orbs && G.orbs.length) {
+            for (const ob of G.orbs) {
+              if (!ob.alive) continue;
+              if (Math.hypot(b.x - ob.x, b.y - ob.y) <= b.r + ob.r) triggerArenaOrb(ob);
+            }
+          }
           for (const br of G.bricks) {
             if (!br.alive) continue;
-            const bx = br.rx, by = br.y;
-            if (b.y + b.r < by || b.y - b.r > by + BH || b.x + b.r < bx || b.x - b.r > bx + BW) continue;
-            const nx = clamp(b.x, bx, bx + BW), ny = clamp(b.y, by, by + BH);
+            const bx = br.rx, by = br.y, bw = br.w || BW, bh = br.h || BH;
+            if (b.y + b.r < by || b.y - b.r > by + bh || b.x + b.r < bx || b.x - b.r > bx + bw) continue;
+            const nx = clamp(b.x, bx, bx + bw), ny = clamp(b.y, by, by + bh);
             const dx = b.x - nx, dy = b.y - ny, d2 = dx * dx + dy * dy;
             if (d2 > b.r * b.r) continue;
             if (br.code !== 5) b.noBrickHits = 0; else b.noBrickHits = (b.noBrickHits || 0) + 1;
-            if (G.fx.fire) { hitBrick(br, 99, 'fire'); continue }
+            if (G.fx.fire && br.code !== 5 && !br.unbreakable) { hitBrick(br, 99, 'fire'); continue }
             hitBrick(br, 1, 'ball');
             if (d2 > 1e-6) {
               const d = Math.sqrt(d2), ux = dx / d, uy = dy / d;
@@ -6345,11 +7753,11 @@
               const dot = b.vx * ux + b.vy * uy;
               if (dot < 0) { b.vx -= 2 * dot * ux; b.vy -= 2 * dot * uy }
             } else {
-              const l = b.x - bx, rgt = bx + BW - b.x, tp = b.y - by, bt = by + BH - b.y, mn = Math.min(l, rgt, tp, bt);
+              const l = b.x - bx, rgt = bx + bw - b.x, tp = b.y - by, bt = by + bh - b.y, mn = Math.min(l, rgt, tp, bt);
               if (mn === l) { b.x = bx - b.r; b.vx = -Math.abs(b.vx) }
-              else if (mn === rgt) { b.x = bx + BW + b.r; b.vx = Math.abs(b.vx) }
+              else if (mn === rgt) { b.x = bx + bw + b.r; b.vx = Math.abs(b.vx) }
               else if (mn === tp) { b.y = by - b.r; b.vy = -Math.abs(b.vy) }
-              else { b.y = by + BH + b.r; b.vy = Math.abs(b.vy) }
+              else { b.y = by + bh + b.r; b.vy = Math.abs(b.vy) }
             }
             bounced = true; break;
           }
@@ -6361,7 +7769,7 @@
           } else if (bounced) {
             antiFlat(b);
           }
-          if (b.y - b.r > VH + 10) { G.balls.splice(i, 1); removed = true; ballBurst(b); break }
+          if (b.y - b.r > Math.min(VH + 10, py + PH + 58)) { G.balls.splice(i, 1); removed = true; ballBurst(b); break }
           if (G.state !== 'play') break;
         }
         if (removed) continue;
@@ -6419,9 +7827,10 @@
         ctx.stroke();
       }
       if (G.shield > 0) {
+        const sy = G.paddle.y + PH + 10;
         ctx.globalAlpha = .7 + .3 * Math.sin(G.t * 5);
-        ctx.fillStyle = shieldGrad; ctx.fillRect(0, VH - 26, VW, 3.5);
-        ctx.globalAlpha = .25; ctx.fillRect(0, VH - 30, VW, 11); ctx.globalAlpha = 1;
+        ctx.fillStyle = shieldGrad; ctx.fillRect(0, sy - 2, VW, 3.5);
+        ctx.globalAlpha = .25; ctx.fillRect(0, sy - 6, VW, 11); ctx.globalAlpha = 1;
       }
       /* Render Golden Supply Drone */
       if (G.drone) {
@@ -6437,6 +7846,34 @@
       const cbMode = !!S.set.colorblindMode;
       for (const b of G.bricks) {
         if (!b.alive) continue;
+        if (b.micro) {
+          const bw = b.w || BW, bh = b.h || BH;
+          const col = b.code === 4 ? '#FF6B35' : b.code === 5 ? (b.customCol || '#64748B') : b.code === 6 ? '#FFC53D' : b.code === 9 ? '#FACC15' : b.code === 10 ? '#FF2A55' : (b.customCol || WORLDS[G.wi].hues[b.r % 4]);
+          if (b.showHp) {
+            rr(ctx, b.rx, b.y, bw, bh, 5);
+            ctx.fillStyle = rgba(col, 0.24); ctx.fill();
+            ctx.strokeStyle = col; ctx.lineWidth = 2.2; ctx.stroke();
+            ctx.fillStyle = '#FFFFFF'; ctx.font = '800 12px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(String(b.hp), b.rx + bw / 2, b.y + bh / 2 + 0.5);
+          } else {
+            ctx.fillStyle = col;
+            ctx.fillRect(b.rx, b.y, bw, bh);
+            ctx.fillStyle = 'rgba(255,255,255,0.26)';
+            ctx.fillRect(b.rx + 0.8, b.y + 0.8, bw - 1.6, Math.max(1.5, bh * 0.22));
+            ctx.strokeStyle = (b.code === 9 || b.code === 10) ? '#FFFFFF' : 'rgba(6,4,14,0.45)';
+            ctx.lineWidth = (b.code === 9 || b.code === 10) ? 1.5 : 0.7;
+            ctx.strokeRect(b.rx + 0.3, b.y + 0.3, bw - 0.6, bh - 0.6);
+            if (b.code === 9 || b.code === 10) {
+              ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .35 + .25 * Math.sin(G.t * 8);
+              ctx.drawImage(b.code === 9 ? glowOrange : glowMagenta, b.rx + bw / 2 - 14, b.y + bh / 2 - 14, 28, 28);
+              ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+            } else if (b.hp > 1) {
+              ctx.fillStyle = 'rgba(255,255,255,0.85)';
+              ctx.fillRect(b.rx + bw * 0.25, b.y + bh * 0.42, bw * 0.5, 2);
+            }
+          }
+          continue;
+        }
         const spr = sprites.get(b.code + '_' + Math.min(b.hp, 3) + '_' + (b.r % 4));
         if (spr) ctx.drawImage(spr, b.rx, b.y, BW, BH);
         if (b.code === 8 && b.mhp > 1) {
@@ -6458,6 +7895,19 @@
         if (b.code === 7 || b.code === 8) {
           ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .18 + .13 * Math.sin(G.t * 4 + b.r);
           ctx.drawImage(glowMagenta, b.rx + BW / 2 - 16, b.y + BH / 2 - 16, 32, 32); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1
+        }
+      }
+      if (G.orbs && G.orbs.length) {
+        for (const ob of G.orbs) {
+          if (!ob.alive) continue;
+          const pulse = 1 + 0.08 * Math.sin(G.t * 6 + ob.x);
+          ctx.save(); ctx.translate(ob.x, ob.y); ctx.scale(pulse, pulse);
+          ctx.beginPath(); ctx.arc(0, 0, ob.r, 0, 7);
+          ctx.fillStyle = ob.color; ctx.fill();
+          ctx.lineWidth = 1.6; ctx.strokeStyle = '#FFFFFF'; ctx.stroke();
+          ctx.fillStyle = '#FFFFFF'; ctx.font = '900 8.5px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(ob.label, 0, 0.5);
+          ctx.restore();
         }
       }
       for (const d of G.drops) {
@@ -6491,6 +7941,33 @@
         }
         drawStyledPaddle(ctx, curSkPad, p.x - p.w / 2, p.y, p.w, PH, G.t, pu);
         ctx.restore();
+        // Industry-standard ergonomic thumb track & touch slider handle below the paddle so finger never covers the paddle
+        if (S.set.controlMode !== 'tap') {
+          const trackY = Math.min(VH - 22, p.y + PH + 34);
+          if (trackY > p.y + PH + 14) {
+            ctx.save();
+            ctx.strokeStyle = isLightBg ? 'rgba(15,23,42,0.14)' : 'rgba(160,140,255,0.16)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(28, trackY); ctx.lineTo(VW - 28, trackY);
+            ctx.stroke();
+            ctx.strokeStyle = isLightBg ? 'rgba(15,23,42,0.22)' : 'rgba(34,211,238,0.28)';
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y + PH + 3); ctx.lineTo(p.x, trackY - 8);
+            ctx.stroke();
+            rr(ctx, p.x - 24, trackY - 7, 48, 14, 7);
+            ctx.fillStyle = isLightBg ? 'rgba(15,23,42,0.18)' : 'rgba(23,16,41,0.78)';
+            ctx.fill();
+            ctx.strokeStyle = curSkPad.c[0];
+            ctx.lineWidth = 1.3;
+            ctx.stroke();
+            ctx.fillStyle = isLightBg ? '#0F172A' : '#E2E8F0';
+            ctx.font = '800 9px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText('‹ ● ›', p.x, trackY + 0.5);
+            ctx.restore();
+          }
+        }
       }
       const fire = !!G.fx.fire, curSk = skin(), isLightArena = currentTheme().light;
       for (const b of G.balls) {
@@ -6601,11 +8078,11 @@
       if (G.score !== G.scoreShown || force) { G.scoreShown = G.score; $('#hudScore').textContent = fmt(G.score) }
       if (G.coinsRun !== G.coinsShown || force) { G.coinsShown = G.coinsRun; $('#hudCoinsVal').textContent = fmt(G.coinsRun) }
       const tEl = $('#hudTimer');
-      if (G.mode === 'timed' || G.mode === 'daily') { tEl.classList.add('show'); tEl.textContent = '⏱ ' + fmtTime(G.timeLeft) }
+      if ((G.mode === 'timed' || S.set.enableTimer) && G.timeLeft > 0) { tEl.classList.add('show'); tEl.textContent = '⏱ ' + fmtTime(G.timeLeft) }
       else tEl.classList.remove('show');
-      if (G.labelDirty || force || S.set.showLiveBricksLeft !== false) {
+      if (G.labelDirty || force || S.set.showLiveBricksLeft !== false || G.mission) {
         G.labelDirty = false;
-        const baseLbl = G.mode === 'campaign' ? ('LVL ' + (G.idx + 1) + ' · S' + (G.sector + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1) + ' ' + G.name) : G.mode === 'random' ? ('RANDOM · ' + G.name) : G.mode === 'custom' ? ('STUDIO · ' + G.name) : 'DAILY CHALLENGE';
+        const baseLbl = G.mode === 'campaign' ? ('LVL ' + (G.idx + 1) + ' · S' + (G.sector + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1) + ' ' + G.name) : (G.mode === 'random' || G.mode === 'megabrick') ? (G.mission ? ('MISSION #' + G.mission.seq + ' · ' + G.mission.archName.toUpperCase() + ' · ' + missionProgressText(G)) : ((G.mode === 'megabrick' ? 'MAZE · ' : 'RANDOM · ') + G.name)) : G.mode === 'custom' ? ('STUDIO · ' + G.name) : 'DAILY CHALLENGE';
         $('#hudLevel').textContent = baseLbl + (S.set.showLiveBricksLeft !== false ? (' · ' + G.breakable + ' LEFT') : '');
       }
       /* Boss HP Bar */
@@ -6670,37 +8147,45 @@
       if (UI.sheet === 'pause') { actions.resume(); return }
       G.prevState = G.state; G.state = 'paused';
       const d = DIFFS[S.set.diff] || DIFFS.classic;
-      const modeKicker = G.mode === 'campaign' ? ('LEVEL ' + (G.idx + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1) + ' ' + G.name) : G.mode === 'random' ? ('RANDOM · ' + G.name) : G.mode === 'custom' ? ('CUSTOM STUDIO · ' + G.name) : 'DAILY CHALLENGE';
+      const isRandOrMega = G.mode === 'random' || G.mode === 'megabrick';
+      const openPickerAct = G.mode === 'megabrick' ? 'open-megabrick' : 'open-random';
+      const modeKicker = G.mode === 'campaign' ? ('LEVEL ' + (G.idx + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1) + ' ' + G.name) : isRandOrMega ? ((G.mode === 'megabrick' ? 'BRICK BREAK · ' : 'RANDOM · ') + G.name) : G.mode === 'custom' ? ('CUSTOM STUDIO · ' + G.name) : 'DAILY CHALLENGE';
       openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--cyan)">' + modeKicker + '</div><h2 class="sheet-title">Game Paused</h2></div>' +
         '<div class="quick-rows">' +
+        swRow('enableTimer', 'Level Countdown Timer', 'Enable or disable the stage countdown timer', 'timer', !!S.set.enableTimer) +
         swRow('sfx', 'Sound FX', 'Pops, zaps & booms (No music)', 'zap', S.set.sfx) +
         swRow('trail', 'Neon Ball Trail', 'Glowing motion streak behind balls', 'sparkles', S.set.trail) +
         swRow('haptics', 'Haptics', 'Vibration feedback', 'vibrate', S.set.haptics) +
         '</div>' +
         '<div class="pause-note">' + icon(d.icon) + ' Difficulty: <b>&nbsp;' + d.label + '</b> &nbsp;·&nbsp; Speed: <b>' + (S.set.ballSpeedPct ?? 100) + '%</b></div>' +
         '<div class="sheet-btns"><button class="btn btn-primary" data-action="resume">' + icon('play') + ' Resume Game</button>' +
-        '<div class="btn-row"><button class="btn btn-ghost" data-action="restart">' + icon(G.mode === 'random' ? 'shuffle' : 'restart') + (G.mode === 'random' ? ' New Random' : ' Restart') + '</button>' +
-        (G.mode === 'random' ? '<button class="btn btn-ghost" data-action="open-random">' + icon('sliders') + ' Difficulty</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') + '</div>' +
+        '<div class="btn-row"><button class="btn btn-ghost" data-action="restart">' + icon(isRandOrMega ? 'shuffle' : 'restart') + (isRandOrMega ? ' New Board' : ' Restart') + '</button>' +
+        (isRandOrMega ? '<button class="btn btn-ghost" data-action="' + openPickerAct + '">' + icon('sliders') + ' Setup & Missions</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') + '</div>' +
         '<div class="btn-row"><button class="btn btn-ghost" data-action="go-settings">' + icon('sliders') + ' Settings</button>' +
         '<button class="btn btn-danger" data-action="home">' + icon('home') + ' Quit to Home</button></div></div>', 'pause', 'resume');
       sfx.click();
     }
     function openWinSheet() {
       const w = WORLDS[G.wi], stars = G.earnedStars;
-      const total = G.coinsRun + G.bonusBase + G.flaw + G.bossB;
-      const kicker = G.mode === 'daily' ? 'DAILY CHALLENGE CLEARED' : G.mode === 'custom' ? ('CUSTOM STUDIO · ' + G.name) : G.mode === 'random' ? ('RANDOM · ' + G.name) : (G.boss ? 'BOSS DEFEATED · LEVEL ' + (G.idx + 1) : 'LEVEL ' + (G.idx + 1) + ' · ' + G.name);
-      const title = G.mode === 'daily' ? 'Daily Hero!' : G.mode === 'custom' ? 'Stage Cleared!' : G.mode === 'random' ? 'Random Board Cleared!' : (G.boss ? 'Boss Conquered!' : 'Level Clear!');
+      const isRandOrMega = G.mode === 'random' || G.mode === 'megabrick';
+      const openPickerAct = G.mode === 'megabrick' ? 'open-megabrick' : 'open-random';
+      const total = G.coinsRun + G.bonusBase + G.flaw + G.bossB + (G.missionCoinReward || 0);
+      const kicker = G.mode === 'daily' ? 'DAILY CHALLENGE CLEARED' : G.mode === 'custom' ? ('CUSTOM STUDIO · ' + G.name) : isRandOrMega ? (G.mission ? ('MISSION #' + G.mission.seq + ' COMPLETED · ' + G.name) : ((G.mode === 'megabrick' ? 'BRICK BREAK · ' : 'RANDOM · ') + G.name)) : (G.boss ? 'BOSS DEFEATED · LEVEL ' + (G.idx + 1) : 'LEVEL ' + (G.idx + 1) + ' · ' + G.name);
+      const title = G.mode === 'daily' ? 'Daily Hero!' : G.mode === 'custom' ? 'Stage Cleared!' : isRandOrMega ? (G.mission ? 'Mission Accomplished!' : 'Board Cleared!') : (G.boss ? 'Boss Conquered!' : 'Level Clear!');
+      const nextBtnLbl = G.mode === 'daily' ? 'Finish & Home' : G.mode === 'custom' ? 'Back to Level Studio' : isRandOrMega ? (G.nextMission ? ('Next Mission #' + G.nextMission.seq + ' (' + G.nextMission.archName + ')') : ('New Unique ' + ((MEGA_TIERS[G.randomTier] || RANDOM_TIERS[G.randomTier])?.label || 'Random') + ' Board')) : ('Next Level (Lvl ' + (G.idx + 2) + ')');
       openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:' + w.hues[0] + '">' + kicker + '</div><h2 class="sheet-title">' + title + '</h2>' +
-        (G.newBest ? '<span class="tag-best">' + icon('sparkles') + ' NEW BEST</span>' : '') + '</div>' +
+        (G.newBest ? '<span class="tag-best">' + icon('sparkles') + ' NEW BEST</span>' : '') +
+        (G.mission && G.missionBonusHit && G.mission.objType !== 'clear' ? '<span class="tag-best">' + icon('trophy') + ' +50% TACTICAL BONUS HIT</span>' : '') + '</div>' +
         '<div class="stars-row">' + [0, 1, 2].map(i => '<span class="big-star' + (i < stars ? ' earned' : '') + '">' + icon('star') + '</span>').join('') + '</div>' +
         '<div class="res-grid"><div class="res"><span>Score</span><b>' + fmt(G.score) + '</b></div><div class="res"><span>Rank XP</span><b>+' + fmt(G.xpTotal || 0) + '</b></div><div class="res"><span>Best Combo</span><b>×' + G.bestComboRun + '</b></div><div class="res"><span>Time</span><b>' + fmtTime(G.lastRunT) + '</b></div></div>' +
         '<div class="coin-lines"><div><span>' + icon('coin') + ' Bricks & Pickups</span><b>+' + G.coinsRun + '</b></div>' +
         '<div><span>' + icon('gift') + ' Clear Bonus</span><b>+' + G.bonusBase + '</b></div>' +
+        (G.missionCoinReward ? '<div><span>' + icon('trophy') + ' Mission #' + G.mission.seq + (G.missionBonusHit && G.mission.objType !== 'clear' ? ' (+50% Bonus!)' : ' Bounty') + '</span><b>+' + G.missionCoinReward + '</b></div>' : '') +
         (G.flaw ? '<div><span>' + icon('sparkles') + ' Flawless 3★</span><b>+' + G.flaw + '</b></div>' : '') +
         (G.bossB ? '<div><span>' + icon('crown') + ' Boss Bounty</span><b>+' + G.bossB + '</b></div>' : '') +
         '<div class="total"><span>Total Coins</span><b id="winCoins">0</b></div></div>' +
-        '<div class="sheet-btns"><button class="btn btn-primary" data-action="' + (G.mode === 'daily' ? 'home' : 'next') + '">' + icon(G.mode === 'daily' ? 'home' : G.mode === 'custom' ? 'wand' : G.mode === 'random' ? 'shuffle' : 'play') + ' ' + (G.mode === 'daily' ? 'Finish & Home' : G.mode === 'custom' ? 'Back to Level Studio' : G.mode === 'random' ? ('New Unique ' + (RANDOM_TIERS[G.randomTier]?.label || 'Random') + ' Board') : 'Next Level (Lvl ' + (G.idx + 2) + ')') + '</button>' +
-        '<div class="btn-row">' + (G.mode === 'random' ? '<button class="btn btn-ghost" data-action="open-random">' + icon('sliders') + ' Difficulty</button>' : '<button class="btn btn-ghost" data-action="replay">' + icon('restart') + ' Replay</button>') +
+        '<div class="sheet-btns"><button class="btn btn-primary" data-action="' + (G.mode === 'daily' ? 'home' : 'next') + '">' + icon(G.mode === 'daily' ? 'home' : G.mode === 'custom' ? 'wand' : isRandOrMega ? 'shuffle' : 'play') + ' ' + nextBtnLbl + '</button>' +
+        '<div class="btn-row">' + (isRandOrMega ? '<button class="btn btn-ghost" data-action="' + openPickerAct + '">' + icon('sliders') + ' Setup & Missions</button>' : '<button class="btn btn-ghost" data-action="replay">' + icon('restart') + ' Replay</button>') +
         '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>' +
         '<button class="btn btn-danger" data-action="home">' + icon('home') + ' Quit</button></div></div>', 'win', null);
       let shown = 0; const el = $('#winCoins');
@@ -6712,10 +8197,12 @@
     }
     function openLoseSheet() {
       const endless = G.mode === 'endless', timed = G.mode === 'timed';
+      const isRandOrMega = G.mode === 'random' || G.mode === 'megabrick';
+      const openPickerAct = G.mode === 'megabrick' ? 'open-megabrick' : 'open-random';
       const canCont = G.mode === 'campaign' && !G.usedContinue && S.coins >= 50;
       const tip = TIPS[(R() * TIPS.length) | 0];
       const heading = G.loseReason === 'crushed' ? 'The Wall Reached You!' : G.loseReason === 'time' ? 'Time\'s Up!' : 'Out of Balls!';
-      const loseKicker = endless ? ('ENDLESS · WAVE ' + G.wave) : timed ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1)) : G.mode === 'random' ? ('RANDOM · ' + G.name) : G.mode === 'daily' ? 'DAILY CHALLENGE' : G.mode === 'custom' ? ('CUSTOM STUDIO · ' + G.name) : ('LEVEL ' + (G.idx + 1));
+      const loseKicker = endless ? ('ENDLESS · WAVE ' + G.wave) : timed ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1)) : isRandOrMega ? ((G.mode === 'megabrick' ? 'BRICK BREAK · ' : 'RANDOM · ') + G.name) : G.mode === 'daily' ? 'DAILY CHALLENGE' : G.mode === 'custom' ? ('CUSTOM STUDIO · ' + G.name) : ('LEVEL ' + (G.idx + 1));
       openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--danger)">' + loseKicker + '</div>' +
         '<h2 class="sheet-title">' + heading + '</h2>' +
         (G.newRecord ? '<span class="tag-best">' + icon('sparkles') + ' NEW RECORD</span>' : '') + '</div>' +
@@ -6724,8 +8211,8 @@
         '<div class="lose-tip">' + icon('info') + '<span>' + tip + '</span></div>' +
         '<div class="sheet-btns">' +
         (canCont ? '<button class="btn btn-cyan" data-action="continue-run">' + icon('coin') + ' Continue — 50 Coins</button>' : '') +
-        '<button class="btn btn-primary" data-action="replay">' + icon(G.mode === 'random' ? 'shuffle' : 'restart') + (G.mode === 'random' ? ' New Unique Random Board' : ' Try Again') + '</button>' +
-        '<div class="btn-row">' + (G.mode === 'random' ? '<button class="btn btn-ghost" data-action="open-random">' + icon('sliders') + ' Difficulty</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') +
+        '<button class="btn btn-primary" data-action="replay">' + icon(isRandOrMega ? 'shuffle' : 'restart') + (isRandOrMega ? ' New Unique Board' : ' Try Again') + '</button>' +
+        '<div class="btn-row">' + (isRandOrMega ? '<button class="btn btn-ghost" data-action="' + openPickerAct + '">' + icon('sliders') + ' Setup & Missions</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') +
         '<button class="btn btn-ghost" data-action="go-shop">' + icon('bag') + ' Shop</button>' +
         '<button class="btn btn-danger" data-action="home">' + icon('home') + ' Quit</button></div></div>', 'lose', null);
     }
@@ -6808,6 +8295,7 @@
         '<button class="btn btn-cyan btn-sm" data-action="lucky-wheel">🎡 ' + (freeSpin ? 'Free Spin' : 'Wheel') + '</button></div></div>' +
 
         '<div class="mode-grid">' +
+        '<button class="mode megabrick" data-action="open-megabrick"><span class="m-ic">' + icon('grid') + '</span><b>Brick Break Maze</b><span>' + (MEGA_TIERS[S.set.megaDiff || 'easy']?.label || 'Easy') + ' · ∞ Tunnel Missions</span></button>' +
         '<button class="mode random" data-action="open-random"><span class="m-ic">' + icon('shuffle') + '</span><b>Random Mode</b><span>' + (RANDOM_TIERS[S.set.randomDiff || 'medium']?.label || 'Medium') + ' · Best: ' + fmt(S.stats.randomBest || 0) + '</span></button>' +
         '<button class="mode endless" data-action="start-endless"><span class="m-ic">' + icon('infinity') + '</span><b>Endless Waves</b><span>Best: ' + fmt(S.stats.endlessBest) + ' · Wave ' + S.stats.endlessWave + '</span></button>' +
         '<button class="mode timed" data-action="start-timed"><span class="m-ic">' + icon('timer') + '</span><b>Time Attack</b><span>150s Rush · Best: ' + fmt(S.stats.timedBest) + '</span></button>' +
@@ -7061,7 +8549,7 @@
           '<div class="sg-tile"><b>Wave ' + fmt(st.endlessWave) + '</b><span>Endless Peak Wave</span><small>Deepest survival wave</small></div>' +
           '<div class="sg-tile"><b>' + fmt(st.timedBest) + '</b><span>Time Attack Record</span><small>150s speed blitz best</small></div>' +
           '<div class="sg-tile"><b>' + fmt(st.bossRushBest || 0) + '</b><span>Boss Rush Record</span><small>Best Stage: #' + (st.bossRushStage || 0) + '</small></div>' +
-          '<div class="sg-tile"><b>' + fmt(st.randomBest || 0) + '</b><span>Random Arena Record</span><small>' + fmt(st.randomClears || 0) + ' random boards cleared</small></div>' +
+          '<div class="sg-tile"><b>' + fmt(st.randomBest || 0) + '</b><span>Random Arena Record</span><small>' + fmt(st.randomClears || 0) + ' clears · ' + fmt(st.missionsDone || 0) + ' missions</small></div>' +
           '<div class="sg-tile"><b>' + fmt(st.dailyBest) + '</b><span>Daily Challenge Record</span><small>' + fmt(st.dailyWins) + ' daily victories</small></div>' +
           '<div class="sg-tile"><b>' + fmt(S.coins) + '</b><span>Current Treasury</span><small>+' + Math.round((coinMultiplier() - 1) * 100) + '% coin multiplier</small></div>' +
           '<div class="sg-tile"><b>' + fmt(st.coinsEarned) + '</b><span>Lifetime Coins Minted</span><small>All-time economy total</small></div>' +
@@ -7071,13 +8559,30 @@
           '<div class="card"><b style="font-size:13.5px">Recent 10 Runs Score Trend</b><p style="font-size:11px;color:var(--muted)">Green = Victory · Orange = Attempt</p><div class="chart-bars">' + bars + '</div></div>' +
           '<div class="card"><b style="font-size:13.5px;display:block;margin-bottom:10px">Brick Destruction Breakdown</b>' + bRows + '</div>';
       } else if (UI.statsTab === 'missions') {
+        ensureUnlimitedMissions();
+        const umHtml = S.uMissions.map(m => {
+          const tc = RANDOM_TIERS[m.tier]?.color || '#38BDF8';
+          return '<div class="um-card focus" style="--rc:' + tc + '">' +
+            '<canvas class="um-prev" data-um-id="' + m.id + '" width="132" height="88"></canvas>' +
+            '<div class="um-info"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:2px">' +
+            '<span class="pill" style="color:' + tc + ';border-color:' + tc + ';padding:1px 7px;font-size:9.5px">' + (RANDOM_TIERS[m.tier]?.label || m.tier).toUpperCase() + '</span>' +
+            '<span class="pill" style="color:' + m.modCol + ';border-color:' + m.modCol + ';padding:1px 7px;font-size:9.5px">' + m.modName + '</span></div>' +
+            '<b>' + m.archIcon + ' ' + m.title + '</b>' +
+            '<p>' + m.bonusDesc + '</p>' +
+            '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:4px">' +
+            '<span style="font-size:10.5px;font-weight:800;color:var(--gold-text)">💰 +' + m.rewardCoins + ' · ⚡ +' + m.rewardXp + ' XP</span>' +
+            '<button class="btn btn-primary btn-sm" style="min-height:30px;padding:4px 10px;font-size:11.5px" data-action="play-umission" data-arg="' + m.id + '">' + icon('play') + ' Play</button></div></div></div>';
+        }).join('');
         const mHtml = DAILY_MISSIONS.map(m => {
           const cur = Math.min(S.daily[m.id] || 0, m.target), done = cur >= m.target, cl = S.daily.claims.includes(m.id);
           return '<div class="ach' + (done ? ' done' : '') + (cl ? ' claimed' : '') + '"><span class="ach-ic">' + icon(m.icon) + '</span>' +
             '<div class="ach-info"><b>' + m.name + '</b><p>' + m.desc + ' · ' + cur + '/' + m.target + ' · +' + m.xp + ' XP</p><div class="ach-bar"><i style="width:' + (cur / m.target * 100) + '%"></i></div></div>' +
             (cl ? '<span class="ach-claimed">' + icon('check') + '</span>' : '<button class="ach-claim' + (done ? '' : ' off') + '" data-action="claim-mission" data-arg="' + m.id + '">' + icon('coin') + ' +' + m.reward + '</button>') + '</div>';
         }).join('');
-        body = '<div class="card"><b style="font-size:14px">Daily Missions (' + todayStr() + ')</b><p style="font-size:11.5px;color:var(--muted);margin-bottom:8px">Resets every day at midnight. Earn bonus coins &amp; Rank XP!</p>' + mHtml + '</div>' +
+        body = '<div class="card"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px"><div><b style="font-size:14px">Unlimited Procedural Mission Contracts</b><p style="font-size:11.5px;color:var(--muted)">Completed: <b style="color:var(--lime)">' + fmt(st.missionsDone || 0) + '</b> · Auto-generates new layouts &amp; objectives infinitely</p></div>' +
+          '<button class="btn btn-ghost btn-sm" data-action="reroll-umissions">' + icon('shuffle') + ' Reroll</button></div>' +
+          '<div class="um-list">' + umHtml + '</div></div>' +
+          '<div class="card"><b style="font-size:14px">Daily Missions (' + todayStr() + ')</b><p style="font-size:11.5px;color:var(--muted);margin-bottom:8px">Resets every day at midnight. Earn bonus coins &amp; Rank XP!</p>' + mHtml + '</div>' +
           '<div class="card"><b style="font-size:14px">Daily Challenge Status</b><p style="font-size:12px;color:var(--muted);margin:4px 0 12px">' + (S.daily.challengeDone ? 'You conquered today\'s cosmic board! Come back tomorrow for a new layout.' : 'A special seeded board awaits today with bonus XP and coins.') + '</p><button class="btn btn-primary btn-sm" data-action="start-daily">' + icon('play') + ' Play Daily Challenge</button></div>';
       } else if (UI.statsTab === 'codex') {
         const brickGuide = [
@@ -7104,6 +8609,12 @@
         body = '<div class="card"><b style="font-size:14px;display:block;margin-bottom:6px">Achievements (' + achDone + ' / ' + ACHS.length + ')</b>' + achs + '</div>';
       }
       $('#screen-awards').innerHTML = '<div><h1 class="big-title">Ranks, Pro Stats &amp; Codex</h1><p class="sub-title">28 Rank Tiers (140 Divisions + Prestige), 15 Masteries &amp; 36 Career Telemetry Stats</p></div>' + subtabs + body;
+      if (UI.statsTab === 'missions') {
+        $$('.um-prev').forEach(cvEl => {
+          const m = (S.uMissions || []).find(x => x.id === cvEl.dataset.umId);
+          if (m) drawLevelObjPreview(cvEl, genRandomLevel(m.tier, { seed: m.seed, arch: m.arch, mod: m.mod }));
+        });
+      }
       const inp = $('#playerNameInput');
       if (inp) inp.addEventListener('change', e => { S.name = e.target.value.trim().slice(0, 22) || 'Player One'; e.target.value = S.name; saveNow(); toast('Player name saved', 'check', 'good') });
     }
@@ -7144,6 +8655,7 @@
         segRow('Golden Supply Drone Frequency', 'How often bonus UFO supply drones fly across the top', 'droneFreq', [['normal', 'Standard'], ['frequent', 'Frequent'], ['off', 'Disabled']]) +
         swRow('autoCatchMagnet', 'Magnet Sticky Catch', 'Hold ball on paddle when Magnet is active (off = instant rebound)', 'magnet', S.set.autoCatchMagnet !== false) +
         swRow('bossHazards', 'Boss Plasma Attacks', 'Allow world bosses to fire plasma projectiles at your paddle', 'flame', S.set.bossHazards !== false) +
+        swRow('enableTimer', 'Enable Mission & Stage Timer', 'Show countdown timer in Missions, Brick Break Maze, Random & Daily modes', 'timer', !!S.set.enableTimer) +
         swRow('trapDrops', 'Hazard Trap Capsules', 'Allow Overdrive & Shrink red trap drops in later worlds', 'alert', S.set.trapDrops !== false) +
         swRow('autoPauseBlur', 'Auto-Pause on Tab Switch', 'Automatically pause game when window loses focus', 'pause', S.set.autoPauseBlur !== false) +
         '</div>' +
@@ -7327,19 +8839,149 @@
       }
       wrap.innerHTML = html;
     }
+    function openMegaBrickPicker() {
+      ensureMegaMissions();
+      const sel = S.set.megaDiff || 'easy';
+      const curArch = S.set.megaArch || 'auto';
+      if (!UI.megaPreviewSeed) UI.megaPreviewSeed = cryptoRand32();
+      const prevLvl = genMegaBrickLevel(sel, { seed: UI.megaPreviewSeed, arch: curArch });
+
+      let triggers = 0, steels = 0, armors = 0;
+      for (const b of prevLvl.bricks) {
+        if (b.code === 9 || b.code === 10) triggers++;
+        else if (b.code === 5) steels++;
+        else if (b.code === 2 || b.code === 3) armors++;
+      }
+      const orbCnt = (prevLvl.orbs || []).length;
+
+      const opts = ['easy', 'medium', 'hard', 'hardest'].map(id => {
+        const t = MEGA_TIERS[id];
+        return '<button class="rand-opt' + (sel === id ? ' active' : '') + '" style="--rc:' + t.color + '" data-action="pick-mega-diff" data-arg="' + id + '">' +
+          '<div class="ro-head"><b>' + t.label + '</b><span style="color:' + t.color + '">' + icon(t.icon) + '</span></div>' +
+          '<p>' + t.desc + '</p></button>';
+      }).join('');
+
+      const archChips = MEGA_ARCHETYPES.map(a =>
+        '<button class="arch-chip' + (curArch === a.id ? ' active' : '') + '" data-action="pick-mega-arch" data-arg="' + a.id + '" title="' + a.desc + '">' +
+        '<span>' + a.icon + '</span><span>' + a.name + '</span></button>'
+      ).join('');
+
+      const sortedMissions = [...S.megaMissions].sort((a, b) => (a.tier === sel ? -1 : b.tier === sel ? 1 : 0));
+      const missionCards = sortedMissions.map(m => {
+        const tc = MEGA_TIERS[m.tier]?.color || '#34D399';
+        const isSel = m.tier === sel;
+        return '<div class="um-card' + (isSel ? ' focus' : '') + '" style="--rc:' + tc + '">' +
+          '<canvas class="um-prev" data-mm-id="' + m.id + '" width="132" height="92"></canvas>' +
+          '<div class="um-info"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:2px">' +
+          '<span class="pill" style="color:' + tc + ';border-color:' + tc + ';padding:1px 7px;font-size:9.5px">' + (MEGA_TIERS[m.tier]?.label || m.tier).toUpperCase() + '</span>' +
+          '<span class="pill" style="color:' + m.modCol + ';border-color:' + m.modCol + ';padding:1px 7px;font-size:9.5px">' + m.archName + '</span></div>' +
+          '<b>' + m.archIcon + ' ' + m.title + '</b>' +
+          '<p>' + m.bonusDesc + '</p>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:4px">' +
+          '<span style="font-size:10.5px;font-weight:800;color:var(--gold-text)">💰 +' + m.rewardCoins + ' · ⚡ +' + m.rewardXp + ' XP</span>' +
+          '<button class="btn btn-cyan btn-sm" style="min-height:30px;padding:4px 10px;font-size:11.5px" data-action="play-megamission" data-arg="' + m.id + '">' + icon('play') + ' Mission</button></div></div></div>';
+      }).join('');
+
+      openSheet('<div class="grabber"></div><div class="sheet-head" style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><div class="sheet-kicker" style="color:#4ADE80">VIRAL ANDROID BRICK BREAK · TUNNEL &amp; SWARM MISSIONS</div><h2 class="sheet-title">Brick Break Maze Missions</h2></div><button class="btn ' + (S.set.enableTimer ? 'btn-cyan' : 'btn-ghost') + ' btn-sm" data-action="toggle-timer">' + icon('timer') + ' Timer: ' + (S.set.enableTimer ? 'ON' : 'OFF') + '</button></div>' +
+        '<div class="rand-grid">' + opts + '</div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px"><span style="font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:var(--faint)">TUNNEL &amp; MEGA-GRID SETUP (13 LAYOUT STYLES)</span><span style="font-size:10.5px;color:#4ADE80;font-weight:700">' + (MEGA_ARCHETYPES.find(a => a.id === curArch)?.desc || '') + '</span></div>' +
+        '<div class="arch-row">' + archChips + '</div>' +
+        '<div class="rand-prev-card">' +
+        '<canvas class="rand-prev-cv" id="megaPrevCv" width="184" height="124"></canvas>' +
+        '<div style="flex:1;min-width:0">' +
+        '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px">' +
+        '<span class="pill" style="color:#4ADE80;border-color:#4ADE80;padding:2px 8px;font-size:9.5px">' + (MEGA_TIERS[sel]?.startBalls || 1) + ' Start Ball(s)</span>' +
+        '<span style="font-size:10.5px;color:var(--muted);font-weight:700">Seed #' + prevLvl.seedTag + '</span></div>' +
+        '<b style="font-size:13.5px;display:block;margin-bottom:3px">' + prevLvl.archIcon + ' ' + prevLvl.archName + ' (' + prevLvl.breakable + ' Bricks)</b>' +
+        '<div style="font-size:11px;color:var(--muted);margin-bottom:7px">🔵 ' + orbCnt + ' Orbs (×3/+3) · 🟨 ' + triggers + ' Breach Triggers · 🧱 ' + steels + ' Walls' + (armors ? ' · 🛡️ ' + armors + ' Armor' : '') + '</div>' +
+        '<button class="btn btn-ghost btn-sm" style="min-height:30px;padding:5px 10px;font-size:11.5px" data-action="reroll-mega">' + icon('shuffle') + ' Reroll Maze Preview</button>' +
+        '</div></div>' +
+        '<div class="sheet-btns" style="margin-bottom:14px"><button class="btn btn-primary" data-action="start-megabrick">' + icon('play') + ' Play ' + (MEGA_TIERS[sel]?.label || 'Easy') + ' Brick Break Maze (' + prevLvl.archName + ')</button></div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div><span style="font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:var(--faint)">UNLIMITED BRICK BREAK MISSIONS (DONE: ' + fmt(S.stats.missionsDone || 0) + ')</span></div>' +
+        '<button class="btn btn-ghost btn-sm" style="min-height:28px;padding:4px 9px;font-size:11px" data-action="reroll-megamissions">' + icon('shuffle') + ' New Missions</button></div>' +
+        '<div class="um-list">' + missionCards + '</div>' +
+        '<div class="sheet-btns"><button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Close</button></div>', 'mega-picker', 'close-sheet');
+
+      setTimeout(() => {
+        drawLevelObjPreview($('#megaPrevCv'), prevLvl);
+        $$('[data-mm-id]').forEach(cvEl => {
+          const m = (S.megaMissions || []).find(x => x.id === cvEl.dataset.mmId);
+          if (m) drawLevelObjPreview(cvEl, genMegaBrickLevel(m.tier, { seed: m.seed, arch: m.arch, mod: m.mod }));
+        });
+      }, 15);
+    }
     function openRandomPicker() {
+      ensureUnlimitedMissions();
       const sel = S.set.randomDiff || 'medium';
+      const curArch = S.set.randomArch || 'auto';
+      if (!UI.randPreviewSeed) UI.randPreviewSeed = cryptoRand32();
+      const prevLvl = genRandomLevel(sel, { seed: UI.randPreviewSeed, arch: curArch });
+      UI.lastPreviewLvl = prevLvl;
+
+      let bombs = 0, golds = 0, gifts = 0, armors = 0, cores = 0;
+      for (const b of prevLvl.bricks) {
+        if (b.code === 4) bombs++;
+        else if (b.code === 6) golds++;
+        else if (b.code === 7) gifts++;
+        else if (b.code === 2 || b.code === 3) armors++;
+        else if (b.code === 8) cores++;
+      }
+
       const opts = ['easy', 'medium', 'hard', 'hardest'].map(id => {
         const t = RANDOM_TIERS[id];
         return '<button class="rand-opt' + (sel === id ? ' active' : '') + '" style="--rc:' + t.color + '" data-action="pick-random" data-arg="' + id + '">' +
           '<div class="ro-head"><b>' + t.label + '</b><span style="color:' + t.color + '">' + icon(t.icon) + '</span></div>' +
           '<p>' + t.desc + '</p></button>';
       }).join('');
-      openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--cyan)">INFINITE PROCEDURAL ARENA</div><h2 class="sheet-title">Random Gameplay</h2></div>' +
-        '<p style="font-size:12px;color:var(--muted);margin-bottom:12px">Every play, replay, or reload generates a brand-new unique brick layout, topology, stagger, and motion pattern.</p>' +
+
+      const archChips = RANDOM_ARCHETYPES.map(a =>
+        '<button class="arch-chip' + (curArch === a.id ? ' active' : '') + '" data-action="pick-arch" data-arg="' + a.id + '" title="' + a.desc + '">' +
+        '<span>' + a.icon + '</span><span>' + a.name + '</span></button>'
+      ).join('');
+
+      const sortedMissions = [...S.uMissions].sort((a, b) => (a.tier === sel ? -1 : b.tier === sel ? 1 : 0));
+      const missionCards = sortedMissions.map(m => {
+        const tc = RANDOM_TIERS[m.tier]?.color || '#38BDF8';
+        const isSel = m.tier === sel;
+        return '<div class="um-card' + (isSel ? ' focus' : '') + '" style="--rc:' + tc + '">' +
+          '<canvas class="um-prev" data-um-id="' + m.id + '" width="132" height="88"></canvas>' +
+          '<div class="um-info"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:2px">' +
+          '<span class="pill" style="color:' + tc + ';border-color:' + tc + ';padding:1px 7px;font-size:9.5px">' + (RANDOM_TIERS[m.tier]?.label || m.tier).toUpperCase() + '</span>' +
+          '<span class="pill" style="color:' + m.modCol + ';border-color:' + m.modCol + ';padding:1px 7px;font-size:9.5px">' + m.modName + '</span></div>' +
+          '<b>' + m.archIcon + ' ' + m.title + '</b>' +
+          '<p>' + m.bonusDesc + '</p>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:4px">' +
+          '<span style="font-size:10.5px;font-weight:800;color:var(--gold-text)">💰 +' + m.rewardCoins + ' · ⚡ +' + m.rewardXp + ' XP</span>' +
+          '<button class="btn btn-cyan btn-sm" style="min-height:30px;padding:4px 10px;font-size:11.5px" data-action="play-umission" data-arg="' + m.id + '">' + icon('play') + ' Mission</button></div></div></div>';
+      }).join('');
+
+      openSheet('<div class="grabber"></div><div class="sheet-head" style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><div class="sheet-kicker" style="color:var(--cyan)">UNLIMITED LAYOUTS &amp; PROCEDURAL MISSIONS</div><h2 class="sheet-title">Random Arcade Studio</h2></div><button class="btn ' + (S.set.enableTimer ? 'btn-cyan' : 'btn-ghost') + ' btn-sm" data-action="toggle-timer">' + icon('timer') + ' Timer: ' + (S.set.enableTimer ? 'ON' : 'OFF') + '</button></div>' +
         '<div class="rand-grid">' + opts + '</div>' +
-        '<div class="sheet-btns"><button class="btn btn-primary" data-action="start-random">' + icon('shuffle') + ' Play Unique ' + (RANDOM_TIERS[sel]?.label || 'Medium') + ' Board</button>' +
-        '<button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Close</button></div>', 'random-picker', 'close-sheet');
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px"><span style="font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:var(--faint)">LAYOUT ARCHETYPE (15 ANDROID BRICK BREAKER SETUPS)</span><span style="font-size:10.5px;color:var(--cyan);font-weight:700">' + (RANDOM_ARCHETYPES.find(a => a.id === curArch)?.desc || '') + '</span></div>' +
+        '<div class="arch-row">' + archChips + '</div>' +
+        '<div class="rand-prev-card">' +
+        '<canvas class="rand-prev-cv" id="randPrevCv" width="176" height="114"></canvas>' +
+        '<div style="flex:1;min-width:0">' +
+        '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px">' +
+        '<span class="pill" style="color:' + prevLvl.modCol + ';border-color:' + prevLvl.modCol + ';padding:2px 8px;font-size:9.5px">' + prevLvl.modName + '</span>' +
+        '<span style="font-size:10.5px;color:var(--muted);font-weight:700">Seed #' + prevLvl.seedTag + '</span></div>' +
+        '<b style="font-size:13.5px;display:block;margin-bottom:3px">' + prevLvl.archIcon + ' ' + prevLvl.archName + ' (' + prevLvl.breakable + ' Bricks)</b>' +
+        '<div style="font-size:11px;color:var(--muted);margin-bottom:7px">🛡️ ' + armors + ' Armor · 💣 ' + bombs + ' Bombs · 💰 ' + golds + ' Gold · 🎁 ' + gifts + ' Gifts' + (cores ? ' · ★ ' + cores + ' Core' : '') + '</div>' +
+        '<button class="btn btn-ghost btn-sm" style="min-height:30px;padding:5px 10px;font-size:11.5px" data-action="reroll-random">' + icon('shuffle') + ' Reroll Layout Preview</button>' +
+        '</div></div>' +
+        '<div class="sheet-btns" style="margin-bottom:14px"><button class="btn btn-primary" data-action="start-random">' + icon('play') + ' Play Generated ' + (RANDOM_TIERS[sel]?.label || 'Medium') + ' Board (' + prevLvl.archName + ')</button></div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div><span style="font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:var(--faint)">UNLIMITED MISSION CONTRACTS (DONE: ' + fmt(S.stats.missionsDone || 0) + ')</span></div>' +
+        '<button class="btn btn-ghost btn-sm" style="min-height:28px;padding:4px 9px;font-size:11px" data-action="reroll-umissions">' + icon('shuffle') + ' New Missions</button></div>' +
+        '<div class="um-list">' + missionCards + '</div>' +
+        '<div class="sheet-btns"><button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Close</button></div>', 'random-picker', 'close-sheet');
+
+      setTimeout(() => {
+        drawLevelObjPreview($('#randPrevCv'), prevLvl);
+        $$('.um-prev').forEach(cvEl => {
+          const m = (S.uMissions || []).find(x => x.id === cvEl.dataset.umId);
+          if (m) drawLevelObjPreview(cvEl, genRandomLevel(m.tier, { seed: m.seed, arch: m.arch, mod: m.mod }));
+        });
+      }, 15);
     }
     function openLevelEditor() {
       ensureEditorData();
@@ -7406,15 +9048,79 @@
       'start-timed'() { unlockAudio(); sfx.click(); haptic(8); startGame('timed', 0) },
       'start-daily'() { unlockAudio(); sfx.click(); haptic(8); startGame('daily', 0) },
       'start-bossrush'() { unlockAudio(); sfx.click(); haptic(8); startGame('bossrush', 0) },
-      'open-random'() { unlockAudio(); sfx.click(); openRandomPicker() },
+      'toggle-timer'() {
+        S.set.enableTimer = !S.set.enableTimer;
+        saveNow(); sfx.click(); haptic(5);
+        toast('Countdown Timer ' + (S.set.enableTimer ? 'ENABLED' : 'DISABLED'), 'timer', S.set.enableTimer ? 'info' : 'good');
+        if (UI.sheet === 'mega-picker') openMegaBrickPicker();
+        else if (UI.sheet === 'random-picker') openRandomPicker();
+      },
+      'open-megabrick'() { unlockAudio(); sfx.click(); UI.megaPreviewSeed = cryptoRand32(); openMegaBrickPicker() },
+      'pick-mega-diff'(arg) {
+        if (!MEGA_TIERS[arg]) return;
+        S.set.megaDiff = arg; UI.megaPreviewSeed = cryptoRand32(); saveNow(); sfx.click(); haptic(5); openMegaBrickPicker();
+      },
+      'pick-mega-arch'(arg) {
+        if (!MEGA_ARCHETYPES.some(a => a.id === arg)) return;
+        S.set.megaArch = arg; UI.megaPreviewSeed = cryptoRand32(); saveNow(); sfx.click(); haptic(5); openMegaBrickPicker();
+      },
+      'reroll-mega'() {
+        UI.megaPreviewSeed = cryptoRand32(); sfx.click(); haptic(5); openMegaBrickPicker();
+      },
+      'reroll-megamissions'() {
+        rerollMegaMissions();
+        sfx.click(); haptic(6); toast('Generated 4 new Brick Break Maze missions!', 'shuffle', 'info');
+        if (UI.sheet === 'mega-picker') openMegaBrickPicker();
+      },
+      'play-megamission'(arg) {
+        ensureMegaMissions();
+        const m = S.megaMissions.find(x => x.id === arg) || S.megaMissions[0];
+        if (!m) return;
+        S.set.megaDiff = m.tier; saveNow();
+        unlockAudio(); sfx.click(); haptic(8);
+        startGame('megabrick', m.tier, { seed: m.seed, arch: m.arch, mod: m.mod, mission: m });
+      },
+      'start-megabrick'(arg) {
+        const tier = MEGA_TIERS[arg] ? arg : (S.set.megaDiff || 'easy');
+        S.set.megaDiff = tier; saveNow();
+        const seedToUse = UI.megaPreviewSeed || cryptoRand32();
+        UI.megaPreviewSeed = null;
+        unlockAudio(); sfx.click(); haptic(8);
+        startGame('megabrick', tier, { seed: seedToUse, arch: S.set.megaArch || 'auto' });
+      },
+      'open-random'() { unlockAudio(); sfx.click(); UI.randPreviewSeed = cryptoRand32(); openRandomPicker() },
       'pick-random'(arg) {
         if (!RANDOM_TIERS[arg]) return;
-        S.set.randomDiff = arg; saveNow(); sfx.click(); haptic(5); openRandomPicker();
+        S.set.randomDiff = arg; UI.randPreviewSeed = cryptoRand32(); saveNow(); sfx.click(); haptic(5); openRandomPicker();
+      },
+      'pick-arch'(arg) {
+        if (!RANDOM_ARCHETYPES.some(a => a.id === arg)) return;
+        S.set.randomArch = arg; UI.randPreviewSeed = cryptoRand32(); saveNow(); sfx.click(); haptic(5); openRandomPicker();
+      },
+      'reroll-random'() {
+        UI.randPreviewSeed = cryptoRand32(); sfx.click(); haptic(5); openRandomPicker();
+      },
+      'reroll-umissions'() {
+        rerollUnlimitedMissions();
+        sfx.click(); haptic(6); toast('Generated 4 new procedural mission contracts!', 'shuffle', 'info');
+        if (UI.sheet === 'random-picker') openRandomPicker();
+        else if (UI.screen === 'awards') renderAwards();
+      },
+      'play-umission'(arg) {
+        ensureUnlimitedMissions();
+        const m = S.uMissions.find(x => x.id === arg) || S.uMissions[0];
+        if (!m) return;
+        S.set.randomDiff = m.tier; saveNow();
+        unlockAudio(); sfx.click(); haptic(8);
+        startGame('random', m.tier, { seed: m.seed, arch: m.arch, mod: m.mod, mission: m });
       },
       'start-random'(arg) {
         const tier = RANDOM_TIERS[arg] ? arg : (S.set.randomDiff || 'medium');
         S.set.randomDiff = tier; saveNow();
-        unlockAudio(); sfx.click(); haptic(8); startGame('random', tier);
+        const seedToUse = UI.randPreviewSeed || cryptoRand32();
+        UI.randPreviewSeed = null;
+        unlockAudio(); sfx.click(); haptic(8);
+        startGame('random', tier, { seed: seedToUse, arch: S.set.randomArch || 'auto' });
       },
       'lucky-wheel'() { unlockAudio(); sfx.click(); openLuckyWheel() },
       'spin-wheel'() { unlockAudio(); spinLuckyWheel() },
@@ -7526,7 +9232,17 @@
         if (!G) return;
         if (G.mode === 'daily') quitGame('home');
         else if (G.mode === 'custom') { quitGame('home'); openLevelEditor() }
-        else if (G.mode === 'random') startGame('random', G.randomTier || S.set.randomDiff || 'medium');
+        else if (G.mode === 'random' || G.mode === 'megabrick') {
+          const isMega = G.mode === 'megabrick';
+          if (G.mission && G.nextMission) {
+            const nm = G.nextMission;
+            startGame(G.mode, nm.tier, { seed: nm.seed, arch: nm.arch, mod: nm.mod, mission: nm });
+          } else {
+            const defTier = isMega ? (S.set.megaDiff || 'easy') : (S.set.randomDiff || 'medium');
+            const defArch = isMega ? (S.set.megaArch || 'auto') : (S.set.randomArch || 'auto');
+            startGame(G.mode, G.randomTier || defTier, { arch: G.randomArch || defArch, seed: cryptoRand32() });
+          }
+        }
         else startGame('campaign', G.idx + 1);
       },
       'continue-run'() {
@@ -7737,6 +9453,7 @@
       S.stats.bossRushStage = Math.max(S.stats.bossRushStage || 0, 50);
       S.stats.randomBest = Math.max(S.stats.randomBest || 0, 380000);
       S.stats.randomClears = Math.max(S.stats.randomClears || 0, 200);
+      S.stats.missionsDone = Math.max(S.stats.missionsDone || 0, 250);
       S.stats.bossesDefeated = Math.max(S.stats.bossesDefeated || 0, 200);
       S.stats.perfectClears = Math.max(S.stats.perfectClears || 0, 1200);
       S.stats.gamesPlayed = Math.max(S.stats.gamesPlayed || 0, 650);
@@ -7812,7 +9529,15 @@
     document.addEventListener('change', e => {
       const el = e.target.closest('[data-set]'); if (!el || el.type !== 'checkbox') return;
       const k = el.dataset.set; S.set[k] = el.checked; saveNow(); applyAudioSet(); applyDisplaySet();
-      if (G) { if (k === 'fx') resize(); if (k === 'showBoostBar') renderBoostBar() }
+      if (G) {
+        if (k === 'fx') resize();
+        if (k === 'showBoostBar') renderBoostBar();
+        if (k === 'enableTimer') {
+          if (!el.checked && G.mode !== 'timed') G.timeLeft = 0;
+          else if (el.checked && G.timeLeft <= 0) G.timeLeft = 135;
+          syncHUD(true);
+        }
+      }
       sfx.click(); haptic(5);
     });
     document.addEventListener('input', e => {
