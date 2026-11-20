@@ -7111,16 +7111,25 @@
       }
       if (G && G.bricks === stageRef) processBlasts();
     }
+    const MAX_SWARM_BALLS = 400;
+    function pushSwarmBall(nb) {
+      if (!G) return;
+      if (G.balls.length >= MAX_SWARM_BALLS) {
+        const idx = G.balls.findIndex(b => !b.sticky);
+        if (idx >= 0) G.balls.splice(idx, 1);
+        else G.balls.shift();
+      }
+      G.balls.push(nb);
+    }
     function spawnSwarmBalls(x, y, count) {
       if (!G) return 0;
-      const cap = G.mode === 'megabrick' ? 42 : 12;
       const spd = ballSpeed(), br = activeBallRadius();
       let added = 0;
-      for (let i = 0; i < count && G.balls.length < cap; i++) {
+      for (let i = 0; i < count; i++) {
         const ang = (i / Math.max(1, count)) * Math.PI * 2 + (R() - 0.5) * 0.35;
         const nb = { x, y, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd, r: br, sticky: false, off: 0, trail: [], noBrickHits: 0 };
         antiFlat(nb);
-        G.balls.push(nb);
+        pushSwarmBall(nb);
         added++;
       }
       return added;
@@ -7164,32 +7173,51 @@
         banner('⚡ POCKET WALLS BREACHED!', '#34D399', .4);
       }
     }
+    function multiplyActiveBalls(factor, fallbackX, fallbackY) {
+      if (!G) return 0;
+      const cur = G.balls.filter(b => !b.sticky);
+      const src = (cur.length ? cur : G.balls).slice();
+      const angles = factor >= 3 ? [-0.38, 0.38] : [0.34];
+      const spd = ballSpeed(), br = activeBallRadius();
+      let added = 0;
+      if (G.balls.length >= MAX_SWARM_BALLS) {
+        // Even at max swarm capacity, erupt a fresh visible burst wave so multipliers always feel powerful
+        return spawnSwarmBalls(fallbackX ?? G.paddle.x, fallbackY ?? (G.paddle.y - 16), factor >= 3 ? 18 : 12);
+      }
+      for (const b of src) {
+        for (const a of angles) {
+          let vx = b.vx, vy = b.vy;
+          if (b.sticky || (vx === 0 && vy === 0)) {
+            vx = Math.sin(a) * spd; vy = -Math.cos(a) * spd;
+          } else {
+            const ca = Math.cos(a), sa = Math.sin(a);
+            const nx = vx * ca - vy * sa, ny = vx * sa + vy * ca;
+            vx = nx; vy = ny;
+          }
+          const nb = { x: b.x, y: b.y, vx, vy, r: br, sticky: false, off: 0, trail: [], noBrickHits: 0 };
+          antiFlat(nb);
+          pushSwarmBall(nb);
+          added++;
+          if (G.balls.length >= MAX_SWARM_BALLS && added >= 24) return added;
+        }
+      }
+      return added;
+    }
     function triggerArenaOrb(ob) {
       if (!G || !ob || !ob.alive) return;
       ob.alive = false;
-      const cap = G.mode === 'megabrick' ? 42 : 12;
-      const activeCount = Math.max(1, G.balls.filter(b => !b.sticky).length);
-      let toSpawn = 3;
-      if (ob.type === 'mul2') toSpawn = clamp(activeCount, 2, 10);
-      else if (ob.type === 'mul3') toSpawn = clamp(activeCount * 2, 4, 15);
-      else if (ob.type === 'add5') toSpawn = 5;
-      const got = spawnSwarmBalls(ob.x, ob.y, Math.min(toSpawn, cap - G.balls.length));
+      let got = 0;
+      if (ob.type === 'mul2') got = multiplyActiveBalls(2, ob.x, ob.y);
+      else if (ob.type === 'mul3') got = multiplyActiveBalls(3, ob.x, ob.y);
+      else if (ob.type === 'add5') got = spawnSwarmBalls(ob.x, ob.y, 5);
+      else got = spawnSwarmBalls(ob.x, ob.y, 3);
       sfx.power(); haptic(10); chargeNova(8);
       pushPart({ type: 'ring', x: ob.x, y: ob.y, t: 0, life: 0.32, size: 6, grow: 140, color: ob.color });
-      if (got > 0) pushText(ob.label + ' BALLS!', ob.x, ob.y - 6, ob.color, 13);
+      if (got > 0) pushText(ob.label + ' (+' + got + ' BALLS!)', ob.x, ob.y - 6, ob.color, 13);
     }
     function splitBalls() {
-      const cap = (G && G.mode === 'megabrick') ? 42 : 7;
-      const cur = G.balls.filter(b => !b.sticky), src = cur.length ? cur : G.balls;
-      for (const b of src) {
-        for (const a of [-.42, .42]) {
-          if (G.balls.length >= cap) return;
-          let vx = b.vx, vy = b.vy;
-          if (b.sticky) { vx = Math.sin(a) * ballSpeed(); vy = -Math.cos(a) * ballSpeed() }
-          else { const ca = Math.cos(a), sa = Math.sin(a); const nx = vx * ca - vy * sa, ny = vx * sa + vy * ca; vx = nx; vy = ny }
-          G.balls.push({ x: b.x, y: b.y, vx, vy, r: activeBallRadius(), sticky: false, off: 0, trail: [], noBrickHits: 0 });
-        }
-      }
+      if (!G) return;
+      multiplyActiveBalls(3, G.paddle.x, G.paddle.y - 18);
     }
     function applyPower(id, fromBooster) {
       const p = POWERS[id]; if (!p) return;
@@ -7699,18 +7727,30 @@
     }
     function updateBalls(dt) {
       const p = G.paddle, pw = p.w, px = p.x, py = p.y;
+      const ballCnt = G.balls.length;
+      const stepDiv = ballCnt > 140 ? 15 : ballCnt > 60 ? 10 : 6;
+      const aliveBricks = [];
+      let maxBrickY = 0;
+      for (const br of G.bricks) {
+        if (br.alive) {
+          aliveBricks.push(br);
+          const bot = br.y + (br.h || BH);
+          if (bot > maxBrickY) maxBrickY = bot;
+        }
+      }
       for (let i = G.balls.length - 1; i >= 0; i--) {
         const b = G.balls[i];
+        if (!b) continue;
         if (b.sticky) { b.x = clamp(px + b.off, b.r + 2, VW - b.r - 2); b.y = py - b.r - 1; b.trail.length = 0; continue }
         const spd = ballSpeed(), m = Math.hypot(b.vx, b.vy) || 1;
         b.vx = b.vx / m * spd; b.vy = b.vy / m * spd;
-        const steps = Math.max(1, Math.ceil(spd * dt / 6)), sdt = dt / steps;
+        const steps = Math.max(1, Math.ceil(spd * dt / stepDiv)), sdt = dt / steps;
         let removed = false;
         for (let s = 0; s < steps; s++) {
           b.x += b.vx * sdt; b.y += b.vy * sdt;
-          if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx); b.noBrickHits = (b.noBrickHits || 0) + 1; sfx.wall(); wallFX(b) }
-          else if (b.x > VW - b.r) { b.x = VW - b.r; b.vx = -Math.abs(b.vx); b.noBrickHits = (b.noBrickHits || 0) + 1; sfx.wall(); wallFX(b) }
-          if (b.y < topWall + b.r) { b.y = topWall + b.r; b.vy = Math.abs(b.vy); b.noBrickHits = (b.noBrickHits || 0) + 1; sfx.wall(); wallFX(b) }
+          if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx); b.noBrickHits = (b.noBrickHits || 0) + 1; if (ballCnt <= 20) { sfx.wall(); wallFX(b); } }
+          else if (b.x > VW - b.r) { b.x = VW - b.r; b.vx = -Math.abs(b.vx); b.noBrickHits = (b.noBrickHits || 0) + 1; if (ballCnt <= 20) { sfx.wall(); wallFX(b); } }
+          if (b.y < topWall + b.r) { b.y = topWall + b.r; b.vy = Math.abs(b.vy); b.noBrickHits = (b.noBrickHits || 0) + 1; if (ballCnt <= 20) { sfx.wall(); wallFX(b); } }
           if (G.drone && Math.abs(b.x - G.drone.x) <= G.drone.w / 2 + b.r && Math.abs(b.y - G.drone.y) <= G.drone.h / 2 + b.r) {
             hitDrone();
           }
@@ -7722,59 +7762,71 @@
             b.vx = Math.sin(ang) * spd; b.vy = -Math.cos(ang) * spd; b.y = py - b.r - .5;
             b.noBrickHits = 0;
             antiFlat(b);
-            if (G.combo > 0) { G.combo = 0; G.comboT = 0; G.mult = 1 }
-            p.pulse = 1; sfx.paddle(); paddleFX(b);
-            if (G.fx.magnet && S.set.autoCatchMagnet !== false) {
+            if (G.combo > 0 && ballCnt <= 3) { G.combo = 0; G.comboT = 0; G.mult = 1 }
+            p.pulse = 1;
+            if (G.t - (G.lastPopSfxT || 0) > 0.03) { G.lastPopSfxT = G.t; sfx.paddle(); }
+            if (ballCnt <= 18) paddleFX(b);
+            if (G.fx.magnet && S.set.autoCatchMagnet !== false && G.balls.filter(x => x.sticky).length < 6) {
               b.sticky = true; b.off = clamp(b.x - px, -pw / 2 + 8, pw / 2 - 8);
               G.autoLaunchT = S.set.autoLaunchDelay === '1s' ? 1.0 : S.set.autoLaunchDelay === '2s' ? 2.0 : 0;
             }
             continue;
           }
-          let bounced = false;
           if (G.orbs && G.orbs.length) {
             for (const ob of G.orbs) {
               if (!ob.alive) continue;
               if (Math.hypot(b.x - ob.x, b.y - ob.y) <= b.r + ob.r) triggerArenaOrb(ob);
             }
           }
-          for (const br of G.bricks) {
-            if (!br.alive) continue;
-            const bx = br.rx, by = br.y, bw = br.w || BW, bh = br.h || BH;
-            if (b.y + b.r < by || b.y - b.r > by + bh || b.x + b.r < bx || b.x - b.r > bx + bw) continue;
-            const nx = clamp(b.x, bx, bx + bw), ny = clamp(b.y, by, by + bh);
-            const dx = b.x - nx, dy = b.y - ny, d2 = dx * dx + dy * dy;
-            if (d2 > b.r * b.r) continue;
-            if (br.code !== 5) b.noBrickHits = 0; else b.noBrickHits = (b.noBrickHits || 0) + 1;
-            if (G.fx.fire && br.code !== 5 && !br.unbreakable) { hitBrick(br, 99, 'fire'); continue }
-            hitBrick(br, 1, 'ball');
-            if (d2 > 1e-6) {
-              const d = Math.sqrt(d2), ux = dx / d, uy = dy / d;
-              b.x = nx + ux * (b.r + .05); b.y = ny + uy * (b.r + .05);
-              const dot = b.vx * ux + b.vy * uy;
-              if (dot < 0) { b.vx -= 2 * dot * ux; b.vy -= 2 * dot * uy }
-            } else {
-              const l = b.x - bx, rgt = bx + bw - b.x, tp = b.y - by, bt = by + bh - b.y, mn = Math.min(l, rgt, tp, bt);
-              if (mn === l) { b.x = bx - b.r; b.vx = -Math.abs(b.vx) }
-              else if (mn === rgt) { b.x = bx + bw + b.r; b.vx = Math.abs(b.vx) }
-              else if (mn === tp) { b.y = by - b.r; b.vy = -Math.abs(b.vy) }
-              else { b.y = by + bh + b.r; b.vy = Math.abs(b.vy) }
+          let bounced = false;
+          if (b.y - b.r <= maxBrickY + 4) {
+            for (const br of aliveBricks) {
+              if (!br.alive) continue;
+              const bx = br.rx, by = br.y, bw = br.w || BW, bh = br.h || BH;
+              if (b.y + b.r < by || b.y - b.r > by + bh || b.x + b.r < bx || b.x - b.r > bx + bw) continue;
+              const nx = clamp(b.x, bx, bx + bw), ny = clamp(b.y, by, by + bh);
+              const dx = b.x - nx, dy = b.y - ny, d2 = dx * dx + dy * dy;
+              if (d2 > b.r * b.r) continue;
+              if (br.code !== 5) b.noBrickHits = 0; else b.noBrickHits = (b.noBrickHits || 0) + 1;
+              if (G.fx.fire && br.code !== 5 && !br.unbreakable) { hitBrick(br, 99, 'fire'); continue }
+              hitBrick(br, 1, 'ball');
+              if (d2 > 1e-6) {
+                const d = Math.sqrt(d2), ux = dx / d, uy = dy / d;
+                b.x = nx + ux * (b.r + .05); b.y = ny + uy * (b.r + .05);
+                const dot = b.vx * ux + b.vy * uy;
+                if (dot < 0) { b.vx -= 2 * dot * ux; b.vy -= 2 * dot * uy }
+              } else {
+                const l = b.x - bx, rgt = bx + bw - b.x, tp = b.y - by, bt = by + bh - b.y, mn = Math.min(l, rgt, tp, bt);
+                if (mn === l) { b.x = bx - b.r; b.vx = -Math.abs(b.vx) }
+                else if (mn === rgt) { b.x = bx + bw + b.r; b.vx = Math.abs(b.vx) }
+                else if (mn === tp) { b.y = by - b.r; b.vy = -Math.abs(b.vy) }
+                else { b.y = by + bh + b.r; b.vy = Math.abs(b.vy) }
+              }
+              bounced = true; break;
             }
-            bounced = true; break;
           }
           processBlasts();
           if ((b.noBrickHits || 0) > 14) {
+            b.vx += (R() - 0.5) * 55;
             b.vy += (b.vy >= 0 ? 1 : -1) * 55;
             b.noBrickHits = 0;
             antiFlat(b);
           } else if (bounced) {
             antiFlat(b);
           }
-          if (b.y - b.r > Math.min(VH + 10, py + PH + 58)) { G.balls.splice(i, 1); removed = true; ballBurst(b); break }
+          if (b.y - b.r > Math.min(VH + 10, py + PH + 58)) {
+            const idx = G.balls.indexOf(b);
+            if (idx >= 0) G.balls.splice(idx, 1);
+            removed = true;
+            if (ballCnt <= 20) ballBurst(b);
+            break;
+          }
           if (G.state !== 'play') break;
         }
         if (removed) continue;
-        const maxTrail = S.set.trailLength === 'short' ? 6 : S.set.trailLength === 'long' ? 16 : S.set.trailLength === 'ultra' ? 24 : 10;
-        if (S.set.trail) { b.trail.push({ x: b.x, y: b.y }); while (b.trail.length > maxTrail) b.trail.shift() }
+        const baseTrail = S.set.trailLength === 'short' ? 6 : S.set.trailLength === 'long' ? 16 : S.set.trailLength === 'ultra' ? 24 : 10;
+        const maxTrail = ballCnt > 90 ? 0 : ballCnt > 35 ? 3 : baseTrail;
+        if (S.set.trail && maxTrail > 0) { b.trail.push({ x: b.x, y: b.y }); while (b.trail.length > maxTrail) b.trail.shift() }
         else b.trail.length = 0;
         if (G.fx.fire && S.set.fx && R() < .35) pushPart({ type: 'ember', x: b.x, y: b.y, vx: (R() - .5) * 40, vy: (R() - .5) * 40, g: -60, t: 0, life: .28, size: 2.4, color: R() < .5 ? '#FF8A3D' : '#FFB020' });
       }
@@ -7970,7 +8022,16 @@
         }
       }
       const fire = !!G.fx.fire, curSk = skin(), isLightArena = currentTheme().light;
-      for (const b of G.balls) {
+      const fastSwarmRender = G.balls.length > 36;
+      for (let bi = 0; bi < G.balls.length; bi++) {
+        const b = G.balls[bi];
+        if (fastSwarmRender && bi >= 24) {
+          ctx.fillStyle = fire ? '#FF8A3D' : curSk.c[0];
+          ctx.beginPath(); ctx.arc(b.x, b.y, b.r * 0.94, 0, 7); ctx.fill();
+          ctx.fillStyle = '#FFFFFF';
+          ctx.beginPath(); ctx.arc(b.x - 1.2, b.y - 1.2, b.r * 0.42, 0, 7); ctx.fill();
+          continue;
+        }
         ctx.globalCompositeOperation = isLightArena ? 'source-over' : 'lighter';
         const tc = fire ? 'rgba(255,138,61,' : trailCol;
         for (let i = 0; i < b.trail.length; i++) {

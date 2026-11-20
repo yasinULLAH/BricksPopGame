@@ -70,7 +70,7 @@ if (workbox) {
     },
     {
         "url": "index.html",
-        "revision": "e06de8032aba76a08f5c7b6e019ca0a2"
+        "revision": "0a0e19349c041b92273709fd01e47f34"
     },
     {
         "url": "index.html.bak",
@@ -118,7 +118,7 @@ if (workbox) {
     },
     {
         "url": "sw.js",
-        "revision": "94d1053a4aa50ba141611b454cc8859b"
+        "revision": "09c03a8305d46023c82884a5c0d3e73d"
     }
 ]);
 
