@@ -9883,6 +9883,7 @@
         }
       }
     }
+    let hasTouch = false;
     function steerTo(rawX, isDrag, dragObj) {
       if (!G) return;
       const inv = S.set.invertControls ? -1 : 1;
@@ -9893,19 +9894,13 @@
         return;
       }
       const minX = G.paddle.w / 2 + 4, maxX = VW - G.paddle.w / 2 - 4;
-      if (mode === 'direct' || (dragObj && dragObj.type === 'mouse') || !isDrag) {
+      if (mode === 'direct' || !isDrag) {
         const target = S.set.invertControls ? (VW - rawX) : rawX;
         G.paddle.tx = clamp(target, minX, maxX);
       } else if (dragObj) {
         const mult = 1.15 * (S.set.sens ?? 1);
-        const dx = (rawX - dragObj.startX) * inv;
-        const unclamped = dragObj.paddleStart + dx * mult;
-        G.paddle.tx = clamp(unclamped, minX, maxX);
-        // Dynamic anchor clamping so reversing finger direction near a wall responds immediately with 0 dead-zone
-        if (unclamped !== G.paddle.tx) {
-          dragObj.startX = rawX;
-          dragObj.paddleStart = G.paddle.tx;
-        }
+        const dx = (dragObj.stepDx || 0) * inv;
+        G.paddle.tx = clamp(G.paddle.tx + dx * mult, minX, maxX);
       }
       if (S.set.paddleSmoothing !== 'weighted') {
         G.paddle.x = G.paddle.tx;
@@ -9915,34 +9910,31 @@
     function onDown(e) {
       unlockAudio();
       if (e.pointerType === 'mouse' && e.button !== 0) return;
+      if (e.pointerType !== 'mouse') hasTouch = true;
       if (!G || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
-      if (drag) return;
+      if (drag && drag.id !== e.pointerId) {
+        try { cv.releasePointerCapture(drag.id) } catch (err) { }
+      }
       const x = logicalX(e), y = logicalY(e);
-      const inThumbDeck = y >= G.paddle.y + PH - 6;
-      drag = { id: e.pointerId, startX: x, startY: y, lastX: x, paddleStart: G.paddle.x, moved: 0, t0: performance.now(), type: e.pointerType, inThumbDeck };
+      if ((S.set.controlMode || 'drag') === 'drag') {
+        G.paddle.tx = G.paddle.x;
+      }
+      drag = { id: e.pointerId, startX: x, startY: y, lastX: x, stepDx: 0, paddleStart: G.paddle.x, moved: 0, t0: performance.now(), type: e.pointerType };
       try { cv.setPointerCapture(e.pointerId) } catch (err) { }
-      if (e.pointerType === 'mouse' || S.set.controlMode === 'direct' || S.set.controlMode === 'tap') {
+      if (S.set.controlMode === 'direct' || S.set.controlMode === 'tap') {
         steerTo(x, true, drag);
-      } else if (inThumbDeck) {
-        // Touching the bottom thumb track away from the puck snaps the paddle above the thumb & tracks 1:1
-        const target = S.set.invertControls ? (VW - x) : x;
-        if (Math.abs(target - G.paddle.x) > G.paddle.w * 0.55) {
-          const minX = G.paddle.w / 2 + 4, maxX = VW - G.paddle.w / 2 - 4;
-          const nx = clamp(target, minX, maxX);
-          G.paddle.tx = nx;
-          if (S.set.paddleSmoothing !== 'weighted') { G.paddle.x = nx; syncStickyBalls(); }
-          drag.paddleStart = nx;
-          drag.startX = x;
-        }
       }
       e.preventDefault();
     }
     function onMove(e) {
+      if (e.pointerType !== 'mouse') hasTouch = true;
       if (!G || UI.screen !== 'game' || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
-      if (e.pointerType === 'mouse' && !drag && S.set.controlMode !== 'tap') { steerTo(logicalX(e), false, null); return }
+      if (e.pointerType === 'mouse' && !drag && !hasTouch && S.set.controlMode !== 'tap') { steerTo(logicalX(e), false, null); return }
       if (!drag || e.pointerId !== drag.id) return;
       const x = logicalX(e);
-      drag.moved += Math.abs(x - drag.lastX);
+      const stepDx = x - drag.lastX;
+      drag.moved += Math.abs(stepDx);
+      drag.stepDx = stepDx;
       drag.lastX = x;
       steerTo(x, true, drag);
       e.preventDefault();
@@ -9950,8 +9942,9 @@
     let lastTapTime = 0;
     function onUp(e) {
       if (!drag || e.pointerId !== drag.id) return;
+      try { cv.releasePointerCapture(e.pointerId) } catch (err) { }
       const now = performance.now();
-      const quick = now - drag.t0 < 420 && drag.moved < 14;
+      const quick = now - drag.t0 < 360 && drag.moved < 12;
       drag = null;
       if (S.set.controlMode === 'tap') { keys.l = false; keys.r = false }
       if (quick && G && !UI.sheet) {
@@ -9964,6 +9957,18 @@
         if (S.set.tapLaunch !== false && S.set.controlMode !== 'tap') launchBalls();
       }
     }
+    function onCancel(e) {
+      if (!drag || (e && e.pointerId !== undefined && e.pointerId !== drag.id)) return;
+      drag = null;
+      if (S.set.controlMode === 'tap') { keys.l = false; keys.r = false }
+    }
+    cv.addEventListener('touchstart', e => {
+      hasTouch = true;
+      if (G && !UI.sheet && (G.state === 'play' || G.state === 'ready')) e.preventDefault();
+    }, { passive: false });
+    cv.addEventListener('touchmove', e => {
+      if (G && !UI.sheet && (G.state === 'play' || G.state === 'ready')) e.preventDefault();
+    }, { passive: false });
     cv.addEventListener('wheel', e => {
       if (!G || UI.screen !== 'game' || UI.sheet || S.set.wheelControl === false) return;
       if (G.state !== 'play' && G.state !== 'ready') return;
@@ -9974,7 +9979,7 @@
     cv.addEventListener('pointerdown', onDown);
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', onUp);
-    window.addEventListener('pointercancel', resetInputs);
+    window.addEventListener('pointercancel', onCancel);
     cv.addEventListener('contextmenu', e => e.preventDefault());
     /* Bind On-Screen Touch Arcade Buttons */
     function bindTouchPadBtn(id, keyProp) {
