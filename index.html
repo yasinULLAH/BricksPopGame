@@ -4642,27 +4642,27 @@
     const MEGA_TIERS = {
       easy: {
         id: 'easy', label: 'Easy', color: '#34D399', icon: 'leaf',
-        lives: 4, speed: 285, paddle: 118, gapW: 5, armorP: 0.04, maxHp: 1,
-        orbs: 6, triggers: 3, startBalls: 3, coinBonus: 95, xpBonus: 125,
-        desc: 'Wide 6-tile tunnel entry · 3 start balls · relaxed speed · 6 orbs (×3/+3)'
+        lives: 4, speed: 285, paddle: 118, gapW: 5, armorP: 0.06, maxHp: 1,
+        orbs: 4, triggers: 2, startBalls: 1, coinBonus: 95, xpBonus: 125,
+        desc: 'Wide 6-tile entry · buried multiplier pockets · relaxed speed'
       },
       medium: {
         id: 'medium', label: 'Medium', color: '#38BDF8', icon: 'zap',
-        lives: 3, speed: 325, paddle: 102, gapW: 4, armorP: 0.16, maxHp: 2,
-        orbs: 5, triggers: 2, startBalls: 2, coinBonus: 150, xpBonus: 190,
-        desc: 'Wide 5-tile tunnel entry · 2 start balls · 5 multiplier orbs · light armor shell'
+        lives: 3, speed: 325, paddle: 102, gapW: 4, armorP: 0.18, maxHp: 2,
+        orbs: 4, triggers: 2, startBalls: 1, coinBonus: 150, xpBonus: 190,
+        desc: 'Wide 5-tile entry · deep buried multiplier orbs · light armor shell'
       },
       hard: {
         id: 'hard', label: 'Hard', color: '#FFB020', icon: 'flame',
-        lives: 3, speed: 365, paddle: 90, gapW: 4, armorP: 0.32, maxHp: 3,
-        orbs: 4, triggers: 2, startBalls: 1, coinBonus: 230, xpBonus: 280,
-        desc: '5-tile chimney entry · deep yellow/red pocket triggers · multi-hit armor'
+        lives: 3, speed: 365, paddle: 90, gapW: 4, armorP: 0.34, maxHp: 3,
+        orbs: 3, triggers: 2, startBalls: 1, coinBonus: 230, xpBonus: 280,
+        desc: '5-tile gated entry · deep yellow/red pocket triggers · multi-hit armor'
       },
       hardest: {
         id: 'hardest', label: 'Hardest', color: '#FF3D8A', icon: 'crown',
-        lives: 2, speed: 405, paddle: 82, gapW: 3, armorP: 0.48, maxHp: 4,
-        orbs: 4, triggers: 3, startBalls: 1, coinBonus: 350, xpBonus: 430,
-        desc: '4-tile entry funnel · fortified cavern walls & high-HP cores · max payout'
+        lives: 2, speed: 405, paddle: 82, gapW: 3, armorP: 0.50, maxHp: 4,
+        orbs: 3, triggers: 2, startBalls: 1, coinBonus: 350, xpBonus: 430,
+        desc: '4-tile gated entry · fortified inner vaults & high-HP cores · max payout'
       }
     };
     const MEGA_ARCHETYPES = [
@@ -5999,18 +5999,21 @@
             let code = 1, mhp = 1, col = rainbow[(c - r + shift + 14) % 7], unbreak = false, doorPlug = false;
             if (r === Rw - 1 && Math.abs(c - gateC) <= gSpan) {
               continue;
-            } else if (r === Rw - 2 && Math.abs(c - gateC) <= gSpan + 1) {
-              code = 9; col = '#FACC15'; mhp = 1; doorPlug = true;
+            } else if ((r === 2 || r === 3) && (c === 3 || c === 6 || c === 9)) {
+              if (r === 2 && c === 6) {
+                const ox = side + (c + 0.5) * (bw + gap), oy = topY + (r + 0.5) * (bh + gap);
+                orbs.push({ x: ox, y: oy, r: 8.5, type: 'mul2', label: '×2', color: '#2563EB', alive: true });
+                continue;
+              }
+              code = c === 6 ? 9 : 10; col = code === 9 ? '#FACC15' : '#FF2A55'; mhp = 1;
             } else if (isOuter1) {
               code = 5; mhp = 1; col = '#CBD5E1'; unbreak = true;
             } else if (isOuter2) {
-              code = 3;
-              mhp = cfg.maxHp + 1;
+              code = 2;
+              mhp = Math.max(2, cfg.maxHp);
               col = '#94A3B8';
             } else {
               mhp = rng() < cfg.armorP ? 2 : 1;
-              if (r === Math.floor(Rw / 2) && (c === 4 || c === 8)) { code = 10; col = '#FF2A55'; mhp = 1; }
-              else if (r === 3 && c === 6) { code = 9; col = '#FACC15'; mhp = 1; }
             }
             const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
             bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, customCol: col, code, mhp, hp: mhp, alive: true, unbreakable: unbreak, doorPlug, moveAmp: 0, moveSpd: 1, movePh: 0 });
@@ -6019,7 +6022,6 @@
         }
         entryX = side + (gateC + 0.5) * (bw + gap);
         entryY = topY + (Rw - 1) * (bh + gap);
-        orbs.push({ x: entryX, y: entryY + 18, r: 9, type: 'add3', label: '+3', color: '#FF8A2B', alive: true });
       }
       else if (archId === 'neonquest') {
         const C = 9, Rw = 8, side = 16, gap = 4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 28, topY = 16;
@@ -6034,20 +6036,18 @@
               bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, customCol: '#64748B', code: 5, mhp: 1, hp: 1, alive: true, unbreakable: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
               continue;
             }
-            const onPath1 = (r >= 4 && Math.abs(cc - (r + 1)) <= 1);
-            const onPath2 = (r >= 1 && r <= 5 && Math.abs(cc - (6 - r)) <= 1);
-            if (onPath1 || onPath2) {
-              if ((r + cc) % 2 === 0 && orbs.length < cfg.orbs + 2) {
-                const bx = side + c * (bw + gap) + bw / 2, by = topY + r * (bh + gap) + bh / 2;
-                const isMul = orbs.length % 2 === 1;
-                orbs.push({ x: bx, y: by, r: 10, type: isMul ? 'mul2' : 'add5', label: isMul ? '×2' : '+5', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
-              }
+            const isUpperPocket = (r >= 1 && r <= 3 && ((cc === 2 && r === 2) || (cc === 4 && r === 1) || (cc === 6 && r === 2)));
+            if (isUpperPocket) {
+              const bx = side + c * (bw + gap) + bw / 2, by = topY + r * (bh + gap) + bh / 2;
+              const isMul = cc === 4;
+              orbs.push({ x: bx, y: by, r: 9.5, type: isMul ? 'mul2' : 'add3', label: isMul ? '×2' : '+3', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
               continue;
             }
-            let code = 2, mhp = Math.max(2, Math.round(baseHp * (0.6 + ((r + c * 3) % 5) * 0.25)));
+            let code = 2, mhp = Math.max(2, Math.round(baseHp * (0.55 + ((r + c * 3) % 5) * 0.22)));
+            if (r >= Rw - 2) mhp = Math.max(1, Math.round(baseHp * 0.35));
             let col = rowCols[r % rowCols.length];
-            if (r === 1 && (cc === 4 || cc === 5)) { code = 9; col = '#FACC15'; mhp = 2; }
-            else if (r === 3 && cc === 1) { code = 10; col = '#FF2A55'; mhp = 2; }
+            if (r === 1 && (cc === 3 || cc === 5)) { code = 9; col = '#FACC15'; mhp = 2; }
+            else if (r === 2 && cc === 4) { code = 10; col = '#FF2A55'; mhp = 2; }
             const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
             bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, showHp: true, customCol: col, code, mhp, hp: mhp, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
             breakable++;
@@ -6084,21 +6084,24 @@
           entryY = topY + (Rw - 1) * (bh + gap);
         };
 
-        const placeOrbAt = (c, r, type) => {
-          const bx = side + (c + 0.5) * (bw + gap), by = topY + (r + 0.5) * (bh + gap);
+        const placeBuriedOrb = (c, r, type) => {
+          const rc = clamp(Math.round(c), 3, C - 4);
+          const rr0 = clamp(Math.round(r), 2, Rw - 7);
+          for (let dr = 0; dr <= 1; dr++) {
+            for (let dc = 0; dc <= 1; dc++) {
+              if (grid[rr0 + dr] && grid[rr0 + dr][rc + dc] !== 5) grid[rr0 + dr][rc + dc] = 0;
+            }
+          }
+          const bx = side + (rc + 1) * (bw + gap) - gap * 0.5, by = topY + (rr0 + 1) * (bh + gap) - gap * 0.5;
           const isMul = type === 'mul3' || type === 'mul2';
-          orbs.push({ x: bx, y: by, r: 8.5, type, label: type === 'mul3' ? '×3' : type === 'mul2' ? '×2' : '+3', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
+          orbs.push({ x: bx, y: by, r: 8.2, type, label: type === 'mul3' ? '×3' : type === 'mul2' ? '×2' : '+3', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
         };
 
         if (archId === 'multi_rows') {
           const numRows = cfg.id === 'easy' ? 2 : cfg.id === 'medium' ? 3 : 4;
           const gCenter = Math.floor((C - gapW) / 2);
           sealOuterBox(gCenter, gapW);
-          for (let g = -1; g <= gapW; g++) {
-            const gc = clamp(gCenter + g, 2, C - 3);
-            grid[Rw - 2][gc] = 0;
-          }
-          const shelfRows = numRows === 2 ? [Rw - 1, 12] : numRows === 3 ? [Rw - 1, 16, 8] : [Rw - 1, 17, 12, 6];
+          const shelfRows = numRows === 2 ? [Rw - 1, 11] : numRows === 3 ? [Rw - 1, 14, 7] : [Rw - 1, 15, 10, 5];
           shelfRows.forEach((sr, idx) => {
             if (sr === Rw - 1) return;
             const dW = Math.max(4, gapW);
@@ -6106,36 +6109,42 @@
             const g2 = Math.floor((C - dW) / 2);
             for (let c = 1; c < C - 1; c++) {
               if ((c >= g1 && c < g1 + dW) || (c >= g2 && c < g2 + dW)) {
-                grid[sr][c] = idx % 2 === 0 ? 9 : 10;
+                grid[sr][c] = 2;
+                colMap[sr][c] = '#FACC15';
                 doorMap[sr][c] = true;
               } else {
                 grid[sr][c] = 5;
               }
             }
-            placeOrbAt(g1 + dW * 0.5, sr + 1.5, idx % 2 === 0 ? 'add3' : 'mul3');
+            if (sr - 2 >= 2) {
+              placeBuriedOrb(g1 + 1, sr - 3, idx % 2 === 0 ? 'add3' : 'mul2');
+            }
           });
-          placeOrbAt(12, Rw - 2, 'add3');
         } else if (archId === 'chimney') {
           const chW = Math.max(5, gapW);
           const gateC = clamp(8 + ((rng() * 5) | 0), 4, C - 4 - chW);
           sealOuterBox(gateC, chW);
-          const topR = 9;
+          const topR = 8;
           for (let r = Rw - 2; r >= topR; r--) {
             if (gateC - 1 >= 1) grid[r][gateC - 1] = 5;
             if (gateC + chW <= C - 2) grid[r][gateC + chW] = 5;
-            for (let w = 0; w < chW; w++) grid[r][gateC + w] = 0;
-            if (r === topR + 2 || r === topR + 6) {
+            const isPlugRow = (r >= Rw - 4 && r <= Rw - 2) || (r >= topR + 1 && r <= topR + 2);
+            for (let w = 0; w < chW; w++) {
+              grid[r][gateC + w] = isPlugRow ? 1 : 0;
+              if (isPlugRow) colMap[r][gateC + w] = '#F59E0B';
+            }
+            if (r === topR + 1) {
               if (gateC - 1 >= 2) { grid[r][gateC - 1] = 10; doorMap[r][gateC - 1] = true; }
               if (gateC + chW <= C - 3) { grid[r][gateC + chW] = 10; doorMap[r][gateC + chW] = true; }
             }
           }
           for (let c = Math.max(2, gateC - 1); c <= Math.min(C - 3, gateC + chW); c++) {
-            grid[topR - 1][c] = (c === gateC || c === gateC + chW - 1) ? 10 : 9;
+            grid[topR - 1][c] = (c === gateC + Math.floor(chW / 2)) ? 9 : 2;
             doorMap[topR - 1][c] = true;
           }
-          placeOrbAt(gateC + (chW - 1) * 0.5, Rw - 3, 'add3');
-          placeOrbAt(gateC + (chW - 1) * 0.5, topR + 3, 'mul3');
-          placeOrbAt(gateC + (chW - 1) * 0.5, topR + 1, 'add3');
+          placeBuriedOrb(gateC + Math.floor(chW / 2) - 1, topR - 3, 'add3');
+          placeBuriedOrb(5, 4, 'mul2');
+          placeBuriedOrb(C - 7, 4, 'mul3');
         } else if (archId === 'stickman') {
           const entW = Math.max(5, gapW);
           const gateC = Math.floor((C - entW) / 2);
@@ -6145,48 +6154,51 @@
           entryY = topY + (Rw - 1) * (bh + gap);
 
           const carved = Array.from({ length: Rw }, () => Array(C).fill(false));
-          for (let r = 1; r < Rw - 1; r++) {
-            for (let c = 1; c < C - 1; c++) {
+          for (let r = 2; r < Rw - 4; r++) {
+            for (let c = 2; c < C - 2; c++) {
               const dHead = Math.hypot(c - 12, (r - 4.2) * 1.1);
-              const inTorso = (Math.abs(c - 12) <= 2.2 && r >= 6 && r < Rw - 1);
-              const inArmL = (r >= 5 && r <= 12 && Math.abs((c - 12) - (r - 11) * 1.15) <= 1.8);
-              const inArmR = (r >= 5 && r <= 12 && Math.abs((c - 12) + (r - 11) * 1.15) <= 1.8);
-              const inBase = (r >= 14 && r < Rw - 1 && Math.abs(c - 12) <= 3.5);
-              if (dHead <= 3.2 || inTorso || inArmL || inArmR || inBase) carved[r][c] = true;
+              const inTorso = (Math.abs(c - 12) <= 2.0 && r >= 6 && r <= 14);
+              const inArmL = (r >= 5 && r <= 11 && Math.abs((c - 12) - (r - 10) * 1.15) <= 1.6);
+              const inArmR = (r >= 5 && r <= 11 && Math.abs((c - 12) + (r - 10) * 1.15) <= 1.6);
+              if (dHead <= 2.8 || inTorso || inArmL || inArmR) carved[r][c] = true;
             }
           }
-          for (let r = 1; r < Rw - 1; r++) {
-            for (let c = 1; c < C - 1; c++) {
+          for (let r = 2; r < Rw - 4; r++) {
+            for (let c = 2; c < C - 2; c++) {
               if (carved[r][c]) grid[r][c] = 0;
               else {
                 let near = false;
                 for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) if (carved[r + dr]?.[c + dc]) near = true;
-                if (near) grid[r][c] = 5;
+                if (near && r < Rw - 5) grid[r][c] = 5;
               }
             }
           }
-          for (let r = 3; r < Rw - 2; r++) {
+          for (let r = 3; r < Rw - 5; r++) {
             for (let c = 2; c < C - 2; c++) {
-              if (grid[r][c] === 5 && ((r >= 4 && r <= 7) || (r >= 10 && r <= 13) || (r >= 15 && r <= 17))) {
-                grid[r][c] = (r % 2 === 0) ? 9 : 10;
+              if (grid[r][c] === 5 && ((r >= 4 && r <= 7) || (r >= 10 && r <= 13))) {
+                grid[r][c] = (r % 3 === 0) ? 10 : 2;
                 doorMap[r][c] = true;
               }
             }
           }
-          placeOrbAt(12, Rw - 3, 'add3');
-          placeOrbAt(12, 11, 'mul3');
-          placeOrbAt(12, 5, 'add3');
+          placeBuriedOrb(11, 3, 'mul2');
+          placeBuriedOrb(5, 5, 'add3');
+          placeBuriedOrb(18, 5, 'add3');
         } else if (archId === 'greenhook') {
           const chW = Math.max(4, gapW);
           const chRight = C - 2, chLeft = chRight - chW + 1;
           sealOuterBox(chLeft, chW);
           for (let r = 1; r < Rw - 1; r++) {
             for (let c = 1; c < C - 1; c++) {
-              if (c >= chLeft && c <= chRight && r >= 1) grid[r][c] = 0;
-              else if (r >= 1 && r <= 3 && c >= 3 && c <= chRight) grid[r][c] = 0;
-              else if (c === chLeft - 1 && r >= 4 && r <= Rw - 2) {
+              if (c >= chLeft && c <= chRight && r >= 1) {
+                const isGate = (r >= Rw - 4 && r <= Rw - 2) || (r >= 12 && r <= 13) || (r >= 6 && r <= 7);
+                grid[r][c] = isGate ? 1 : 0;
+                if (isGate) colMap[r][c] = '#84CC16';
+              } else if (r >= 1 && r <= 3 && c >= 4 && c <= chRight) {
+                grid[r][c] = (c <= 14 && c % 4 === 0) ? 1 : 0;
+              } else if (c === chLeft - 1 && r >= 4 && r <= Rw - 3) {
                 if (r % 3 !== 0) {
-                  grid[r][c] = (r % 2 === 0) ? 9 : 10;
+                  grid[r][c] = (r === 8) ? 10 : 2;
                   doorMap[r][c] = true;
                 } else {
                   grid[r][c] = 5;
@@ -6194,34 +6206,32 @@
               }
             }
           }
-          for (let k = 0; k < cfg.orbs; k++) {
-            const or = Rw - 3 - k * 3;
-            if (or >= 3) placeOrbAt(chLeft + (chW - 1) * 0.5, or, k % 2 === 0 ? 'add3' : 'mul3');
-          }
+          placeBuriedOrb(chLeft + 1, 2, 'add3');
+          placeBuriedOrb(10, 2, 'mul2');
+          placeBuriedOrb(5, 7, 'mul3');
         } else if (archId === 'dualmaze') {
           const gW = Math.max(4, gapW);
           sealOuterBox(3, gW);
           for (let g = 0; g < gW; g++) grid[Rw - 1][15 + g] = 0;
           for (let r = 1; r < Rw - 1; r++) {
-            grid[r][12] = ((r >= 3 && r <= 7) || (r >= 12 && r <= 15)) ? 9 : 5;
-            if (grid[r][12] === 9) doorMap[r][12] = true;
+            grid[r][12] = ((r >= 4 && r <= 7) || (r >= 12 && r <= 14)) ? 2 : 5;
+            if (grid[r][12] === 2) doorMap[r][12] = true;
             for (let c = 1; c <= 11; c++) {
               colMap[r][c] = '#38BDF8';
-              if ((c === 2 || c === 3 || c === 6 || c === 7 || c === 10) && r >= 2 && r <= Rw - 2) grid[r][c] = 0;
-              else if (r >= Rw - 3 && c >= 2 && c <= 10) grid[r][c] = 0;
+              if ((c === 3 || c === 7) && r >= 4 && r <= Rw - 5) grid[r][c] = 0;
             }
             for (let c = 13; c < C - 1; c++) {
               colMap[r][c] = '#00F5D4';
-              const inG = (c >= 15 && c <= 18 && r >= 3 && r <= Rw - 1) ||
-                          (r >= 2 && r <= 4 && c >= 15 && c <= C - 2) ||
-                          (c >= C - 4 && c <= C - 2 && r >= 4 && r <= 16) ||
-                          (r >= 14 && r <= 16 && c >= 18 && c <= C - 2);
+              const inG = (c >= 16 && c <= 18 && r >= 4 && r <= Rw - 5) ||
+                          (r >= 3 && r <= 4 && c >= 16 && c <= C - 3) ||
+                          (c >= C - 4 && c <= C - 3 && r >= 4 && r <= 14);
               if (inG) grid[r][c] = 0;
             }
           }
-          grid[10][4] = 9; grid[9][19] = 9; grid[13][20] = 10;
-          placeOrbAt(5, Rw - 3, 'add3'); placeOrbAt(5, 12, 'mul3');
-          placeOrbAt(16.5, Rw - 3, 'add3'); placeOrbAt(16.5, 8, 'mul3'); placeOrbAt(21, 10, 'add3');
+          grid[6][12] = 9; grid[13][12] = 10;
+          placeBuriedOrb(5, 4, 'add3');
+          placeBuriedOrb(8, 9, 'mul2');
+          placeBuriedOrb(19, 5, 'mul3');
         } else if (archId === 'terraced') {
           for (let r = 0; r < Rw; r++) {
             for (let c = 0; c < C; c++) {
@@ -6236,16 +6246,22 @@
           }
           const chW = 4;
           [5, 16].forEach(vc => {
-            for (let r = 8; r < Rw; r++) {
-              for (let w = 0; w < chW; w++) if (grid[r]) grid[r][vc + w] = 0;
+            for (let r = 13; r < Rw; r++) {
+              for (let w = 0; w < chW; w++) {
+                if (grid[r]) {
+                  grid[r][vc + w] = (r <= 15) ? 1 : 0;
+                  if (r <= 15) colMap[r][vc + w] = '#22C55E';
+                }
+              }
             }
             for (let w = 0; w < chW; w++) {
-              grid[7][vc + w] = 9; doorMap[7][vc + w] = true;
-              grid[11][vc + w] = 10; doorMap[11][vc + w] = true;
+              grid[12][vc + w] = 2; doorMap[12][vc + w] = true;
             }
-            placeOrbAt(vc + 1.5, 15, 'add3'); placeOrbAt(vc + 1.5, 9.5, 'mul3');
           });
           grid[6][12] = 9;
+          placeBuriedOrb(6, 7, 'add3');
+          placeBuriedOrb(17, 7, 'add3');
+          placeBuriedOrb(11, 4, 'mul3');
           entryX = side + 7 * (bw + gap); entryY = topY + 16 * (bh + gap);
         } else if (archId === 'antfarm') {
           const entW = Math.max(5, gapW);
@@ -6257,21 +6273,20 @@
               const r = Math.round(lerp(r0, r1, s / steps));
               const c = Math.round(lerp(c0, c1, s / steps));
               for (let dr = -1; dr <= 1; dr++) {
-                for (let dc = -1; dc <= 2; dc++) {
-                  const nr = clamp(r + dr, 2, Rw - 2), nc = clamp(c + dc, 2, C - 3);
-                  grid[nr][nc] = 0;
+                for (let dc = -1; dc <= 1; dc++) {
+                  const nr = clamp(r + dr, 3, Rw - 5), nc = clamp(c + dc, 3, C - 4);
+                  grid[nr][nc] = (nr >= 13) ? 1 : 0;
                 }
               }
             }
           };
-          dig(Rw - 2, 11, 13, 11);
-          dig(13, 11, 6, 5); dig(13, 11, 5, 12); dig(13, 11, 6, 18);
-          [[5, 5, 9], [4, 12, 9], [5, 18, 10], [10, 8, 10], [10, 16, 10]].forEach(([r, c, code]) => {
+          dig(14, 12, 6, 5); dig(14, 12, 5, 12); dig(14, 12, 6, 18);
+          [[5, 5, 10], [4, 12, 9], [5, 18, 10]].forEach(([r, c, code]) => {
             grid[r][c] = code; doorMap[r][c] = true;
-            if (grid[r][c + 1] !== undefined) { grid[r][c + 1] = code; doorMap[r][c + 1] = true; }
           });
-          placeOrbAt(12, Rw - 3, 'add3'); placeOrbAt(12, 13, 'mul3');
-          placeOrbAt(6, 8, 'add3'); placeOrbAt(17, 8, 'add3');
+          placeBuriedOrb(5, 5, 'add3');
+          placeBuriedOrb(11, 4, 'mul3');
+          placeBuriedOrb(18, 5, 'add3');
         } else if (archId === 'spiral_core') {
           const chW = Math.max(4, gapW);
           sealOuterBox(C - 2 - chW, chW);
@@ -6282,72 +6297,71 @@
               if (ring === 4) {
                 const gapDoor = (c <= 7 && r <= 8) || (r >= Rw - 7 && c >= 9 && c <= 16);
                 if (!gapDoor) grid[r][c] = 5;
-                else { grid[r][c] = 9; doorMap[r][c] = true; }
+                else { grid[r][c] = 2; doorMap[r][c] = true; }
               } else if (ring < 4) {
-                if (c >= C - 1 - chW || r <= 3 || (c <= 4 && r >= Rw - 5)) grid[r][c] = 0;
+                if (c >= C - 1 - chW && r <= Rw - 6) grid[r][c] = (r % 5 === 0) ? 1 : 0;
               }
             }
           }
-          grid[11][12] = 9; grid[11][11] = 10; grid[11][13] = 10;
-          placeOrbAt(C - 3, Rw - 3, 'add3'); placeOrbAt(C - 3, 8, 'mul3'); placeOrbAt(12, 15, 'mul2');
+          grid[11][12] = 9;
+          placeBuriedOrb(C - 4, 4, 'add3');
+          placeBuriedOrb(5, 5, 'mul2');
+          placeBuriedOrb(11, 10, 'mul3');
         } else if (archId === 'pinball_box') {
           const entW = Math.max(5, gapW + 1);
           const gStart = Math.floor((C - entW) / 2);
           sealOuterBox(gStart, entW);
-          for (let r = Rw - 7; r <= Rw - 2; r++) {
+          for (let r = Rw - 6; r <= Rw - 4; r++) {
             for (let c = 2; c < C - 2; c++) grid[r][c] = 0;
+          }
+          for (let r = Rw - 3; r <= Rw - 2; r++) {
+            for (let c = 2; c < C - 2; c++) {
+              grid[r][c] = 1;
+              colMap[r][c] = '#38BDF8';
+            }
           }
           [[Rw - 5, 5], [Rw - 5, 19]].forEach(([br, bc]) => {
             grid[br][bc] = 5;
             if (grid[br][bc - 1] !== undefined) grid[br][bc - 1] = 5;
           });
-          for (let c = 3; c < C - 3; c++) {
-            if ((c >= 4 && c <= 7) || (c >= 10 && c <= 14) || (c >= 17 && c <= 20)) {
-              grid[Rw - 8][c] = (c >= 10 && c <= 14) ? 10 : 9;
-              doorMap[Rw - 8][c] = true;
-            }
-          }
-          placeOrbAt(12, Rw - 3, 'add3');
-          placeOrbAt(9, Rw - 5, 'mul3'); placeOrbAt(15, Rw - 5, 'mul3');
-          placeOrbAt(4, Rw - 6, 'add3'); placeOrbAt(20, Rw - 6, 'add3');
+          grid[8][6] = 10; grid[6][12] = 9; grid[8][18] = 10;
+          placeBuriedOrb(6, 9, 'add3');
+          placeBuriedOrb(18, 9, 'add3');
+          placeBuriedOrb(11, 4, 'mul3');
         } else if (archId === 'twin_chimneys') {
           const chW = Math.max(4, gapW);
           sealOuterBox(4, chW);
           for (let g = 0; g < chW; g++) grid[Rw - 1][16 + g] = 0;
           for (let r = 1; r < Rw - 1; r++) {
-            grid[r][12] = (r >= 4 && r <= 8) ? 10 : 5;
-            if (grid[r][12] === 10) doorMap[r][12] = true;
+            grid[r][12] = (r >= 4 && r <= 8) ? 2 : 5;
+            if (grid[r][12] === 2) doorMap[r][12] = true;
             for (let w = 0; w < chW; w++) {
-              if (r >= 10) { grid[r][4 + w] = 0; grid[r][16 + w] = 0; }
+              if (r >= 11 && r <= Rw - 5) { grid[r][4 + w] = 0; grid[r][16 + w] = 0; }
             }
           }
-          for (let w = 0; w < chW; w++) {
-            grid[9][4 + w] = 9; doorMap[9][4 + w] = true;
-            grid[9][16 + w] = 9; doorMap[9][16 + w] = true;
-          }
-          grid[12][3] = 10; grid[12][20] = 10;
-          placeOrbAt(4 + (chW - 1) * 0.5, Rw - 3, 'add3'); placeOrbAt(4 + (chW - 1) * 0.5, 12, 'mul3');
-          placeOrbAt(16 + (chW - 1) * 0.5, Rw - 3, 'add3'); placeOrbAt(16 + (chW - 1) * 0.5, 12, 'mul3');
+          grid[6][12] = 9;
+          placeBuriedOrb(5, 6, 'add3');
+          placeBuriedOrb(17, 6, 'add3');
+          placeBuriedOrb(11, 3, 'mul3');
         } else {
           const entW = Math.max(5, gapW + 1);
           const gStart = Math.floor((C - entW) / 2);
           sealOuterBox(gStart, entW);
-          for (let r = 2; r < Rw - 1; r++) {
+          for (let r = 3; r < Rw - 4; r++) {
             for (let c = 2; c < C - 2; c++) {
-              const dLow = Math.abs(c - 12) + Math.abs(r - 17) * 1.1;
-              const dHigh = Math.abs(c - 12) + Math.abs(r - 7) * 1.1;
-              const inShaft = Math.abs(c - 12) <= 2 && r >= 7;
-              if (dLow <= 4.6 || dHigh <= 4.6 || inShaft) grid[r][c] = 0;
-              else if (Math.abs(dLow - 5.4) < 0.9 || Math.abs(dHigh - 5.4) < 0.9) {
-                if (r % 2 === 0) { grid[r][c] = 10; doorMap[r][c] = true; }
+              const dLow = Math.abs(c - 12) + Math.abs(r - 15) * 1.1;
+              const dHigh = Math.abs(c - 12) + Math.abs(r - 6) * 1.1;
+              if (dLow <= 3.6 || dHigh <= 3.6) grid[r][c] = 0;
+              else if (Math.abs(dLow - 4.4) < 0.9 || Math.abs(dHigh - 4.4) < 0.9) {
+                if (r % 2 === 0) { grid[r][c] = 2; doorMap[r][c] = true; }
                 else grid[r][c] = 5;
               }
             }
           }
-          [[2, 11, 9], [2, 12, 9], [2, 13, 9], [7, 6, 10], [7, 7, 10], [7, 17, 10], [7, 18, 10], [17, 6, 10], [17, 7, 10], [17, 17, 10], [17, 18, 10]].forEach(([r, c, code]) => {
-            if (grid[r]) { grid[r][c] = code; doorMap[r][c] = true; }
-          });
-          placeOrbAt(12, Rw - 2, 'add3'); placeOrbAt(12, 17, 'mul3'); placeOrbAt(12, 12, 'add3'); placeOrbAt(12, 7, 'mul3');
+          grid[4][12] = 9; grid[7][7] = 10; grid[7][17] = 10;
+          placeBuriedOrb(11, 10, 'add3');
+          placeBuriedOrb(11, 5, 'mul3');
+          placeBuriedOrb(6, 5, 'add3');
         }
 
         // Universal Mathematical Flood-Fill (BFS) Reachability & Anti-Pinch Pass:
@@ -7717,16 +7731,16 @@
       if (G.combo > 0 && G.combo % (b.micro ? 20 : 5) === 0) { banner('COMBO ×' + G.mult, '#FF3D8A', .42); sfx.combo(G.mult); if (G.combo >= 10) { shake(4); if (!swarm && S.set.comboConfetti !== false) sparkFX(b.rx + bw / 2, b.y + bh / 2, '#FFD166', 8) } }
       if (b.code === 6) { if (!swarm) coinFX(b.rx + bw / 2, b.y + bh / 2); sfx.coin() }
       if (b.code === 9) {
-        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 10);
+        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 4);
         breachDoorwayAround(b);
         sfx.power(); sfx.boom(); shake(8);
-        banner('💥 BREACH PLUG OPEN · +10 BALLS!', '#FACC15', .38);
+        banner('💥 BREACH PLUG OPEN · +4 BALLS!', '#FACC15', .38);
       } else if (b.code === 10) {
-        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 7);
+        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 3);
         breachDoorwayAround(b);
         G.blastQ.push(b);
         sfx.power(); shake(7);
-        banner('🔥 POCKET DOOR OPEN · +7 BALLS!', '#FF2A55', .38);
+        banner('🔥 POCKET DOOR OPEN · +3 BALLS!', '#FF2A55', .38);
       } else if (b.code === 4) {
         G.blastQ.push(b);
       }
