@@ -4214,6 +4214,83 @@
         height: 60px
       }
     }
+
+    /* ============ LANDSCAPE / PORTRAIT ORIENTATION VIEW (PWA & APK WEBVIEW) ============ */
+    body.rot-90 #app {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      width: 100vh !important;
+      width: 100dvh !important;
+      height: 100vw !important;
+      height: 100dvw !important;
+      max-width: none !important;
+      max-height: none !important;
+      border-radius: 0 !important;
+      border: none !important;
+      transform: translate(-50%, -50%) rotate(90deg) !important;
+      transform-origin: center center !important;
+    }
+    body.view-landscape #app {
+      --hdr-h: calc(46px + env(safe-area-inset-top, 0px));
+      --tab-h: calc(50px + env(safe-area-inset-bottom, 0px));
+    }
+    body.view-landscape #hud {
+      padding: calc(env(safe-area-inset-top, 0px) + 3px) 12px 4px;
+    }
+    body.view-landscape .hud-mid {
+      flex-direction: row;
+      gap: 10px;
+    }
+    body.view-landscape #hudScore {
+      font-size: 18px;
+    }
+    body.view-landscape .hud-sub {
+      flex-wrap: nowrap;
+      margin-top: 2px;
+      overflow-x: auto;
+    }
+    body.view-landscape .hud-sub-left {
+      width: auto;
+      justify-content: flex-start;
+    }
+    body.view-landscape #boostBar.show {
+      width: auto;
+      margin-left: auto;
+      padding-top: 0;
+      border-top: none;
+    }
+    body.view-landscape #boostBar .bb-row {
+      width: auto;
+      flex-wrap: nowrap;
+    }
+    body.view-landscape .chip-btn.boost-ic {
+      width: 28px;
+      height: 23px;
+    }
+    body.view-landscape #gameHint {
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+    }
+    body.view-landscape #touchPad {
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+    }
+    body.view-landscape .mode-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    body.view-landscape .lvl-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    body.view-landscape .stats-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    @media(min-width:700px) {
+      body.view-portrait:not(.rot-90) #app {
+        width: min(94vw, 470px) !important;
+      }
+      body.view-landscape:not(.rot-90) #app {
+        width: min(96vw, 1120px) !important;
+      }
+    }
   </style>
 <link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
@@ -4415,6 +4492,8 @@
       move: '<path d="M12 2v20M2 12h20"/><path d="m9 5 3-3 3 3M9 19l3 3 3-3M5 9l-3 3 3 3M19 9l3 3-3 3"/>',
       maximize: '<path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/>',
       minimize: '<path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>',
+      landscape: '<rect x="2.5" y="6.5" width="19" height="11" rx="2.2"/><path d="M18 10v4"/><path d="M8 3.5h8l-2-2M16 20.5H8l2 2"/>',
+      portrait: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><path d="M10 18h4"/><path d="M3.5 16V8l-2 2M20.5 8v8l2-2"/>',
       eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
       shuffle: '<path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>',
       palette: '<circle cx="13.5" cy="6.5" r=".7" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".7" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".7" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".7" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H16c3.3 0 6-2.7 6-6 0-5-4.5-8.6-10-8.6Z"/>'
@@ -7104,27 +7183,39 @@
     function buildPaddleSprite() {
       paddleSprite = { m: 22 };
     }
+    let cvRect = null;
     function isTouchErgonomic() {
-      return (window.matchMedia && matchMedia('(pointer: coarse)').matches) || cssW < 640;
+      return (window.matchMedia && matchMedia('(pointer: coarse)').matches) || Math.min(window.innerWidth, window.innerHeight) < 640;
+    }
+    function isLandscapeView() {
+      return document.body.classList.contains('view-landscape') || cssW > cssH;
     }
     function paddleOffset() {
-      // Elevate paddle on mobile to create a dedicated bottom Thumb Control Deck so fingers never cover the paddle
+      if (isLandscapeView()) {
+        return S.set.paddleHeightOffset === 'high' ? 84 : S.set.paddleHeightOffset === 'low' ? 48 : 62;
+      }
       const touch = isTouchErgonomic();
       if (touch) {
-        const base = S.set.paddleHeightOffset === 'high' ? 210 : S.set.paddleHeightOffset === 'low' ? 145 : 180;
-        const extra = Math.max(0, (VH - MIN_VH) * 0.25);
-        return Math.round(clamp(base + extra, 140, Math.max(185, VH * 0.30)));
+        const base = S.set.paddleHeightOffset === 'high' ? 195 : S.set.paddleHeightOffset === 'low' ? 135 : 164;
+        const extra = Math.max(0, (VH - MIN_VH) * 0.22);
+        return Math.round(clamp(base + extra, 128, Math.max(175, VH * 0.28)));
       }
       return S.set.paddleHeightOffset === 'high' ? 114 : S.set.paddleHeightOffset === 'low' ? 72 : 92;
     }
     function resize() {
-      const rect = cv.getBoundingClientRect(); if (rect.width < 2 || rect.height < 2) return;
-      cssW = rect.width; cssH = rect.height;
+      const rect = cv.getBoundingClientRect();
+      const rot = document.body.classList.contains('rot-90');
+      const rawW = cv.clientWidth || (rot ? rect.height : rect.width);
+      const rawH = cv.clientHeight || (rot ? rect.width : rect.height);
+      if (rawW < 2 || rawH < 2) return;
+      cssW = rawW; cssH = rawH;
+      cvRect = rect;
       const touch = isTouchErgonomic();
       const maxDpr = S.set.graphicsQuality === 'low' ? 1 : S.set.graphicsQuality === 'medium' ? (touch ? 1.25 : 1.5) : (S.set.fx ? (touch ? 1.5 : 2) : 1.25);
       dpr = Math.min(maxDpr, window.devicePixelRatio || 1);
       cv.width = Math.round(cssW * dpr); cv.height = Math.round(cssH * dpr);
-      const desktopVH = (cssW >= 680 && cssW / Math.max(1, cssH) > 0.8) ? 660 : MIN_VH;
+      const isLand = cssW > cssH;
+      const desktopVH = isLand ? (cssH < 540 ? 540 : 640) : MIN_VH;
       if (cv.width / cv.height <= VW / desktopVH) {
         scale = cv.width / VW;
         VH = Math.max(desktopVH, cv.height / scale);
@@ -9337,11 +9428,84 @@
     }
 
     /* ---------- ACTIONS ---------- */
+    function isPwaOrWebView() {
+      const ua = navigator.userAgent || '';
+      const isPwa = (window.matchMedia && (
+        matchMedia('(display-mode: standalone)').matches ||
+        matchMedia('(display-mode: fullscreen)').matches ||
+        matchMedia('(display-mode: minimal-ui)').matches ||
+        matchMedia('(display-mode: window-controls-overlay)').matches
+      )) || navigator.standalone === true || document.referrer.startsWith('android-app://') || location.search.includes('pwa=1') || location.search.includes('webview=1');
+      const isWv = /\bwv\b|; wv\)|Android.*Version\/[\d.]+|Crosswalk|WebView/i.test(ua) ||
+        (/iPhone|iPod|iPad/i.test(ua) && !/Safari/i.test(ua)) ||
+        (/Android/i.test(ua) && (!window.chrome || !document.fullscreenEnabled)) ||
+        !!(window.Android || window.Capacitor || window.cordova || window.ReactNativeWebView || window.flutter_inappwebview || window.webkit?.messageHandlers);
+      const isMobileTouch = /Android|iPhone|iPad|iPod|Mobile/i.test(ua) || ((window.matchMedia && matchMedia('(pointer: coarse)').matches) && Math.min(window.innerWidth, window.innerHeight) <= 960);
+      return isPwa || isWv || isMobileTouch;
+    }
+    function currentViewOrient() {
+      if (UI.orientMode === 'landscape' || UI.orientMode === 'portrait') return UI.orientMode;
+      return window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+    }
+    function syncOrientBtns() {
+      const pwaWv = isPwaOrWebView();
+      const cur = currentViewOrient();
+      $$('[data-action="fullscreen"]').forEach(b => {
+        if (pwaWv) {
+          const nextLbl = cur === 'landscape' ? 'Portrait Mode' : 'Landscape Mode';
+          b.innerHTML = icon(cur === 'landscape' ? 'portrait' : 'landscape');
+          b.title = 'Switch to ' + nextLbl;
+          b.setAttribute('aria-label', 'Switch to ' + nextLbl);
+        } else {
+          const isFs = !!document.fullscreenElement;
+          b.innerHTML = icon(isFs ? 'minimize' : 'maximize');
+          b.title = isFs ? 'Exit Fullscreen (F)' : 'Fullscreen (F)';
+          b.setAttribute('aria-label', b.title);
+        }
+      });
+    }
+    function applyOrientationLayout() {
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const physOrient = vw > vh ? 'landscape' : 'portrait';
+      const targetOrient = (UI.orientMode === 'landscape' || UI.orientMode === 'portrait') ? UI.orientMode : physOrient;
+      const isHandheld = isTouchErgonomic() || Math.min(vw, vh) < 700;
+      const needCssRotate = isHandheld && (UI.orientMode === 'landscape' || UI.orientMode === 'portrait') && targetOrient !== physOrient;
+      document.body.classList.toggle('rot-90', needCssRotate);
+      document.body.classList.toggle('view-landscape', targetOrient === 'landscape');
+      document.body.classList.toggle('view-portrait', targetOrient === 'portrait');
+      syncOrientBtns();
+      cvRect = null;
+      if (UI.screen === 'game' || G) requestAnimationFrame(resize);
+    }
+    function toggleOrientationMode() {
+      const next = currentViewOrient() === 'landscape' ? 'portrait' : 'landscape';
+      UI.orientMode = next;
+      try {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock(next === 'landscape' ? 'landscape-primary' : 'portrait-primary').catch(() => {
+            screen.orientation.lock(next).catch(() => {});
+          });
+        }
+      } catch (e) {}
+      try {
+        window.Android?.setOrientation?.(next);
+        window.Android?.setRequestedOrientation?.(next === 'landscape' ? 0 : 1);
+        window.ReactNativeWebView?.postMessage?.(JSON.stringify({ type: 'orientation', value: next }));
+      } catch (e) {}
+      applyOrientationLayout();
+      setTimeout(applyOrientationLayout, 90);
+      setTimeout(applyOrientationLayout, 240);
+      toast(next === 'landscape' ? 'Landscape View Active' : 'Portrait View Active', next, 'info');
+    }
     function toggleFullscreen() {
+      if (isPwaOrWebView()) {
+        toggleOrientationMode();
+        return;
+      }
       const target = $('#app');
       if (document.fullscreenElement) { document.exitFullscreen?.().catch(() => { }) }
-      else if (target.requestFullscreen) { target.requestFullscreen().catch(() => toast('Fullscreen unavailable in this view', 'info', 'info')) }
-      else toast('Fullscreen unavailable here', 'info', 'info');
+      else if (target.requestFullscreen) { target.requestFullscreen().catch(() => toggleOrientationMode()) }
+      else toggleOrientationMode();
     }
     const actions = {
       tab(arg) { if (UI.screen === arg) return; sfx.click(); haptic(4); showScreen(arg) },
@@ -9866,13 +10030,25 @@
     document.addEventListener('change', e => {
       if (e.target.closest('[data-range]')) saveNow();
     });
+    function getCvRect() {
+      if (!cvRect || cvRect.width < 2) cvRect = cv.getBoundingClientRect();
+      return cvRect;
+    }
     function logicalX(e) {
-      const r = cv.getBoundingClientRect();
-      return ((e.clientX - r.left) / Math.max(1, r.width) * (cv.width / scale)) - viewX;
+      const r = getCvRect();
+      const rot = document.body.classList.contains('rot-90');
+      const fx = rot
+        ? ((e.clientY - r.top) / Math.max(1, r.height))
+        : ((e.clientX - r.left) / Math.max(1, r.width));
+      return (fx * (cv.width / scale)) - viewX;
     }
     function logicalY(e) {
-      const r = cv.getBoundingClientRect();
-      return (e.clientY - r.top) / Math.max(1, r.height) * VH;
+      const r = getCvRect();
+      const rot = document.body.classList.contains('rot-90');
+      const fy = rot
+        ? ((r.right - e.clientX) / Math.max(1, r.width))
+        : ((e.clientY - r.top) / Math.max(1, r.height));
+      return fy * VH;
     }
     function syncStickyBalls() {
       if (!G) return;
@@ -9883,7 +10059,7 @@
         }
       }
     }
-    let hasTouch = false;
+    let hasTouch = false, touchEventsActive = false, lastTapTime = 0;
     function steerTo(rawX, isDrag, dragObj) {
       if (!G) return;
       const inv = S.set.invertControls ? -1 : 1;
@@ -9898,51 +10074,47 @@
         const target = S.set.invertControls ? (VW - rawX) : rawX;
         G.paddle.tx = clamp(target, minX, maxX);
       } else if (dragObj) {
-        const mult = 1.15 * (S.set.sens ?? 1);
-        const dx = (dragObj.stepDx || 0) * inv;
-        G.paddle.tx = clamp(G.paddle.tx + dx * mult, minX, maxX);
+        const rawDx = (dragObj.stepDx || 0) * inv;
+        const sens = S.set.sens ?? 1;
+        const speedBoost = 1 + Math.min(0.65, Math.abs(rawDx) / 24);
+        const mult = 1.48 * sens * speedBoost;
+        G.paddle.tx = clamp(G.paddle.tx + rawDx * mult, minX, maxX);
       }
-      if (S.set.paddleSmoothing !== 'weighted') {
+      if (isDrag || S.set.paddleSmoothing !== 'weighted') {
         G.paddle.x = G.paddle.tx;
         syncStickyBalls();
       }
     }
-    function onDown(e) {
+    function startDrag(id, clientX, clientY, pType) {
       unlockAudio();
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-      if (e.pointerType !== 'mouse') hasTouch = true;
       if (!G || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
-      if (drag && drag.id !== e.pointerId) {
-        try { cv.releasePointerCapture(drag.id) } catch (err) { }
-      }
-      const x = logicalX(e), y = logicalY(e);
+      cvRect = cv.getBoundingClientRect();
+      const pt = { clientX, clientY };
+      const x = logicalX(pt), y = logicalY(pt);
       if ((S.set.controlMode || 'drag') === 'drag') {
         G.paddle.tx = G.paddle.x;
       }
-      drag = { id: e.pointerId, startX: x, startY: y, lastX: x, stepDx: 0, paddleStart: G.paddle.x, moved: 0, t0: performance.now(), type: e.pointerType };
-      try { cv.setPointerCapture(e.pointerId) } catch (err) { }
+      drag = { id, startX: x, startY: y, lastX: x, stepDx: 0, paddleStart: G.paddle.x, moved: 0, t0: performance.now(), type: pType };
       if (S.set.controlMode === 'direct' || S.set.controlMode === 'tap') {
         steerTo(x, true, drag);
       }
-      e.preventDefault();
     }
-    function onMove(e) {
-      if (e.pointerType !== 'mouse') hasTouch = true;
+    function moveDrag(id, clientX, clientY) {
       if (!G || UI.screen !== 'game' || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
-      if (e.pointerType === 'mouse' && !drag && !hasTouch && S.set.controlMode !== 'tap') { steerTo(logicalX(e), false, null); return }
-      if (!drag || e.pointerId !== drag.id) return;
-      const x = logicalX(e);
+      if (!drag) {
+        startDrag(id, clientX, clientY, 'touch');
+        return;
+      }
+      if (drag.id !== id) return;
+      const x = logicalX({ clientX, clientY });
       const stepDx = x - drag.lastX;
       drag.moved += Math.abs(stepDx);
       drag.stepDx = stepDx;
       drag.lastX = x;
       steerTo(x, true, drag);
-      e.preventDefault();
     }
-    let lastTapTime = 0;
-    function onUp(e) {
-      if (!drag || e.pointerId !== drag.id) return;
-      try { cv.releasePointerCapture(e.pointerId) } catch (err) { }
+    function endDrag(id) {
+      if (!drag || drag.id !== id) return;
       const now = performance.now();
       const quick = now - drag.t0 < 360 && drag.moved < 12;
       drag = null;
@@ -9957,17 +10129,88 @@
         if (S.set.tapLaunch !== false && S.set.controlMode !== 'tap') launchBalls();
       }
     }
+    function onDown(e) {
+      if (touchEventsActive && e.pointerType === 'touch') return;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      if (e.pointerType !== 'mouse') hasTouch = true;
+      if (drag && drag.id !== e.pointerId) {
+        try { cv.releasePointerCapture(drag.id) } catch (err) { }
+      }
+      startDrag(e.pointerId, e.clientX, e.clientY, e.pointerType);
+      try { cv.setPointerCapture(e.pointerId) } catch (err) { }
+      e.preventDefault();
+    }
+    function onMove(e) {
+      if (touchEventsActive && e.pointerType === 'touch') return;
+      if (e.pointerType !== 'mouse') hasTouch = true;
+      if (!G || UI.screen !== 'game' || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
+      if (e.pointerType === 'mouse' && !drag && !hasTouch && S.set.controlMode !== 'tap') { steerTo(logicalX(e), false, null); return }
+      if (!drag || e.pointerId !== drag.id) return;
+      moveDrag(e.pointerId, e.clientX, e.clientY);
+      e.preventDefault();
+    }
+    function onUp(e) {
+      if (touchEventsActive && e.pointerType === 'touch') return;
+      if (!drag || e.pointerId !== drag.id) return;
+      try { cv.releasePointerCapture(e.pointerId) } catch (err) { }
+      endDrag(e.pointerId);
+    }
     function onCancel(e) {
+      if (touchEventsActive && e && e.pointerType === 'touch') return;
       if (!drag || (e && e.pointerId !== undefined && e.pointerId !== drag.id)) return;
       drag = null;
       if (S.set.controlMode === 'tap') { keys.l = false; keys.r = false }
     }
     cv.addEventListener('touchstart', e => {
-      hasTouch = true;
-      if (G && !UI.sheet && (G.state === 'play' || G.state === 'ready')) e.preventDefault();
+      touchEventsActive = true; hasTouch = true;
+      if (!G || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
+      const t = e.changedTouches[e.changedTouches.length - 1];
+      if (t) startDrag(t.identifier, t.clientX, t.clientY, 'touch');
+      e.preventDefault();
     }, { passive: false });
     cv.addEventListener('touchmove', e => {
-      if (G && !UI.sheet && (G.state === 'play' || G.state === 'ready')) e.preventDefault();
+      touchEventsActive = true; hasTouch = true;
+      if (!G || UI.screen !== 'game' || UI.sheet || (G.state !== 'play' && G.state !== 'ready')) return;
+      let t = null;
+      if (drag) {
+        for (let i = 0; i < e.touches.length; i++) {
+          if (e.touches[i].identifier === drag.id) { t = e.touches[i]; break }
+        }
+      }
+      if (!t && e.touches.length > 0) {
+        t = e.touches[e.touches.length - 1];
+        if (drag) {
+          drag.id = t.identifier;
+          drag.lastX = logicalX(t);
+        }
+      }
+      if (t) moveDrag(t.identifier, t.clientX, t.clientY);
+      e.preventDefault();
+    }, { passive: false });
+    cv.addEventListener('touchend', e => {
+      if (!drag) return;
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === drag.id) {
+          if (e.touches.length > 0) {
+            const rem = e.touches[e.touches.length - 1];
+            drag.id = rem.identifier;
+            drag.lastX = logicalX(rem);
+          } else {
+            endDrag(drag.id);
+          }
+          break;
+        }
+      }
+    }, { passive: false });
+    cv.addEventListener('touchcancel', e => {
+      if (!drag) return;
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === drag.id) {
+          drag = null;
+          if (S.set.controlMode === 'tap') { keys.l = false; keys.r = false }
+          break;
+        }
+      }
     }, { passive: false });
     cv.addEventListener('wheel', e => {
       if (!G || UI.screen !== 'game' || UI.sheet || S.set.wheelControl === false) return;
@@ -10031,17 +10274,19 @@
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.l = false;
       if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.r = false;
     });
-    window.addEventListener('resize', () => { if (UI.screen === 'game') resize() });
+    window.addEventListener('resize', () => { cvRect = null; applyOrientationLayout(); if (UI.screen === 'game') resize() });
     document.addEventListener('fullscreenchange', () => {
-      const isFs = !!document.fullscreenElement;
-      $$('[data-action="fullscreen"]').forEach(b => {
-        b.innerHTML = icon(isFs ? 'minimize' : 'maximize');
-        b.title = isFs ? 'Exit Fullscreen (F)' : 'Fullscreen (F)';
-      });
-      setTimeout(() => { if (UI.screen === 'game') resize() }, 60);
+      syncOrientBtns();
+      setTimeout(() => { cvRect = null; if (UI.screen === 'game') resize() }, 60);
     });
     window.addEventListener('blur', resetInputs);
-    window.addEventListener('orientationchange', () => { setTimeout(() => { if (UI.screen === 'game') resize() }, 120) });
+    window.addEventListener('orientationchange', () => {
+      if (UI.orientMode === 'landscape' || UI.orientMode === 'portrait') {
+        const vw = window.innerWidth, vh = window.innerHeight;
+        if ((vw > vh ? 'landscape' : 'portrait') === UI.orientMode) UI.orientMode = 'auto';
+      }
+      setTimeout(() => { cvRect = null; applyOrientationLayout(); if (UI.screen === 'game') resize() }, 120);
+    });
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         resetInputs();
@@ -10070,7 +10315,7 @@
       update(dt); render(); syncHUD();
     }
     function init() {
-      applyDisplaySet(); syncHeader(); syncMute(); updateBadges();
+      applyDisplaySet(); applyOrientationLayout(); syncHeader(); syncMute(); updateBadges();
       UI.absWorld = Math.floor(getUnlocked() / 15);
       showScreen('home');
       requestAnimationFrame(frame);
