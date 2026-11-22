@@ -4888,25 +4888,37 @@
     ];
     const BOOSTERS = [
       { id: 'heart', name: 'Extra Heart', desc: '+1 life immediately or at launch', price: 150, icon: 'heart', color: '#FF4D5E' },
-      { id: 'wide', name: 'Wide Paddle', desc: 'Wide paddle for 14s', price: 120, icon: 'wide', color: '#22D3EE' },
+      { id: 'wide', name: 'Wide Paddle', desc: 'Wide paddle for 18s', price: 120, icon: 'wide', color: '#22D3EE' },
       { id: 'multi', name: 'Triple Ball', desc: 'Split into 3 balls', price: 200, icon: 'multi', color: '#A3E635' },
-      { id: 'slow', name: 'Slow-Mo', desc: 'Slow balls for 10s', price: 100, icon: 'timer', color: '#38BDF8' },
+      { id: 'slow', name: 'Slow-Mo', desc: 'Slow balls for 14s', price: 100, icon: 'timer', color: '#38BDF8' },
       { id: 'shield', name: 'Safety Shield', desc: 'Adds 2 floor rescue charges', price: 180, icon: 'shield', color: '#8B5CF6' },
-      { id: 'laser', name: 'Twin Lasers', desc: 'Auto-fire twin lasers for 12s', price: 170, icon: 'target', color: '#FF3D8A' },
-      { id: 'fire', name: 'Fireball', desc: 'Piercing blazing ball for 10s', price: 190, icon: 'flame', color: '#FF8A3D' }
+      { id: 'laser', name: 'Twin Lasers', desc: 'Auto-fire twin lasers for 15s', price: 170, icon: 'target', color: '#FF3D8A' },
+      { id: 'fire', name: 'Fireball', desc: 'Piercing blazing ball for 13s', price: 190, icon: 'flame', color: '#FF8A3D' }
     ];
     const POWERS = {
-      wide: { name: 'Wide Paddle', icon: 'wide', color: '#22D3EE', dur: 14, desc: 'Paddle grows +45%' },
-      multi: { name: 'Multiball', icon: 'multi', color: '#A3E635', dur: 0, desc: 'Splits every ball' },
-      slow: { name: 'Slow-Mo', icon: 'timer', color: '#38BDF8', dur: 10, desc: 'Balls slow down' },
-      laser: { name: 'Twin Lasers', icon: 'target', color: '#FF3D8A', dur: 11, desc: 'Paddle auto-fires' },
-      fire: { name: 'Fireball', icon: 'flame', color: '#FF8A3D', dur: 9, desc: 'Pierces all bricks' },
-      magnet: { name: 'Magnet / Sticky', icon: 'magnet', color: '#C084FC', dur: 12, desc: 'Catch & aim balls' },
+      wide: { name: 'Wide Paddle', icon: 'wide', color: '#22D3EE', dur: 18, desc: 'Paddle grows +45%' },
+      multi: { name: 'Multiball', icon: 'multi', color: '#A3E635', dur: 0, desc: 'Splits every ball ×3' },
+      swarm: { name: 'Ball Storm +5', icon: 'sparkles', color: '#00F5D4', dur: 0, desc: 'Fires 5 extra balls' },
+      slow: { name: 'Slow-Mo', icon: 'timer', color: '#38BDF8', dur: 14, desc: 'Balls slow down' },
+      laser: { name: 'Twin Lasers', icon: 'target', color: '#FF3D8A', dur: 15, desc: 'Paddle auto-fires' },
+      rocket: { name: 'Homing Rockets', icon: 'trend', color: '#F97316', dur: 15, desc: 'Auto-seeking missiles' },
+      fire: { name: 'Fireball', icon: 'flame', color: '#FF8A3D', dur: 13, desc: 'Pierces all bricks' },
+      giant: { name: 'Titan Ball', icon: 'maximize', color: '#60A5FA', dur: 16, desc: 'Huge ball · 2× smash' },
+      bolt: { name: 'Chain Lightning', icon: 'zap', color: '#FDE047', dur: 15, desc: 'Arcs shock to neighbors' },
+      bombball: { name: 'Blast Ball', icon: 'flame', color: '#EF4444', dur: 14, desc: 'Every hit explodes 3×3' },
+      acid: { name: 'Acid Melt', icon: 'leaf', color: '#A3E635', dur: 15, desc: 'Melts brick HP over time' },
+      split: { name: 'Split-on-Hit', icon: 'shuffle', color: '#EC4899', dur: 14, desc: 'Every 5th hit spawns ball' },
+      freeze: { name: 'Cryo Freeze', icon: 'wand', color: '#7DD3FC', dur: 15, desc: 'Freezes motion · +1 dmg' },
+      vortex: { name: 'Loot Vortex', icon: 'magnet', color: '#A855F7', dur: 16, desc: 'Pulls all loot capsules' },
+      double: { name: '2× Score Surge', icon: 'crown', color: '#10B981', dur: 18, desc: 'Double score & Rank XP' },
+      magnet: { name: 'Magnet / Sticky', icon: 'magnet', color: '#C084FC', dur: 16, desc: 'Catch & aim balls' },
       shield: { name: 'Safety Shield', icon: 'shield', color: '#8B5CF6', dur: 0, desc: '+2 floor rescues' },
+      nova_full: { name: 'Nova Charge', icon: 'zap', color: '#FFD166', dur: 0, desc: 'Instant 100% Nova Blast' },
       life: { name: 'Extra Life', icon: 'heart', color: '#FF4D5E', dur: 0, desc: '+1 heart' },
-      coin: { name: 'Coin Rush', icon: 'coin', color: '#FFC53D', dur: 0, desc: '+25 coins' },
-      fast: { name: 'Overdrive', icon: 'gauge', color: '#FFB020', dur: 6, desc: 'TRAP — balls speed up', bad: true },
-      shrink: { name: 'Shrink', icon: 'shrink', color: '#FF4D5E', dur: 8, desc: 'TRAP — paddle shrinks', bad: true }
+      coin: { name: 'Coin Rush', icon: 'coin', color: '#FFC53D', dur: 0, desc: '+30 coins' },
+      fast: { name: 'Overdrive', icon: 'gauge', color: '#FFB020', dur: 8, desc: 'TRAP — balls speed up', bad: true },
+      shrink: { name: 'Shrink', icon: 'shrink', color: '#FF4D5E', dur: 9, desc: 'TRAP — paddle shrinks', bad: true },
+      reverse: { name: 'Invert Glitch', icon: 'alert', color: '#F43F5E', dur: 7, desc: 'TRAP — flips steering', bad: true }
     };
     const DAILY_MISSIONS = [
       { id: 'bricks', name: 'Brick Demolisher', desc: 'Break 90 bricks in any mode today', icon: 'zap', target: 90, reward: 130, xp: 120 },
@@ -6959,8 +6971,20 @@
         case 'shield': c.beginPath(); c.moveTo(0, -7); c.lineTo(6, -4.5); c.lineTo(6, 1); c.quadraticCurveTo(6, 5, 0, 7.5); c.quadraticCurveTo(-6, 5, -6, 1); c.lineTo(-6, -4.5); c.closePath(); c.stroke(); break;
         case 'life': c.beginPath(); c.moveTo(0, 6); c.bezierCurveTo(-8, 0, -6, -7, 0, -3); c.bezierCurveTo(6, -7, 8, 0, 0, 6); c.fill(); break;
         case 'coin': c.beginPath(); c.arc(0, 0, 6.5, 0, 7); c.stroke(); c.beginPath(); c.arc(0, 0, 3, 0, 7); c.stroke(); break;
+        case 'swarm': [[-5, 3], [0, -5], [5, 3], [-2, -1], [2, -1]].forEach(p => { c.beginPath(); c.arc(p[0], p[1], 2.1, 0, 7); c.fill() }); break;
+        case 'rocket': c.beginPath(); c.moveTo(0, -7); c.lineTo(4, 2); c.lineTo(0, 0); c.lineTo(-4, 2); c.closePath(); c.fill(); c.beginPath(); c.moveTo(-2, 3); c.lineTo(0, 7); c.lineTo(2, 3); c.stroke(); break;
+        case 'giant': c.beginPath(); c.arc(0, 0, 6.5, 0, 7); c.stroke(); c.beginPath(); c.arc(0, 0, 3.2, 0, 7); c.fill(); break;
+        case 'bolt': c.beginPath(); c.moveTo(2, -7); c.lineTo(-4, 1); c.lineTo(1, 1); c.lineTo(-2, 7); c.lineTo(4, -1); c.lineTo(-1, -1); c.closePath(); c.fill(); break;
+        case 'bombball': c.beginPath(); c.arc(0, 1, 5, 0, 7); c.fill(); c.beginPath(); c.moveTo(0, -4); c.lineTo(3, -7); c.stroke(); break;
+        case 'acid': c.beginPath(); c.moveTo(0, -7); c.quadraticCurveTo(6, 0, 4, 4); c.arc(0, 3.5, 4, 0, Math.PI); c.quadraticCurveTo(-6, 0, 0, -7); c.fill(); break;
+        case 'split': c.beginPath(); c.moveTo(-5, 5); c.lineTo(0, 0); c.lineTo(-5, -5); c.moveTo(0, 0); c.lineTo(6, -5); c.moveTo(0, 0); c.lineTo(6, 5); c.stroke(); break;
+        case 'freeze': for (let k = 0; k < 3; k++) { const a = k * Math.PI / 3; c.beginPath(); c.moveTo(-Math.cos(a) * 6.5, -Math.sin(a) * 6.5); c.lineTo(Math.cos(a) * 6.5, Math.sin(a) * 6.5); c.stroke() } break;
+        case 'vortex': c.beginPath(); c.arc(0, 0, 6, 0, 4.8); c.stroke(); c.beginPath(); c.arc(0, 0, 3, 2, 6.4); c.stroke(); break;
+        case 'double': c.font = '900 11px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('2×', 0, 1); break;
+        case 'nova_full': c.beginPath(); for (let k = 0; k < 8; k++) { const rad = k % 2 === 0 ? 7 : 3, a = k * Math.PI / 4; if (k === 0) c.moveTo(Math.cos(a) * rad, Math.sin(a) * rad); else c.lineTo(Math.cos(a) * rad, Math.sin(a) * rad); } c.closePath(); c.fill(); break;
         case 'fast': c.beginPath(); c.moveTo(-6, -5); c.lineTo(-1, 0); c.lineTo(-6, 5); c.moveTo(1, -5); c.lineTo(6, 0); c.lineTo(1, 5); c.stroke(); break;
         case 'shrink': c.beginPath(); c.moveTo(-7, 0); c.lineTo(-2, 0); c.moveTo(7, 0); c.lineTo(2, 0); c.stroke(); break;
+        case 'reverse': c.beginPath(); c.moveTo(-6, -3); c.lineTo(6, -3); c.lineTo(3, -6); c.moveTo(6, 3); c.lineTo(-6, 3); c.lineTo(-3, 6); c.stroke(); break;
       }
       c.restore();
     }
@@ -7621,7 +7645,7 @@
         shieldGrad.addColorStop(0, 'rgba(139,92,246,0)'); shieldGrad.addColorStop(.2, '#8B5CF6'); shieldGrad.addColorStop(.5, '#22D3EE'); shieldGrad.addColorStop(.8, '#8B5CF6'); shieldGrad.addColorStop(1, 'rgba(139,92,246,0)');
       }
     }
-    function activeBallRadius() { return BALL_R * clamp((S.set.ballSizePct ?? 100) / 100, 0.75, 1.5) }
+    function activeBallRadius() { const gStacks = (G && G.fx && G.fx.giant) ? (S.set.stackPowers !== false ? (G.fx.giant.stacks || 1) : 1) : 0; const gMult = gStacks > 0 ? Math.min(2.15, 1 + 0.55 * gStacks) : 1; return BALL_R * clamp((S.set.ballSizePct ?? 100) / 100, 0.75, 1.5) * gMult }
     function spawnBall() {
       const br = activeBallRadius();
       if (G && !G.balls.some(b => b.sticky)) G.aimAngle = (R() < 0.5 ? -1 : 1) * 0.22;
@@ -7692,7 +7716,7 @@
         seedTag: lvl.seedTag || '', customData: customData || null, absWorld: lvl.absWorld || 0, sector: lvl.sector || 0, wi, li: lvl.li || 0, boss: !!lvl.boss, name: lvl.name,
         bricks: clonedBricks, orbs: clonedOrbs, breakable: lvl.breakable, rows: lvl.rows,
         bossMaxHp: initBossHp, bossHp: initBossHp, bossEnraged: false, bossFireT: 3.8,
-        balls: [], drops: [], lasers: [], hazards: [], drone: null, droneT: 11 + R() * 8, parts: [], texts: [], blastQ: [], blasting: false,
+        balls: [], drops: [], lasers: [], rockets: [], arcs: [], hazards: [], drone: null, droneT: 11 + R() * 8, parts: [], texts: [], blastQ: [], blasting: false,
         paddle: { x: startX, tx: startX, w: initPadW, y: VH - paddleOffset(), ty: VH - paddleOffset(), vy: 0, pulse: 0 },
         aimAngle: 0,
         fx: {}, shield: 0, lives: customLives, maxLives: customLives, deaths: 0,
@@ -7704,7 +7728,7 @@
         noBreakT: 0,
         timedRound: 0, bossStage: 0,
         shake: 0, flash: 0, winT: 0, loseT: 0, sheetShown: false, wave: 1, waveDelay: 0, descT: 14, descInt: 14,
-        laserAcc: 0, usedContinue: false, livesDirty: true, fxDirty: true, labelDirty: true, scoreShown: -1, coinsShown: -1, comboShown: -1,
+        laserAcc: 0, rocketAcc: 0, acidAcc: 0, splitHitCnt: 0, usedContinue: false, livesDirty: true, fxDirty: true, labelDirty: true, scoreShown: -1, coinsShown: -1, comboShown: -1,
         stars: Array.from({ length: isTouchErgonomic() ? 45 : 100 }, () => ({ x: R(), y: R(), z: .3 + R() * .7, tw: R() * 6.28 })),
         newRecord: false, hintMode: ''
       };
@@ -7937,13 +7961,24 @@
       catchFX(G.paddle.x, G.paddle.y, p.color);
       switch (id) {
         case 'multi': splitBalls(); pushText(p.name.toUpperCase(), G.paddle.x, G.paddle.y - 26, p.color, 13); break;
+        case 'swarm': {
+          const added = spawnSwarmBalls(G.paddle.x, G.paddle.y - 16, 5);
+          pushText('BALL STORM +' + added + '!', G.paddle.x, G.paddle.y - 26, p.color, 13);
+          break;
+        }
+        case 'nova_full': {
+          G.novaCharge = 100;
+          sfx.win();
+          pushText('⚡ NOVA 100% READY!', G.paddle.x, G.paddle.y - 26, p.color, 14);
+          break;
+        }
         case 'life': case 'heart': {
           const maxL = S.set.stackPowers !== false ? 15 : 6;
           G.lives = Math.min(maxL, G.lives + 1); G.maxLives = Math.max(G.maxLives, G.lives); G.livesDirty = true; sfx.life();
           pushText(p.name.toUpperCase(), G.paddle.x, G.paddle.y - 26, p.color, 13);
           break;
         }
-        case 'coin': { const got = addCoins(25); G.coinsRun += got; sfx.coin(); coinFX(G.paddle.x, G.paddle.y); pushText(p.name.toUpperCase(), G.paddle.x, G.paddle.y - 26, p.color, 13); break; }
+        case 'coin': { const got = addCoins(30); G.coinsRun += got; sfx.coin(); coinFX(G.paddle.x, G.paddle.y); pushText('+' + got + ' COINS!', G.paddle.x, G.paddle.y - 26, p.color, 13); break; }
         case 'shield': {
           const maxS = S.set.stackPowers !== false ? 25 : 5;
           G.shield = Math.min(maxS, G.shield + 2); G.fxDirty = true; sfx.shield();
@@ -7974,10 +8009,10 @@
         const maxL = S.set.stackPowers !== false ? 15 : 6;
         const maxS = S.set.stackPowers !== false ? 25 : 5;
         if (id === 'heart') { G.lives = Math.min(maxL, G.lives + 1); G.maxLives = Math.max(G.maxLives, G.lives); G.livesDirty = true }
-        else if (id === 'wide') applyEffect('wide', 14);
-        else if (id === 'slow') applyEffect('slow', 10);
-        else if (id === 'laser') applyEffect('laser', 12);
-        else if (id === 'fire') applyEffect('fire', 10);
+        else if (id === 'wide') applyEffect('wide', 18);
+        else if (id === 'slow') applyEffect('slow', 14);
+        else if (id === 'laser') applyEffect('laser', 15);
+        else if (id === 'fire') applyEffect('fire', 13);
         else if (id === 'shield') { G.shield = Math.min(maxS, G.shield + 2); G.fxDirty = true }
         else if (id === 'multi') splitBalls();
       }
@@ -8017,7 +8052,7 @@
       G.score += 350 * G.mult; G.xpRun += 40; chargeNova(22);
       explodeFX(dr.x, dr.y); coinFX(dr.x, dr.y); sfx.coin(); sfx.boom();
       pushText('🛸 DRONE BONUS +' + got + ' COINS!', dr.x, dr.y, '#FFD166', 14);
-      const goodList = ['wide', 'multi', 'laser', 'fire', 'shield', 'magnet'];
+      const goodList = ['wide', 'multi', 'swarm', 'laser', 'rocket', 'fire', 'giant', 'bolt', 'bombball', 'acid', 'split', 'double', 'nova_full', 'shield'];
       G.drops.push({ x: dr.x, y: dr.y, type: goodList[(R() * goodList.length) | 0], seed: R() * 6.28 });
       markDirty();
     }
@@ -8029,13 +8064,40 @@
         return;
       }
       let finalDmg = dmg;
+      if (src === 'ball' && G.fx.giant) finalDmg *= 2;
+      if (G.fx.freeze && src !== 'acid') finalDmg += 1;
       const critP = (S.upg?.critChance || 0) * 0.08;
       if (src === 'ball' && critP > 0 && b.hp > 1 && R() < critP) {
         finalDmg *= 2;
         S.stats.critHits = (S.stats.critHits || 0) + 1;
         if (G.balls.length <= 8) pushText('CRIT ×2!', b.rx + bw / 2, b.y - 4, '#A3E635', 11);
       }
+      if (G.fx.acid && src === 'ball' && b.code !== 5) b.acidT = 5.5;
       b.hp -= finalDmg;
+      if (src === 'ball' && G.fx.bolt) {
+        const cx0 = b.rx + bw / 2, cy0 = b.y + bh / 2;
+        let zapped = 0;
+        const maxZaps = 2 + Math.min(2, (G.fx.bolt.stacks || 1) - 1);
+        for (const nb of G.bricks) {
+          if (!nb.alive || nb === b || nb.code === 5) continue;
+          const ncx = nb.rx + (nb.w || BW) / 2, ncy = nb.y + (nb.h || BH) / 2;
+          if (Math.hypot(ncx - cx0, ncy - cy0) <= 95) {
+            G.arcs.push({ x1: cx0, y1: cy0, x2: ncx, y2: ncy, t: 0, life: 0.22 });
+            hitBrick(nb, 1, 'bolt');
+            if (++zapped >= maxZaps) break;
+          }
+        }
+      }
+      if (src === 'ball' && G.fx.bombball && b.code !== 5 && !G.blastQ.includes(b)) {
+        G.blastQ.push(b);
+      }
+      if (src === 'ball' && G.fx.split) {
+        G.splitHitCnt = (G.splitHitCnt || 0) + 1;
+        if (G.splitHitCnt >= 5) {
+          G.splitHitCnt = 0;
+          spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 1);
+        }
+      }
       chargeNova(b.code === 8 ? 5 : (b.micro ? 0.65 : 2.2));
       if (b.hp <= 0) killBrick(b, src);
       else {
@@ -8059,11 +8121,12 @@
       G.combo++; G.comboT = comboMaxTime(); G.mult = Math.min(8, 1 + Math.floor(G.combo / 5));
       if (G.combo > S.stats.bestCombo) { S.stats.bestCombo = G.combo; markDirty() }
       G.bestComboRun = Math.max(G.bestComboRun, G.combo);
+      const scoreBoost = G.fx.double ? (S.set.stackPowers !== false ? Math.min(4, 1 + (G.fx.double.stacks || 1)) : 2) : 1;
       const base = { 1: 12, 2: 24, 3: 40, 4: 30, 5: 60, 6: 20, 7: 20, 8: 120, 9: 150, 10: 120 }[b.code] || 12;
-      const pts = base * G.mult; G.score += pts;
+      const pts = base * G.mult * scoreBoost; G.score += pts;
       const cn = { 1: 1, 2: 2, 3: 3, 4: 2, 5: 3, 6: 12, 7: 2, 8: 15, 9: 20, 10: 14 }[b.code] || 1;
       const got = addCoins(cn); G.coinsRun += got;
-      const xpGain = { 1: 2, 2: 4, 3: 6, 4: 5, 5: 8, 6: 4, 7: 4, 8: 20, 9: 25, 10: 18 }[b.code] || 2;
+      const xpGain = ({ 1: 2, 2: 4, 3: 6, 4: 5, 5: 8, 6: 4, 7: 4, 8: 20, 9: 25, 10: 18 }[b.code] || 2) * scoreBoost;
       G.xpRun += xpGain;
       G.bricksRun++; S.stats.bricks++; S.daily.bricks++;
       const bt = S.stats.brickTypes;
@@ -8097,7 +8160,7 @@
       if ((G.mode === 'megabrick' || G.mode === 'random') && G.breakable > 0 && G.breakable <= Math.max(10, Math.round((G.initialBreakable || 80) * 0.08))) {
         crackShieldWallsAroundRemaining();
       }
-      const dropChance = (b.micro ? 0.032 : 0.135) * clamp((S.set.dropRatePct ?? 100) / 100, 0.5, 2.0);
+      const dropChance = (b.micro ? 0.045 : 0.17) * clamp((S.set.dropRatePct ?? 100) / 100, 0.5, 2.0);
       if (b.code === 7 || b.code === 8 || (b.code !== 5 && G.drops.length < 6 && R() < dropChance)) spawnDrop(b);
       if (G.breakable <= 0 && (G.state === 'play' || G.state === 'ready')) {
         if (G.mode === 'campaign' || G.mode === 'daily' || G.mode === 'custom' || G.mode === 'random' || G.mode === 'megabrick' || G.mode === 'numbricks') doWin();
@@ -8127,9 +8190,14 @@
       G.blasting = false;
     }
     function spawnDrop(b) {
-      const table = [['wide', 10], ['multi', 9], ['slow', 8], ['laser', 9], ['fire', 7], ['magnet', 6], ['shield', 6], ['life', 3], ['coin', 10]];
-      const hazards = S.set.trapDrops !== false && (G.mode === 'campaign' ? (G.absWorld >= 4) : G.mode === 'random' ? (G.randomTier === 'hard' || G.randomTier === 'hardest') : (G.wave >= 3 || G.mode === 'daily' || G.mode === 'bossrush'));
-      if (hazards) table.push(['fast', 7], ['shrink', 7]);
+      const table = [
+        ['wide', 10], ['multi', 9], ['swarm', 6], ['slow', 8], ['laser', 8], ['rocket', 7],
+        ['fire', 7], ['giant', 8], ['bolt', 8], ['bombball', 7], ['acid', 7], ['split', 7],
+        ['freeze', 6], ['vortex', 6], ['double', 8], ['magnet', 6], ['shield', 6],
+        ['nova_full', 4], ['life', 3], ['coin', 9]
+      ];
+      const hazards = S.set.trapDrops !== false && (G.mode === 'campaign' ? (G.absWorld >= 3) : (G.mode === 'random' || G.mode === 'numbricks') ? (G.randomTier === 'hard' || G.randomTier === 'hardest') : (G.wave >= 3 || G.mode === 'daily' || G.mode === 'bossrush'));
+      if (hazards) table.push(['fast', 6], ['shrink', 6], ['reverse', 5]);
       let tot = 0; for (const t of table) tot += t[1];
       let roll = R() * tot, pick = 'coin';
       for (const t of table) { roll -= t[1]; if (roll <= 0) { pick = t[0]; break } }
@@ -8250,7 +8318,7 @@
     }
     function loseLife() {
       G.deaths++; S.stats.ballsLost++; markDirty();
-      clearTimedEffects(); G.drops.length = 0; G.lasers.length = 0; G.hazards.length = 0;
+      clearTimedEffects(); G.drops.length = 0; G.lasers.length = 0; G.rockets.length = 0; G.arcs.length = 0; G.hazards.length = 0;
       G.lives--; G.livesDirty = true; shake(9); sfx.lifeLost(); haptic([25, 35, 25]);
       if (G.lives > 0) { spawnBall(); G.state = 'ready'; banner('BALL LOST', '#FF4D5E', .42) }
       else doLose('balls');
@@ -8343,7 +8411,7 @@
             }
           }
           /* Boss Plasma Attack System */
-          if (G.boss && G.breakable > 0 && S.set.bossHazards !== false) {
+          if (G.boss && G.breakable > 0 && S.set.bossHazards !== false && !G.fx.freeze) {
             G.bossFireT -= dt * (G.bossEnraged ? 1.45 : 1);
             if (G.bossFireT <= 0) {
               G.bossFireT = Math.max(2.1, 4.2 - G.sector * 0.3);
@@ -8361,7 +8429,7 @@
         }
         const p = G.paddle;
         const pb = paddleBounds();
-        const inv = S.set.invertControls ? -1 : 1;
+        const inv = ((S.set.invertControls ? 1 : 0) ^ (G.fx.reverse ? 1 : 0)) ? -1 : 1;
         const kSpd = 560 * ((S.set.keySpeedPct ?? 100) / 100) * inv;
         if (keys.l) p.tx -= kSpd * dt;
         if (keys.r) p.tx += kSpd * dt;
@@ -8398,7 +8466,7 @@
         p.pulse = Math.max(0, p.pulse - dt * 5);
         for (const id in G.fx) { G.fx[id].t -= dt; if (G.fx[id].t <= 0) { delete G.fx[id]; G.fxDirty = true } }
         if (G.comboT > 0) { G.comboT -= dt; if (G.comboT <= 0) { G.combo = 0; G.mult = 1 } }
-        for (const b of G.bricks) { if (!b.alive) continue; b.rx = b.moveAmp ? b.x + Math.sin(G.t * b.moveSpd + b.movePh) * b.moveAmp : b.x }
+        if (!G.fx.freeze) { for (const b of G.bricks) { if (!b.alive) continue; b.rx = b.moveAmp ? b.x + Math.sin(G.t * b.moveSpd + b.movePh) * b.moveAmp : b.x } }
         if (G.fx.laser && playing) {
           const lStacks = S.set.stackPowers !== false ? (G.fx.laser.stacks || 1) : 1;
           const fireInt = Math.max(0.14, 0.46 / (1 + (lStacks - 1) * 0.35));
@@ -8430,6 +8498,62 @@
           if (dead) G.lasers.splice(i, 1);
         }
         processBlasts();
+        const curR = activeBallRadius();
+        for (const b of G.balls) { if (Math.abs(b.r - curR) > 0.2) b.r = lerp(b.r, curR, 1 - Math.exp(-12 * dt)); }
+        if (G.fx.rocket && playing) {
+          const rStacks = S.set.stackPowers !== false ? (G.fx.rocket.stacks || 1) : 1;
+          const rInt = Math.max(0.35, 0.85 / (1 + (rStacks - 1) * 0.35));
+          G.rocketAcc += dt;
+          while (G.rocketAcc >= rInt) {
+            G.rocketAcc -= rInt;
+            G.rockets.push({ x: p.x - p.w * 0.35, y: p.y - 8, vx: -40, vy: -280, dmg: 2 + rStacks });
+            G.rockets.push({ x: p.x + p.w * 0.35, y: p.y - 8, vx: 40, vy: -280, dmg: 2 + rStacks });
+            sfx.launch();
+          }
+        }
+        for (let i = G.rockets.length - 1; i >= 0; i--) {
+          const rk = G.rockets[i];
+          let tgt = null, bestD = 1e9;
+          for (const br of G.bricks) {
+            if (!br.alive || br.code === 5) continue;
+            const d = Math.hypot((br.rx + (br.w || BW) / 2) - rk.x, (br.y + (br.h || BH) / 2) - rk.y);
+            if (d < bestD) { bestD = d; tgt = br; }
+          }
+          if (tgt) {
+            const tx = tgt.rx + (tgt.w || BW) / 2, ty = tgt.y + (tgt.h || BH) / 2;
+            const ang = Math.atan2(ty - rk.y, tx - rk.x);
+            rk.vx = lerp(rk.vx, Math.cos(ang) * 440, 1 - Math.exp(-7 * dt));
+            rk.vy = lerp(rk.vy, Math.sin(ang) * 440, 1 - Math.exp(-7 * dt));
+          }
+          rk.x += rk.vx * dt; rk.y += rk.vy * dt;
+          let dead = rk.y < topWall - 12 || rk.x < -12 || rk.x > VW + 12 || rk.y > VH + 12;
+          if (!dead) {
+            for (const br of G.bricks) {
+              if (!br.alive || br.code === 5) continue;
+              const bw = br.w || BW, bh = br.h || BH;
+              if (rk.x >= br.rx - 4 && rk.x <= br.rx + bw + 4 && rk.y >= br.y - 4 && rk.y <= br.y + bh + 4) {
+                explodeFX(rk.x, rk.y); sfx.boom();
+                hitBrick(br, rk.dmg, 'rocket');
+                dead = true; break;
+              }
+            }
+          }
+          if (dead) G.rockets.splice(i, 1);
+        }
+        G.acidAcc = (G.acidAcc || 0) + dt;
+        if (G.acidAcc >= 0.75) {
+          G.acidAcc = 0;
+          for (const br of G.bricks) {
+            if (!br.alive || !(br.acidT > 0)) continue;
+            br.acidT -= 0.75;
+            sparkFX(br.rx + (br.w || BW) / 2, br.y + (br.h || BH) / 2, '#A3E635', 2);
+            hitBrick(br, 1, 'acid');
+          }
+        }
+        for (let i = G.arcs.length - 1; i >= 0; i--) {
+          G.arcs[i].t += dt;
+          if (G.arcs[i].t >= G.arcs[i].life) G.arcs.splice(i, 1);
+        }
         const pSweepTop = Math.min(prevY, p.y), pSweepBot = Math.max(prevY + PH, p.y + PH);
         for (let i = G.hazards.length - 1; i >= 0; i--) {
           const h = G.hazards[i];
@@ -8450,7 +8574,7 @@
           if (h.y > Math.min(VH + 20, pb.maxY + PH + 42)) G.hazards.splice(i, 1);
         }
         const magStacks = G.fx.magnet ? (S.set.stackPowers !== false ? (G.fx.magnet.stacks || 1) : 1) : 0;
-        const tractorR = (S.upg?.magnetRad || 0) * 26 + (magStacks > 0 ? (45 + magStacks * 35) : 0);
+        const tractorR = G.fx.vortex ? 900 : ((S.upg?.magnetRad || 0) * 26 + (magStacks > 0 ? (45 + magStacks * 35) : 0));
         const dropSpdMult = clamp((S.set.dropSpeedPct ?? 100) / 100, 0.6, 1.5);
         for (let i = G.drops.length - 1; i >= 0; i--) {
           const d = G.drops[i];
@@ -8467,7 +8591,7 @@
         if (playing && G.mode === 'endless') {
           if (G.waveDelay > 0) { G.waveDelay -= dt; if (G.waveDelay <= 0) spawnWave() }
           else {
-            G.descT -= dt;
+            if (!G.fx.freeze) G.descT -= dt;
             if (G.descT <= 0) {
               G.descT = G.descInt; let maxY = 0;
               for (const b of G.bricks) if (b.alive) { b.y += 20; maxY = Math.max(maxY, b.y + BH) }
@@ -8796,6 +8920,23 @@
         ctx.fillStyle = 'rgba(255,61,138,.35)'; ctx.fillRect(L.x - 3, L.y - 14, 6, 18);
         ctx.fillStyle = '#FF9EC4'; ctx.fillRect(L.x - 1.2, L.y - 12, 2.4, 14);
       }
+      for (const rk of (G.rockets || [])) {
+        const ang = Math.atan2(rk.vy, rk.vx) + Math.PI / 2;
+        ctx.save(); ctx.translate(rk.x, rk.y); ctx.rotate(ang);
+        ctx.fillStyle = '#F97316';
+        ctx.beginPath(); ctx.moveTo(0, -8); ctx.lineTo(4, 5); ctx.lineTo(0, 2); ctx.lineTo(-4, 5); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#FEF08A'; ctx.beginPath(); ctx.arc(0, 5, 2.5, 0, 7); ctx.fill();
+        ctx.restore();
+      }
+      for (const arc of (G.arcs || [])) {
+        const f = 1 - arc.t / arc.life;
+        ctx.save(); ctx.globalAlpha = f;
+        ctx.strokeStyle = '#FDE047'; ctx.lineWidth = 2.4;
+        const mx = (arc.x1 + arc.x2) / 2 + (R() - 0.5) * 14, my = (arc.y1 + arc.y2) / 2 + (R() - 0.5) * 14;
+        ctx.beginPath(); ctx.moveTo(arc.x1, arc.y1); ctx.lineTo(mx, my); ctx.lineTo(arc.x2, arc.y2); ctx.stroke();
+        ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.restore();
+      }
       for (const h of G.hazards) {
         ctx.save(); ctx.translate(h.x, h.y);
         ctx.fillStyle = 'rgba(255,77,94,.32)'; ctx.beginPath(); ctx.arc(0, 0, h.r * 1.9, 0, 7); ctx.fill();
@@ -9120,7 +9261,7 @@
       }).join('');
       openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--cyan)">HOW TO PLAY</div><h2 class="sheet-title">BrickPop Nova Ultimate</h2></div>' +
         '<div class="help-steps">' + steps.map(s => '<div class="hstep"><span class="hs-ic" style="background:' + s[3] + '">' + icon(s[0]) + '</span><div><b>' + s[1] + '</b><p>' + s[2] + '</p></div></div>').join('') + '</div>' +
-        '<div class="sec-title" style="margin-top:4px">ALL 11 POWER-UPS &amp; TRAPS</div><div class="legend">' + legend + '</div>' +
+        '<div class="sec-title" style="margin-top:4px">ALL 23 POWER-UPS &amp; TRAPS</div><div class="legend">' + legend + '</div>' +
         '<div class="hazard-note">' + icon('alert') + ' Red-ringed capsules are traps — dodge them! Keys 1–7 activate owned boosters mid-game.</div>' +
         '<div class="sheet-btns"><button class="btn btn-primary" data-action="close-sheet">' + icon('check') + ' Got It</button></div>', 'help', 'close-sheet');
     }
@@ -9196,7 +9337,7 @@
         '<button class="mode bossrush" data-action="start-bossrush"><span class="m-ic">' + icon('crown') + '</span><b>Boss Rush</b><span>All Bosses · Best: ' + fmt(S.stats.bossRushBest || 0) + '</span></button>' +
         '<button class="mode dailyc" data-action="start-daily"><span class="m-ic">' + icon('calendar') + '</span><b>Daily Challenge</b><span>' + (S.daily.challengeDone ? 'Completed today ✓' : 'New cosmic board today!') + '</span></button>' +
         '<button class="mode studio" data-action="open-editor"><span class="m-ic">' + icon('wand') + '</span><b>Level Studio</b><span>Build, Share &amp; Play Custom</span></button>' +
-        '<button class="mode help" data-action="help"><span class="m-ic">' + icon('info') + '</span><b>How to Play</b><span>Controls, Bricks &amp; 11 Powers</span></button></div>' +
+        '<button class="mode help" data-action="help"><span class="m-ic">' + icon('info') + '</span><b>How to Play</b><span>Controls, Bricks &amp; 23 Powers</span></button></div>' +
 
         '<div class="strip"><div class="stat-chip s1"><b>' + totalStars() + '</b><span>Total Stars</span></div><div class="stat-chip s2"><b>' + fmt(S.stats.bricks) + '</b><span>Bricks Broken</span></div><div class="stat-chip s3"><b>×' + S.stats.bestCombo + '</b><span>Best Combo</span></div></div>' +
         '<div class="card tip-card">' + icon('sparkles') + '<span id="tipText">' + TIPS[0] + '</span></div>' +
@@ -9627,7 +9768,7 @@
         '<button class="btn btn-ghost btn-sm" data-action="reset-settings" style="width:100%;margin-bottom:9px">' + icon('restart') + ' Restore Default Settings (Keep Progress)</button>' +
         '<button class="btn btn-danger btn-sm" data-action="reset-progress" style="width:100%">' + icon('trash') + ' Erase All Progress &amp; Save Data</button></div>' +
 
-        '<div class="card about"><b>BRICKPOP NOVA ULTIMATE</b>Unlimited Levels &amp; Ranks · 7 Modes · 11 Power-Ups · 100% Offline<br>💛 Dedicated to my little <b>Muhib Ullah</b>' +
+        '<div class="card about"><b>BRICKPOP NOVA ULTIMATE</b>Unlimited Levels &amp; Ranks · 8 Modes · 23 Power-Ups · 100% Offline<br>💛 Dedicated to my little <b>Muhib Ullah</b>' +
         '<div class="copy-box"><b>&copy; 2026 Yasin Ullah — Bannu Software Solutions</b><br>WhatsApp: 0336-1593533<br>Copying, modification, redistribution, or reuse is strictly prohibited without explicit permission and attribution to the original author (Yasin Ullah).</div></div>';
     }
 
@@ -10668,7 +10809,7 @@
     let hasTouch = false, touchEventsActive = false, lastTapTime = 0;
     function steerTo(rawX, isDrag, dragObj, rawY) {
       if (!G) return;
-      const inv = S.set.invertControls ? -1 : 1;
+      const inv = ((S.set.invertControls ? 1 : 0) ^ (G.fx.reverse ? 1 : 0)) ? -1 : 1;
       const mode = S.set.controlMode || 'drag';
       const pb = paddleBounds();
       const stickyB = G.balls.find(b => b.sticky);
@@ -10679,7 +10820,7 @@
       }
       const minX = G.paddle.w / 2 + 4, maxX = VW - G.paddle.w / 2 - 4;
       if (mode === 'direct' || !isDrag) {
-        const target = S.set.invertControls ? (VW - rawX) : rawX;
+        const target = (inv < 0) ? (VW - rawX) : rawX;
         G.paddle.tx = clamp(target, minX, maxX);
         if (S.set.verticalPaddle !== false && rawY !== undefined) {
           const yOff = (isDrag && isTouchErgonomic()) ? 44 : 0;
