@@ -62,15 +62,15 @@ if (workbox) {
     },
     {
         "url": "CLIENT-README.md",
-        "revision": "2c7a6c9ced1748b183e2cae422f4a852"
+        "revision": "12303e08b5a57d9f547bb2e243de5941"
     },
     {
         "url": "FEATURES-REPORT.md",
-        "revision": "e73748e7adb2b3229f2ad989d484a5f2"
+        "revision": "7c2272937fc7536a15c8e3cabe195709"
     },
     {
         "url": "index.html",
-        "revision": "45688ab33cafc3e189a49e1487c3c490"
+        "revision": "0a38ad770cf0fb21c381ed405aca1114"
     },
     {
         "url": "index.html.bak",
@@ -114,11 +114,11 @@ if (workbox) {
     },
     {
         "url": "README.md",
-        "revision": "a5743b5fcde5450d12948fa3b3900ea8"
+        "revision": "222b295fca24d8d3a3396b4f5d9d7ffb"
     },
     {
         "url": "sw.js",
-        "revision": "58ce505ac7fb9692d94f9ceb138ff41c"
+        "revision": "7e96e972fea70633b503b88772b44a4a"
     }
 ]);
 
