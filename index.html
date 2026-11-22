@@ -3962,22 +3962,39 @@
       justify-content: center;
       cursor: pointer;
     }
+    .ed-cell {
+      user-select: none;
+      -webkit-user-select: none;
+      transition: transform .06s;
+    }
+    .ed-cell:active {
+      transform: scale(.92);
+    }
     .ed-palette {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-bottom: 11px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    @media(max-width:440px) {
+      .ed-palette {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
     }
     .ed-tool {
-      padding: 7px 6px;
+      padding: 6px 6px;
       border-radius: 10px;
       background: var(--surface2);
       border: 1px solid var(--line);
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .ed-tool.active {
       border-color: var(--cyan);
@@ -3985,10 +4002,61 @@
       background: var(--surface3);
     }
     .ed-swatch {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       border-radius: 4px;
       flex: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 900;
+      color: #0B0716;
+    }
+    .ed-world-bar {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      padding: 2px 1px 7px;
+      margin-bottom: 6px;
+    }
+    .ed-wchip {
+      flex: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 800;
+      background: var(--inset-bg);
+      border: 1px solid var(--line2);
+      color: var(--muted);
+    }
+    .ed-wchip.active {
+      color: var(--text);
+      border-color: var(--wc, var(--cyan));
+      box-shadow: 0 0 0 1px var(--wc, var(--cyan));
+      background: color-mix(in srgb, var(--wc, #22D3EE) 18%, var(--surface2));
+    }
+    .ed-slot-pill {
+      flex: none;
+      display: inline-flex;
+      align-items: center;
+      background: var(--surface2);
+      border: 1px solid var(--line2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .ed-slot-pill button {
+      padding: 4px 9px;
+      font-size: 10.5px;
+      font-weight: 800;
+    }
+    .ed-slot-pill .ed-del {
+      padding: 4px 7px;
+      color: var(--danger);
+      border-left: 1px solid var(--line);
     }
     .wheel-box {
       display: flex;
@@ -4636,6 +4704,7 @@
       landscape: '<rect x="2.5" y="6.5" width="19" height="11" rx="2.2"/><path d="M18 10v4"/><path d="M8 3.5h8l-2-2M16 20.5H8l2 2"/>',
       portrait: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><path d="M10 18h4"/><path d="M3.5 16V8l-2 2M20.5 8v8l2-2"/>',
       eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+      mirror: '<path d="M12 3v18"/><path d="m8 7-5 5 5 5V7ZM16 7l5 5-5 5V7Z"/>',
       shuffle: '<path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>',
       palette: '<circle cx="13.5" cy="6.5" r=".7" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".7" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".7" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".7" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H16c3.3 0 6-2.7 6-6 0-5-4.5-8.6-10-8.6Z"/>'
     };
@@ -6235,28 +6304,41 @@
       };
     }
     function genCustomLevel(customObj) {
-      const wi = clamp(customObj.wi || 0, 0, 7);
-      const grid = customObj.grid || [];
-      const rows = grid.length || 8;
+      const wi = clamp(Number(customObj.wi) || 0, 0, 7);
+      const grid = Array.isArray(customObj.grid) ? customObj.grid : [];
+      const rows = clamp(grid.length || Number(customObj.rows) || 8, 4, 16);
+      const bh = rows > 11 ? Math.max(14, Math.round(BH * 11 / rows)) : BH;
+      const vgap = rows > 11 ? 2 : VGAP;
       const bricks = []; let breakable = 0;
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < COLS; c++) {
-          const code = (grid[r] && grid[r][c]) || 0;
-          if (!code) continue;
+          const code = Number(grid[r] && grid[r][c]) || 0;
+          if (!code || code < 0 || code > 10) continue;
           const mhp = code === 2 ? 2 : code === 3 ? 3 : code === 8 ? 8 : 1;
+          const bx = SIDE + c * (BW + GAP), by = TOP + 6 + r * (bh + vgap);
+          const safeRoom = Math.max(0, Math.min(bx - 6, (VW - BW - 6) - bx));
+          const moveAmp = (customObj.moving && code !== 5 && r % 2 === 1) ? Math.min(10, safeRoom) : 0;
           bricks.push({
-            c, r, x: SIDE + c * (BW + GAP), y: TOP + 6 + r * (BH + VGAP), rx: SIDE + c * (BW + GAP),
-            code, mhp, hp: mhp, alive: true, moveAmp: customObj.moving && r % 2 === 1 ? 10 : 0, moveSpd: 1.1, movePh: (c + r) * 0.6
+            c, r, x: bx, y: by, rx: bx, h: bh,
+            code, mhp, hp: mhp, alive: true,
+            unbreakable: code === 5,
+            moveAmp, moveSpd: 1.05 + (r % 3) * 0.15, movePh: r * 1.57
           });
           if (code !== 5) breakable++;
         }
       }
       if (breakable === 0) {
-        bricks.push({ c: 5, r: 2, x: SIDE + 5 * (BW + GAP), y: TOP + 6 + 2 * (BH + VGAP), rx: SIDE + 5 * (BW + GAP), code: 8, mhp: 6, hp: 6, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
+        const existingMid = bricks.find(b => b.c === 5 && b.r === 2);
+        if (existingMid) {
+          existingMid.code = 8; existingMid.mhp = 6; existingMid.hp = 6; existingMid.unbreakable = false;
+        } else {
+          const bx = SIDE + 5 * (BW + GAP), by = TOP + 6 + 2 * (BH + VGAP);
+          bricks.push({ c: 5, r: 2, x: bx, y: by, rx: bx, code: 8, mhp: 6, hp: 6, alive: true, unbreakable: false, moveAmp: 0, moveSpd: 1, movePh: 0 });
+        }
         breakable = 1;
       }
       const hasBossCore = bricks.some(b => b.code === 8);
-      return { wi, absWorld: wi, sector: 0, li: 0, boss: hasBossCore, name: customObj.name || 'Custom Studio Stage', rows, bricks, breakable };
+      return { wi, absWorld: wi, sector: 0, li: 0, boss: hasBossCore, name: (customObj.name || 'Custom Studio Stage').trim(), rows, bricks, orbs: [], breakable };
     }
 
     function codeColor(b, hues) {
@@ -9433,7 +9515,7 @@
         '<div class="pause-note">' + icon(d.icon) + ' Difficulty: <b>&nbsp;' + d.label + '</b> &nbsp;·&nbsp; Speed: <b>' + (S.set.ballSpeedPct ?? 100) + '%</b></div>' +
         '<div class="sheet-btns"><button class="btn btn-primary" data-action="resume">' + icon('play') + ' Resume Game</button>' +
         '<div class="btn-row"><button class="btn btn-ghost" data-action="restart">' + icon(isRandOrMega ? 'shuffle' : 'restart') + (isRandOrMega ? ' New Board' : ' Restart') + '</button>' +
-        (isRandOrMega ? '<button class="btn btn-ghost" data-action="' + openPickerAct + '">' + icon('sliders') + ' Setup & Missions</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') + '</div>' +
+        (isRandOrMega ? '<button class="btn btn-ghost" data-action="' + openPickerAct + '">' + icon('sliders') + ' Setup & Missions</button>' : G.mode === 'custom' ? '<button class="btn btn-ghost" data-action="back-editor">' + icon('wand') + ' Edit Stage</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') + '</div>' +
         '<div class="btn-row"><button class="btn btn-ghost" data-action="cycle-theme">' + icon('palette') + ' Theme: ' + currentTheme().name.split(' ')[0] + '</button>' +
         '<button class="btn btn-ghost" data-action="go-settings">' + icon('sliders') + ' Settings</button>' +
         '<button class="btn btn-danger" data-action="home">' + icon('home') + ' Quit</button></div></div>', 'pause', 'resume');
@@ -9460,7 +9542,7 @@
         '<div class="total"><span>Total Coins</span><b id="winCoins">0</b></div></div>' +
         '<div class="sheet-btns"><button class="btn btn-primary" data-action="' + (G.mode === 'daily' ? 'home' : 'next') + '">' + icon(G.mode === 'daily' ? 'home' : G.mode === 'custom' ? 'wand' : isRandOrMega ? 'shuffle' : 'play') + ' ' + nextBtnLbl + '</button>' +
         '<div class="btn-row">' + (isRandOrMega ? '<button class="btn btn-ghost" data-action="' + openPickerAct + '">' + icon('sliders') + ' Setup & Missions</button>' : '<button class="btn btn-ghost" data-action="replay">' + icon('restart') + ' Replay</button>') +
-        '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>' +
+        (G.mode === 'custom' ? '<button class="btn btn-ghost" data-action="back-editor">' + icon('wand') + ' Edit Stage</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') +
         '<button class="btn btn-danger" data-action="home">' + icon('home') + ' Quit</button></div></div>', 'win', null);
       let shown = 0; const el = $('#winCoins');
       UI.sheetTimer = setInterval(() => {
@@ -9486,7 +9568,7 @@
         '<div class="sheet-btns">' +
         (canCont ? '<button class="btn btn-cyan" data-action="continue-run">' + icon('coin') + ' Continue — 50 Coins</button>' : '') +
         '<button class="btn btn-primary" data-action="replay">' + icon(isRandOrMega ? 'shuffle' : 'restart') + (isRandOrMega ? ' New Unique Board' : ' Try Again') + '</button>' +
-        '<div class="btn-row">' + (isRandOrMega ? '<button class="btn btn-ghost" data-action="' + openPickerAct + '">' + icon('sliders') + ' Setup & Missions</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') +
+        '<div class="btn-row">' + (isRandOrMega ? '<button class="btn btn-ghost" data-action="' + openPickerAct + '">' + icon('sliders') + ' Setup & Missions</button>' : G.mode === 'custom' ? '<button class="btn btn-ghost" data-action="back-editor">' + icon('wand') + ' Edit Stage</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') +
         '<button class="btn btn-ghost" data-action="go-shop">' + icon('bag') + ' Shop</button>' +
         '<button class="btn btn-danger" data-action="home">' + icon('home') + ' Quit</button></div></div>', 'lose', null);
     }
@@ -9556,7 +9638,8 @@
         '<canvas class="hero-prev" id="heroPrev" width="216" height="144"></canvas></div>' +
         '<div class="hero-meta"><span>World Progress (Unlimited Campaign)</span><span>' + ws + ' / 45 ★</span></div>' +
         '<div class="hero-bar"><i style="width:' + (ws / 45 * 100) + '%"></i></div>' +
-        '<button class="btn btn-primary" data-action="start-level" data-arg="' + unlocked + '">' + icon('play') + ' Play Level ' + (unlocked + 1) + '</button></div>' +
+        '<div class="btn-row"><button class="btn btn-primary" data-action="start-level" data-arg="' + unlocked + '">' + icon('play') + ' Play Level ' + (unlocked + 1) + '</button>' +
+        '<button class="btn btn-cyan" data-action="open-editor" style="flex:0 0 auto;padding:13px 15px">' + icon('wand') + ' Level Studio</button></div></div>' +
 
         '<div class="rank-banner" data-action="tab" data-arg="awards" style="cursor:pointer">' +
         '<div class="rank-emblem">' + rk.icon + '</div>' +
@@ -10092,7 +10175,7 @@
 
     /* Custom Level Studio */
     const ED_BRICKS = [
-      { code: 1, name: 'Normal', sym: '1', col: '#22D3EE' },
+      { code: 1, name: 'Normal', sym: '', col: '#22D3EE' },
       { code: 2, name: 'Armor 2', sym: '2', col: '#8B5CF6' },
       { code: 3, name: 'Heavy 3', sym: '3', col: '#38BDF8' },
       { code: 4, name: 'Bomb', sym: 'B', col: '#FF6B35' },
@@ -10100,27 +10183,81 @@
       { code: 6, name: 'Gold $', sym: '$', col: '#FFC53D' },
       { code: 7, name: 'Gift ?', sym: '?', col: '#FF3D8A' },
       { code: 8, name: 'Boss ★', sym: '★', col: '#E879F9' },
+      { code: 9, name: '+4 Swarm', sym: '+4', col: '#FACC15' },
+      { code: 10, name: '+3 Blast', sym: '+3', col: '#FF2A55' },
       { code: 0, name: 'Eraser', sym: '✕', col: '#2A1D52' }
     ];
+    const ED_ROW_OPTS = [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16];
+    function normalizeEditorGrid(grid, rows) {
+      const targetRows = clamp(Number(rows) || (Array.isArray(grid) ? grid.length : 8) || 8, 4, 16);
+      return Array.from({ length: targetRows }, (_, r) =>
+        Array.from({ length: COLS }, (_, c) => {
+          const v = Number(grid && grid[r] && grid[r][c]) || 0;
+          return (Number.isInteger(v) && v >= 0 && v <= 10) ? v : 0;
+        })
+      );
+    }
     function ensureEditorData() {
-      if (!UI.editorData) {
+      if (!UI.editorData || !Array.isArray(UI.editorData.grid)) {
         const g = Array.from({ length: 8 }, (_, r) => Array.from({ length: COLS }, (_, c) => (r < 4 && (c + r) % 2 === 0 ? 1 : 0)));
         g[1][5] = 8;
-        UI.editorData = { name: 'My Neon Fortress', wi: 0, brush: 1, sym: true, moving: false, grid: g };
+        UI.editorData = { name: 'My Neon Fortress', wi: 0, rows: 8, brush: 1, sym: false, moving: false, tplIdx: 0, grid: g };
+      } else {
+        UI.editorData.wi = clamp(Number(UI.editorData.wi) || 0, 0, 7);
+        UI.editorData.rows = clamp(Number(UI.editorData.rows) || UI.editorData.grid.length || 8, 4, 16);
+        UI.editorData.grid = normalizeEditorGrid(UI.editorData.grid, UI.editorData.rows);
+        if (typeof UI.editorData.brush !== 'number' || UI.editorData.brush < 0 || UI.editorData.brush > 10) UI.editorData.brush = 1;
+        if (typeof UI.editorData.sym !== 'boolean') UI.editorData.sym = false;
+        UI.editorData.moving = !!UI.editorData.moving;
       }
     }
-    function renderEditorCells() {
-      const ed = UI.editorData, wrap = $('#edGridWrap'); if (!wrap) return;
-      let html = '';
-      for (let r = 0; r < 8; r++) {
+    function edCellStyle(code, r, wi) {
+      if (!code) return { bg: 'rgba(255,255,255,.05)', txt: '', col: '#fff' };
+      const hues = themeBrickHues(wi || 0);
+      const info = ED_BRICKS.find(x => x.code === code) || ED_BRICKS[0];
+      const bg = code === 1 ? hues[r % 4] : info.col;
+      const darkTxt = (code === 6 || code === 9);
+      return { bg, txt: info.sym, col: darkTxt ? '#1C0A00' : '#FFFFFF' };
+    }
+    function updateEditorTelemetry() {
+      const ed = UI.editorData; if (!ed) return;
+      let brk = 0, steel = 0, bombs = 0, cores = 0;
+      for (let r = 0; r < ed.grid.length; r++) {
         for (let c = 0; c < COLS; c++) {
           const code = ed.grid[r][c] || 0;
-          const info = ED_BRICKS.find(x => x.code === code);
-          const bg = code ? info.col : 'rgba(255,255,255,.05)';
-          html += '<div class="ed-cell" data-r="' + r + '" data-c="' + c + '" style="background:' + bg + '">' + (code > 1 ? info.sym : '') + '</div>';
+          if (!code) continue;
+          if (code === 5) steel++;
+          else {
+            brk++;
+            if (code === 4 || code === 10) bombs++;
+            if (code === 8) cores++;
+          }
+        }
+      }
+      const stEl = $('#edStatsTxt');
+      if (stEl) {
+        stEl.innerHTML = (brk === 0
+          ? '<span style="color:var(--warning)">⚠ Place at least 1 breakable brick</span>'
+          : '🧱 <b>' + brk + '</b> Breakable') +
+          ' · 🛡️ <b>' + steel + '</b> Steel · 💣 <b>' + bombs + '</b> Bombs' +
+          (cores ? ' · 👑 <b>' + cores + '</b> Boss Core' : '');
+      }
+      const prevCv = $('#edPrevCv');
+      if (prevCv) drawLevelObjPreview(prevCv, genCustomLevel(ed));
+    }
+    function renderEditorCells() {
+      ensureEditorData();
+      const ed = UI.editorData, wrap = $('#edGridWrap'); if (!wrap) return;
+      let html = '';
+      for (let r = 0; r < ed.grid.length; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const code = ed.grid[r][c] || 0;
+          const st = edCellStyle(code, r, ed.wi);
+          html += '<div class="ed-cell" data-r="' + r + '" data-c="' + c + '" style="background:' + st.bg + ';color:' + st.col + '">' + st.txt + '</div>';
         }
       }
       wrap.innerHTML = html;
+      updateEditorTelemetry();
     }
     function openNumberBricksPicker() {
       ensureNumMissions();
@@ -10333,40 +10470,96 @@
     function openLevelEditor() {
       ensureEditorData();
       const ed = UI.editorData;
-      const tools = ED_BRICKS.map(b => '<button class="ed-tool' + (ed.brush === b.code ? ' active' : '') + '" data-action="ed-brush" data-arg="' + b.code + '"><span class="ed-swatch" style="background:' + b.col + '"></span>' + b.name + '</button>').join('');
-      const savedList = (S.customLevels || []).map((cl, i) => '<button class="chip-btn" data-action="ed-load" data-arg="' + i + '">📂 ' + cl.name + '</button>').join('');
-      openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--lime)">CUSTOM LEVEL STUDIO</div><h2 class="sheet-title">Build &amp; Test Stage</h2></div>' +
-        '<div style="display:flex;gap:7px;margin-bottom:9px"><input class="name-input" id="edNameInp" maxlength="22" value="' + ed.name.replace(/"/g, '&quot;') + '" placeholder="Stage Name" style="margin:0;flex:1">' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-sym" id="edSymBtn" title="Toggle Horizontal Mirror Symmetry" aria-label="Toggle Mirror Symmetry">' + (ed.sym ? '🪞 ON' : '🪞 OFF') + '</button></div>' +
+      const w = WORLDS[ed.wi] || WORLDS[0];
+      const worldChips = WORLDS.map((wItem, idx) =>
+        '<button class="ed-wchip' + (ed.wi === idx ? ' active' : '') + '" style="--wc:' + wItem.hues[0] + '" data-action="ed-world" data-arg="' + idx + '">' +
+        '<span class="ed-swatch" style="background:' + wItem.hues[0] + '"></span>W' + (idx + 1) + ' ' + wItem.name.split(' ')[0] + '</button>'
+      ).join('');
+      const tools = ED_BRICKS.map(b => {
+        const swCol = b.code === 1 ? w.hues[0] : b.col;
+        return '<button class="ed-tool' + (ed.brush === b.code ? ' active' : '') + '" data-action="ed-brush" data-arg="' + b.code + '"><span class="ed-swatch" style="background:' + swCol + ';color:' + ((b.code === 6 || b.code === 9) ? '#1C0A00' : '#fff') + '">' + b.sym + '</span>' + b.name + '</button>';
+      }).join('');
+      const savedList = (S.customLevels || []).map((cl, i) =>
+        '<span class="ed-slot-pill"><button data-action="ed-load" data-arg="' + i + '" title="Load ' + cl.name.replace(/"/g, '&quot;') + '">📂 ' + cl.name + '</button>' +
+        '<button class="ed-del" data-action="ed-del" data-arg="' + i + '" title="Delete saved stage" aria-label="Delete ' + cl.name.replace(/"/g, '&quot;') + '">✕</button></span>'
+      ).join('');
+      openSheet('<div class="grabber"></div><div class="sheet-head" style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div><div class="sheet-kicker" style="color:' + w.hues[0] + '">CUSTOM LEVEL STUDIO · ' + w.name.toUpperCase() + '</div><h2 class="sheet-title">Build &amp; Test Stage</h2></div>' +
+        '<canvas id="edPrevCv" width="118" height="76" style="width:92px;height:60px;border-radius:10px;background:rgba(8,4,18,.68);border:1px solid var(--line2);flex:none"></canvas></div>' +
+        '<div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap"><input class="name-input" id="edNameInp" maxlength="22" value="' + ed.name.replace(/"/g, '&quot;') + '" placeholder="Stage Name" style="margin:0;flex:1;min-width:140px">' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-sym" id="edSymBtn" title="Toggle Horizontal Mirror Symmetry">' + icon('mirror') + ' Sym: ' + (ed.sym ? 'ON' : 'OFF') + '</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-moving" id="edMovBtn" title="Toggle Kinetic Sliding Rows">' + icon('move') + ' Move: ' + (ed.moving ? 'ON' : 'OFF') + '</button>' +
+        '<div style="display:inline-flex;align-items:center;background:var(--surface2);border:1px solid var(--line2);border-radius:11px;overflow:hidden">' +
+        '<button class="btn btn-sm" style="min-height:34px;padding:4px 8px;border-radius:0" data-action="ed-rows-step" data-arg="-1" title="Decrease Rows">−</button>' +
+        '<button class="btn btn-sm" style="min-height:34px;padding:4px 8px;border-radius:0;border-left:1px solid var(--line);border-right:1px solid var(--line)" data-action="ed-rows" id="edRowsBtn" title="Cycle Grid Row Count (4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16)">' + icon('grid') + ' ' + ed.grid.length + 'R</button>' +
+        '<button class="btn btn-sm" style="min-height:34px;padding:4px 8px;border-radius:0" data-action="ed-rows-step" data-arg="1" title="Increase Rows">+</button></div></div>' +
+        '<div class="ed-world-bar">' + worldChips + '</div>' +
         '<div class="ed-palette" id="edPalette">' + tools + '</div>' +
         '<div class="ed-grid" id="edGridWrap"></div>' +
+        '<div id="edStatsTxt" style="font-size:11px;color:var(--muted);text-align:center;margin:-3px 0 9px"></div>' +
         '<div class="btn-row" style="margin-bottom:9px">' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-template" title="Generate Random Symmetric Pattern" aria-label="Random Pattern">🎲</button>' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-clear" title="Clear All Bricks" aria-label="Clear Grid">🧹</button>' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-save" title="Save Stage to Studio Slots" aria-label="Save Stage">💾</button>' +
-        '<button class="btn btn-ghost btn-sm" data-action="ed-code" title="Share or Import Level Code" aria-label="Share or Import Code">📋</button></div>' +
-        (savedList ? '<div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px">' + savedList + '</div>' : '') +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-template" title="Cycle Smart Arcade Templates">🎲 Template</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-invert" title="Flip / Mirror Stage Vertically">⇅ Flip</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-clear" title="Clear All Bricks">🧹 Clear</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-save" title="Save Stage to Studio Slots">💾 Save</button>' +
+        '<button class="btn btn-ghost btn-sm" data-action="ed-code" title="Share or Import Level Code">📋 Code</button></div>' +
+        (savedList ? '<div style="font-size:10px;font-weight:800;letter-spacing:1.2px;color:var(--faint);margin-bottom:4px">SAVED STUDIO SLOTS (' + S.customLevels.length + '/12)</div><div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px">' + savedList + '</div>' : '') +
         '<div class="sheet-btns"><button class="btn btn-primary" data-action="ed-play">' + icon('play') + ' Test Play Custom Stage</button>' +
         '<button class="btn btn-ghost" data-action="close-sheet">' + icon('x') + ' Close Studio</button></div>', 'editor', 'close-sheet');
       renderEditorCells();
       setTimeout(() => {
+        const inp = $('#edNameInp');
+        if (inp) inp.addEventListener('input', e => { UI.editorData.name = e.target.value.slice(0, 22) });
         const gw = $('#edGridWrap');
         if (!gw) return;
-        let painting = false;
-        const paintAt = (e) => {
-          const target = document.elementFromPoint(e.clientX, e.clientY)?.closest('.ed-cell');
-          if (!target) return;
-          const r = +target.dataset.r, c = +target.dataset.c;
-          if (!ed.grid[r]) return;
-          ed.grid[r][c] = ed.brush;
-          if (ed.sym) ed.grid[r][COLS - 1 - c] = ed.brush;
-          renderEditorCells();
+        let painting = false, activeBrush = ed.brush;
+        const setCellDom = (r, c, code) => {
+          ed.grid[r][c] = code;
+          const cellEl = gw.querySelector('.ed-cell[data-r="' + r + '"][data-c="' + c + '"]');
+          if (cellEl) {
+            const st = edCellStyle(code, r, ed.wi);
+            cellEl.style.background = st.bg;
+            cellEl.style.color = st.col;
+            cellEl.textContent = st.txt;
+          }
         };
-        gw.addEventListener('pointerdown', e => { painting = true; try { gw.setPointerCapture(e.pointerId) } catch (err) { } paintAt(e); e.preventDefault() });
-        gw.addEventListener('pointermove', e => { if (painting) paintAt(e) });
+        const resolveCellFromEvent = (e) => {
+          const direct = document.elementFromPoint(e.clientX, e.clientY)?.closest('.ed-cell');
+          if (direct && gw.contains(direct)) return [+direct.dataset.r, +direct.dataset.c];
+          const rect = gw.getBoundingClientRect();
+          if (rect.width < 4 || rect.height < 4) return null;
+          const rot = document.body.classList.contains('rot-90');
+          const fx = rot ? ((e.clientY - rect.top) / rect.height) : ((e.clientX - rect.left) / rect.width);
+          const fy = rot ? ((rect.right - e.clientX) / rect.width) : ((e.clientY - rect.top) / rect.height);
+          if (fx < 0 || fx > 1 || fy < 0 || fy > 1) return null;
+          const r = clamp(Math.floor(fy * ed.grid.length), 0, ed.grid.length - 1);
+          const c = clamp(Math.floor(fx * COLS), 0, COLS - 1);
+          return [r, c];
+        };
+        const paintAt = (e) => {
+          const rc = resolveCellFromEvent(e);
+          if (!rc) return;
+          const [r, c] = rc;
+          if (!ed.grid[r]) return;
+          const mc = COLS - 1 - c;
+          const changed1 = ed.grid[r][c] !== activeBrush;
+          const changed2 = ed.sym && ed.grid[r][mc] !== activeBrush;
+          if (!changed1 && !changed2) return;
+          if (changed1) setCellDom(r, c, activeBrush);
+          if (changed2) setCellDom(r, mc, activeBrush);
+          updateEditorTelemetry();
+        };
+        gw.addEventListener('pointerdown', e => {
+          painting = true;
+          activeBrush = (e.pointerType === 'mouse' && e.button === 2) ? 0 : ed.brush;
+          try { gw.setPointerCapture(e.pointerId) } catch (err) { }
+          paintAt(e);
+          e.preventDefault();
+        });
+        gw.addEventListener('pointermove', e => { if (painting) { paintAt(e); e.preventDefault(); } });
         gw.addEventListener('pointerup', () => { painting = false });
         gw.addEventListener('pointercancel', () => { painting = false });
-      }, 30);
+        gw.addEventListener('contextmenu', e => e.preventDefault());
+      }, 25);
     }
 
     /* ---------- ACTIONS ---------- */
@@ -10579,30 +10772,96 @@
       'lucky-wheel'() { unlockAudio(); sfx.click(); openLuckyWheel() },
       'spin-wheel'() { unlockAudio(); spinLuckyWheel() },
       'open-editor'() { unlockAudio(); sfx.click(); openLevelEditor() },
+      'back-editor'() {
+        sfx.click();
+        if (G && G.customData) UI.editorData = JSON.parse(JSON.stringify(G.customData));
+        quitGame('home');
+        openLevelEditor();
+      },
       'ed-brush'(arg) {
         ensureEditorData(); UI.editorData.brush = +arg; sfx.click();
         $$('#edPalette .ed-tool').forEach(b => b.classList.toggle('active', +b.dataset.arg === UI.editorData.brush));
       },
+      'ed-world'(arg) {
+        ensureEditorData();
+        const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || UI.editorData.name;
+        UI.editorData.wi = clamp(+arg || 0, 0, 7);
+        sfx.click(); openLevelEditor();
+      },
       'ed-sym'() {
         ensureEditorData(); UI.editorData.sym = !UI.editorData.sym; sfx.click();
-        const b = $('#edSymBtn'); if (b) b.textContent = UI.editorData.sym ? '🪞 ON' : '🪞 OFF';
+        const b = $('#edSymBtn'); if (b) b.innerHTML = icon('mirror') + ' Sym: ' + (UI.editorData.sym ? 'ON' : 'OFF');
+      },
+      'ed-moving'() {
+        ensureEditorData(); UI.editorData.moving = !UI.editorData.moving; sfx.click();
+        const b = $('#edMovBtn'); if (b) b.innerHTML = icon('move') + ' Move: ' + (UI.editorData.moving ? 'ON' : 'OFF');
+        updateEditorTelemetry();
+      },
+      'ed-rows'() {
+        actions['ed-rows-step'](1);
+      },
+      'ed-rows-step'(arg) {
+        ensureEditorData();
+        const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || UI.editorData.name;
+        const cur = UI.editorData.grid.length;
+        const dir = Number(arg) < 0 ? -1 : 1;
+        let idx = ED_ROW_OPTS.indexOf(cur);
+        if (idx < 0) idx = ED_ROW_OPTS.findIndex(x => x >= cur);
+        if (idx < 0) idx = 4;
+        const next = ED_ROW_OPTS[(idx + dir + ED_ROW_OPTS.length) % ED_ROW_OPTS.length];
+        UI.editorData.rows = next;
+        UI.editorData.grid = normalizeEditorGrid(UI.editorData.grid, next);
+        sfx.click();
+        const rb = $('#edRowsBtn');
+        if (rb) rb.innerHTML = icon('grid') + ' ' + next + 'R';
+        renderEditorCells();
+      },
+      'ed-invert'() {
+        ensureEditorData();
+        UI.editorData.grid.reverse();
+        sfx.click(); renderEditorCells();
       },
       'ed-clear'() {
         ensureEditorData();
-        UI.editorData.grid = Array.from({ length: 8 }, () => Array(COLS).fill(0));
+        UI.editorData.grid = Array.from({ length: UI.editorData.grid.length || 8 }, () => Array(COLS).fill(0));
         sfx.click(); renderEditorCells();
       },
       'ed-template'() {
         ensureEditorData();
-        const ed = UI.editorData;
-        for (let r = 0; r < 8; r++) {
+        const ed = UI.editorData, Rw = ed.grid.length;
+        ed.tplIdx = ((ed.tplIdx || 0) + 1) % 5;
+        const mode = ed.tplIdx;
+        for (let r = 0; r < Rw; r++) {
           for (let c = 0; c <= Math.floor(COLS / 2); c++) {
-            const roll = R();
-            const v = roll < .32 ? 0 : roll < .72 ? 1 : roll < .84 ? 2 : roll < .9 ? 3 : roll < .94 ? 4 : roll < .97 ? 6 : 7;
+            let v = 0;
+            if (mode === 0) {
+              const roll = R();
+              v = roll < .26 ? 0 : roll < .66 ? 1 : roll < .80 ? 2 : roll < .87 ? 3 : roll < .92 ? 4 : roll < .96 ? 6 : 7;
+            } else if (mode === 1) {
+              // Sky-Chute Baffle Vault
+              if (c === 0) v = 0;
+              else if (r === 0 || c === 1) v = 2;
+              else if (r === Rw - 1) v = c >= 4 ? 0 : 2;
+              else if (r === Rw - 2 && c >= 4) v = 5;
+              else v = (r === 1 && c === 5) ? 9 : (r === 2 && c === 3) ? 4 : (r % 2 === 0 ? 1 : 6);
+            } else if (mode === 2) {
+              // Diamond Reactor
+              const d = Math.abs(c - 5) + Math.abs(r - (Rw - 1) / 2) * 1.15;
+              v = d < 1.2 ? 8 : d < 2.4 ? 6 : d < 3.8 ? 4 : d < 5.0 ? 2 : 0;
+            } else if (mode === 3) {
+              // Twin Towers & Chutes
+              if (c === 0 || c === 4) v = 0;
+              else v = (r === 0) ? 6 : (r === Rw - 1) ? 3 : (c === 2 && r === Math.floor(Rw / 2)) ? 10 : 1;
+            } else {
+              // Boss Citadel
+              if (r === 0 || (r === Rw - 1 && c <= 3) || c === 1) v = 3;
+              else if (c === 0) v = 0;
+              else v = (r === 2 && c === 5) ? 8 : (r === 2 && c === 3) ? 9 : ((r + c) % 2 === 0 ? 1 : 4);
+            }
             ed.grid[r][c] = v; ed.grid[r][COLS - 1 - c] = v;
           }
         }
-        ed.grid[1][5] = 8;
+        if (mode === 0 && Rw >= 2) ed.grid[1][5] = 8;
         sfx.click(); renderEditorCells();
       },
       'ed-save'() {
@@ -10610,22 +10869,38 @@
         const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || 'Custom Stage';
         const copy = JSON.parse(JSON.stringify(UI.editorData));
         S.customLevels = S.customLevels || [];
-        const existingIdx = S.customLevels.findIndex(x => x.name === copy.name);
+        const existingIdx = S.customLevels.findIndex(x => x.name.toLowerCase() === copy.name.toLowerCase());
         if (existingIdx >= 0) S.customLevels.splice(existingIdx, 1);
         S.customLevels.unshift(copy);
-        if (S.customLevels.length > 8) S.customLevels.pop();
-        saveNow(); sfx.power(); toast('Stage saved to Studio slots!', 'check', 'good');
+        if (S.customLevels.length > 12) S.customLevels.pop();
+        saveNow(); sfx.power(); toast('Saved "' + copy.name + '" to Studio slots!', 'check', 'good');
         openLevelEditor();
       },
       'ed-load'(arg) {
         const cl = S.customLevels?.[+arg]; if (!cl) return;
         UI.editorData = JSON.parse(JSON.stringify(cl));
-        sfx.click(); openLevelEditor();
+        ensureEditorData();
+        sfx.click(); toast('Loaded "' + UI.editorData.name + '"', 'wand', 'info');
+        openLevelEditor();
+      },
+      'ed-del'(arg) {
+        const idx = +arg;
+        if (!Array.isArray(S.customLevels) || !S.customLevels[idx]) return;
+        const removed = S.customLevels.splice(idx, 1)[0];
+        saveNow(); sfx.click(); toast('Deleted "' + (removed?.name || 'Stage') + '"', 'trash', 'warn');
+        openLevelEditor();
       },
       'ed-code'() {
         ensureEditorData();
         const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || 'Custom Stage';
-        const str = toB64(JSON.stringify({ name: UI.editorData.name, wi: UI.editorData.wi, grid: UI.editorData.grid }));
+        const payload = {
+          name: UI.editorData.name,
+          wi: UI.editorData.wi,
+          moving: !!UI.editorData.moving,
+          rows: UI.editorData.grid.length,
+          grid: UI.editorData.grid
+        };
+        const str = toB64(JSON.stringify(payload));
         copyTextFallback(str);
         openSheet('<div class="grabber"></div><div class="sheet-head"><div class="sheet-kicker" style="color:var(--lime)">SHARE &amp; IMPORT</div><h2 class="sheet-title">Stage Level Code</h2></div>' +
           '<p style="font-size:12px;color:var(--muted);margin-bottom:8px">Your stage code is ready below (copied to clipboard). To load someone else\'s stage, paste their code and tap Import:</p>' +
@@ -10644,16 +10919,13 @@
         try {
           const parsed = JSON.parse(fromB64(raw));
           if (!Array.isArray(parsed.grid)) throw new Error('Bad grid');
-          const cleanGrid = Array.from({ length: 8 }, (_, r) =>
-            Array.from({ length: COLS }, (_, c) => {
-              const v = Number(parsed.grid[r]?.[c] || 0);
-              return Number.isInteger(v) && v >= 0 && v <= 8 ? v : 0;
-            })
-          );
+          const targetRows = clamp(Number(parsed.rows) || parsed.grid.length || 8, 4, 16);
           ensureEditorData();
           UI.editorData.name = String(parsed.name || 'Imported Stage').trim().slice(0, 22) || 'Imported Stage';
           UI.editorData.wi = clamp(Number(parsed.wi || 0) | 0, 0, 7);
-          UI.editorData.grid = cleanGrid;
+          UI.editorData.moving = !!parsed.moving;
+          UI.editorData.rows = targetRows;
+          UI.editorData.grid = normalizeEditorGrid(parsed.grid, targetRows);
           sfx.power(); toast('Level code imported!', 'check', 'good');
           openLevelEditor();
         } catch (e) { sfx.deny(); toast('Invalid level code format', 'alert', 'bad') }
@@ -10661,6 +10933,11 @@
       'ed-play'() {
         ensureEditorData();
         const inp = $('#edNameInp'); if (inp) UI.editorData.name = inp.value.trim() || 'Custom Stage';
+        const hasBreakable = UI.editorData.grid.some(row => row.some(c => c > 0 && c !== 5));
+        if (!hasBreakable) {
+          toast('Added a Boss Core so the stage is playable!', 'info', 'warn');
+          UI.editorData.grid[Math.min(2, UI.editorData.grid.length - 1)][5] = 8;
+        }
         sfx.click(); startGame('custom', 0, JSON.parse(JSON.stringify(UI.editorData)));
       },
       nova() { triggerNovaBlast() },
