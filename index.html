@@ -4530,10 +4530,10 @@
 <h4>CONTROLS</h4>
 <div class="key-row"><span>Move paddle</span><span><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> / Mouse</span></div>
 <div class="key-row"><span>Aim launch</span><span><kbd>Q</kbd> <kbd>E</kbd> / Drag</span></div>
-<div class="key-row"><span>Launch ball</span><kbd>SPACE</kbd></div>
+<div class="key-row"><span>Launch / Pause</span><kbd>SPACE</kbd></div>
 <div class="key-row"><span>Use booster</span><span><kbd>1</kbd>–<kbd>7</kbd></span></div>
 <div class="key-row"><span>Nova Blast</span><kbd>E</kbd> / <kbd>SHIFT</kbd></div>
-<div class="key-row"><span>Pause</span><kbd>P</kbd></div>
+<div class="key-row"><span>Pause / Resume</span><span><kbd>P</kbd> / <kbd>ESC</kbd></span></div>
 <div class="key-row"><span>Restart</span><kbd>R</kbd></div>
 <div class="key-row"><span>Fullscreen</span><kbd>F</kbd></div>
 <div class="key-row"><span>Mute all</span><kbd>M</kbd></div>
@@ -11540,36 +11540,50 @@
         return;
       }
       const tag = (e.target.tagName || '').toUpperCase();
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
-      if (e.key === 'm' || e.key === 'M') { actions.mute(); return }
-      if (e.key === 'f' || e.key === 'F') { actions.fullscreen(); return }
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target.isContentEditable) return;
+      if (e.key === 'm' || e.key === 'M') { if (!e.repeat) actions.mute(); return }
+      if (e.key === 'f' || e.key === 'F') { if (!e.repeat) actions.fullscreen(); return }
       if (e.key === 'Escape') {
-        if (UI.sheet) { if (UI.dismiss) actions[UI.dismiss](); return }
-        if (UI.screen === 'game') openPause(); return;
+        if (e.repeat) return;
+        e.preventDefault();
+        if (UI.sheet === 'pause') { actions.resume(); return }
+        if (UI.sheet) { if (UI.dismiss && actions[UI.dismiss]) actions[UI.dismiss](); else closeSheet(); return }
+        if (UI.screen === 'game') openPause();
+        return;
       }
       if (UI.screen !== 'game') return;
+      if (tag === 'BUTTON' && document.activeElement) document.activeElement.blur();
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') { keys.l = true; e.preventDefault() }
       else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') { keys.r = true; e.preventDefault() }
       else if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') { keys.u = true; e.preventDefault() }
       else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') { keys.d = true; e.preventDefault() }
       else if (e.key === 'q' || e.key === 'Q' || e.key === '[') { keys.aimL = true; e.preventDefault() }
       else if (e.key === ']') { keys.aimR = true; e.preventDefault() }
-      else if (e.key === ' ' || e.key === 'Enter') {
+      else if (e.key === ' ' || e.code === 'Space' || e.key === 'Enter') {
         e.preventDefault();
+        if (e.repeat) return;
         if (UI.sheet === 'pause') actions.resume();
         else if (UI.sheet === 'win') actions.next();
         else if (UI.sheet === 'lose') actions.replay();
-        else if (!UI.sheet) launchBalls();
+        else if (!UI.sheet && G) {
+          if (G.balls.some(b => b.sticky)) launchBalls();
+          else openPause();
+        }
       }
       else if (e.key === 'e' || e.key === 'E') {
         if (!UI.sheet) {
           if (G && G.balls.some(b => b.sticky) && S.set.preLaunchAim !== false && G.novaCharge < 100) keys.aimR = true;
-          else triggerNovaBlast();
+          else if (!e.repeat) triggerNovaBlast();
         }
       }
-      else if (e.key === 'Shift') { if (!UI.sheet) triggerNovaBlast() }
-      else if (e.key === 'p' || e.key === 'P') { if (!UI.sheet) openPause(); else if (UI.sheet === 'pause') actions.resume() }
-      else if (e.key === 'r' || e.key === 'R') { if (G) restartGame() }
+      else if (e.key === 'Shift') { if (!e.repeat && !UI.sheet) triggerNovaBlast() }
+      else if (e.key === 'p' || e.key === 'P' || e.key === 'Pause') {
+        e.preventDefault();
+        if (e.repeat) return;
+        if (!UI.sheet) openPause();
+        else if (UI.sheet === 'pause') actions.resume();
+      }
+      else if (e.key === 'r' || e.key === 'R') { if (!e.repeat && G) restartGame() }
       else if ('1234567'.includes(e.key) && !e.repeat && !UI.sheet) {
         const owned = BOOSTERS.filter(b => S.inv[b.id] > 0);
         const chosen = owned[Number(e.key) - 1];
