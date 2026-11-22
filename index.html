@@ -2802,7 +2802,7 @@
 
     .hud-top {
       display: grid;
-      grid-template-columns: auto 1fr auto;
+      grid-template-columns: auto minmax(0, 1fr) auto;
       gap: 6px;
       align-items: center
     }
@@ -4045,112 +4045,180 @@
         padding: 5px 9px
       }
 
+      #gameOverlayFx {
+        display: none !important
+      }
+
       #hud {
-        padding: calc(env(safe-area-inset-top, 0px) + 7px) 10px 8px;
-        background: var(--hud-bg);
-        border-bottom: 1.5px solid color-mix(in srgb, var(--violet) 38%, var(--line2));
-        box-shadow: 0 6px 24px rgba(4, 2, 14, .45), inset 0 -1px 0 color-mix(in srgb, var(--cyan) 28%, transparent);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px)
+        padding: calc(env(safe-area-inset-top, 0px) + 6px) 8px 6px;
+        background: var(--surface);
+        border-bottom: 1.5px solid var(--line2);
+        box-shadow: 0 4px 14px rgba(4, 2, 14, .35);
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important
       }
 
       #hud .btn-icon,
       #hud .mute-btn {
-        width: 34px;
-        height: 34px;
-        border-radius: 11px;
-        font-size: 15px;
-        background: color-mix(in srgb, var(--surface2) 86%, var(--violet) 14%);
-        border: 1px solid color-mix(in srgb, var(--line2) 80%, var(--cyan) 20%);
-        box-shadow: 0 3px 10px rgba(0, 0, 0, .22)
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        font-size: 14px;
+        background: var(--surface2);
+        border: 1px solid var(--line2);
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important
+      }
+
+      .hud-left,
+      .hud-right {
+        gap: 4px;
+        flex: none
       }
 
       .hud-mid {
+        display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 2px;
-        background: color-mix(in srgb, var(--surface2) 78%, transparent);
+        gap: 1px;
+        min-width: 0;
+        width: 100%;
+        overflow: hidden;
+        background: var(--inset-bg);
         border: 1px solid var(--line2);
-        border-radius: 14px;
-        padding: 4px 12px;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08)
+        border-radius: 12px;
+        padding: 3px 8px
       }
 
       #hudLevel {
+        display: block;
+        width: 100%;
+        max-width: 100%;
         font-size: 9px;
-        max-width: 175px;
-        letter-spacing: .9px;
+        line-height: 1.2;
+        letter-spacing: .5px;
         color: var(--cyan);
-        font-weight: 900
+        font-weight: 800;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
       }
 
       #hudScore {
-        font-size: 20px;
-        letter-spacing: .4px;
-        background: var(--grad-primary);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        text-shadow: none
+        display: block;
+        max-width: 100%;
+        font-size: 17px;
+        line-height: 1.15;
+        font-weight: 900;
+        color: var(--text);
+        text-shadow: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+      }
+
+      #hudTimer {
+        font-size: 9.5px;
+        line-height: 1.1
       }
 
       .hud-coins {
-        padding: 5px 9px;
-        font-size: 11.5px;
-        border-radius: 11px;
+        padding: 4px 7px;
+        font-size: 11px;
+        border-radius: 10px;
         background: var(--gold-bg);
         border: 1px solid var(--gold-line);
         color: var(--gold-text);
-        box-shadow: 0 2px 8px rgba(245, 158, 11, .16)
+        max-width: 72px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
       }
 
       .hud-sub {
-        flex-wrap: nowrap;
-        gap: 6px;
-        margin-top: 6px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px;
+        margin-top: 5px;
         padding-top: 5px;
         border-top: 1px solid var(--line);
-        overflow-x: auto
+        overflow: visible
       }
 
       .hud-sub-left {
-        width: auto;
-        flex: 1 0 auto;
+        width: 100%;
+        min-width: 0;
+        display: flex;
+        align-items: center;
         justify-content: flex-start;
-        gap: 6px
+        gap: 5px;
+        overflow-x: auto;
+        scrollbar-width: none
+      }
+
+      .hud-sub-left::-webkit-scrollbar {
+        display: none
       }
 
       #hudLives {
-        font-size: 13.5px;
-        gap: 3px;
-        padding: 3px 8px;
+        flex: none;
+        font-size: 12.5px;
+        gap: 2px;
+        padding: 3px 7px;
         border-radius: 999px;
-        background: color-mix(in srgb, var(--danger) 12%, var(--surface2));
-        border: 1px solid color-mix(in srgb, var(--danger) 35%, transparent)
+        background: var(--inset-bg);
+        border: 1px solid var(--line)
+      }
+
+      #hudCombo {
+        flex: none;
+        font-size: 9.5px;
+        padding: 2px 7px;
+        white-space: nowrap
       }
 
       .nova-btn {
-        margin-left: 2px;
-        padding: 4px 11px;
-        font-size: 11px;
-        min-height: 26px;
-        box-shadow: 0 2px 10px color-mix(in srgb, var(--cyan) 22%, transparent)
+        flex: none;
+        margin-left: auto;
+        padding: 3px 10px;
+        font-size: 10.5px;
+        min-height: 24px;
+        white-space: nowrap
+      }
+
+      #hudFx {
+        flex: none;
+        display: flex;
+        gap: 3px
       }
 
       #boostBar.show {
-        width: auto;
-        margin-left: auto;
-        justify-content: flex-end;
-        padding-top: 0;
-        border-top: none
+        width: 100%;
+        margin-left: 0;
+        padding-top: 4px;
+        border-top: 1px solid var(--line);
+        overflow-x: auto;
+        scrollbar-width: none
+      }
+
+      #boostBar.show::-webkit-scrollbar {
+        display: none
       }
 
       #boostBar .bb-row {
-        width: auto;
-        justify-content: flex-end;
+        width: max-content;
+        min-width: 100%;
+        justify-content: center;
         flex-wrap: nowrap;
-        gap: 5px
+        gap: 6px
+      }
+
+      .tpad-btn {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important
       }
 
       .chip-btn.boost-ic {
@@ -4407,7 +4475,6 @@
 <div class="hud-right">
 <div class="hud-coins"><span class="ic" data-ic="coin"></span><span id="hudCoinsVal">0</span></div>
 <div class="hud-right-row">
-<button aria-label="Switch Theme" class="btn-icon" data-action="cycle-theme" title="Switch Theme"><span class="ic" data-ic="palette"></span></button>
 <button aria-label="Toggle sound" class="mute-btn" data-action="mute"></button>
 </div>
 </div>
@@ -6917,7 +6984,7 @@
     const MAXP = () => {
       if (S.set.reducedMotion) return 40;
       const touch = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || cssW < 640;
-      const base = S.set.fx ? (touch ? 220 : 500) : (touch ? 110 : 200);
+      const base = S.set.fx ? (touch ? 90 : 500) : (touch ? 45 : 200);
       return Math.max(30, Math.round(base * ((S.set.particlePct ?? 100) / 100)));
     };
 
@@ -7669,7 +7736,7 @@
       cssW = rawW; cssH = rawH;
       cvRect = rect;
       const touch = isTouchErgonomic();
-      const maxDpr = S.set.graphicsQuality === 'low' ? 1 : S.set.graphicsQuality === 'medium' ? (touch ? 1.25 : 1.5) : (S.set.fx ? (touch ? 1.5 : 2) : 1.25);
+      const maxDpr = S.set.graphicsQuality === 'low' ? 1 : S.set.graphicsQuality === 'medium' ? (touch ? 1.0 : 1.5) : (S.set.fx ? (touch ? 1.15 : 2) : 1.0);
       dpr = Math.min(maxDpr, window.devicePixelRatio || 1);
       cv.width = Math.round(cssW * dpr); cv.height = Math.round(cssH * dpr);
       const isLand = cssW > cssH;
@@ -8712,7 +8779,7 @@
       const ballList = G.balls.slice();
       for (let i = ballList.length - 1; i >= 0; i--) {
         const b = ballList[i];
-        if (!b || !G.balls.includes(b)) continue;
+        if (!b || b._dead) continue;
         if (b.sticky) { b.x = clamp(px + b.off, b.r + 2, VW - b.r - 2); b.y = py - b.r - 1; b.trail.length = 0; continue }
         const spd = ballSpeed(), m = Math.hypot(b.vx, b.vy) || 1;
         b.vx = b.vx / m * spd; b.vy = b.vy / m * spd;
@@ -8821,6 +8888,7 @@
             antiFlat(b);
           }
           if (b.y - b.r > Math.min(VH + 12, Math.max(py, pb.maxY) + PH + 54)) {
+            b._dead = true;
             const idx = G.balls.indexOf(b);
             if (idx >= 0) G.balls.splice(idx, 1);
             removed = true;
@@ -8855,12 +8923,15 @@
         }
       }
       ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = isLightBg ? 'source-over' : 'lighter';
-      ctx.globalAlpha = isLightBg ? .16 : (S.set.fx ? .45 : .25);
+      const touchPerf = isTouchErgonomic();
       const drift = S.set.reducedMotion ? 0 : (S.set.fx ? 1 : .15);
-      ctx.drawImage(auroraA, VW * .22 + Math.sin(G.t * .13 * drift) * 60 - 190, VH * .2 + Math.cos(G.t * .1 * drift) * 40 - 190, 380, 380);
-      ctx.drawImage(auroraB, VW * .8 + Math.cos(G.t * .09 * drift) * 50 - 230, VH * .55 + Math.sin(G.t * .12 * drift) * 60 - 230, 460, 460);
-      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+      if (!touchPerf) {
+        ctx.globalCompositeOperation = isLightBg ? 'source-over' : 'lighter';
+        ctx.globalAlpha = isLightBg ? .16 : (S.set.fx ? .45 : .25);
+        ctx.drawImage(auroraA, VW * .22 + Math.sin(G.t * .13 * drift) * 60 - 190, VH * .2 + Math.cos(G.t * .1 * drift) * 40 - 190, 380, 380);
+        ctx.drawImage(auroraB, VW * .8 + Math.cos(G.t * .09 * drift) * 50 - 230, VH * .55 + Math.sin(G.t * .12 * drift) * 60 - 230, 460, 460);
+        ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+      }
       if (S.set.arenaGrid && S.set.arenaGrid !== 'off') {
         const gAlpha = S.set.arenaGrid === 'subtle' ? 0.05 : 0.11;
         ctx.strokeStyle = isLightBg ? 'rgba(15,23,42,' + gAlpha + ')' : rgba(WORLDS[G.wi].hues[0], gAlpha);
@@ -8902,11 +8973,18 @@
         ctx.restore();
       }
       const cbMode = !!S.set.colorblindMode;
+      const thIdNow = S.set.theme || 'nova';
+      const thHues = themeBrickHues(G.wi);
+      const denseMicro = touchPerf && G.bricks.length > 140;
       for (const b of G.bricks) {
         if (!b.alive) continue;
         if (b.micro) {
           const bw = b.w || BW, bh = b.h || BH;
-          const thHues = themeBrickHues(G.wi); const rawMicro = b.code === 4 ? '#FF6B35' : b.code === 5 ? (isLightBg ? '#475569' : (b.customCol || '#64748B')) : b.code === 6 ? '#FFC53D' : b.code === 9 ? '#FACC15' : b.code === 10 ? '#FF2A55' : (b.customCol ? (isLightBg ? shade(b.customCol, -22) : b.customCol) : thHues[b.r % 4]); const col = rawMicro;
+          if (b._cTheme !== thIdNow) {
+            b._cTheme = thIdNow;
+            b._cCol = b.code === 4 ? '#FF6B35' : b.code === 5 ? (isLightBg ? '#475569' : (b.customCol || '#64748B')) : b.code === 6 ? '#FFC53D' : b.code === 9 ? '#FACC15' : b.code === 10 ? '#FF2A55' : (b.customCol ? (isLightBg ? shade(b.customCol, -22) : b.customCol) : thHues[b.r % 4]);
+          }
+          const col = b._cCol;
           if (b.showHp) {
             const rawDyn = (b.code === 4 || b.code === 9 || b.code === 10) ? col : (b.hpRef ? hpHeatColor(b.hp, b.hpRef) : col);
             const dynCol = isLightBg ? shade(rawDyn, -26) : rawDyn;
@@ -8923,11 +9001,13 @@
           } else {
             ctx.fillStyle = col;
             ctx.fillRect(b.rx, b.y, bw, bh);
-            ctx.fillStyle = 'rgba(255,255,255,0.26)';
-            ctx.fillRect(b.rx + 0.8, b.y + 0.8, bw - 1.6, Math.max(1.5, bh * 0.22));
-            ctx.strokeStyle = (b.code === 9 || b.code === 10) ? '#FFFFFF' : 'rgba(6,4,14,0.45)';
-            ctx.lineWidth = (b.code === 9 || b.code === 10) ? 1.5 : 0.7;
-            ctx.strokeRect(b.rx + 0.3, b.y + 0.3, bw - 0.6, bh - 0.6);
+            if (!denseMicro) {
+              ctx.fillStyle = 'rgba(255,255,255,0.26)';
+              ctx.fillRect(b.rx + 0.8, b.y + 0.8, bw - 1.6, Math.max(1.5, bh * 0.22));
+              ctx.strokeStyle = (b.code === 9 || b.code === 10) ? '#FFFFFF' : 'rgba(6,4,14,0.45)';
+              ctx.lineWidth = (b.code === 9 || b.code === 10) ? 1.5 : 0.7;
+              ctx.strokeRect(b.rx + 0.3, b.y + 0.3, bw - 0.6, bh - 0.6);
+            }
             if (b.code === 9 || b.code === 10) {
               ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .35 + .25 * Math.sin(G.t * 8);
               ctx.drawImage(b.code === 9 ? glowOrange : glowMagenta, b.rx + bw / 2 - 14, b.y + bh / 2 - 14, 28, 28);
@@ -8954,11 +9034,11 @@
             ctx.fillText(sym, b.rx + BW - 6, b.y + 6);
           }
         }
-        if (b.code === 4) {
+        if (!touchPerf && b.code === 4) {
           ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .22 + .15 * Math.sin(G.t * 6 + b.c);
           ctx.drawImage(glowOrange, b.rx + BW / 2 - 17, b.y + BH / 2 - 17, 34, 34); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1
         }
-        if (b.code === 7 || b.code === 8) {
+        if (!touchPerf && (b.code === 7 || b.code === 8)) {
           ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .18 + .13 * Math.sin(G.t * 4 + b.r);
           ctx.drawImage(glowMagenta, b.rx + BW / 2 - 16, b.y + BH / 2 - 16, 32, 32); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1
         }
@@ -9025,9 +9105,9 @@
         ctx.restore();
       }
       const fire = !!G.fx.fire, curSk = skin(), isLightArena = currentTheme().light;
-      const touchFast = isTouchErgonomic();
-      const fastSwarmRender = G.balls.length > (touchFast ? 12 : 36);
-      const maxFullBalls = touchFast ? 8 : 24;
+      const touchFast = touchPerf;
+      const fastSwarmRender = G.balls.length > (touchFast ? 6 : 36);
+      const maxFullBalls = touchFast ? 4 : 24;
       for (let bi = 0; bi < G.balls.length; bi++) {
         const b = G.balls[bi];
         if (fastSwarmRender && bi >= maxFullBalls) {
@@ -9178,8 +9258,17 @@
       const brkLeft = S.set.showLiveBricksLeft !== false ? G.breakable : -1;
       if (G.labelDirty || force || brkLeft !== G.brkShown || mProg !== G.mProgShown) {
         G.labelDirty = false; G.brkShown = brkLeft; G.mProgShown = mProg;
-        const baseLbl = G.mode === 'campaign' ? ('LVL ' + (G.idx + 1) + ' · S' + (G.sector + 1) + ' · ' + G.name) : G.mode === 'endless' ? ('ENDLESS · WAVE ' + G.wave) : G.mode === 'timed' ? ('TIME ATTACK · STAGE ' + (G.timedRound + 1)) : G.mode === 'bossrush' ? ('BOSS RUSH · #' + (G.bossStage + 1) + ' ' + G.name) : (G.mode === 'random' || G.mode === 'megabrick' || G.mode === 'numbricks') ? (G.mission ? ('MISSION #' + G.mission.seq + ' · ' + G.mission.archName.toUpperCase() + ' · ' + mProg) : ((G.mode === 'megabrick' ? 'MAZE · ' : G.mode === 'numbricks' ? 'NUM · ' : 'RANDOM · ') + G.name)) : G.mode === 'custom' ? ('STUDIO · ' + G.name) : 'DAILY CHALLENGE';
-        $('#hudLevel').textContent = baseLbl + (brkLeft >= 0 ? (' · ' + brkLeft + ' LEFT') : '');
+        const compact = cssW < 520;
+        const baseLbl = G.mode === 'campaign'
+          ? (compact ? ('LVL ' + (G.idx + 1) + ' · ' + G.name) : ('LVL ' + (G.idx + 1) + ' · S' + (G.sector + 1) + ' · ' + G.name))
+          : G.mode === 'endless' ? ('WAVE ' + G.wave)
+          : G.mode === 'timed' ? ('STAGE ' + (G.timedRound + 1))
+          : G.mode === 'bossrush' ? ('BOSS #' + (G.bossStage + 1))
+          : (G.mode === 'random' || G.mode === 'megabrick' || G.mode === 'numbricks')
+            ? (G.mission ? ('M#' + G.mission.seq + ' · ' + G.mission.archName) : ((G.mode === 'megabrick' ? 'MAZE' : G.mode === 'numbricks' ? 'NUM' : 'RAND') + ' · ' + (G.randomArchName || G.name)))
+          : G.mode === 'custom' ? ('STUDIO · ' + G.name)
+          : 'DAILY';
+        $('#hudLevel').textContent = baseLbl + (brkLeft >= 0 ? (' · ' + brkLeft) : '');
       }
       const bossPct = (G.boss && G.bossMaxHp > 0) ? clamp(Math.round(G.bossHp / G.bossMaxHp * 100), 0, 100) : -1;
       if (bossPct !== G.bossPctShown || G.bossEnraged !== G.bossEnragedShown || force) {
@@ -9226,15 +9315,18 @@
       }
       if (G.livesDirty || force) { G.livesDirty = false; renderLives() }
       if (G.fxDirty || force) { G.fxDirty = false; renderFxChips() }
-      for (const id in G.fx) {
-        const el = document.querySelector('.fx-chip[data-fx="' + id + '"] .fx-bar');
-        if (el) el.style.width = Math.max(0, G.fx[id].t / G.fx[id].dur * 100) + '%'
+      G._hudTick = (G._hudTick || 0) + 1;
+      if (force || (G._hudTick & 3) === 0) {
+        for (const id in G.fx) {
+          const el = document.querySelector('.fx-chip[data-fx="' + id + '"] .fx-bar');
+          if (el) el.style.width = Math.max(0, G.fx[id].t / G.fx[id].dur * 100) + '%'
+        }
       }
       const showCombo = G.combo >= 3 && S.set.showComboMeter !== false, hc = $('#hudCombo');
-      hc.classList.toggle('show', showCombo);
+      if (showCombo !== G._comboVis || force) { G._comboVis = showCombo; hc.classList.toggle('show', showCombo); }
       if (showCombo) {
         if (G.combo !== G.comboShown) { G.comboShown = G.combo; $('#comboMult').textContent = '×' + G.mult + ' · ' + G.combo }
-        $('#comboBar').style.width = Math.max(0, G.comboT / comboMaxTime() * 100) + '%';
+        if (force || (G._hudTick & 3) === 0) $('#comboBar').style.width = Math.max(0, G.comboT / comboMaxTime() * 100) + '%';
       } else G.comboShown = -1;
       const hint = $('#gameHint');
       if (hint) hint.classList.add('hide');
@@ -9264,8 +9356,9 @@
         '<div class="sheet-btns"><button class="btn btn-primary" data-action="resume">' + icon('play') + ' Resume Game</button>' +
         '<div class="btn-row"><button class="btn btn-ghost" data-action="restart">' + icon(isRandOrMega ? 'shuffle' : 'restart') + (isRandOrMega ? ' New Board' : ' Restart') + '</button>' +
         (isRandOrMega ? '<button class="btn btn-ghost" data-action="' + openPickerAct + '">' + icon('sliders') + ' Setup & Missions</button>' : '<button class="btn btn-ghost" data-action="map">' + icon('grid') + ' Levels</button>') + '</div>' +
-        '<div class="btn-row"><button class="btn btn-ghost" data-action="go-settings">' + icon('sliders') + ' Settings</button>' +
-        '<button class="btn btn-danger" data-action="home">' + icon('home') + ' Quit to Home</button></div></div>', 'pause', 'resume');
+        '<div class="btn-row"><button class="btn btn-ghost" data-action="cycle-theme">' + icon('palette') + ' Theme: ' + currentTheme().name.split(' ')[0] + '</button>' +
+        '<button class="btn btn-ghost" data-action="go-settings">' + icon('sliders') + ' Settings</button>' +
+        '<button class="btn btn-danger" data-action="home">' + icon('home') + ' Quit</button></div></div>', 'pause', 'resume');
       sfx.click();
     }
     function openWinSheet() {
