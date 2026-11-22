@@ -5173,7 +5173,7 @@
     function sheetBackdrop() { if (UI.dismiss) actions[UI.dismiss] && actions[UI.dismiss]() }
 
     /* ---------- UNLIMITED PROCEDURAL LEVEL GENERATOR ---------- */
-    const COLS = 11, VW = 480, MIN_VH = 720, SIDE = 14, GAP = 3, BW = (VW - 2 * SIDE - (COLS - 1) * GAP) / COLS, BH = 21, VGAP = 2.5, TOP = 22, PH = 16, BALL_R = 7;
+    const COLS = 11, VW = 480, MIN_VH = 720, SIDE = 14, GAP = 3, BW = (VW - 2 * SIDE - (COLS - 1) * GAP) / COLS, BH = 21, VGAP = 2.5, TOP = 36, PH = 16, BALL_R = 7;
     function bm(rows) { return rows.map(r => r.split('').map(c => c === '1')) }
     const PATTERNS = [
       {
@@ -5632,7 +5632,7 @@
         }
       }
       const built = buildBricks(mask, rows, {
-        rng, wi, li, absWorld, sector, boss, orbs: bpOrbs, topOffset: TOP + 10,
+        rng, wi, li, absWorld, sector, boss, orbs: bpOrbs, topOffset: TOP + 8,
         toughP: Math.min(.42, .06 + wi * .045 + li * .007 + sector * .05 + (boss ? .14 : 0)),
         hardP: (wi >= 2 || sector > 0) ? Math.min(.32, .03 + wi * .025 + sector * .05 + (boss ? .1 : 0)) : 0,
         steelP: (wi >= 2 || sector > 0) ? Math.min(.06, .01 + wi * .007 + sector * .01) : 0,
@@ -5652,7 +5652,7 @@
       const res = P.build(COLS, rows);
       return {
         wi, absWorld: wave - 1, sector, li: Math.min(14, wave), boss: wave % 5 === 0, name: wave % 5 === 0 ? ('WAVE ' + wave + ' BOSS') : P.name, rows, ...buildBricks(res.m, rows, {
-          rng, wi, li: Math.min(14, wave), absWorld: wave - 1, sector, boss: wave % 5 === 0, orbs: res.orbs, topOffset: TOP + 8,
+          rng, wi, li: Math.min(14, wave), absWorld: wave - 1, sector, boss: wave % 5 === 0, orbs: res.orbs, topOffset: TOP + 6,
           toughP: Math.min(.45, .06 + wave * .025), hardP: wave >= 4 ? Math.min(.3, .02 + wave * .018) : 0,
           steelP: wave >= 4 ? Math.min(.06, .01 + wave * .006) : 0, expl: Math.min(5, 2 + Math.floor(wave / 3)),
           coins: 3 + Math.floor(wave / 4), gifts: 2, moving: wave >= 5
@@ -5665,7 +5665,7 @@
       const rows = 7, P = PATTERNS[seed % PATTERNS.length], res = P.build(COLS, rows);
       return {
         wi, absWorld: wi, sector: 1, li: 14, boss: true, name: 'Daily: ' + P.name, rows, ...buildBricks(res.m, rows, {
-          rng, wi, li: 10, absWorld: wi, sector: 1, boss: true, orbs: res.orbs, topOffset: TOP + 10,
+          rng, wi, li: 10, absWorld: wi, sector: 1, boss: true, orbs: res.orbs, topOffset: TOP + 8,
           toughP: .24, hardP: .14, steelP: .03, expl: 3, coins: 4, gifts: 2, moving: true
         })
       };
@@ -5675,7 +5675,7 @@
       const rows = Math.min(5 + round, 8), P = PATTERNS[(round * 5 + 2) % PATTERNS.length], res = P.build(COLS, rows);
       return {
         wi, absWorld: round, sector: 0, li: round, boss: false, name: 'Speed ' + (round + 1) + ': ' + P.name, rows, ...buildBricks(res.m, rows, {
-          rng, wi, li: round, absWorld: round, sector: 0, boss: false, orbs: res.orbs, topOffset: TOP + 8,
+          rng, wi, li: round, absWorld: round, sector: 0, boss: false, orbs: res.orbs, topOffset: TOP + 6,
           toughP: .15 + round * .04, hardP: round >= 2 ? .1 : 0, steelP: 0, expl: 3, coins: 3, gifts: 2, moving: round >= 2
         })
       };
@@ -5689,7 +5689,7 @@
         ...buildBricks(mask, rows, {
           rng, wi, li: 14, absWorld: stage, sector, boss: true,
           orbs: [{ c: 1, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }, { c: 9, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }],
-          topOffset: TOP + 10,
+          topOffset: TOP + 8,
           toughP: Math.min(.48, .18 + stage * .04), hardP: Math.min(.36, .1 + stage * .03),
           steelP: Math.min(.06, .015 + stage * .008), expl: 3, coins: 4, gifts: 2, moving: true
         })
@@ -5845,7 +5845,7 @@
       const halfC = Math.ceil(COLS / 2), cy = (rows - 1) / 2;
       const armor = cfg.id === 'easy' ? 2 : (cfg.id === 'medium' ? 2 : 3);
       const steelOrArmor = cfg.id === 'easy' ? 2 : (cfg.id === 'medium' ? 3 : 5);
-      const topOffset = TOP + 14 + ((rng() * 8) | 0);
+      const topOffset = TOP + 8 + ((rng() * 6) | 0);
       const addOrb = (c, r, type) => {
         orbs.push({
           x: SIDE + (c + 0.5) * (BW + GAP) - GAP * 0.5,
@@ -6096,14 +6096,14 @@
           if (!code) continue;
           const mhp = code === 2 ? 2 : code === 3 ? 3 : code === 8 ? 8 : 1;
           bricks.push({
-            c, r, x: SIDE + c * (BW + GAP), y: TOP + r * (BH + VGAP), rx: SIDE + c * (BW + GAP),
+            c, r, x: SIDE + c * (BW + GAP), y: TOP + 6 + r * (BH + VGAP), rx: SIDE + c * (BW + GAP),
             code, mhp, hp: mhp, alive: true, moveAmp: customObj.moving && r % 2 === 1 ? 10 : 0, moveSpd: 1.1, movePh: (c + r) * 0.6
           });
           if (code !== 5) breakable++;
         }
       }
       if (breakable === 0) {
-        bricks.push({ c: 5, r: 2, x: SIDE + 5 * (BW + GAP), y: TOP + 2 * (BH + VGAP), rx: SIDE + 5 * (BW + GAP), code: 8, mhp: 6, hp: 6, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
+        bricks.push({ c: 5, r: 2, x: SIDE + 5 * (BW + GAP), y: TOP + 6 + 2 * (BH + VGAP), rx: SIDE + 5 * (BW + GAP), code: 8, mhp: 6, hp: 6, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
         breakable = 1;
       }
       const hasBossCore = bricks.some(b => b.code === 8);
@@ -6227,7 +6227,7 @@
       let breakable = 0, entryX = VW / 2, entryY = 420;
 
       if (archId === 'rainbowvault') {
-        const C = 13, Rw = 10, side = 16, gap = 2.4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 18.5, topY = 26;
+        const C = 13, Rw = 10, side = 16, gap = 2.4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 18.5, topY = 42;
         const rainbow = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#3B82F6', '#D946EF'];
         const shift = (rng() * 7) | 0;
         for (let r = 0; r < Rw; r++) {
@@ -6256,7 +6256,7 @@
         orbs.push({ x: side + (C - 0.5) * (bw + gap), y: topY + 1.5 * (bh + gap), r: 8.5, type: 'add3', label: '+3', color: '#FF8A2B', alive: true });
         entryX = VW / 2; entryY = topY + (Rw - 1) * (bh + gap);
       } else if (archId === 'neonquest') {
-        const C = 9, Rw = 8, side = 16, gap = 4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 27, topY = 24;
+        const C = 9, Rw = 8, side = 16, gap = 4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 27, topY = 42;
         const rowCols = ['#10B981', '#EF4444', '#3B82F6', '#D946EF', '#84CC16', '#F59E0B', '#06B6D4', '#A855F7'];
         const baseHp = cfg.id === 'easy' ? 4 : cfg.id === 'medium' ? 8 : cfg.id === 'hard' ? 14 : 22;
         const flip = rng() < 0.5;
@@ -6284,7 +6284,7 @@
           }
         }
       } else {
-        const C = 25, Rw = 22, side = 15, gap = 1.1, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 11.2, topY = 26;
+        const C = 25, Rw = 22, side = 15, gap = 1.1, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 11.2, topY = 42;
         // Start EMPTY (0) so every archetype sculpts its OWN distinct external silhouette!
         const grid = Array.from({ length: Rw }, () => Array(C).fill(0));
         const colMap = Array.from({ length: Rw }, () => Array(C).fill(''));
@@ -6686,7 +6686,7 @@
       const archId = archObj.id;
       const modObj = (opts.mod ? RANDOM_MODIFIERS.find(m => m.id === opts.mod) : null) || RANDOM_MODIFIERS[(rng() * RANDOM_MODIFIERS.length) | 0];
 
-      const C = 9, Rw = 8, side = 16, gap = 4.2, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 27, topY = 26;
+      const C = 9, Rw = 8, side = 16, gap = 4.2, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 27, topY = 42;
       const mask = Array.from({ length: Rw }, () => Array(C).fill(0)); // 0=empty, 1=normalHP, 2=highHP, 4=bomb, 5=steel baffle, 9=+4 trigger, 10=+3 trigger
       const orbs = [];
       const cy = (Rw - 1) / 2;
