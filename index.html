@@ -1797,6 +1797,39 @@
       font-size: 12px;
       color: var(--amber)
     }
+    .lvl-mech {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 9px;
+      font-weight: 900;
+      line-height: 1;
+      padding: 2.5px 5px;
+      border-radius: 6px;
+      background: rgba(11, 7, 22, .82);
+      border: 1px solid var(--mc, var(--cyan));
+      color: var(--mc, var(--cyan));
+      letter-spacing: .3px
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px
+    }
+    .hero-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      padding: 2.5px 7px;
+      border-radius: 999px;
+      background: rgba(8, 4, 18, .52);
+      border: 1px solid var(--tc, var(--line2));
+      color: var(--tc, var(--text))
+    }
+    body.light-theme .hero-tag {
+      background: rgba(255, 255, 255, .86)
+    }
 
     .lvl.boss {
       border-color: rgba(255, 176, 32, .42)
@@ -5390,8 +5423,10 @@
     }
     function sheetBackdrop() { if (UI.dismiss) actions[UI.dismiss] && actions[UI.dismiss]() }
 
-    /* ---------- UNLIMITED PROCEDURAL LEVEL GENERATOR ---------- */
+    /* ---------- UNLIMITED AAA PROCEDURAL CAMPAIGN & LEVEL GENERATOR ---------- */
     const COLS = 11, VW = 480, MIN_VH = 720, SIDE = 14, GAP = 3, BW = (VW - 2 * SIDE - (COLS - 1) * GAP) / COLS, BH = 21, VGAP = 2.5, TOP = 36, PH = 16, BALL_R = 7;
+    const cellX = c => SIDE + c * (BW + GAP) + BW / 2;
+    const cellY = (r, topOff) => (topOff || (TOP + 8)) + r * (BH + VGAP) + BH / 2;
     function bm(rows) { return rows.map(r => r.split('').map(c => c === '1')) }
     const PATTERNS = [
       {
@@ -5400,7 +5435,7 @@
           const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
           for (let r = 1; r < Rw; r++) for (let c = 1; c < C - 1; c++) {
             if (r === Rw - 1 && (c === 4 || c === 5 || c === 6)) continue;
-            m[r][c] = (r === 1 && (c === 3 || c === 7)) ? 6 : (r === Math.floor(Rw / 2) && c === 5) ? 4 : 1;
+            m[r][c] = (r === 1 && (c === 3 || c === 7)) ? 6 : (r === Math.floor(Rw / 2) && c === 5) ? 11 : (r === Math.floor(Rw / 2) && (c === 3 || c === 7)) ? 4 : 1;
           }
           orbs.push({ c: 5, r: 0.35, type: 'mul2', label: '×2', color: '#2563EB' });
           return { m, orbs };
@@ -5429,9 +5464,9 @@
           const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
           for (let r = 0; r < Rw; r++) for (let c = 1; c < C - 1; c++) {
             if (r === Rw - 1 && c >= 4 && c <= 6) continue;
-            if (r === Rw - 2 && c >= 4 && c <= 6) { m[r][c] = 2; continue; } // interior baffle shelf!
-            if (r === Rw - 2 && (c === 3 || c === 7)) continue; // side channels around baffle!
-            m[r][c] = (r === 1 && (c === 3 || c === 5 || c === 7)) ? 6 : (r === 2 && c === 5) ? 4 : 1;
+            if (r === Rw - 2 && c >= 4 && c <= 6) { m[r][c] = 2; continue; }
+            if (r === Rw - 2 && (c === 3 || c === 7)) continue;
+            m[r][c] = (r === 1 && (c === 3 || c === 5 || c === 7)) ? 6 : (r === 2 && c === 5) ? 12 : 1;
           }
           orbs.push({ c: 2, r: 0.4, type: 'add3', label: '+3', color: '#FF8A2B' });
           orbs.push({ c: 8, r: 0.4, type: 'mul2', label: '×2', color: '#2563EB' });
@@ -5446,7 +5481,7 @@
           for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
             const d = Math.abs(c - 5) / 4.8 + Math.abs(r - cy) / Math.max(1.8, cy + 0.3);
             if (d <= 1.05) {
-              if (d <= 0.32) m[r][c] = (c === 5) ? 4 : 6;
+              if (d <= 0.32) m[r][c] = (c === 5) ? 12 : 6;
               else m[r][c] = d > 0.85 ? 2 : 1;
             }
           }
@@ -5457,39 +5492,12 @@
         }
       },
       {
-        name: 'Sky Bridge Overpass',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 1; r < Rw; r++) for (let c = 0; c < C; c++) {
-            if (c === 0 || c === C - 1) continue; // wide side chutes!
-            if (r === Rw - 1 && c >= 3 && c <= 7) continue;
-            m[r][c] = (r === 1 && c % 2 === 1) ? 6 : (r === 2 && (c === 3 || c === 7)) ? 4 : 1;
-          }
-          orbs.push({ c: 5, r: 0.2, type: 'mul2', label: '×2', color: '#2563EB' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'V-Wing Squadron',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            const v = Math.floor(Math.abs(c - 5) * 0.72);
-            if (r >= v && r <= v + Math.max(2, Rw - 4)) {
-              m[r][c] = c === 5 ? 4 : (c === 0 || c === C - 1) ? 6 : 1;
-            }
-          }
-          orbs.push({ c: 5, r: Math.min(Rw - 1, 3.2), type: 'add3', label: '+3', color: '#FF8A2B' });
-          return { m, orbs };
-        }
-      },
-      {
         name: 'Skyline Towers',
         build(C, Rw) {
           const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
           for (let r = 1; r < Rw; r++) for (let c = 0; c < C; c++) {
-            if (c === 3 || c === 7) continue; // twin vertical chutes!
-            m[r][c] = (r === 1 && (c === 1 || c === 5 || c === 9)) ? 6 : (r === Math.floor(Rw / 2) && (c === 1 || c === 9)) ? 4 : 1;
+            if (c === 3 || c === 7) continue;
+            m[r][c] = (r === 1 && (c === 1 || c === 5 || c === 9)) ? 6 : (r === Math.floor(Rw / 2) && (c === 1 || c === 9)) ? 11 : 1;
           }
           orbs.push({ c: 3, r: 0.3, type: 'add3', label: '+3', color: '#FF8A2B' });
           orbs.push({ c: 7, r: 0.3, type: 'mul2', label: '×2', color: '#2563EB' });
@@ -5514,48 +5522,14 @@
         }
       },
       {
-        name: 'Honeycomb Hive',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) for (let c = 1; c < C - 1; c++) {
-            if ((r + c) % 3 === 0) continue;
-            m[r][c] = (r % 2 === 1 && c % 3 === 2) ? 4 : ((r + c) % 4 === 1 ? 6 : 1);
-          }
-          orbs.push({ c: 5, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Neon Cathedral',
+        name: 'V-Wing Squadron',
         build(C, Rw) {
           const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
           for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            const pillar = (c === 1 || c === 2 || c === 8 || c === 9);
-            const arch = r <= 1 && c >= 1 && c <= 9;
-            const altar = r >= 2 && r <= Rw - 2 && c >= 4 && c <= 6;
-            if (pillar || arch || altar) {
-              m[r][c] = altar ? (c === 5 && r === 2 ? 9 : 6) : (r === 0 ? 2 : 1);
-            }
+            const v = Math.floor(Math.abs(c - 5) * 0.72);
+            if (r >= v && r <= v + Math.max(2, Rw - 4)) m[r][c] = c === 5 ? 11 : (c === 0 || c === C - 1) ? 6 : 1;
           }
-          orbs.push({ c: 3, r: 2.5, type: 'add3', label: '+3', color: '#FF8A2B' });
-          orbs.push({ c: 7, r: 2.5, type: 'add3', label: '+3', color: '#FF8A2B' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Pinball Funnel',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            const edge = Math.floor(r * (3.5 / Math.max(1, Rw - 1)));
-            if (c >= edge && c <= C - 1 - edge) {
-              if (r === Rw - 1 && c === 5) continue;
-              m[r][c] = (c === edge || c === C - 1 - edge) ? 2 : (r <= 1 && c % 2 === 1 ? 6 : 1);
-            }
-          }
-          m[Math.min(Rw - 2, 2)][5] = 4;
-          orbs.push({ c: 1, r: Rw - 1.5, type: 'add3', label: '+3', color: '#FF8A2B' });
-          orbs.push({ c: 9, r: Rw - 1.5, type: 'add3', label: '+3', color: '#FF8A2B' });
+          orbs.push({ c: 5, r: Math.min(Rw - 1, 3.2), type: 'add3', label: '+3', color: '#FF8A2B' });
           return { m, orbs };
         }
       },
@@ -5573,75 +5547,17 @@
         }
       },
       {
-        name: 'Vortex Spiral',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          const cy = (Rw - 1) / 2;
-          for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            const ring = Math.max(Math.floor(Math.abs(c - 5) * 0.72), Math.floor(Math.abs(r - cy)));
-            const gate = (ring % 2 === 0 && c === 5 && r > cy) || (ring % 2 === 1 && Math.abs(r - cy) < 0.7 && (c <= 2 || c >= 8));
-            if (ring === 0) m[r][c] = 9;
-            else if (!gate) m[r][c] = ring === 1 ? 6 : (ring >= 3 ? 2 : 1);
-          }
-          orbs.push({ c: 5, r: Rw - 0.5, type: 'add3', label: '+3', color: '#FF8A2B' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Tidal Cascade',
+        name: 'Neon Cathedral',
         build(C, Rw) {
           const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
           for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            const wave = Math.round(1.3 + 1.2 * Math.sin(c * 0.85));
-            if (r >= wave && (c !== 0 && c !== C - 1 || r % 2 === 0)) {
-              m[r][c] = r === wave ? 2 : ((c + r) % 5 === 0 ? 4 : 1);
-            }
+            const pillar = (c === 1 || c === 2 || c === 8 || c === 9);
+            const arch = r <= 1 && c >= 1 && c <= 9;
+            const altar = r >= 2 && r <= Rw - 2 && c >= 4 && c <= 6;
+            if (pillar || arch || altar) m[r][c] = altar ? (c === 5 && r === 2 ? 9 : 6) : (r === 0 ? 2 : 1);
           }
-          orbs.push({ c: 5, r: 0.4, type: 'mul2', label: '×2', color: '#2563EB' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Split Canyon',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            const diag = Math.abs((c - 2) - r * 1.15);
-            if (diag < 1.15) continue; // diagonal canyon!
-            m[r][c] = (diag < 2.1) ? 2 : ((r === 0 && c >= 7) ? 6 : 1);
-          }
-          m[1][8] = 4; m[Math.max(1, Rw - 2)][2] = 4;
-          orbs.push({ c: 5, r: 2.5, type: 'add3', label: '+3', color: '#FF8A2B' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Pharaoh Ziggurat',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) {
-            const span = Math.min(4, 1 + Math.floor(r * (3.6 / Math.max(1, Rw - 1))));
-            for (let c = 5 - span; c <= 5 + span; c++) {
-              m[r][c] = (c === 5 && r === 0) ? 9 : (Math.abs(c - 5) === span ? 2 : (r === 1 ? 6 : 1));
-            }
-          }
-          orbs.push({ c: 1, r: 0.8, type: 'add3', label: '+3', color: '#FF8A2B' });
-          orbs.push({ c: 9, r: 0.8, type: 'add3', label: '+3', color: '#FF8A2B' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Staggered Double Deck',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          const mid = Math.floor(Rw / 2);
-          for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            if (r < mid - 1 && c >= 2) m[r][c] = r === 0 ? 6 : 1;
-            else if (r > mid && c <= C - 3) m[r][c] = r === Rw - 1 ? 2 : 1;
-          }
-          m[0][6] = 4; m[Math.min(Rw - 1, mid + 1)][4] = 4;
-          orbs.push({ c: 0.7, r: 1, type: 'mul2', label: '×2', color: '#2563EB' });
-          orbs.push({ c: 9.3, r: Rw - 1.5, type: 'add3', label: '+3', color: '#FF8A2B' });
+          orbs.push({ c: 3, r: 2.5, type: 'add3', label: '+3', color: '#FF8A2B' });
+          orbs.push({ c: 7, r: 2.5, type: 'add3', label: '+3', color: '#FF8A2B' });
           return { m, orbs };
         }
       },
@@ -5661,87 +5577,6 @@
           orbs.push({ c: 5, r: Math.max(0.4, cy - 1.4), type: 'add3', label: '+3', color: '#FF8A2B' });
           return { m, orbs };
         }
-      },
-      {
-        name: 'Prism Fortress',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) for (let c = 1; c < C - 1; c++) {
-            if (r === 0 || c === 1 || c === C - 2) m[r][c] = 2;
-            else if (r === Rw - 1) { if (c >= 4 && c <= 6) continue; m[r][c] = 2; }
-            else if (r >= 2 && r <= Rw - 3 && c >= 3 && c <= C - 4) m[r][c] = (c === 5 && r === 2) ? 10 : 6;
-            else if ((r + c) % 2 === 0) m[r][c] = 1;
-          }
-          orbs.push({ c: 5, r: Math.min(Rw - 2, 3.2), type: 'mul2', label: '×2', color: '#2563EB' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Chain Minefield',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) for (let c = 1; c < C - 1; c++) {
-            if ((r + c) % 2 === 0) m[r][c] = (r % 2 === 1 && c % 2 === 1) ? 4 : 1;
-            else if (r === 0) m[r][c] = 6;
-          }
-          orbs.push({ c: 0.4, r: 1, type: 'add3', label: '+3', color: '#FF8A2B' });
-          orbs.push({ c: 9.6, r: 1, type: 'add3', label: '+3', color: '#FF8A2B' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Twin Core Reactor',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 1; r < Rw; r++) for (let c = 0; c < C; c++) {
-            if (c === 0 || c === 5 || c === C - 1) continue;
-            const coreL = r === Math.floor(Rw / 2) && c === 2;
-            const coreR = r === Math.floor(Rw / 2) && c === 8;
-            m[r][c] = (coreL || coreR) ? 10 : (r === 1 || r === Rw - 1 ? 2 : 1);
-          }
-          orbs.push({ c: 5, r: 0.4, type: 'mul2', label: '×2', color: '#2563EB' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Switchback Chutes',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            if (((c + r * 2) % 6) < 4) m[r][c] = (r === 0 && c % 2 === 0) ? 6 : 1;
-          }
-          m[Math.min(Rw - 1, 2)][5] = 4;
-          orbs.push({ c: 5, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Crown Jewel Sanctuary',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) for (let c = 1; c < C - 1; c++) {
-            if (r === 0 && (c === 2 || c === 5 || c === 8)) m[r][c] = 6;
-            else if (r === 1 && c >= 2 && c <= 8) m[r][c] = c === 5 ? 9 : 1;
-            else if (r >= 2 && r < Rw - 1) m[r][c] = (c === 1 || c === C - 2) ? 2 : 1;
-            else if (r === Rw - 1 && (c <= 3 || c >= 7)) m[r][c] = 2;
-          }
-          orbs.push({ c: 5, r: Rw - 1.5, type: 'add3', label: '+3', color: '#FF8A2B' });
-          return { m, orbs };
-        }
-      },
-      {
-        name: 'Laser Lattice',
-        build(C, Rw) {
-          const m = Array.from({ length: Rw }, () => Array(C).fill(0)), orbs = [];
-          for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            if (c % 3 === 1 || r % 2 === 0) {
-              if (r === Rw - 1 && (c === 4 || c === 5 || c === 6)) continue;
-              m[r][c] = (r === 0 && c % 3 === 1) ? 6 : (r % 2 === 0 && c % 3 === 1 ? 4 : 1);
-            }
-          }
-          orbs.push({ c: 5, r: Math.min(Rw - 1, 1.5), type: 'mul2', label: '×2', color: '#2563EB' });
-          return { m, orbs };
-        }
       }
     ];
     const BOSSES = [
@@ -5754,112 +5589,650 @@
       { name: 'GILDED GEM', g: bm(['00111111100', '01111111110', '11111111111', '01111111110', '00111111100', '00011111000', '00001110000', '00000100000']) },
       { name: 'THE PHOENIX', g: bm(['11000100011', '11101110111', '11111111111', '01111111110', '00111111100', '00011111000', '00110101100', '01100000110']) }
     ];
+    /* 18 Handcrafted Multi-Hue Pixel-Art & Tactical Sculptures (11 cols each) */
+    const CAMPAIGN_ART = [
+      { name: 'Valkyrie Starfighter', rows: ['.....6.....', '....a1a....', '....1L1....', '...b2a2b...', '..1419141..', '.1a21b12a1.', '1a..c.c..a1', 'c....7....c'], orbs: [{ c: 1, r: 1, type: 'add3' }, { c: 9, r: 1, type: 'add3' }] },
+      { name: 'Cyber Crown', rows: ['6....6....6', '1b..b1b..b1', '1a1.1L1.1a1', '1a411a114a1', '22c2c9c2c22', '.211111112.', '..32.7.23..'], orbs: [{ c: 5, r: 6.4, type: 'mul2' }] },
+      { name: 'Plasma Butterfly', rows: ['.1a.....a1.', '1ab6...6ba1', '1a4b.c.b4a1', '1b2a1X1a2b1', '.1a1.a.1a1.', '.b1..1..1b.', '..c.7.7.c..'], orbs: [{ c: 5, r: 0.6, type: 'mul2' }] },
+      { name: 'Crystal Greatsword', rows: ['.....6.....', '....a1a....', '....1b1....', '....1X1....', '...c1b1c...', '.224292422.', '....2a2....', '....c7c....'], orbs: [{ c: 1.5, r: 2, type: 'add3' }, { c: 8.5, r: 2, type: 'add3' }] },
+      { name: 'Neon Chalice', rows: ['1.........1', '1a.6.7.6.a1', '1b114L411b1', '.21a111a12.', '..22c9c22..', '....2a2....', '...32123...'], orbs: [{ c: 5, r: 0.25, type: 'mul2' }] },
+      { name: 'Twin Rockets', rows: ['..b.....b..', '.a1a...a1a.', '.161...161.', '.1L1...1L1.', '21a12.21a12', 'c.4.c.c.4.c', '..7.....7..'], orbs: [{ c: 5, r: 1.5, type: 'add3' }, { c: 5, r: 5.5, type: 'mul2' }] },
+      { name: 'Dragon Shield', rows: ['.222262222.', '2a111a111a2', '21b41X14b12', '211a191a112', '.211c1c112.', '..221a122..', '...32723...', '.....2.....'], orbs: [{ c: 0.6, r: 5, type: 'add3' }, { c: 9.4, r: 5, type: 'add3' }] },
+      { name: 'Quantum Eye', rows: ['...11111...', '.11a222a11.', '1a2c696c2a1', '1b26cXc62b1', '1a2c676c2a1', '.11a222a11.', '...11411...'], orbs: [{ c: 0.7, r: 0.4, type: 'add3' }, { c: 9.3, r: 0.4, type: 'add3' }] },
+      { name: 'Samurai Kabuto', rows: ['6.........6', 'c1..a6a..1c', '.1a.292.a1.', '..221X122..', '.21a141a12.', '21b..7..b12', '2c.......c2'], orbs: [{ c: 5, r: 0.3, type: 'mul2' }] },
+      { name: 'Arcane Triforce', rows: ['.....6.....', '....1a1....', '...1bLb1...', '..222.222..', '.1a1...1a1.', '1b4b1.1b4b1', '22222.22222'], orbs: [{ c: 5, r: 4.5, type: 'mul2' }] },
+      { name: 'Storm Bolt', rows: ['....6111a..', '...11aL1...', '..1a411....', '.1111X1111.', '....114a1..', '...1La11...', '..a1117....'], orbs: [{ c: 1.2, r: 1, type: 'add3' }, { c: 8.8, r: 5.5, type: 'add3' }] },
+      { name: 'Star Citadel', rows: ['.....6.....', '....1a1....', '11121X12111', '.1a41914a1.', '..1b2a2b1..', '.1a1...1a1.', 'c1.......1c'], orbs: [{ c: 5, r: 5.8, type: 'mul2' }] },
+      { name: 'Emerald Heart', rows: ['.1a1...1a1.', '1a6a1.1a6a1', '1a1b191b1a1', '1b41aXa14b1', '.211a1a112.', '..211b112..', '...21712...', '.....2.....'], orbs: [{ c: 5, r: 0.5, type: 'add3' }] },
+      { name: 'Cyber Owl', rows: ['.c.......c.', '1a2111112a1', '1a.6.c.6.a1', '1b2214122b1', '.1a1bLb1a1.', '..211a112..', '..c2...2c..'], orbs: [{ c: 5, r: 0.25, type: 'mul2' }] },
+      { name: 'Anchor Fortress', rows: ['....262....', '....2.2....', '..111X111..', '....1a1....', '1...191...1', '1a4.1b1.4a1', '.211a7a112.', '...22222...'], orbs: [{ c: 2, r: 3.5, type: 'add3' }, { c: 8, r: 3.5, type: 'add3' }] },
+      { name: 'Phantom Mask', rows: ['.1a22222a1.', '1a11c6c11a1', '1b..191..b1', '1a1.1X1.1a1', '.1b41a14b1.', '..2117112..', '...22.22...'], orbs: [{ c: 2.5, r: 2, type: 'add3' }, { c: 7.5, r: 2, type: 'add3' }] },
+      { name: 'Twin Hourglass', rows: ['22222622222', '.1a14L41a1.', '..1b1a1b1..', '...21X12...', '..1b191b1..', '.1a14741a1.', '22222.22222'], orbs: [{ c: 1, r: 3, type: 'add3' }, { c: 9, r: 3, type: 'add3' }] },
+      { name: 'Solar Scarab', rows: ['..c..6..c..', '1a121a121a1', '1b42c9c24b1', '1a121X121a1', '.1b21a12b1.', '..1a1L1a1..', '...c.7.c...'], orbs: [{ c: 0.6, r: 5.4, type: 'add3' }, { c: 9.4, r: 5.4, type: 'add3' }] }
+    ];
+    /* 15-Stage AAA World Pacing Cadence (distinct tactical identity every single level) */
+    const WORLD_CADENCE = [
+      { role: 'showcase', tag: 'SHOWCASE', badge: '✦', col: '#22D3EE', tip: 'BANK SIDE ALLEYS · IGNITE BOMBS' },
+      { role: 'art', tag: 'SCULPTURE', badge: '◆', col: '#A78BFA', tip: 'CRACK THE CORE · WATCH FOR LASERS' },
+      { role: 'chain', tag: 'CHAIN FUSE', badge: '⚡', col: '#FF6B35', tip: 'ONE SHOT TRIGGERS A DOMINO CASCADE' },
+      { role: 'pinball', tag: 'PINBALL ARENA', badge: '◎', col: '#FACC15', tip: 'RIDE BUMPERS INTO UPPER POCKETS' },
+      { role: 'guardian', tag: 'GUARDIAN', badge: '🛡️', col: '#E879F9', tip: 'MINI-BOSS CORE · BREACH THE SANCTUM' },
+      { role: 'gates', tag: 'SLIDING GATES', badge: '⇄', col: '#38BDF8', tip: 'TIME YOUR SHOTS THROUGH MOVING GATES' },
+      { role: 'portal', tag: 'PORTAL VAULT', badge: '🌀', col: '#00F5D4', tip: 'WARP THROUGH PORTALS BEHIND STEEL' },
+      { role: 'swarm', tag: 'SWARM BONUS', badge: '★', col: '#4ADE80', tip: 'HIGH-DENSITY MOSAIC · MULTIBALL FRENZY' },
+      { role: 'laser', tag: 'LASER GRID', badge: '↔', col: '#00F5D4', tip: 'STRIKE RELAYS TO FIRE PLASMA BEAMS' },
+      { role: 'baffle', tag: 'BAFFLE TRAP', badge: '🔻', col: '#FB923C', tip: 'SHOOT INSIDE · TRAP BALLS UP TOP' },
+      { role: 'quantum', tag: 'QUANTUM ARENA', badge: '🌀', col: '#F472B6', tip: 'PORTALS + BUMPERS PINBALL CHAOS' },
+      { role: 'counter', tag: 'COUNTER SIEGE', badge: '🔢', col: '#FBBF24', tip: 'SHATTER NUMBERED HP MONOLITHS' },
+      { role: 'kinetic', tag: 'KINETIC MAZE', badge: '🌊', col: '#818CF8', tip: 'COUNTER-SLIDING LABYRINTH' },
+      { role: 'citadel', tag: 'CITADEL', badge: '🏰', col: '#FF3D8A', tip: 'PRE-BOSS FORTRESS · BREACH THE WALLS' },
+      { role: 'boss', tag: 'WORLD BOSS', badge: '👑', col: '#FFD166', tip: 'HIT LASER VENTS & SHATTER THE CORES' }
+    ];
+    function parseArtBlueprint(art, hueShift) {
+      const rows = art.rows.length;
+      const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+      const hueMap = Array.from({ length: rows }, () => Array(COLS).fill(undefined));
+      const codeMap = { '.': 0, '1': 1, 'a': 1, 'b': 1, 'c': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '0': 10, 'L': 11, 'X': 12 };
+      const hueSym = { '1': 0, 'a': 1, 'b': 2, 'c': 3, '2': 1, '3': 2 };
+      for (let r = 0; r < rows; r++) {
+        const str = art.rows[r] || '';
+        for (let c = 0; c < COLS && c < str.length; c++) {
+          const ch = str[c];
+          m[r][c] = codeMap[ch] || 0;
+          if (hueSym[ch] !== undefined) hueMap[r][c] = (hueSym[ch] + (hueShift || 0)) % 4;
+        }
+      }
+      const orbs = (art.orbs || []).map(o => ({
+        c: o.c, r: o.r, type: o.type,
+        label: o.type === 'mul3' ? '×3' : o.type === 'mul2' ? '×2' : '+3',
+        color: (o.type === 'mul2' || o.type === 'mul3') ? '#2563EB' : '#FF8A2B'
+      }));
+      return { m, hueMap, orbs, rows };
+    }
+    /* Guarantees no breakable brick can ever be sealed permanently behind steel walls */
+    function ensureGridReachable(grid, rows, portals, topY) {
+      let hasSteel = false;
+      for (let r = 0; r < rows && !hasSteel; r++) for (let c = 0; c < COLS; c++) if (grid[r][c] === 5) { hasSteel = true; break; }
+      if (!hasSteel) return;
+      for (let pass = 0; pass < 10; pass++) {
+        const vis = Array.from({ length: rows }, () => Array(COLS).fill(false));
+        const q = [];
+        for (let c = 0; c < COLS; c++) {
+          if (grid[rows - 1][c] !== 5) { vis[rows - 1][c] = true; q.push([rows - 1, c]); }
+        }
+        for (let r = 0; r < rows; r++) {
+          if (grid[r][0] !== 5 && !vis[r][0]) { vis[r][0] = true; q.push([r, 0]); }
+          if (grid[r][COLS - 1] !== 5 && !vis[r][COLS - 1]) { vis[r][COLS - 1] = true; q.push([r, COLS - 1]); }
+        }
+        if (portals && portals.length) {
+          for (const pt of portals) {
+            const pc = clamp(Math.round((pt.x - SIDE - BW / 2) / (BW + GAP)), 0, COLS - 1);
+            const pr = clamp(Math.round((pt.y - topY - BH / 2) / (BH + VGAP)), 0, rows - 1);
+            for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+              const nr = pr + dr, nc = pc + dc;
+              if (nr >= 0 && nr < rows && nc >= 0 && nc < COLS && grid[nr][nc] !== 5 && !vis[nr][nc]) {
+                vis[nr][nc] = true; q.push([nr, nc]);
+              }
+            }
+          }
+        }
+        while (q.length) {
+          const [cr, cc] = q.shift();
+          for (const [dr, dc] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+            const nr = cr + dr, nc = cc + dc;
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < COLS && !vis[nr][nc] && grid[nr][nc] !== 5) {
+              vis[nr][nc] = true; q.push([nr, nc]);
+            }
+          }
+        }
+        let stuck = null;
+        for (let r = 0; r < rows && !stuck; r++) for (let c = 0; c < COLS; c++) {
+          if (grid[r][c] > 0 && grid[r][c] !== 5 && !vis[r][c]) { stuck = [r, c]; break; }
+        }
+        if (!stuck) break;
+        let bestSteel = null, bestD = 999;
+        for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
+          if (grid[r][c] === 5) {
+            const d = Math.abs(r - stuck[0]) + Math.abs(c - stuck[1]);
+            if (d < bestD) { bestD = d; bestSteel = [r, c]; }
+          }
+        }
+        if (!bestSteel) break;
+        grid[bestSteel[0]][bestSteel[1]] = 9;
+      }
+    }
     /* Brick codes:
-       1 = Normal (1 HP)
-       2 = Armored (2 HP)
-       3 = Heavy Armored (3 HP+)
-       4 = Explosive Bomb (1 HP, 3x3 blast)
-       5 = Indestructible Steel (broken only by Fireball/Nova)
-       6 = Gold Coin Brick (extra coins)
-       7 = Gift Capsule Brick (guaranteed good power-up)
-       8 = Crystal Boss Core (High HP, huge points & XP)
-       9 = Gold Breach Plug (+4 Multiball Swarm!)
-      10 = Crimson Pocket Trigger (+3 Balls & Blast!)
+       1 = Normal (1 HP) | 2 = Armored (2 HP) | 3 = Heavy (3–5 HP)
+       4 = Explosive Bomb (3x3) | 5 = Steel Barrier | 6 = Gold Coin | 7 = Gift Capsule
+       8 = Crystal Boss Core | 9 = +4 Breach Plug | 10 = +3 Pocket Trigger
+       11 = Horizontal Row Laser (↔) | 12 = 4-Way Cross Laser (✛)
     */
     function buildBricks(mask, rows, o) {
       const rng = o.rng, grid = [];
       const sectorBonus = o.sector || 0;
       const topY = o.topOffset || TOP;
+      const hueMap = o.hueMap || null;
+      const colorMode = o.colorMode || 'row';
       for (let r = 0; r < rows; r++) {
         grid[r] = [];
         for (let c = 0; c < COLS; c++) {
           const raw = mask[r] ? mask[r][c] : 0;
           if (!raw) { grid[r][c] = 0; continue }
           if (typeof raw === 'number' && raw > 1) {
-            // Respect intentional blueprint special/armor placement!
-            grid[r][c] = (raw === 2 && o.hardP > 0.22 && rng() < 0.35) ? 3 : raw;
+            grid[r][c] = (raw === 2 && o.hardP > 0.24 && rng() < 0.35) ? 3 : raw;
             continue;
           }
           let code = 1; const roll = rng();
           if (roll < o.hardP) code = 3; else if (roll < o.hardP + o.toughP) code = 2;
-          // Keep steel strictly rare & never blocking bottom row or side alleys
           if (code === 1 && o.steelP > 0 && rng() < o.steelP && r > 0 && r < rows - 1 && c > 0 && c < COLS - 1 && !(grid[r][c - 1] === 5 || (grid[r - 1] && grid[r - 1][c] === 5))) code = 5;
           grid[r][c] = code;
         }
       }
       const normals = [];
-      for (let r = 0; r < rows; r++)for (let c = 0; c < COLS; c++)if (grid[r][c] === 1) normals.push([r, c]);
-      for (let i = normals.length - 1; i > 0; i--) { const j = (rng() * (i + 1)) | 0;[normals[i], normals[j]] = [normals[j], normals[i]] }
-      let ni = 0; const put = (n, code) => { for (let k = 0; k < n && ni < normals.length; k++, ni++) { const [r, c] = normals[ni]; grid[r][c] = code } };
-      let hasExpl = 0, hasCoins = 0, hasGifts = 0;
+      for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) if (grid[r][c] === 1) normals.push([r, c]);
+      for (let i = normals.length - 1; i > 0; i--) { const j = (rng() * (i + 1)) | 0; [normals[i], normals[j]] = [normals[j], normals[i]]; }
+      let ni = 0;
+      const put = (n, code) => { for (let k = 0; k < n && ni < normals.length; k++, ni++) { const [r, c] = normals[ni]; grid[r][c] = code; } };
+      let hasExpl = 0, hasCoins = 0, hasGifts = 0, hasRowL = 0, hasCrossL = 0;
       for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
-        if (grid[r][c] === 4) hasExpl++;
-        else if (grid[r][c] === 6) hasCoins++;
-        else if (grid[r][c] === 7) hasGifts++;
+        const v = grid[r][c];
+        if (v === 4) hasExpl++;
+        else if (v === 6) hasCoins++;
+        else if (v === 7) hasGifts++;
+        else if (v === 11) hasRowL++;
+        else if (v === 12) hasCrossL++;
       }
-      put(Math.max(0, o.expl - hasExpl), 4);
-      put(Math.max(0, o.coins - hasCoins), 6);
-      put(Math.max(0, o.gifts - hasGifts), 7);
+      put(Math.max(0, (o.expl || 0) - hasExpl), 4);
+      put(Math.max(0, (o.lasers || 0) - hasRowL), 11);
+      put(Math.max(0, (o.crossLasers || 0) - hasCrossL), 12);
+      put(Math.max(0, (o.coins || 0) - hasCoins), 6);
+      put(Math.max(0, (o.gifts || 0) - hasGifts), 7);
       if (o.boss) {
         const cr = Math.floor(rows / 2), cc = Math.floor(COLS / 2);
         if (grid[cr] && grid[cr][cc]) grid[cr][cc] = 8;
         if (sectorBonus > 0 && grid[cr] && grid[cr][cc - 1]) grid[cr][cc - 1] = 8;
         if (sectorBonus > 0 && grid[cr] && grid[cr][cc + 1]) grid[cr][cc + 1] = 8;
       }
+      const portals = (o.portals || []).map(pt => ({
+        pairId: pt.pairId || 0,
+        x: pt.x !== undefined ? pt.x : cellX(pt.c),
+        y: pt.y !== undefined ? pt.y : cellY(pt.r, topY),
+        r: pt.rPx || 13, color: pt.color || (pt.pairId ? '#FF3D8A' : '#00F5D4'),
+        outX: pt.outX, outY: pt.outY, isExit: !!pt.isExit, pulseT: 0
+      }));
+      const bumpers = (o.bumpers || []).map(bm => ({
+        x: bm.x !== undefined ? bm.x : cellX(bm.c),
+        y: bm.y !== undefined ? bm.y : cellY(bm.r, topY),
+        r: bm.rPx || 13.5, color: bm.color || WORLDS[o.wi % 8].hues[0], pts: bm.pts || 30, hitT: 0
+      }));
+      // Keep bumper & portal pockets free of overlapping bricks
+      for (const ent of [...bumpers, ...portals]) {
+        for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
+          if (!grid[r][c]) continue;
+          const bx = SIDE + c * (BW + GAP) + BW / 2, by = topY + r * (BH + VGAP) + BH / 2;
+          if (Math.hypot(bx - ent.x, by - ent.y) < ent.r + 17) grid[r][c] = 0;
+        }
+      }
+      ensureGridReachable(grid, rows, portals, topY);
       const bricks = []; let breakable = 0;
-      for (let r = 0; r < rows; r++)for (let c = 0; c < COLS; c++) {
+      const cy = (rows - 1) / 2;
+      for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
         const code = grid[r][c]; if (!code) continue;
-        let mhp = code === 2 ? 2 : code === 3 ? (3 + Math.min(2, sectorBonus)) : code === 8 ? (6 + o.absWorld + sectorBonus * 3) : 1;
+        let mhp = code === 2 ? 2 : code === 3 ? (3 + Math.min(2, sectorBonus)) : code === 8 ? (6 + (o.absWorld || 0) + sectorBonus * 3) : 1;
         const bx = SIDE + c * (BW + GAP), by = topY + r * (BH + VGAP);
-        const moving = o.moving && (o.boss ? r % 2 === 1 : r % 3 === 1);
         const safeRoom = Math.max(0, Math.min(bx - 6, (VW - BW - 6) - bx));
-        const rawAmp = moving ? Math.min(12, 5 + o.wi * 1.2 + sectorBonus * 1.5) : 0;
+        let moveAmp = 0, moveSpd = .8 + (o.li || 0) * .04 + sectorBonus * .14, movePh = r * 1.57;
+        const rm = o.rowMotions && o.rowMotions[r];
+        if (rm && code !== 5) {
+          moveAmp = Math.min(rm.amp, safeRoom); moveSpd = rm.spd; movePh = rm.ph;
+        } else if (o.moving && code !== 5 && (o.boss ? r % 2 === 1 : r % 3 === 1)) {
+          moveAmp = Math.min(Math.min(12, 5 + (o.wi || 0) * 1.2 + sectorBonus * 1.5), safeRoom);
+          moveSpd += rng() * .25;
+        }
+        let hueIdx = hueMap && hueMap[r] && hueMap[r][c] !== undefined ? hueMap[r][c] : undefined;
+        if (hueIdx === undefined) {
+          if (colorMode === 'radial') hueIdx = Math.round(Math.hypot(c - 5, (r - cy) * 1.3)) % 4;
+          else if (colorMode === 'diag') hueIdx = (c + r) % 4;
+          else if (colorMode === 'sym') hueIdx = Math.abs(c - 5) % 4;
+          else if (colorMode === 'chevron') hueIdx = Math.abs(Math.abs(c - 5) - r) % 4;
+          else hueIdx = r % 4;
+        }
         bricks.push({
-          c, r, x: bx, y: by, rx: bx, code, mhp, hp: mhp, alive: true,
+          c, r, x: bx, y: by, rx: bx, code, hueIdx, mhp, hp: mhp, alive: true,
           unbreakable: code === 5,
-          moveAmp: Math.min(rawAmp, safeRoom),
-          moveSpd: .7 + o.li * .04 + sectorBonus * .16 + rng() * .3, movePh: r * 1.57
+          moveAmp, moveSpd, movePh
         });
         if (code !== 5) breakable++;
       }
       const orbs = (o.orbs || []).map(ob => ({
-        x: SIDE + (ob.c + 0.5) * (BW + GAP) - GAP * 0.5,
-        y: topY + (ob.r + 0.5) * (BH + VGAP),
-        r: 9.5, type: ob.type, label: ob.label, color: ob.color, alive: true
+        x: ob.x !== undefined ? ob.x : (SIDE + (ob.c + 0.5) * (BW + GAP) - GAP * 0.5),
+        y: ob.y !== undefined ? ob.y : (topY + (ob.r + 0.5) * (BH + VGAP)),
+        r: 9.5, type: ob.type || 'add3', label: ob.label || (ob.type === 'mul3' ? '×3' : ob.type === 'mul2' ? '×2' : '+3'),
+        color: ob.color || ((ob.type === 'mul2' || ob.type === 'mul3') ? '#2563EB' : '#FF8A2B'), alive: true
       }));
-      return { bricks, orbs, breakable, rows };
+      return { bricks, orbs, bumpers, portals, breakable, rows };
+    }
+    /* High-Density Micro-Brick Swarm Bonus Stage (Campaign Level 8 of every world) */
+    function buildCampaignSwarmStage(rng, absWorld, wi, sector) {
+      const C = 17, Rw = 15, side = 15, gap = 1.6, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 14.5, topY = 44;
+      const styles = ['Neon Heart Swarm', 'Starfighter Mosaic', 'Rainbow Prism Vault', 'Twin Swarm Bunkers', 'Crown Jewel Mosaic', 'Butterfly Swarm', 'Diamond Nova Mosaic', 'Cyber Invader Swarm'];
+      const styleIdx = (absWorld + sector * 3) % styles.length;
+      const hues = themeBrickHues(wi);
+      const grid = Array.from({ length: Rw }, () => Array(C).fill(0));
+      const colMap = Array.from({ length: Rw }, () => Array(C).fill(''));
+      const cx = (C - 1) / 2, cy = (Rw - 1) / 2;
+      const rainbow = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#3B82F6', '#D946EF'];
+      for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
+        const dx = (c - cx) / (cx * 0.92), dy = (r - cy) / (cy * 0.92);
+        let on = false, col = hues[(r + c) % 4];
+        if (styleIdx === 0) {
+          const hx = dx * 1.15, hy = -dy * 1.15 - 0.15;
+          on = Math.pow(hx * hx + hy * hy - 0.72, 3) - hx * hx * hy * hy * hy <= 0;
+          col = Math.hypot(dx, dy) < 0.4 ? '#FACC15' : (r % 2 === 0 ? '#FF3D8A' : '#FB7185');
+        } else if (styleIdx === 1) {
+          on = (Math.abs(c - 8) <= Math.min(7, r * 0.85) && r < 11) || (r >= 10 && r < 13 && (Math.abs(c - 8) <= 2 || Math.abs(c - 8) >= 5 && Math.abs(c - 8) <= 7));
+          col = Math.abs(c - 8) <= 1 ? '#22D3EE' : Math.abs(c - 8) <= 4 ? '#8B5CF6' : '#FF3D8A';
+        } else if (styleIdx === 2) {
+          on = c >= 2 && c <= C - 3 && r >= 2 && r <= Rw - 2 && !(r >= Rw - 3 && Math.abs(c - 8) <= 2);
+          col = rainbow[(c + r) % 7];
+        } else if (styleIdx === 3) {
+          on = r >= 2 && r <= Rw - 2 && ((c >= 1 && c <= 6) || (c >= 10 && c <= 15));
+          col = c <= 6 ? hues[r % 2] : hues[2 + (r % 2)];
+        } else if (styleIdx === 4) {
+          const crest = (r <= 4 && (Math.abs(c - 2) <= r * 0.6 || Math.abs(c - 8) <= r * 0.7 || Math.abs(c - 14) <= r * 0.6));
+          on = crest || (r >= 5 && r <= 12 && c >= 1 && c <= 15);
+          col = r <= 4 ? '#FACC15' : (r === 8 ? '#FF3D8A' : hues[c % 4]);
+        } else if (styleIdx === 5) {
+          const wing = Math.abs(dx) > 0.15 && Math.hypot(Math.abs(dx) - 0.52, dy * 1.1) < 0.56;
+          const body = Math.abs(c - 8) <= 1 && r >= 2 && r <= 12;
+          on = wing || body;
+          col = body ? '#FACC15' : hues[(Math.abs(c - 8) + r) % 4];
+        } else if (styleIdx === 6) {
+          const d = Math.abs(dx) + Math.abs(dy);
+          on = d <= 1.08 && !(d >= 0.34 && d <= 0.52);
+          col = d < 0.34 ? '#FACC15' : hues[Math.floor(d * 4) % 4];
+        } else {
+          const ac = Math.abs(c - 8);
+          on = (r >= 2 && r <= 12 && ac <= 6 && !(r === 5 && (ac === 2 || ac === 3)) && !(r === 11 && ac <= 2)) || (r <= 2 && ac === 4);
+          col = r < 5 ? '#A3E635' : r < 9 ? '#22D3EE' : '#8B5CF6';
+        }
+        if (on) { grid[r][c] = 1; colMap[r][c] = col; }
+      }
+      const orbs = [];
+      const addOrb = (c, r, type) => {
+        for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+          const nr = clamp(Math.round(r) + dr, 0, Rw - 1), nc = clamp(Math.round(c) + dc, 0, C - 1);
+          if (Math.abs(dr) + Math.abs(dc) <= 1) grid[nr][nc] = 0;
+        }
+        orbs.push({
+          x: side + (c + 0.5) * (bw + gap), y: topY + (r + 0.5) * (bh + gap), r: 9.2,
+          type, label: type === 'mul3' ? '×3' : type === 'mul2' ? '×2' : '+3',
+          color: (type === 'mul2' || type === 'mul3') ? '#2563EB' : '#FF8A2B', alive: true
+        });
+      };
+      addOrb(2, 1.2, 'add3'); addOrb(14, 1.2, 'add3'); addOrb(8, 7.2, 'mul2');
+      if (sector > 0 || wi >= 3) addOrb(8, 13.5, 'add3');
+      // Inject Breach Plugs (+4) & Bombs inside the mosaic
+      const bricks = []; let breakable = 0;
+      const armorChance = Math.min(0.24, 0.04 + wi * 0.02 + sector * 0.05);
+      for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
+        if (!grid[r][c]) continue;
+        let code = 1, mhp = 1, col = colMap[r][c];
+        if (r === 4 && (c === 5 || c === 11)) { code = 9; col = '#FACC15'; }
+        else if (r === 9 && (c === 4 || c === 12)) { code = 4; col = '#FF6B35'; }
+        else if (r === 6 && (c === 3 || c === 13)) { code = 11; col = '#00F5D4'; }
+        else if (rng() < 0.06) { code = 6; col = '#FFC53D'; }
+        else if (rng() < armorChance) { code = 2; mhp = 2; }
+        const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
+        bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, customCol: col, code, mhp, hp: mhp, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
+        breakable++;
+      }
+      const bumpers = [{ x: side + 1.1 * (bw + gap), y: topY + 11.5 * (bh + gap), r: 12.5, color: hues[0], pts: 30, hitT: 0 }, { x: VW - side - 1.1 * (bw + gap), y: topY + 11.5 * (bh + gap), r: 12.5, color: hues[2], pts: 30, hitT: 0 }];
+      return { name: styles[styleIdx], rows: Rw, bricks, orbs, bumpers, portals: [], breakable };
+    }
+    /* Numbered Hit-Counter Hybrid Siege Stage (Campaign Level 12 of every world) */
+    function buildCampaignCounterStage(rng, absWorld, wi, sector) {
+      const C = 9, Rw = 7, side = 16, gap = 4.2, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 27.5, topY = 44;
+      const archs = ['sky_chute', 'diamond_core', 'twin_towers', 'chevron', 'hourglass', 'baffle_trap'];
+      const arch = archs[(absWorld + sector * 2) % archs.length];
+      const minHp = Math.min(24, 3 + Math.floor(absWorld * 1.1) + sector * 5);
+      const maxHp = Math.min(60, 10 + Math.floor(absWorld * 2.4) + sector * 10);
+      const mask = Array.from({ length: Rw }, () => Array(C).fill(0));
+      const orbs = [];
+      const addOrb = (c, r, type) => orbs.push({
+        x: side + (c + 0.5) * (bw + gap) - gap * 0.5, y: topY + (r + 0.5) * (bh + gap) - gap * 0.5,
+        r: 9.5, type, label: type === 'mul2' ? '×2' : '+3', color: type === 'mul2' ? '#2563EB' : '#FF8A2B', alive: true
+      });
+      const cy = (Rw - 1) / 2;
+      for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
+        if (arch === 'sky_chute') { if (r >= 1 && c >= 1 && c <= C - 2 && !(r === Rw - 1 && c >= 3 && c <= 5)) mask[r][c] = r <= 2 ? 2 : 1; }
+        else if (arch === 'diamond_core') { const d = Math.abs(c - 4) / 4.2 + Math.abs(r - cy) / 3.5; if (d <= 1.02) mask[r][c] = d <= 0.3 ? 9 : d <= 0.6 ? 2 : 1; }
+        else if (arch === 'twin_towers') { if (r >= 1 && c !== 4) mask[r][c] = r <= 2 ? 2 : 1; }
+        else if (arch === 'chevron') { const v = Math.floor(Math.abs(c - 4) * 0.72); if (r >= v && r <= v + 4) mask[r][c] = c === 4 ? 2 : 1; }
+        else if (arch === 'hourglass') { const hw = Math.round(1.2 + Math.abs(r - cy) * 0.9); if (Math.abs(c - 4) <= hw && !(c === 4 && Math.abs(r - cy) < 0.7)) mask[r][c] = (r <= 1 || r >= Rw - 2) ? 2 : 1; }
+        else { if (c >= 1 && c <= C - 2 && !(r === Rw - 1 && c >= 3 && c <= 5) && !(r === Rw - 2 && (c === 2 || c === 6))) mask[r][c] = (r === Rw - 2 && c >= 3 && c <= 5) ? 5 : (r <= 2 ? 2 : 1); }
+      }
+      if (mask[3] && mask[3][2]) mask[3][2] = 4;
+      if (mask[3] && mask[3][6]) mask[3][6] = 4;
+      if (mask[2] && mask[2][4]) mask[2][4] = 11;
+      addOrb(0.4, 1, 'add3'); addOrb(7.6, 1, 'add3'); addOrb(4, 0.25, 'mul2');
+      const bricks = []; let breakable = 0;
+      for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
+        const k = mask[r][c]; if (!k) continue;
+        const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
+        if (k === 5) {
+          bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, customCol: '#64748B', code: 5, mhp: 1, hp: 1, alive: true, unbreakable: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
+          continue;
+        }
+        const rowF = 1 - (r / Math.max(1, Rw - 1)) * 0.4;
+        const mhp = (k === 4 || k === 9 || k === 11) ? Math.max(2, Math.round(minHp * 0.7)) : Math.max(minHp, Math.round(lerp(minHp, maxHp, clamp((k === 2 ? 0.62 : 0.25) + rng() * 0.35, 0, 1) * rowF)));
+        const col = k === 4 ? '#FF6B35' : k === 9 ? '#FACC15' : k === 11 ? '#00F5D4' : hpHeatColor(mhp, maxHp);
+        bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, showHp: true, hpRef: maxHp, customCol: col, code: k === 4 ? 4 : k === 9 ? 9 : k === 11 ? 11 : 2, mhp, hp: mhp, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
+        breakable++;
+      }
+      const names = ['Monolith Counters', 'Prism Countdown', 'Twin Counter Towers', 'V-Wing Siege', 'Chrono Counters', 'Baffle Counters'];
+      return { name: names[(absWorld + sector * 2) % names.length], rows: Rw, bricks, orbs, bumpers: [], portals: [], breakable };
     }
     const levelCache = new Map();
     function getLevel(idx) {
       if (levelCache.has(idx)) return levelCache.get(idx);
       const absWorld = Math.floor(idx / 15), sector = Math.floor(absWorld / 8), wi = absWorld % 8, li = idx % 15;
       const rng = mulberry32(((idx + 1) * 2654435761) ^ 0x9E3779B9);
-      const boss = li === 14;
-      let rows = clamp(5 + Math.floor(li * .42) + Math.floor(wi * .35) + Math.min(2, sector), 5, 10), mask, name, bpOrbs = [];
-      if (boss) {
-        const B = BOSSES[wi]; mask = B.g; rows = mask.length; name = B.name + (sector > 0 ? ' MK-' + (sector + 1) : '');
-        bpOrbs = [{ c: 1, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }, { c: 9, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }];
-      } else {
-        const P = PATTERNS[(idx + sector * 5) % PATTERNS.length];
-        name = P.name;
-        const res = P.build(COLS, rows);
-        mask = res.m; bpOrbs = res.orbs || [];
-        if (sector > 0 && rng() < .5) {
-          mask = mask.map(row => row.slice().reverse());
-          bpOrbs = bpOrbs.map(o => ({ ...o, c: (COLS - 1) - o.c }));
+      const cad = WORLD_CADENCE[li] || WORLD_CADENCE[0];
+      const wHues = WORLDS[wi].hues;
+      const topOffset = TOP + 8;
+      const baseTough = Math.min(.42, .05 + wi * .042 + li * .007 + sector * .055);
+      const baseHard = (wi >= 1 || sector > 0 || li >= 9) ? Math.min(.32, .02 + wi * .025 + sector * .05) : 0;
+      const baseSteel = (wi >= 2 || sector > 0) ? Math.min(.06, .01 + wi * .006 + sector * .01) : 0;
+      let lvlData = null, name = '', boss = false;
+
+      if (cad.role === 'swarm') {
+        lvlData = buildCampaignSwarmStage(rng, absWorld, wi, sector);
+        name = lvlData.name;
+      } else if (cad.role === 'counter') {
+        lvlData = buildCampaignCounterStage(rng, absWorld, wi, sector);
+        name = lvlData.name;
+      } else if (cad.role === 'art') {
+        const art = CAMPAIGN_ART[(absWorld * 3 + sector * 5 + (wi % 2)) % CAMPAIGN_ART.length];
+        const parsed = parseArtBlueprint(art, (absWorld + sector) % 4);
+        name = art.name + (sector > 0 ? ' +' + sector : '');
+        const bumpers = (wi >= 2 || sector > 0) ? [{ c: 0.7, r: parsed.rows - 0.5, color: wHues[0] }, { c: 9.3, r: parsed.rows - 0.5, color: wHues[2] }] : [];
+        lvlData = buildBricks(parsed.m, parsed.rows, {
+          rng, wi, li, absWorld, sector, boss: false, hueMap: parsed.hueMap, orbs: parsed.orbs, bumpers, topOffset,
+          toughP: baseTough * 0.65, hardP: baseHard * 0.6, steelP: 0, expl: 2, lasers: 1, coins: 3, gifts: 2, moving: wi >= 4 || sector > 0
+        });
+      } else if (cad.role === 'boss') {
+        boss = true;
+        const B = BOSSES[wi], rawG = B.g, rows = rawG.length;
+        name = B.name + (sector > 0 ? ' MK-' + (sector + 1) : '');
+        const m = Array.from({ length: rows }, (_, r) => Array.from({ length: COLS }, (_, c) => rawG[r][c] ? 1 : 0));
+        const hueMap = Array.from({ length: rows }, (_, r) => Array.from({ length: COLS }, (_, c) => (Math.abs(c - 5) <= 1 ? 2 : Math.abs(c - 5) <= 3 ? 0 : 1)));
+        // Wire flank Row-Laser weak-point vents & breach core
+        const midR = Math.floor(rows / 2);
+        if (m[midR][2]) m[midR][2] = 11;
+        if (m[midR][8]) m[midR][8] = 11;
+        if (m[1] && m[1][5]) m[1][5] = 9;
+        const orbs = [{ c: 0.7, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }, { c: 9.3, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }];
+        const bumpers = (wi % 2 === 0) ? [{ c: 1.5, r: rows + 0.6, color: '#FFD166', rPx: 14 }, { c: 8.5, r: rows + 0.6, color: '#FFD166', rPx: 14 }] : [];
+        const portals = (wi % 2 === 1) ? [
+          { pairId: 0, c: 0.7, r: rows + 0.5, color: '#00F5D4', outX: 0.5, outY: -0.86 },
+          { pairId: 0, c: 5, r: -0.45, color: '#00F5D4', outX: 0.85, outY: 0.45, isExit: true },
+          { pairId: 1, c: 9.3, r: rows + 0.5, color: '#FF3D8A', outX: -0.5, outY: -0.86 },
+          { pairId: 1, c: 5, r: rows + 0.8, color: '#FF3D8A', outX: 0, outY: -1, isExit: true }
+        ].slice(0, 2) : [];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, boss: true, hueMap, orbs, bumpers, portals, topOffset,
+          toughP: Math.min(.45, .14 + wi * .04 + sector * .05), hardP: Math.min(.32, .06 + wi * .028 + sector * .05),
+          steelP: Math.min(.04, wi * .005), expl: 3, lasers: 2, coins: 4, gifts: 2, moving: true
+        });
+      } else if (cad.role === 'showcase') {
+        const rows = clamp(6 + Math.min(2, Math.floor(wi / 3) + sector), 6, 8);
+        const variant = (absWorld + sector) % 4;
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        const orbs = [];
+        const titles = ['Sky-Chute Overpass', 'Neon Archway', 'Twin Wing Gateway', 'Prism Cascade'];
+        name = titles[variant];
+        for (let r = 1; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
+          if (variant === 0) { if (r === rows - 1 && c >= 4 && c <= 6) continue; m[r][c] = (r === 2 && (c === 3 || c === 7)) ? 4 : (r === 2 && c === 5) ? 11 : 1; }
+          else if (variant === 1) { if (r >= rows - 2 && c >= 3 && c <= 7) continue; m[r][c] = (r === 1 && c % 2 === 1) ? 6 : (r === 2 && c === 5) ? 4 : 1; }
+          else if (variant === 2) { if (c === 5 || (r === rows - 1 && (c === 1 || c === 9))) continue; m[r][c] = (r === 3 && (c === 3 || c === 7)) ? 11 : (r === 2 && (c === 2 || c === 8)) ? 4 : 1; }
+          else { if (r < Math.abs(c - 5) * 0.55) continue; m[r][c] = (c === 5 && r === 2) ? 12 : (r === 1 && (c === 4 || c === 6)) ? 6 : 1; }
         }
+        orbs.push({ c: 5, r: 0.25, type: 'add3' });
+        if (variant === 1) orbs.push({ c: 5, r: rows - 1.2, type: 'mul2' });
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, topOffset, colorMode: ['diag', 'sym', 'chevron', 'radial'][variant],
+          toughP: baseTough * 0.55, hardP: baseHard * 0.4, steelP: 0, expl: 3, lasers: 1, coins: 4, gifts: 2, moving: false
+        });
+      } else if (cad.role === 'chain') {
+        const rows = clamp(7 + Math.min(2, sector + Math.floor(wi / 4)), 7, 9);
+        const variant = (absWorld * 2 + sector) % 4;
+        const titles = ['Domino Fuse Circuit', 'Plasma Chain Web', 'Detonation Diamond', 'Cascade Reactor'];
+        name = titles[variant];
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
+          if (variant === 0) { if (r === rows - 1 && (c === 4 || c === 6)) continue; m[r][c] = ((r === rows - 1 && c === 5) || (r === rows - 3 && (c === 3 || c === 7)) || (r === 1 && c === 5)) ? 4 : (r === Math.floor(rows / 2) && c === 5) ? 12 : 1; }
+          else if (variant === 1) { if ((r + c) % 3 === 0 && r > 0) continue; m[r][c] = (r % 2 === 1 && (c === 2 || c === 5 || c === 8)) ? (c === 5 ? 11 : 4) : 1; }
+          else if (variant === 2) { const d = Math.abs(c - 5) / 4.4 + Math.abs(r - (rows - 1) / 2) / ((rows - 1) / 2 + 0.2); if (d <= 1.05) m[r][c] = d < 0.25 ? 12 : (Math.abs(c - 5) === 2 && r === Math.floor(rows / 2)) ? 4 : (r === rows - 1 && c === 5) ? 4 : 1; }
+          else { if (c === 3 || c === 7) continue; m[r][c] = (r === rows - 2 && c === 5) ? 11 : (r === 2 && (c === 1 || c === 5 || c === 9)) ? 4 : 1; }
+        }
+        const orbs = [{ c: 0.4, r: 1, type: 'add3' }, { c: 9.6, r: 1, type: 'add3' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, topOffset, colorMode: 'radial',
+          toughP: baseTough * 0.7, hardP: baseHard * 0.5, steelP: 0, expl: 5, lasers: 2, crossLasers: 1, coins: 4, gifts: 2, moving: false
+        });
+      } else if (cad.role === 'pinball') {
+        const rows = 8;
+        const variant = (absWorld + sector) % 3;
+        const titles = ['Neon Pinball Parlor', 'Bumper Canyon', 'Orbital Ricochet'];
+        name = titles[variant];
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
+          if (variant === 0) { if (r <= 2 && c >= 1 && c <= 9) m[r][c] = r === 0 ? 6 : 1; else if ((c <= 1 || c >= 9) && r >= 3 && r <= 6) m[r][c] = 1; else if (r === 3 && c >= 3 && c <= 7) m[r][c] = c === 5 ? 9 : 1; }
+          else if (variant === 1) { if (c <= 3 || c >= 7) { if (r >= 1 && r <= 6) m[r][c] = (r === 1 ? 6 : 1); } else if (r <= 1) m[r][c] = 2; }
+          else { if (r <= 4 && c >= 2 && c <= 8 && !(r >= 2 && c >= 4 && c <= 6)) m[r][c] = r === 0 ? 6 : 1; }
+        }
+        const bumpers = variant === 0
+          ? [{ c: 3, r: 5.5, color: wHues[0], rPx: 14 }, { c: 7, r: 5.5, color: wHues[2], rPx: 14 }, { c: 5, r: 7.4, color: '#FACC15', rPx: 15 }]
+          : variant === 1
+            ? [{ c: 5, r: 3.3, color: '#FACC15', rPx: 14.5 }, { c: 5, r: 6.2, color: wHues[0], rPx: 14.5 }, { c: 2, r: 8.1, color: wHues[2], rPx: 13 }, { c: 8, r: 8.1, color: wHues[2], rPx: 13 }]
+            : [{ c: 5, r: 3.2, color: '#FACC15', rPx: 15 }, { c: 1.5, r: 5.5, color: wHues[0], rPx: 14 }, { c: 8.5, r: 5.5, color: wHues[2], rPx: 14 }];
+        const orbs = [{ c: 5, r: variant === 2 ? 6.8 : 4.2, type: 'mul2' }, { c: 0.5, r: 0.8, type: 'add3' }, { c: 9.5, r: 0.8, type: 'add3' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, bumpers, topOffset, colorMode: 'sym',
+          toughP: baseTough * 0.8, hardP: baseHard * 0.6, steelP: 0, expl: 3, lasers: 1, coins: 5, gifts: 2, moving: false
+        });
+      } else if (cad.role === 'guardian') {
+        const rows = 8;
+        const variant = (absWorld + sector) % 3;
+        const titles = ['Sanctum Guardian', 'Twin Core Reactor', 'Diamond Citadel Core'];
+        name = titles[variant];
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
+          if (variant === 0) { if (r === 0 || c === 1 || c === 9 || (r === rows - 1 && (c <= 3 || c >= 7))) m[r][c] = 2; else if (r >= 2 && r <= 5 && c >= 3 && c <= 7) m[r][c] = (r === 3 && c === 5) ? 8 : (r === 2 && c === 5) ? 9 : 1; }
+          else if (variant === 1) { if (c === 5) continue; m[r][c] = (r === 3 && (c === 3 || c === 7)) ? 8 : (r === 0 || r === rows - 1) ? 2 : 1; }
+          else { const d = Math.abs(c - 5) / 4.3 + Math.abs(r - 3.5) / 3.8; if (d <= 1.02) m[r][c] = d < 0.28 ? 8 : d > 0.82 ? 2 : 1; }
+        }
+        if (sector > 0 && m[3]) { m[3][3] = 8; m[3][7] = 8; }
+        const bumpers = [{ c: 0.5, r: 6.5, color: '#E879F9', rPx: 13 }, { c: 9.5, r: 6.5, color: '#E879F9', rPx: 13 }];
+        const orbs = [{ c: 5, r: variant === 1 ? 1.5 : 6.6, type: 'add3' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, bumpers, topOffset, colorMode: 'radial',
+          toughP: baseTough + 0.08, hardP: baseHard + 0.05, steelP: 0, expl: 3, lasers: 1, coins: 4, gifts: 2, moving: false
+        });
+      } else if (cad.role === 'gates') {
+        const rows = 8;
+        const variant = (absWorld + sector) % 3;
+        const titles = ['Cryo Sliding Gates', 'Synchronized Shields', 'Piston Corridor'];
+        name = titles[variant];
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        const rowMotions = {};
+        for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
+          if (r === rows - 1 || r === rows - 3) {
+            if (c >= 3 && c <= 7) m[r][c] = (c === 5 ? 9 : 2);
+          } else if (r < rows - 3) {
+            if (variant === 1 && c === 5) continue;
+            m[r][c] = (r === 0 && c % 2 === 1) ? 6 : (r === 2 && (c === 3 || c === 7)) ? 11 : 1;
+          }
+        }
+        const spd = 1.25 + wi * 0.08 + sector * 0.16;
+        rowMotions[rows - 1] = { amp: 66, spd, ph: 0 };
+        rowMotions[rows - 3] = { amp: 66, spd: spd * 1.15, ph: Math.PI };
+        if (variant === 2) rowMotions[2] = { amp: 24, spd: spd * 0.9, ph: Math.PI / 2 };
+        const orbs = [{ c: 5, r: 0.6, type: 'mul2' }, { c: 1, r: rows - 2, type: 'add3' }, { c: 9, r: rows - 2, type: 'add3' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, rowMotions, topOffset, colorMode: 'row',
+          toughP: baseTough, hardP: baseHard, steelP: 0, expl: 3, lasers: 2, coins: 5, gifts: 2, moving: false
+        });
+      } else if (cad.role === 'portal') {
+        const rows = 8;
+        const variant = (absWorld + sector) % 3;
+        const titles = ['Wormhole Vault', 'Twin Portal Heist', 'Quantum Flank Fortress'];
+        name = titles[variant];
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
+          if (r === 0 && c >= 2 && c <= 8) m[r][c] = 6;
+          else if (r === rows - 1 && c >= 2 && c <= 8) m[r][c] = (c === 5 ? 9 : 5); // Armored/steel front wall!
+          else if ((c === 1 || c === 9) && r >= 1 && r <= rows - 2) m[r][c] = 2;
+          else if (r >= 2 && r <= rows - 2 && c >= 2 && c <= 8) m[r][c] = (r === 3 && c === 5) ? 12 : ((r + c) % 4 === 0 ? 6 : 1);
+        }
+        // Clear pocket inside vault for exit portal(s)
+        const portals = variant === 1 ? [
+          { pairId: 0, c: 0.5, r: rows + 0.7, color: '#00F5D4', outX: 0.4, outY: -0.9 },
+          { pairId: 0, c: 3.2, r: 1.5, color: '#00F5D4', outX: 0.85, outY: 0.4, isExit: true },
+          { pairId: 1, c: 9.5, r: rows + 0.7, color: '#FF3D8A', outX: -0.4, outY: -0.9 },
+          { pairId: 1, c: 6.8, r: 1.5, color: '#FF3D8A', outX: -0.85, outY: 0.4, isExit: true }
+        ] : [
+          { pairId: 0, c: variant === 0 ? 0.6 : 9.4, r: rows + 0.6, color: '#00F5D4', outX: variant === 0 ? 0.4 : -0.4, outY: -0.9 },
+          { pairId: 0, c: 5, r: 1.5, color: '#00F5D4', outX: variant === 0 ? 0.8 : -0.8, outY: 0.45, isExit: true }
+        ];
+        const orbs = [{ c: 5, r: 4.5, type: 'mul2' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, portals, topOffset, colorMode: 'sym',
+          toughP: baseTough, hardP: baseHard, steelP: 0, expl: 3, lasers: 1, crossLasers: 1, coins: 6, gifts: 2, moving: false
+        });
+      } else if (cad.role === 'laser') {
+        const rows = 8;
+        const variant = (absWorld + sector) % 3;
+        const titles = ['Plasma Relay Matrix', 'Crossbeam Reactor', 'Photon Grid'];
+        name = titles[variant];
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
+          if (variant === 0) {
+            if (c === 3 || c === 7) continue;
+            m[r][c] = (r === 2 && (c === 1 || c === 9)) ? 11 : (r === 5 && c === 5) ? 12 : (r === 0 ? 2 : 1);
+          } else if (variant === 1) {
+            if (r === 3 || c === 5) { if ((r === 3 && (c === 2 || c === 8)) || (c === 5 && (r === 1 || r === 5))) m[r][c] = 12; continue; }
+            m[r][c] = (r % 2 === 0 && c % 2 === 0) ? 2 : 1;
+          } else {
+            if ((r + c) % 2 === 0) m[r][c] = (r % 3 === 1 && c % 4 === 1) ? 11 : (r === 3 && c === 5) ? 12 : 1;
+          }
+        }
+        const orbs = [{ c: 5, r: variant === 1 ? 3 : 0.4, type: 'mul2' }, { c: 0.5, r: 6.5, type: 'add3' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, topOffset, colorMode: 'diag',
+          toughP: baseTough + 0.05, hardP: baseHard, steelP: baseSteel * 0.5, expl: 2, lasers: 3, crossLasers: 2, coins: 4, gifts: 2, moving: false
+        });
+      } else if (cad.role === 'baffle') {
+        const rows = 8;
+        name = (absWorld % 2 === 0) ? 'One-Way Baffle Vault' : 'Pinball Funnel Trap';
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
+          if (r === rows - 1 && c >= 4 && c <= 6) continue;
+          if (r === rows - 2 && c >= 4 && c <= 6) { m[r][c] = (wi >= 2 ? 5 : 3); continue; }
+          if (r === rows - 2 && (c === 3 || c === 7)) continue;
+          m[r][c] = (r === 0 || c === 1 || c === 9) ? 2 : (r === 2 && c === 5) ? 9 : (r === 1 && (c === 3 || c === 7)) ? 6 : 1;
+        }
+        const bumpers = [{ c: 0.4, r: rows - 1.5, color: wHues[0], rPx: 13 }, { c: 9.6, r: rows - 1.5, color: wHues[2], rPx: 13 }];
+        const orbs = [{ c: 2.5, r: 3.5, type: 'add3' }, { c: 7.5, r: 3.5, type: 'mul2' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, bumpers, topOffset, colorMode: 'chevron',
+          toughP: baseTough, hardP: baseHard, steelP: 0, expl: 3, lasers: 1, coins: 5, gifts: 2, moving: false
+        });
+      } else if (cad.role === 'quantum') {
+        const rows = 8;
+        name = ['Quantum Pinball Rift', 'Twin Portal Towers', 'Hyper Warp Arena'][(absWorld + sector) % 3];
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        for (let r = 1; r < rows; r++) for (let c = 0; c < COLS; c++) {
+          if (c === 4 || c === 5 || c === 6) { if (r <= 2 && c === 5) m[r][c] = r === 1 ? 12 : 6; continue; }
+          if (r === rows - 1 && (c === 0 || c === 10)) continue;
+          m[r][c] = (r === 1 || r === rows - 1) ? 2 : (r === 4 && (c === 2 || c === 8)) ? 4 : 1;
+        }
+        const portals = [
+          { pairId: 0, c: 5, r: rows + 0.4, color: '#A855F7', outX: 0, outY: -1 },
+          { pairId: 0, c: 5, r: 0.1, color: '#A855F7', outX: (absWorld % 2 === 0 ? 0.85 : -0.85), outY: 0.4, isExit: true }
+        ];
+        const bumpers = [{ c: 5, r: 4.5, color: '#FACC15', rPx: 14.5 }, { c: 5, r: 6.7, color: '#22D3EE', rPx: 13 }];
+        const orbs = [{ c: 2, r: 0.25, type: 'add3' }, { c: 8, r: 0.25, type: 'mul2' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, bumpers, portals, topOffset, colorMode: 'sym',
+          toughP: baseTough + 0.05, hardP: baseHard, steelP: 0, expl: 3, lasers: 2, coins: 4, gifts: 2, moving: false
+        });
+      } else if (cad.role === 'kinetic') {
+        const rows = 9;
+        const variant = (absWorld + sector) % 3;
+        name = ['Vortex Spiral Maze', 'Kinetic Wave Ribbons', 'Orbital Ring Labyrinth'][variant];
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        const rowMotions = {};
+        const cy = (rows - 1) / 2;
+        for (let r = 0; r < rows; r++) {
+          if (r % 2 === 1) rowMotions[r] = { amp: 14, spd: 1.05 + wi * 0.06, ph: r * Math.PI };
+          for (let c = 1; c < COLS - 1; c++) {
+            if (variant === 0) {
+              const ring = Math.max(Math.floor(Math.abs(c - 5) * 0.72), Math.floor(Math.abs(r - cy)));
+              const gate = (ring % 2 === 0 && c === 5 && r > cy) || (ring % 2 === 1 && Math.abs(r - cy) < 0.7 && (c <= 2 || c >= 8));
+              if (ring === 0) m[r][c] = 9;
+              else if (!gate) m[r][c] = ring === 1 ? 6 : (ring >= 3 ? 2 : 1);
+            } else if (variant === 1) {
+              const wv = Math.round(Math.sin(c * 0.8 + r) * 1.1);
+              if ((r + wv) % 3 !== 0) m[r][c] = (c === 5 && r % 3 === 1) ? 11 : 1;
+            } else {
+              const dist = Math.hypot((c - 5) * 0.78, (r - cy) * 1.1);
+              if (dist < 1.1) m[r][c] = 12;
+              else if ((dist >= 1.85 && dist <= 2.7) || (dist >= 3.45 && dist <= 4.35)) {
+                if (r === rows - 1 && c >= 4 && c <= 6) continue;
+                m[r][c] = dist > 3.45 ? 2 : 1;
+              }
+            }
+          }
+        }
+        const orbs = [{ c: 0.5, r: 1, type: 'add3' }, { c: 9.5, r: 1, type: 'mul2' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, orbs, rowMotions, topOffset, colorMode: 'radial',
+          toughP: baseTough + 0.06, hardP: baseHard + 0.04, steelP: baseSteel, expl: 3, lasers: 2, coins: 4, gifts: 2, moving: false
+        });
+      } else {
+        // Pre-Boss Grand Citadel (li === 13)
+        const rows = 9;
+        name = ['Grand Neon Citadel', 'Imperial Dreadnought', 'Prism Cathedral'][(absWorld + sector) % 3];
+        const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
+        for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
+          const flank = c === 0 || c === 10;
+          if (flank && r > 5) continue;
+          if (r === rows - 1 && c >= 4 && c <= 6) continue;
+          if (r === 2 && (c === 3 || c === 7)) m[r][c] = 12;
+          else if (r === 4 && c === 5) m[r][c] = 8;
+          else if (r === 6 && (c === 2 || c === 8)) m[r][c] = 9;
+          else if (r === 0 || (r === rows - 1 && (c === 2 || c === 3 || c === 7 || c === 8))) m[r][c] = 3;
+          else m[r][c] = ((r + c) % 5 === 0) ? 6 : 1;
+        }
+        const bumpers = [{ c: 0.7, r: 7.8, color: wHues[0], rPx: 13.5 }, { c: 9.3, r: 7.8, color: wHues[2], rPx: 13.5 }];
+        const portals = [
+          { pairId: 0, c: 5, r: 8.6, color: '#00F5D4', outX: 0, outY: -1 },
+          { pairId: 0, c: 5, r: 1.0, color: '#00F5D4', outX: 0.85, outY: 0.35, isExit: true }
+        ];
+        const orbs = [{ c: 2.5, r: 1, type: 'add3' }, { c: 7.5, r: 1, type: 'mul2' }];
+        lvlData = buildBricks(m, rows, {
+          rng, wi, li, absWorld, sector, boss: false, orbs, bumpers, portals, topOffset, colorMode: 'sym',
+          toughP: baseTough + 0.1, hardP: baseHard + 0.08, steelP: baseSteel, expl: 3, lasers: 2, crossLasers: 2, coins: 5, gifts: 2, moving: wi >= 3 || sector > 0
+        });
       }
-      const built = buildBricks(mask, rows, {
-        rng, wi, li, absWorld, sector, boss, orbs: bpOrbs, topOffset: TOP + 8,
-        toughP: Math.min(.42, .06 + wi * .045 + li * .007 + sector * .05 + (boss ? .14 : 0)),
-        hardP: (wi >= 2 || sector > 0) ? Math.min(.32, .03 + wi * .025 + sector * .05 + (boss ? .1 : 0)) : 0,
-        steelP: (wi >= 2 || sector > 0) ? Math.min(.06, .01 + wi * .007 + sector * .01) : 0,
-        expl: 2 + Math.floor(wi / 2) + (li > 7 ? 1 : 0) + (boss ? 2 : 0),
-        coins: 3 + (li > 5 ? 1 : 0) + (boss ? 2 : 0),
-        gifts: 2 + (li >= 10 ? 1 : 0) + (boss ? 1 : 0),
-        moving: wi >= 3 || sector > 0
-      });
-      const lvl = { idx, absWorld, sector, wi, li, boss, name, rows, ...built };
+
+      const lvl = {
+        idx, absWorld, sector, wi, li, boss, name,
+        tag: cad.tag, badge: cad.badge, tagColor: cad.col, tip: cad.tip,
+        ...lvlData
+      };
       if (levelCache.size > 250) levelCache.clear();
       levelCache.set(idx, lvl); return lvl;
     }
@@ -5868,11 +6241,13 @@
       const rows = Math.min(5 + Math.floor(wave * .45), 10);
       const P = PATTERNS[(wave - 1 + ((rng() * 5) | 0)) % PATTERNS.length];
       const res = P.build(COLS, rows);
+      const bumpers = wave >= 2 && wave % 2 === 0 ? [{ c: 1.5, r: rows + 0.7, color: WORLDS[wi].hues[0], rPx: 13 }, { c: 8.5, r: rows + 0.7, color: WORLDS[wi].hues[2], rPx: 13 }] : [];
       return {
-        wi, absWorld: wave - 1, sector, li: Math.min(14, wave), boss: wave % 5 === 0, name: wave % 5 === 0 ? ('WAVE ' + wave + ' BOSS') : P.name, rows, ...buildBricks(res.m, rows, {
-          rng, wi, li: Math.min(14, wave), absWorld: wave - 1, sector, boss: wave % 5 === 0, orbs: res.orbs, topOffset: TOP + 6,
+        wi, absWorld: wave - 1, sector, li: Math.min(14, wave), boss: wave % 5 === 0, name: wave % 5 === 0 ? ('WAVE ' + wave + ' BOSS') : P.name, rows,
+        ...buildBricks(res.m, rows, {
+          rng, wi, li: Math.min(14, wave), absWorld: wave - 1, sector, boss: wave % 5 === 0, orbs: res.orbs, bumpers, topOffset: TOP + 6, colorMode: ['row', 'diag', 'sym', 'radial'][wave % 4],
           toughP: Math.min(.45, .06 + wave * .025), hardP: wave >= 4 ? Math.min(.3, .02 + wave * .018) : 0,
-          steelP: wave >= 4 ? Math.min(.06, .01 + wave * .006) : 0, expl: Math.min(5, 2 + Math.floor(wave / 3)),
+          steelP: wave >= 4 ? Math.min(.06, .01 + wave * .006) : 0, expl: Math.min(5, 2 + Math.floor(wave / 3)), lasers: wave >= 2 ? 1 : 0,
           coins: 3 + Math.floor(wave / 4), gifts: 2, moving: wave >= 5
         })
       };
@@ -5880,21 +6255,25 @@
     function genDailyChallenge() {
       const seed = parseInt(todayStr().replace(/-/g, ''), 10);
       const rng = mulberry32(seed), wi = seed % 8;
-      const rows = 7, P = PATTERNS[seed % PATTERNS.length], res = P.build(COLS, rows);
+      const art = CAMPAIGN_ART[seed % CAMPAIGN_ART.length];
+      const parsed = parseArtBlueprint(art, seed % 4);
+      const bumpers = [{ c: 1.2, r: parsed.rows + 0.5, color: WORLDS[wi].hues[0], rPx: 13.5 }, { c: 8.8, r: parsed.rows + 0.5, color: WORLDS[wi].hues[2], rPx: 13.5 }];
       return {
-        wi, absWorld: wi, sector: 1, li: 14, boss: true, name: 'Daily: ' + P.name, rows, ...buildBricks(res.m, rows, {
-          rng, wi, li: 10, absWorld: wi, sector: 1, boss: true, orbs: res.orbs, topOffset: TOP + 8,
-          toughP: .24, hardP: .14, steelP: .03, expl: 3, coins: 4, gifts: 2, moving: true
+        wi, absWorld: wi, sector: 1, li: 14, boss: true, name: 'Daily: ' + art.name, rows: parsed.rows,
+        ...buildBricks(parsed.m, parsed.rows, {
+          rng, wi, li: 10, absWorld: wi, sector: 1, boss: true, hueMap: parsed.hueMap, orbs: parsed.orbs, bumpers, topOffset: TOP + 8,
+          toughP: .24, hardP: .14, steelP: .03, expl: 3, lasers: 2, coins: 4, gifts: 2, moving: true
         })
       };
     }
     function genTimeAttack(round) {
       const rng = mulberry32(20261119 + round * 4177), wi = (round + 1) % 8;
-      const rows = Math.min(5 + round, 8), P = PATTERNS[(round * 5 + 2) % PATTERNS.length], res = P.build(COLS, rows);
+      const rows = Math.min(5 + round, 8), P = PATTERNS[(round * 3 + 2) % PATTERNS.length], res = P.build(COLS, rows);
       return {
-        wi, absWorld: round, sector: 0, li: round, boss: false, name: 'Speed ' + (round + 1) + ': ' + P.name, rows, ...buildBricks(res.m, rows, {
-          rng, wi, li: round, absWorld: round, sector: 0, boss: false, orbs: res.orbs, topOffset: TOP + 6,
-          toughP: .15 + round * .04, hardP: round >= 2 ? .1 : 0, steelP: 0, expl: 3, coins: 3, gifts: 2, moving: round >= 2
+        wi, absWorld: round, sector: 0, li: round, boss: false, name: 'Speed ' + (round + 1) + ': ' + P.name, rows,
+        ...buildBricks(res.m, rows, {
+          rng, wi, li: round, absWorld: round, sector: 0, boss: false, orbs: res.orbs, topOffset: TOP + 6, colorMode: 'diag',
+          toughP: .15 + round * .04, hardP: round >= 2 ? .1 : 0, steelP: 0, expl: 3, lasers: 2, coins: 3, gifts: 2, moving: round >= 2
         })
       };
     }
@@ -5902,14 +6281,15 @@
       const wi = stage % 8, sector = Math.floor(stage / 8);
       const rng = mulberry32(991177 + stage * 6151);
       const B = BOSSES[wi], mask = B.g, rows = mask.length;
+      const bumpers = [{ c: 1.5, r: rows + 0.6, color: '#FFD166', rPx: 14 }, { c: 8.5, r: rows + 0.6, color: '#FFD166', rPx: 14 }];
       return {
         wi, absWorld: stage, sector, li: 14, boss: true, name: B.name + (sector > 0 ? ' Ω-' + (sector + 1) : ''), rows,
         ...buildBricks(mask, rows, {
           rng, wi, li: 14, absWorld: stage, sector, boss: true,
           orbs: [{ c: 1, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }, { c: 9, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }],
-          topOffset: TOP + 8,
+          bumpers, topOffset: TOP + 8, colorMode: 'sym',
           toughP: Math.min(.48, .18 + stage * .04), hardP: Math.min(.36, .1 + stage * .03),
-          steelP: Math.min(.06, .015 + stage * .008), expl: 3, coins: 4, gifts: 2, moving: true
+          steelP: Math.min(.06, .015 + stage * .008), expl: 3, lasers: 2, coins: 4, gifts: 2, moving: true
         })
       };
     }
@@ -6313,7 +6693,7 @@
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < COLS; c++) {
           const code = Number(grid[r] && grid[r][c]) || 0;
-          if (!code || code < 0 || code > 10) continue;
+          if (!code || code < 0 || code > 12) continue;
           const mhp = code === 2 ? 2 : code === 3 ? 3 : code === 8 ? 8 : 1;
           const bx = SIDE + c * (BW + GAP), by = TOP + 6 + r * (bh + vgap);
           const safeRoom = Math.max(0, Math.min(bx - 6, (VW - BW - 6) - bx));
@@ -6338,7 +6718,7 @@
         breakable = 1;
       }
       const hasBossCore = bricks.some(b => b.code === 8);
-      return { wi, absWorld: wi, sector: 0, li: 0, boss: hasBossCore, name: (customObj.name || 'Custom Studio Stage').trim(), rows, bricks, orbs: [], breakable };
+      return { wi, absWorld: wi, sector: 0, li: 0, boss: hasBossCore, name: (customObj.name || 'Custom Studio Stage').trim(), rows, bricks, orbs: [], bumpers: [], portals: [], breakable };
     }
 
     function codeColor(b, hues) {
@@ -6350,7 +6730,9 @@
       if (b.code === 8) return light ? '#9333EA' : '#E879F9';
       if (b.code === 9) return light ? '#CA8A04' : '#FACC15';
       if (b.code === 10) return light ? '#BE123C' : '#FF2A55';
-      return hues[b.r % 4];
+      if (b.code === 11) return light ? '#0891B2' : '#00F5D4';
+      if (b.code === 12) return light ? '#65A30D' : '#BEF264';
+      return hues[b.hueIdx !== undefined ? (b.hueIdx % 4) : (b.r % 4)];
     }
     function drawPreview(canvas, idx) {
       const lvl = getLevel(idx);
@@ -7064,7 +7446,9 @@
       if (!canvas || !lvl) return;
       const c = canvas.getContext('2d'), cw = canvas.width, ch = canvas.height;
       c.clearRect(0, 0, cw, ch);
-      const maxY = lvl.bricks.reduce((m, b) => Math.max(m, b.y + (b.h || BH)), TOP + (lvl.rows || 10) * (BH + VGAP));
+      let maxY = lvl.bricks.reduce((m, b) => Math.max(m, b.y + (b.h || BH)), TOP + (lvl.rows || 10) * (BH + VGAP));
+      if (lvl.bumpers) for (const bm of lvl.bumpers) maxY = Math.max(maxY, bm.y + bm.r);
+      if (lvl.portals) for (const pt of lvl.portals) maxY = Math.max(maxY, pt.y + pt.r);
       const spanY = Math.max(96, maxY - TOP + 14);
       const sx = cw / VW, sy = (ch - 10) / spanY, hues = themeBrickHues(lvl.wi);
       for (const b of lvl.bricks) {
@@ -7072,10 +7456,24 @@
         c.fillStyle = b.customCol || codeColor(b, hues);
         rr(c, b.x * sx + 0.5, 5 + (b.y - TOP) * sy, Math.max(1.5, bw * sx - 0.8), Math.max(1.5, bh * sy - 0.8), b.micro ? 1 : 2); c.fill();
       }
+      if (lvl.portals && lvl.portals.length) {
+        for (const pt of lvl.portals) {
+          const px = pt.x * sx, py = 5 + (pt.y - TOP) * sy, pr = Math.max(3, pt.r * sx * 0.95);
+          c.beginPath(); c.arc(px, py, pr, 0, 7); c.fillStyle = '#090414'; c.fill();
+          c.strokeStyle = pt.color || '#00F5D4'; c.lineWidth = 1.5; c.stroke();
+        }
+      }
+      if (lvl.bumpers && lvl.bumpers.length) {
+        for (const bm of lvl.bumpers) {
+          const bx = bm.x * sx, by = 5 + (bm.y - TOP) * sy, br = Math.max(3, bm.r * sx * 0.9);
+          c.beginPath(); c.arc(bx, by, br, 0, 7); c.fillStyle = bm.color || '#FACC15'; c.fill();
+          c.strokeStyle = '#FFF'; c.lineWidth = 1; c.stroke();
+        }
+      }
       if (lvl.orbs && lvl.orbs.length) {
         for (const ob of lvl.orbs) {
           c.beginPath();
-          c.arc(ob.x * sx, 5 + (ob.y - TOP) * sy, Math.max(2.8, ob.r * sx * 0.95), 0, 7);
+          c.arc(ob.x * sx, 5 + (ob.y - TOP) * sy, Math.max(2.6, ob.r * sx * 0.9), 0, 7);
           c.fillStyle = ob.color; c.fill();
           c.strokeStyle = '#FFF'; c.lineWidth = 0.8; c.stroke();
         }
@@ -7112,13 +7510,13 @@
       sprites = new Map(); const hues = themeBrickHues(wi); const isLight = currentTheme().light;
       const bStyle = S.set.brickStyle || 'glossy';
       for (let h = 0; h < 4; h++) {
-        for (const code of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+        for (const code of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
           const states = code === 2 ? [2, 1] : code === 3 ? [3, 2, 1] : [1];
           for (const hp of states) {
             const key = code + '_' + hp + '_' + h;
             const cnv = document.createElement('canvas'); cnv.width = Math.ceil(BW * 2); cnv.height = BH * 2;
             const c = cnv.getContext('2d'); c.scale(2, 2);
-            let base = code === 4 ? (isLight ? '#EA580C' : '#FF6B35') : code === 5 ? (isLight ? '#475569' : '#7C86A8') : code === 6 ? (isLight ? '#D97706' : '#FFC53D') : code === 7 ? (isLight ? '#DB2777' : '#FF3D8A') : code === 8 ? (isLight ? '#9333EA' : '#E879F9') : code === 9 ? (isLight ? '#CA8A04' : '#FACC15') : code === 10 ? (isLight ? '#BE123C' : '#FF2A55') : hues[h];
+            let base = code === 4 ? (isLight ? '#EA580C' : '#FF6B35') : code === 5 ? (isLight ? '#475569' : '#7C86A8') : code === 6 ? (isLight ? '#D97706' : '#FFC53D') : code === 7 ? (isLight ? '#DB2777' : '#FF3D8A') : code === 8 ? (isLight ? '#9333EA' : '#E879F9') : code === 9 ? (isLight ? '#CA8A04' : '#FACC15') : code === 10 ? (isLight ? '#BE123C' : '#FF2A55') : code === 11 ? (isLight ? '#0891B2' : '#00F5D4') : code === 12 ? (isLight ? '#65A30D' : '#BEF264') : hues[h];
             const g = c.createLinearGradient(0, 0, 0, BH);
             if (bStyle === 'flat') {
               g.addColorStop(0, base); g.addColorStop(1, shade(base, -12));
@@ -7170,6 +7568,21 @@
             }
             if (code === 10) {
               c.fillStyle = '#FFF'; c.font = '900 10px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('+3', BW / 2, BH / 2 + 1);
+            }
+            if (code === 11) {
+              c.strokeStyle = '#06202A'; c.lineWidth = 3.2; c.lineCap = 'round';
+              c.beginPath(); c.moveTo(7, BH / 2); c.lineTo(BW - 7, BH / 2); c.stroke();
+              c.strokeStyle = '#FFFFFF'; c.lineWidth = 1.8;
+              c.beginPath(); c.moveTo(7, BH / 2); c.lineTo(BW - 7, BH / 2);
+              c.moveTo(11, BH / 2 - 4); c.lineTo(6.5, BH / 2); c.lineTo(11, BH / 2 + 4);
+              c.moveTo(BW - 11, BH / 2 - 4); c.lineTo(BW - 6.5, BH / 2); c.lineTo(BW - 11, BH / 2 + 4); c.stroke();
+            }
+            if (code === 12) {
+              c.strokeStyle = '#142904'; c.lineWidth = 3.2; c.lineCap = 'round';
+              c.beginPath(); c.moveTo(8, BH / 2); c.lineTo(BW - 8, BH / 2); c.moveTo(BW / 2, 3.5); c.lineTo(BW / 2, BH - 3.5); c.stroke();
+              c.strokeStyle = '#FFFFFF'; c.lineWidth = 1.8;
+              c.beginPath(); c.moveTo(8, BH / 2); c.lineTo(BW - 8, BH / 2); c.moveTo(BW / 2, 3.5); c.lineTo(BW / 2, BH - 3.5); c.stroke();
+              c.fillStyle = '#FFFFFF'; c.beginPath(); c.arc(BW / 2, BH / 2, 3, 0, 7); c.fill();
             }
             sprites.set(key, cnv);
           }
@@ -7831,6 +8244,8 @@
           }
         }
       }
+      if (G && G.bumpers) for (const bm of G.bumpers) maxBrickBottom = Math.max(maxBrickBottom, bm.y + bm.r);
+      if (G && G.portals) for (const pt of G.portals) maxBrickBottom = Math.max(maxBrickBottom, pt.y + pt.r);
       const upRange = 240;
       const safeTop = Math.max(topWall + 80, maxBrickBottom + 20);
       const minY = Math.min(baseY, Math.max(safeTop, baseY - upRange));
@@ -7860,6 +8275,18 @@
         for (const ob of G.orbs) {
           if (ob.baseY === undefined) ob.baseY = ob.y;
           ob.y = anchorY + (ob.baseY - anchorY) * safeScale;
+        }
+      }
+      if (G.bumpers) {
+        for (const bm of G.bumpers) {
+          if (bm.baseY === undefined) bm.baseY = bm.y;
+          bm.y = anchorY + (bm.baseY - anchorY) * safeScale;
+        }
+      }
+      if (G.portals) {
+        for (const pt of G.portals) {
+          if (pt.baseY === undefined) pt.baseY = pt.y;
+          pt.y = anchorY + (pt.baseY - anchorY) * safeScale;
         }
       }
     }
@@ -7974,6 +8401,8 @@
       const speedEsc = mode === 'campaign' ? Math.min(200, lvl.absWorld * 14 + lvl.li * 1.5 + lvl.sector * 18) : mode === 'daily' ? 50 : mode === 'bossrush' ? 45 : mode === 'timed' ? 30 : 0;
       const clonedBricks = lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x }));
       const clonedOrbs = (lvl.orbs || []).map(o => ({ ...o, alive: true }));
+      const clonedBumpers = (lvl.bumpers || []).map(bm => ({ ...bm, hitT: 0 }));
+      const clonedPortals = (lvl.portals || []).map(pt => ({ ...pt, pulseT: 0 }));
       const initBossHp = calcBossTotalHp(clonedBricks);
       const initPadW = (rTier ? rTier.paddle : d.paddle) * ((S.set.paddleSizePct ?? 100) / 100);
       const activeMission = ((mode === 'random' || mode === 'megabrick' || mode === 'numbricks') && customData && customData.mission) ? customData.mission : null;
@@ -7984,7 +8413,9 @@
         mission: activeMission, nextMission: null, missionBonusHit: false, missionCoinReward: 0, missionXpReward: 0, trapsRun: 0,
         initialBreakable: lvl.breakable, outerBreached: false, entryX: lvl.entryX || (VW / 2), entryY: lvl.entryY || 420, lastPopSfxT: 0,
         seedTag: lvl.seedTag || '', customData: customData || null, absWorld: lvl.absWorld || 0, sector: lvl.sector || 0, wi, li: lvl.li || 0, boss: !!lvl.boss, name: lvl.name,
-        bricks: clonedBricks, orbs: clonedOrbs, breakable: lvl.breakable, rows: lvl.rows,
+        bricks: clonedBricks, orbs: clonedOrbs, bumpers: clonedBumpers, portals: clonedPortals, beams: [],
+        stageTag: lvl.tag || '', stageTip: lvl.tip || '', stageTagCol: lvl.tagColor || WORLDS[wi].hues[0],
+        breakable: lvl.breakable, rows: lvl.rows,
         bossMaxHp: initBossHp, bossHp: initBossHp, bossEnraged: false, bossFireT: 3.8,
         balls: [], drops: [], lasers: [], rockets: [], arcs: [], hazards: [], drone: null, droneT: 11 + R() * 8, parts: [], texts: [], blastQ: [], blasting: false,
         paddle: { x: startX, tx: startX, w: initPadW, y: VH - paddleOffset(), ty: VH - paddleOffset(), vy: 0, pulse: 0 },
@@ -8016,7 +8447,8 @@
         resize(); buildPaddleSprite();
         const headline = mode === 'campaign' ? ('LEVEL ' + (G.idx + 1)) : mode === 'endless' ? 'ENDLESS MODE' : mode === 'timed' ? 'TIME ATTACK' : mode === 'bossrush' ? 'BOSS RUSH' : (mode === 'random' || mode === 'megabrick' || mode === 'numbricks') ? (G.mission ? ('MISSION #' + G.mission.seq + ' · ' + ((NUM_TIERS[G.randomTier] || MEGA_TIERS[G.randomTier] || RANDOM_TIERS[G.randomTier])?.label || 'EASY').toUpperCase()) : ((mode === 'megabrick' ? 'BRICK BREAK · ' : mode === 'numbricks' ? 'NUMBER BRICKS · ' : 'RANDOM · ') + ((NUM_TIERS[G.randomTier] || MEGA_TIERS[G.randomTier] || RANDOM_TIERS[G.randomTier])?.label || 'MEDIUM').toUpperCase())) : mode === 'custom' ? 'CUSTOM STUDIO' : 'DAILY CHALLENGE';
         banner(headline, WORLDS[wi].hues[0]);
-        setTimeout(() => { if (G && G.state === 'ready') banner((G.boss ? '👑 ' : '') + (G.mission ? G.mission.archName : G.name).toUpperCase(), G.boss ? '#FFD166' : '#FFFFFF', .62) }, 420);
+        setTimeout(() => { if (G && G.state === 'ready') banner((G.boss ? '👑 ' : '') + (G.mission ? G.mission.archName : G.name).toUpperCase(), G.boss ? '#FFD166' : '#FFFFFF', .56) }, 380);
+        if (G && G.stageTip) setTimeout(() => { if (G && G.state === 'ready') pushText(G.stageTag + ' · ' + G.stageTip, VW / 2, VH * .65, G.stageTagCol || '#22D3EE', 11.5) }, 620);
       });
       renderLives(); renderBoostBar(); syncHUD(true);
       $('#vignette').classList.remove('danger');
@@ -8392,21 +8824,22 @@
       if (G.combo > S.stats.bestCombo) { S.stats.bestCombo = G.combo; markDirty() }
       G.bestComboRun = Math.max(G.bestComboRun, G.combo);
       const scoreBoost = G.fx.double ? (S.set.stackPowers !== false ? Math.min(4, 1 + (G.fx.double.stacks || 1)) : 2) : 1;
-      const base = { 1: 12, 2: 24, 3: 40, 4: 30, 5: 60, 6: 20, 7: 20, 8: 120, 9: 150, 10: 120 }[b.code] || 12;
+      const base = { 1: 12, 2: 24, 3: 40, 4: 30, 5: 60, 6: 20, 7: 20, 8: 120, 9: 150, 10: 120, 11: 45, 12: 65 }[b.code] || 12;
       const pts = base * G.mult * scoreBoost; G.score += pts;
-      const cn = { 1: 1, 2: 2, 3: 3, 4: 2, 5: 3, 6: 12, 7: 2, 8: 15, 9: 20, 10: 14 }[b.code] || 1;
+      const cn = { 1: 1, 2: 2, 3: 3, 4: 2, 5: 3, 6: 12, 7: 2, 8: 15, 9: 20, 10: 14, 11: 3, 12: 4 }[b.code] || 1;
       const got = addCoins(cn); G.coinsRun += got;
-      const xpGain = ({ 1: 2, 2: 4, 3: 6, 4: 5, 5: 8, 6: 4, 7: 4, 8: 20, 9: 25, 10: 18 }[b.code] || 2) * scoreBoost;
+      const xpGain = ({ 1: 2, 2: 4, 3: 6, 4: 5, 5: 8, 6: 4, 7: 4, 8: 20, 9: 25, 10: 18, 11: 8, 12: 12 }[b.code] || 2) * scoreBoost;
       G.xpRun += xpGain;
       G.bricksRun++; S.stats.bricks++; S.daily.bricks++;
       const bt = S.stats.brickTypes;
-      if (b.code === 1) bt.normal++; else if (b.code === 2 || b.code === 3) bt.armored++; else if (b.code === 4 || b.code === 10) bt.explosive++;
+      if (b.code === 1) bt.normal++; else if (b.code === 2 || b.code === 3) bt.armored++; else if (b.code === 4 || b.code === 10 || b.code === 11 || b.code === 12) bt.explosive++;
       else if (b.code === 5) bt.steel++; else if (b.code === 6 || b.code === 9) bt.gold++; else if (b.code === 8) bt.core++; else bt.normal++;
       markDirty();
       const swarm = G.balls.length > 8;
+      const bHue = hues[b.hueIdx !== undefined ? (b.hueIdx % 4) : (b.r % 4)];
       if (!swarm) {
         brickBurst(b, col);
-        pushText('+' + pts + (G.mult > 1 ? ' ×' + G.mult : ''), b.rx + bw / 2, b.y, shade(col === '#7C86A8' ? '#8B5CF6' : hues[b.r % 4], 40), 12);
+        pushText('+' + pts + (G.mult > 1 ? ' ×' + G.mult : ''), b.rx + bw / 2, b.y, shade(col === '#7C86A8' ? '#8B5CF6' : bHue, 40), 12);
       } else if (R() < 0.25) {
         pushPart({ type: 'shard', x: b.rx + bw / 2, y: b.y + bh / 2, vx: (R() - .5) * 180, vy: -R() * 120, g: 380, t: 0, life: .32, size: 3, color: col, rot: R() * 6, vr: 6 });
       }
@@ -8424,7 +8857,7 @@
         G.blastQ.push(b);
         sfx.power(); shake(7);
         banner('🔥 POCKET DOOR OPEN · +3 BALLS!', '#FF2A55', .38);
-      } else if (b.code === 4) {
+      } else if (b.code === 4 || b.code === 11 || b.code === 12) {
         G.blastQ.push(b);
       }
       if ((G.mode === 'megabrick' || G.mode === 'random') && G.breakable > 0 && G.breakable <= Math.max(10, Math.round((G.initialBreakable || 80) * 0.08))) {
@@ -8444,14 +8877,33 @@
       const stageRef = G.bricks;
       while (G.blastQ.length && G.bricks === stageRef && (G.state === 'play' || G.state === 'ready')) {
         const e = G.blastQ.shift();
-        const ew = e.w || BW, eh = e.h || BH;
-        explodeFX(e.rx + ew / 2, e.y + eh / 2); sfx.boom(); shake(10); G.flash = Math.max(G.flash, .18); haptic(16);
-        const rad = e.code === 10 ? 2 : 1;
+        if (!e || e._blasted) continue;
+        e._blasted = true;
+        const ew = e.w || BW, eh = e.h || BH, ecx = e.rx + ew / 2, ecy = e.y + eh / 2;
+        if (e.code === 11 || e.code === 12) {
+          const isCross = e.code === 12;
+          const col = isCross ? '#BEF264' : '#00F5D4';
+          G.beams.push({ x1: 6, y1: ecy, x2: VW - 6, y2: ecy, color: col, t: 0, life: 0.36, w: isCross ? 14 : 12 });
+          if (isCross) G.beams.push({ x1: ecx, y1: topWall + 4, x2: ecx, y2: Math.min(VH - 80, G.paddle.y - 12), color: col, t: 0, life: 0.4, w: 14 });
+          sfx.laser(); if (isCross) sfx.boom(); shake(isCross ? 9 : 6); haptic(isCross ? 14 : 10);
+          if (isCross) G.flash = Math.max(G.flash, .12);
+          for (const nb of G.bricks) {
+            if (G.bricks !== stageRef || (G.state !== 'play' && G.state !== 'ready')) break;
+            if (!nb.alive || nb === e || nb.code === 5) continue;
+            const ncx = nb.rx + (nb.w || BW) / 2, ncy = nb.y + (nb.h || BH) / 2;
+            const hitRow = Math.abs(ncy - ecy) <= Math.max(eh, nb.h || BH) * 0.65;
+            const hitCol = isCross && Math.abs(ncx - ecx) <= Math.max(ew, nb.w || BW) * 0.65;
+            if (hitRow || hitCol) hitBrick(nb, 2, 'blast');
+          }
+          continue;
+        }
+        explodeFX(ecx, ecy); sfx.boom(); shake(10); G.flash = Math.max(G.flash, .18); haptic(16);
+        const rad = e.micro ? (e.code === 10 ? 3 : 2) : (e.code === 10 ? 2 : 1);
         for (const nb of G.bricks) {
           if (G.bricks !== stageRef || (G.state !== 'play' && G.state !== 'ready')) break;
           if (!nb.alive || nb === e) continue;
           if (Math.abs(nb.c - e.c) <= rad && Math.abs(nb.r - e.r) <= rad) {
-            if (nb.code === 5) continue; // Unbreakable steel rows stay 100% unbreakable against bombs
+            if (nb.code === 5) continue;
             hitBrick(nb, e.code === 10 ? 4 : 2, 'blast');
           }
         }
@@ -8472,15 +8924,16 @@
       let roll = R() * tot, pick = 'coin';
       for (const t of table) { roll -= t[1]; if (roll <= 0) { pick = t[0]; break } }
       if (b.code === 7 || b.code === 8) { const good = table.filter(t => !POWERS[t[0]].bad); pick = good[(R() * good.length) | 0][0] }
-      G.drops.push({ x: b.rx + BW / 2, y: b.y + BH / 2, type: pick, seed: R() * 6.28 });
+      G.drops.push({ x: b.rx + (b.w || BW) / 2, y: b.y + (b.h || BH) / 2, type: pick, seed: R() * 6.28 });
     }
 
     /* ---------- PARTICLES & EFFECTS ---------- */
     function pushPart(p) { if (S.set.reducedMotion && p.type !== 'ring') return; if (G.parts.length >= MAXP()) G.parts.shift(); G.parts.push(p) }
     function brickBurst(b, col) {
-      const n = S.set.fx ? 10 : 4;
-      for (let i = 0; i < n; i++)pushPart({ type: 'shard', x: b.rx + R() * BW, y: b.y + R() * BH, vx: (R() - .5) * 220, vy: -R() * 160 - 30, g: 420, t: 0, life: .5 + R() * .3, size: 3 + R() * 3.8, color: R() < .5 ? col : shade(b.code === 5 ? '#7C86A8' : WORLDS[G.wi].hues[b.r % 4], 30), rot: R() * 6.28, vr: (R() - .5) * 12 });
-      pushPart({ type: 'ring', x: b.rx + BW / 2, y: b.y + BH / 2, t: 0, life: .28, size: 6, grow: 120, color: col });
+      const n = S.set.fx ? 10 : 4, bw = b.w || BW, bh = b.h || BH;
+      const bHue = WORLDS[G.wi].hues[b.hueIdx !== undefined ? (b.hueIdx % 4) : (b.r % 4)];
+      for (let i = 0; i < n; i++)pushPart({ type: 'shard', x: b.rx + R() * bw, y: b.y + R() * bh, vx: (R() - .5) * 220, vy: -R() * 160 - 30, g: 420, t: 0, life: .5 + R() * .3, size: 3 + R() * 3.8, color: R() < .5 ? col : shade(b.code === 5 ? '#7C86A8' : bHue, 30), rot: R() * 6.28, vr: (R() - .5) * 12 });
+      pushPart({ type: 'ring', x: b.rx + bw / 2, y: b.y + bh / 2, t: 0, life: .28, size: 6, grow: 120, color: col });
     }
     function sparkFX(x, y, col, n) { for (let i = 0; i < n; i++)pushPart({ type: 'spark', x, y, vx: (R() - .5) * 240, vy: (R() - .5) * 240, g: 0, t: 0, life: .2 + R() * .14, size: 2, color: col }) }
     function explodeFX(x, y) {
@@ -8611,6 +9064,10 @@
       G.timedRound++; G.timeLeft += 20; S.daily.wins++;
       const lvl = genTimeAttack(G.timedRound);
       G.wi = lvl.wi; G.bricks = lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x }));
+      G.orbs = (lvl.orbs || []).map(o => ({ ...o, alive: true }));
+      G.bumpers = (lvl.bumpers || []).map(bm => ({ ...bm, hitT: 0 }));
+      G.portals = (lvl.portals || []).map(pt => ({ ...pt, pulseT: 0 }));
+      G.beams.length = 0;
       G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name; G.labelDirty = true;
       G.blastQ.length = 0; G.lasers.length = 0; G.hazards.length = 0; ensureBallsBelowGrid();
       G.speedBase += 14; const got = addCoins(30); G.coinsRun += got; addXP(55);
@@ -8622,6 +9079,10 @@
       S.stats.bossRushStage = Math.max(S.stats.bossRushStage || 0, G.bossStage);
       const lvl = genBossRush(G.bossStage);
       G.wi = lvl.wi; G.bricks = lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x }));
+      G.orbs = (lvl.orbs || []).map(o => ({ ...o, alive: true }));
+      G.bumpers = (lvl.bumpers || []).map(bm => ({ ...bm, hitT: 0 }));
+      G.portals = (lvl.portals || []).map(pt => ({ ...pt, pulseT: 0 }));
+      G.beams.length = 0;
       G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name; G.boss = true; G.labelDirty = true;
       G.bossMaxHp = calcBossTotalHp(G.bricks); G.bossHp = G.bossMaxHp; G.bossEnraged = false;
       G.blastQ.length = 0; G.lasers.length = 0; G.hazards.length = 0; ensureBallsBelowGrid();
@@ -8633,6 +9094,10 @@
     function spawnWave() {
       const lvl = genEndless(G.wave);
       G.wi = lvl.wi; G.bricks = lvl.bricks.map(b => ({ ...b, hp: b.mhp, alive: true, rx: b.x }));
+      G.orbs = (lvl.orbs || []).map(o => ({ ...o, alive: true }));
+      G.bumpers = (lvl.bumpers || []).map(bm => ({ ...bm, hitT: 0 }));
+      G.portals = (lvl.portals || []).map(pt => ({ ...pt, pulseT: 0 }));
+      G.beams.length = 0;
       G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name; G.boss = !!lvl.boss;
       G.bossMaxHp = calcBossTotalHp(G.bricks); G.bossHp = G.bossMaxHp; G.bossEnraged = false;
       G.blastQ.length = 0; G.lasers.length = 0; G.hazards.length = 0; ensureBallsBelowGrid();
@@ -8688,7 +9153,7 @@
               const shooters = G.bricks.filter(b => b.alive && (b.code === 8 || b.r >= G.rows - 2));
               if (shooters.length) {
                 const sb = shooters[(R() * shooters.length) | 0];
-                const sx = sb.rx + BW / 2, sy = sb.y + BH;
+                const sx = sb.rx + (sb.w || BW) / 2, sy = sb.y + (sb.h || BH);
                 const aimAng = clamp((G.paddle.x - sx) * 0.25, -90, 90);
                 G.hazards.push({ x: sx, y: sy, vx: aimAng, vy: 185 + (G.bossEnraged ? 55 : 0), r: 6.5 });
                 sparkFX(sx, sy, '#FF4D5E', 5);
@@ -8887,6 +9352,9 @@
         }
       }
       for (let i = G.texts.length - 1; i >= 0; i--) { const t = G.texts[i]; t.t += dt; if (t.t >= t.life) G.texts.splice(i, 1) }
+      if (G.beams) for (let i = G.beams.length - 1; i >= 0; i--) { G.beams[i].t += dt; if (G.beams[i].t >= G.beams[i].life) G.beams.splice(i, 1); }
+      if (G.bumpers) for (const bm of G.bumpers) if (bm.hitT > 0) bm.hitT = Math.max(0, bm.hitT - dt * 5.2);
+      if (G.portals) for (const pt of G.portals) if (pt.pulseT > 0) pt.pulseT = Math.max(0, pt.pulseT - dt * 4.5);
       G.shake *= Math.exp(-6 * dt); if (G.shake < .1) G.shake = 0;
       G.flash = Math.max(0, G.flash - dt * 1.4);
     }
@@ -8916,6 +9384,7 @@
       for (let i = ballList.length - 1; i >= 0; i--) {
         const b = ballList[i];
         if (!b || b._dead) continue;
+        if (b.portalCd > 0) b.portalCd = Math.max(0, b.portalCd - dt);
         if (b.sticky) { b.x = clamp(px + b.off, b.r + 2, VW - b.r - 2); b.y = py - b.r - 1; b.trail.length = 0; continue }
         const spd = ballSpeed(), m = Math.hypot(b.vx, b.vy) || 1;
         b.vx = b.vx / m * spd; b.vy = b.vy / m * spd;
@@ -8955,6 +9424,68 @@
             for (const ob of G.orbs) {
               if (!ob.alive) continue;
               if (Math.hypot(b.x - ob.x, b.y - ob.y) <= b.r + ob.r) triggerArenaOrb(ob);
+            }
+          }
+          if (G.bumpers && G.bumpers.length) {
+            for (const bm of G.bumpers) {
+              const dx = b.x - bm.x, dy = b.y - bm.y, minD = b.r + bm.r, d2 = dx * dx + dy * dy;
+              if (d2 < minD * minD) {
+                const d = Math.sqrt(d2) || 0.001, ux = dx / d, uy = dy / d;
+                b.x = clamp(bm.x + ux * (minD + 0.8), b.r + 1, VW - b.r - 1);
+                b.y = Math.max(topWall + b.r + 1, bm.y + uy * (minD + 0.8));
+                const dot = b.vx * ux + b.vy * uy;
+                if (dot < 0) { b.vx -= 2 * dot * ux; b.vy -= 2 * dot * uy; }
+                else { b.vx = ux * spd; b.vy = uy * spd; }
+                b.vx += ux * 55; b.vy += uy * 55;
+                antiFlat(b);
+                b.noBrickHits = (b.noBrickHits || 0) + 1;
+                if (bm.hitT < 0.72) {
+                  bm.hitT = 1;
+                  const pts = (bm.pts || 30) * G.mult;
+                  G.score += pts; G.xpRun += 2; chargeNova(2.5);
+                  if (ballCnt <= 14) {
+                    pushPart({ type: 'ring', x: bm.x, y: bm.y, t: 0, life: 0.28, size: bm.r * 0.75, grow: 110, color: bm.color });
+                    pushText('+' + pts, bm.x, bm.y - bm.r - 4, bm.color, 11);
+                    if (G.t - (G.lastPopSfxT || 0) > 0.04) {
+                      G.lastPopSfxT = G.t;
+                      tone({ f: 560 + Math.min(G.combo, 12) * 32, f2: 960, d: .08, type: 'triangle', v: .13 });
+                    }
+                  }
+                }
+              }
+            }
+          }
+          if (G.portals && G.portals.length && !(b.portalCd > 0)) {
+            for (const pt of G.portals) {
+              const dx = b.x - pt.x, dy = b.y - pt.y, hitR = b.r + pt.r * 0.86;
+              if (dx * dx + dy * dy <= hitR * hitR) {
+                const dest = G.portals.find(o => o.pairId === pt.pairId && o !== pt);
+                if (dest) {
+                  pt.pulseT = 1; dest.pulseT = 1;
+                  b.portalCd = 0.44;
+                  b.noBrickHits = (b.noBrickHits || 0) + 1;
+                  if (dest.outX !== undefined && dest.outY !== undefined) {
+                    const om = Math.hypot(dest.outX, dest.outY) || 1;
+                    const curM = Math.hypot(b.vx, b.vy) || spd;
+                    const nvx = (dest.outX / om) * 0.65 + (b.vx / curM) * 0.35;
+                    const nvy = (dest.outY / om) * 0.65 + (b.vy / curM) * 0.35;
+                    const nm = Math.hypot(nvx, nvy) || 1;
+                    b.vx = (nvx / nm) * spd; b.vy = (nvy / nm) * spd;
+                  }
+                  antiFlat(b);
+                  const em = Math.hypot(b.vx, b.vy) || 1;
+                  b.x = clamp(dest.x + (b.vx / em) * (dest.r + b.r + 3), b.r + 2, VW - b.r - 2);
+                  b.y = Math.max(topWall + b.r + 2, dest.y + (b.vy / em) * (dest.r + b.r + 3));
+                  b.trail.length = 0;
+                  chargeNova(3);
+                  if (ballCnt <= 14) {
+                    pushPart({ type: 'ring', x: pt.x, y: pt.y, t: 0, life: 0.3, size: 6, grow: 105, color: pt.color });
+                    pushPart({ type: 'ring', x: dest.x, y: dest.y, t: 0, life: 0.34, size: 8, grow: 125, color: dest.color });
+                    tone({ f: 420, f2: 1120, d: .13, type: 'sine', v: .12 });
+                  }
+                  break;
+                }
+              }
             }
           }
           let bounced = false;
@@ -9118,11 +9649,11 @@
           const bw = b.w || BW, bh = b.h || BH;
           if (b._cTheme !== thIdNow) {
             b._cTheme = thIdNow;
-            b._cCol = b.code === 4 ? '#FF6B35' : b.code === 5 ? (isLightBg ? '#475569' : (b.customCol || '#64748B')) : b.code === 6 ? '#FFC53D' : b.code === 9 ? '#FACC15' : b.code === 10 ? '#FF2A55' : (b.customCol ? (isLightBg ? shade(b.customCol, -22) : b.customCol) : thHues[b.r % 4]);
+            b._cCol = b.code === 4 ? '#FF6B35' : b.code === 5 ? (isLightBg ? '#475569' : (b.customCol || '#64748B')) : b.code === 6 ? '#FFC53D' : b.code === 9 ? '#FACC15' : b.code === 10 ? '#FF2A55' : b.code === 11 ? '#00F5D4' : b.code === 12 ? '#BEF264' : (b.customCol ? (isLightBg ? shade(b.customCol, -22) : b.customCol) : thHues[b.r % 4]);
           }
           const col = b._cCol;
           if (b.showHp) {
-            const rawDyn = (b.code === 4 || b.code === 9 || b.code === 10) ? col : (b.hpRef ? hpHeatColor(b.hp, b.hpRef) : col);
+            const rawDyn = (b.code === 4 || b.code === 9 || b.code === 10 || b.code === 11 || b.code === 12) ? col : (b.hpRef ? hpHeatColor(b.hp, b.hpRef) : col);
             const dynCol = isLightBg ? shade(rawDyn, -26) : rawDyn;
             rr(ctx, b.rx, b.y, bw, bh, 5.5);
             ctx.fillStyle = isLightBg ? dynCol : rgba(dynCol, 0.30); ctx.fill();
@@ -9155,7 +9686,7 @@
           }
           continue;
         }
-        const spr = sprites.get(b.code + '_' + Math.min(b.hp, 3) + '_' + (b.r % 4));
+        const spr = sprites.get(b.code + '_' + Math.min(b.hp, 3) + '_' + (b.hueIdx !== undefined ? (b.hueIdx % 4) : (b.r % 4)));
         const sbw = b.w || BW, sbh = b.h || BH;
         if (spr) ctx.drawImage(spr, b.rx, b.y, sbw, sbh);
         if (b.code === 8 && b.mhp > 1) {
@@ -9164,10 +9695,10 @@
           ctx.fillStyle = '#FFD166'; ctx.fillRect(b.rx + 3, b.y + sbh - 4, (sbw - 6) * pct, 2.5);
         }
         if (cbMode && b.code > 1) {
-          const sym = { 2: '2', 3: '3', 4: 'B', 5: 'X', 6: '$', 7: '?', 8: '★', 9: '+4', 10: '+3' }[b.code] || '';
+          const sym = { 2: '2', 3: '3', 4: 'B', 5: 'X', 6: '$', 7: '?', 8: '★', 9: '+4', 10: '+3', 11: '↔', 12: '+' }[b.code] || '';
           if (sym) {
             ctx.fillStyle = '#FFFFFF'; ctx.font = '800 9px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.fillText(sym, b.rx + BW - 6, b.y + 6);
+            ctx.fillText(sym, b.rx + sbw - 6, b.y + 6);
           }
         }
         if (!touchPerf && b.code === 4) {
@@ -9177,6 +9708,34 @@
         if (!touchPerf && (b.code === 7 || b.code === 8)) {
           ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .18 + .13 * Math.sin(G.t * 4 + b.r);
           ctx.drawImage(glowMagenta, b.rx + BW / 2 - 16, b.y + BH / 2 - 16, 32, 32); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1
+        }
+      }
+      if (G.portals && G.portals.length) {
+        for (const pt of G.portals) {
+          const sc = 1 + (pt.pulseT || 0) * 0.32 + 0.06 * Math.sin(G.t * 5 + pt.pairId);
+          ctx.save(); ctx.translate(pt.x, pt.y); ctx.scale(sc, sc);
+          ctx.beginPath(); ctx.arc(0, 0, pt.r + 3.5, 0, 7); ctx.fillStyle = rgba(pt.color, 0.24); ctx.fill();
+          ctx.beginPath(); ctx.arc(0, 0, pt.r, 0, 7); ctx.fillStyle = '#070312'; ctx.fill();
+          ctx.strokeStyle = pt.color; ctx.lineWidth = 2.4; ctx.stroke();
+          ctx.save(); ctx.rotate(G.t * 4.2 * (pt.isExit ? -1 : 1));
+          ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 1.6;
+          for (let a = 0; a < 3; a++) { const ang = a * Math.PI * 2 / 3; ctx.beginPath(); ctx.arc(0, 0, pt.r * 0.62, ang, ang + 1.15); ctx.stroke(); }
+          ctx.restore();
+          ctx.fillStyle = pt.color; ctx.beginPath(); ctx.arc(0, 0, 3.2, 0, 7); ctx.fill();
+          ctx.restore();
+        }
+      }
+      if (G.bumpers && G.bumpers.length) {
+        for (const bm of G.bumpers) {
+          const hit = bm.hitT || 0, sc = 1 + hit * 0.28 + 0.03 * Math.sin(G.t * 4 + bm.x);
+          ctx.save(); ctx.translate(bm.x, bm.y); ctx.scale(sc, sc);
+          ctx.beginPath(); ctx.arc(0, 0, bm.r + 4, 0, 7); ctx.fillStyle = rgba(bm.color, 0.22 + hit * 0.35); ctx.fill();
+          const bg = ctx.createRadialGradient(-bm.r * 0.25, -bm.r * 0.25, 1, 0, 0, bm.r);
+          bg.addColorStop(0, '#FFFFFF'); bg.addColorStop(0.45, hit > 0.3 ? '#FFFFFF' : bm.color); bg.addColorStop(1, shade(bm.color, -40));
+          ctx.beginPath(); ctx.arc(0, 0, bm.r, 0, 7); ctx.fillStyle = bg; ctx.fill();
+          ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 2; ctx.stroke();
+          ctx.beginPath(); ctx.arc(0, 0, bm.r * 0.46, 0, 7); ctx.strokeStyle = 'rgba(10,5,25,0.65)'; ctx.lineWidth = 1.6; ctx.stroke();
+          ctx.restore();
         }
       }
       if (G.orbs && G.orbs.length) {
@@ -9235,6 +9794,17 @@
         ctx.fillStyle = '#F97316';
         ctx.beginPath(); ctx.moveTo(0, -8); ctx.lineTo(4, 5); ctx.lineTo(0, 2); ctx.lineTo(-4, 5); ctx.closePath(); ctx.fill();
         ctx.fillStyle = '#FEF08A'; ctx.beginPath(); ctx.arc(0, 5, 2.5, 0, 7); ctx.fill();
+        ctx.restore();
+      }
+      if (G.beams && G.beams.length) {
+        ctx.save(); ctx.lineCap = 'round';
+        for (const bm of G.beams) {
+          const f = clamp(1 - bm.t / bm.life, 0, 1);
+          ctx.globalAlpha = f * 0.52; ctx.strokeStyle = bm.color; ctx.lineWidth = bm.w * (0.6 + 0.6 * f);
+          ctx.beginPath(); ctx.moveTo(bm.x1, bm.y1); ctx.lineTo(bm.x2, bm.y2); ctx.stroke();
+          ctx.globalAlpha = f; ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = Math.max(2, bm.w * 0.34 * f);
+          ctx.beginPath(); ctx.moveTo(bm.x1, bm.y1); ctx.lineTo(bm.x2, bm.y2); ctx.stroke();
+        }
         ctx.restore();
       }
       for (const arc of (G.arcs || [])) {
@@ -9634,7 +10204,13 @@
       $('#screen-home').innerHTML =
         '<div class="dedication-strip">💛 Dedicated to my little Muhib Ullah · Created by Yasin Ullah</div>' +
         '<div class="hero" style="--wa:' + w.hues[0] + ';--wb:' + w.hues[2] + '"><div class="hero-kicker">' + icon('zap') + ' SECTOR ' + (lvl.sector + 1) + ' · WORLD ' + (lvl.wi + 1) + ' · ' + w.name.toUpperCase() + '</div>' +
-        '<div class="hero-main"><div><div class="hero-num">LVL ' + (unlocked + 1) + '</div><div class="hero-name">' + lvl.name + '</div><div class="hero-sub">' + (lvl.boss ? '👑 Boss Battle · ' : '') + lvl.breakable + ' bricks · ' + DIFFS[S.set.diff].label + '</div></div>' +
+        '<div class="hero-main"><div><div class="hero-num">LVL ' + (unlocked + 1) + '</div><div class="hero-name">' + lvl.name + '</div><div class="hero-sub">' + (lvl.boss ? '👑 Boss Battle · ' : '') + lvl.breakable + ' bricks · ' + DIFFS[S.set.diff].label + '</div><div class="hero-tags">' +
+        (lvl.tag ? '<span class="hero-tag" style="--tc:' + uiCol(lvl.tagColor || w.hues[0]) + '">' + (lvl.badge || '✦') + ' ' + lvl.tag + '</span>' : '') +
+        (lvl.portals?.length ? '<span class="hero-tag" style="--tc:#00F5D4">🌀 Portals</span>' : '') +
+        (lvl.bumpers?.length ? '<span class="hero-tag" style="--tc:#FACC15">◎ Bumpers</span>' : '') +
+        (lvl.bricks.some(b => b.code === 11 || b.code === 12) ? '<span class="hero-tag" style="--tc:#00F5D4">↔ Lasers</span>' : '') +
+        (lvl.orbs?.length ? '<span class="hero-tag" style="--tc:#FF8A2B">🔵 Orbs</span>' : '') +
+        '</div></div>' +
         '<canvas class="hero-prev" id="heroPrev" width="216" height="144"></canvas></div>' +
         '<div class="hero-meta"><span>World Progress (Unlimited Campaign)</span><span>' + ws + ' / 45 ★</span></div>' +
         '<div class="hero-bar"><i style="width:' + (ws / 45 * 100) + '%"></i></div>' +
@@ -9687,11 +10263,13 @@
         if (UI.levelFilter === 'open' && locked) continue;
         if (UI.levelFilter === 'stars' && st < 3) continue;
         if (UI.levelFilter === 'boss' && !boss) continue;
-        cells += '<button class="lvl' + (locked ? ' locked' : '') + (next ? ' next' : '') + (boss ? ' boss' : '') + '" data-action="start-level" data-arg="' + idx + '">' +
+        const cad = WORLD_CADENCE[li];
+        const showMech = !boss && cad && ['chain', 'pinball', 'guardian', 'gates', 'portal', 'swarm', 'laser', 'quantum', 'counter'].includes(cad.role);
+        cells += '<button class="lvl' + (locked ? ' locked' : '') + (next ? ' next' : '') + (boss ? ' boss' : '') + '" data-action="start-level" data-arg="' + idx + '" title="' + (cad ? cad.tag : '') + '">' +
           '<canvas class="lvl-prev" data-idx="' + idx + '" width="132" height="88"></canvas>' +
           '<div class="lvl-meta"><span class="lvl-num">#' + (idx + 1) + '</span><span class="lvl-stars">' + starRow(st) + '</span></div>' +
           (locked ? '<span class="lvl-lock">' + icon('lock') + '</span>' : '') +
-          (boss ? '<span class="lvl-boss">' + icon('crown') + '</span>' : '') +
+          (boss ? '<span class="lvl-boss">' + icon('crown') + '</span>' : (showMech ? '<span class="lvl-mech" style="--mc:' + cad.col + '">' + cad.badge + '</span>' : '')) +
           (next ? '<span class="lvl-play">PLAY</span>' : '') + '</button>';
       }
       $('#screen-levels').innerHTML =
@@ -9954,7 +10532,11 @@
           ['?', 'Gift Capsule', 'Guaranteed positive power-up', '#FF3D8A'],
           ['★', 'Boss Core', 'High HP · Fires plasma & drops power-up', '#E879F9'],
           ['+4', 'Breach Plug', 'Spawns +4 multiball swarm & opens doors', '#FACC15'],
-          ['+3', 'Pocket Trigger', 'Spawns +3 balls & blasts nearby bricks', '#FF2A55']
+          ['+3', 'Pocket Trigger', 'Spawns +3 balls & blasts nearby bricks', '#FF2A55'],
+          ['↔', 'Row Laser Relay', 'Fires a horizontal plasma beam slicing the entire row', '#00F5D4'],
+          ['✛', 'Cross Laser Relay', 'Fires both horizontal & vertical plasma beams', '#BEF264'],
+          ['◎', 'Pinball Bumper', 'Ricochets balls at high energy for bonus combo points', '#FACC15'],
+          ['🌀', 'Warp Portal', 'Teleports balls through linked wormholes behind steel', '#A855F7']
         ].map(b => '<div class="codex-card"><span class="codex-badge" style="background:' + b[3] + '">' + b[0] + '</span><div><b style="font-size:12px;display:block">' + b[1] + '</b><span style="font-size:10.5px;color:var(--muted)">' + b[2] + '</span></div></div>').join('');
         const bossGuide = BOSSES.map((b, i) => '<div class="codex-card"><span class="codex-badge" style="background:' + WORLDS[i].hues[0] + '">W' + (i + 1) + '</span><div><b style="font-size:12px;display:block">' + b.name + '</b><span style="font-size:10.5px;color:var(--muted)">' + WORLDS[i].name + ' Boss</span></div></div>').join('');
         body = '<div class="sec-title">BRICK &amp; ENTITY CODEX</div><div class="codex-grid">' + brickGuide + '</div>' +
@@ -10185,6 +10767,8 @@
       { code: 8, name: 'Boss ★', sym: '★', col: '#E879F9' },
       { code: 9, name: '+4 Swarm', sym: '+4', col: '#FACC15' },
       { code: 10, name: '+3 Blast', sym: '+3', col: '#FF2A55' },
+      { code: 11, name: 'Row Laser', sym: '↔', col: '#00F5D4' },
+      { code: 12, name: 'Cross Lsr', sym: '✛', col: '#BEF264' },
       { code: 0, name: 'Eraser', sym: '✕', col: '#2A1D52' }
     ];
     const ED_ROW_OPTS = [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16];
@@ -10193,7 +10777,7 @@
       return Array.from({ length: targetRows }, (_, r) =>
         Array.from({ length: COLS }, (_, c) => {
           const v = Number(grid && grid[r] && grid[r][c]) || 0;
-          return (Number.isInteger(v) && v >= 0 && v <= 10) ? v : 0;
+          return (Number.isInteger(v) && v >= 0 && v <= 12) ? v : 0;
         })
       );
     }
@@ -10206,7 +10790,7 @@
         UI.editorData.wi = clamp(Number(UI.editorData.wi) || 0, 0, 7);
         UI.editorData.rows = clamp(Number(UI.editorData.rows) || UI.editorData.grid.length || 8, 4, 16);
         UI.editorData.grid = normalizeEditorGrid(UI.editorData.grid, UI.editorData.rows);
-        if (typeof UI.editorData.brush !== 'number' || UI.editorData.brush < 0 || UI.editorData.brush > 10) UI.editorData.brush = 1;
+        if (typeof UI.editorData.brush !== 'number' || UI.editorData.brush < 0 || UI.editorData.brush > 12) UI.editorData.brush = 1;
         if (typeof UI.editorData.sym !== 'boolean') UI.editorData.sym = false;
         UI.editorData.moving = !!UI.editorData.moving;
       }
@@ -10216,7 +10800,7 @@
       const hues = themeBrickHues(wi || 0);
       const info = ED_BRICKS.find(x => x.code === code) || ED_BRICKS[0];
       const bg = code === 1 ? hues[r % 4] : info.col;
-      const darkTxt = (code === 6 || code === 9);
+      const darkTxt = (code === 6 || code === 9 || code === 11 || code === 12);
       return { bg, txt: info.sym, col: darkTxt ? '#1C0A00' : '#FFFFFF' };
     }
     function updateEditorTelemetry() {
