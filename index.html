@@ -4819,34 +4819,38 @@
 
     const AVATARS = ['😎', '🚀', '⚡', '🔥', '👑', '🎮', '💎', '🦁', '🌟', '🤖'];
     const DIFFS = {
-      chill: { label: 'Chill', icon: 'leaf', lives: 5, speed: 300, paddle: 108, desc: 'Relaxed speed · 5 lives · wide paddle' },
-      classic: { label: 'Classic', icon: 'zap', lives: 3, speed: 360, paddle: 94, desc: 'Arcade standard · 3 lives · balanced' },
-      frantic: { label: 'Frantic', icon: 'flame', lives: 2, speed: 432, paddle: 84, desc: 'Fast balls · 2 lives · narrow paddle' }
+      chill: { label: 'Chill', icon: 'leaf', lives: 5, speed: 295, paddle: 112, armorMult: 0.42, heavyMult: 0.15, steelMult: 0, moveMult: 0, bossFireMult: 0.62, dropMult: 1.25, descMult: 0.7, trapAllow: false, rewardMult: 0.9, desc: 'Open layouts · 5 lives · no steel/traps · extra bombs & orbs' },
+      classic: { label: 'Classic', icon: 'zap', lives: 3, speed: 360, paddle: 94, armorMult: 1.0, heavyMult: 1.0, steelMult: 1.0, moveMult: 1.0, bossFireMult: 1.0, dropMult: 1.0, descMult: 1.0, trapAllow: true, rewardMult: 1.0, desc: 'Balanced tactical layouts · 3 lives · steel, portals & powers' },
+      frantic: { label: 'Frantic', icon: 'flame', lives: 2, speed: 432, paddle: 82, armorMult: 1.48, heavyMult: 1.65, steelMult: 1.55, moveMult: 1.45, bossFireMult: 1.45, dropMult: 0.85, descMult: 1.32, trapAllow: true, rewardMult: 1.3, desc: 'Fortified layouts · 2 lives · moving walls, hazards & +30% rewards' }
     };
     const RANDOM_TIERS = {
       easy: {
         id: 'easy', label: 'Easy', color: '#34D399', icon: 'leaf',
-        lives: 4, speed: 315, paddle: 106, rowsMin: 4, rowsMax: 6, fillMin: .42, fillMax: .62,
-        toughP: .12, hardP: 0, steelP: 0, expl: 3, coins: 4, gifts: 3, movingP: 0, cores: 0, bossFire: false,
-        coinBonus: 45, xpBonus: 65, desc: '4–6 rows · 4 lives · generous gifts & bombs · no steel'
+        lives: 4, speed: 310, paddle: 108, rowsMin: 5, rowsMax: 6,
+        toughP: .10, hardP: 0, steelP: 0, expl: 4, lasers: 2, crossLasers: 0, coins: 5, gifts: 3, movingP: 0, cores: 0, bossFire: false,
+        bumpers: 2, portals: 0, extraOrbs: 1, alleyPad: 1, dropMult: 1.2, trapAllow: false,
+        coinBonus: 50, xpBonus: 70, desc: 'Open chutes · 4 lives · bombs, lasers & orbs · no steel or traps'
       },
       medium: {
         id: 'medium', label: 'Medium', color: '#38BDF8', icon: 'zap',
-        lives: 3, speed: 370, paddle: 94, rowsMin: 6, rowsMax: 8, fillMin: .50, fillMax: .72,
-        toughP: .26, hardP: .10, steelP: .03, expl: 3, coins: 4, gifts: 2, movingP: .35, cores: 0, bossFire: false,
-        coinBonus: 80, xpBonus: 105, desc: '6–8 rows · 3 lives · mixed armor & occasional moving rows'
+        lives: 3, speed: 370, paddle: 94, rowsMin: 6, rowsMax: 8,
+        toughP: .26, hardP: .11, steelP: .03, expl: 3, lasers: 2, crossLasers: 1, coins: 5, gifts: 2, movingP: .35, cores: 0, bossFire: false,
+        bumpers: 2, portals: 0, extraOrbs: 0, alleyPad: 0, dropMult: 1.0, trapAllow: false,
+        coinBonus: 90, xpBonus: 115, desc: 'Tactical baffles · 3 lives · pinball bumpers, armor & laser relays'
       },
       hard: {
         id: 'hard', label: 'Hard', color: '#FFB020', icon: 'flame',
-        lives: 3, speed: 425, paddle: 86, rowsMin: 7, rowsMax: 9, fillMin: .58, fillMax: .80,
-        toughP: .36, hardP: .22, steelP: .07, expl: 3, coins: 5, gifts: 2, movingP: .68, cores: 1, bossFire: false,
-        coinBonus: 125, xpBonus: 160, desc: '7–9 rows · fast balls · heavy armor, steel & moving rows'
+        lives: 3, speed: 428, paddle: 84, rowsMin: 7, rowsMax: 9,
+        toughP: .38, hardP: .24, steelP: .07, expl: 3, lasers: 2, crossLasers: 1, coins: 6, gifts: 2, movingP: .72, cores: 1, bossFire: false,
+        bumpers: 2, portals: 1, extraOrbs: 0, alleyPad: 0, dropMult: 0.92, trapAllow: true,
+        coinBonus: 145, xpBonus: 180, desc: 'Fortified vaults · warp portals, steel ribs, moving rows & core'
       },
       hardest: {
         id: 'hardest', label: 'Hardest', color: '#FF3D8A', icon: 'crown',
-        lives: 2, speed: 475, paddle: 78, rowsMin: 8, rowsMax: 11, fillMin: .66, fillMax: .88,
-        toughP: .42, hardP: .34, steelP: .10, expl: 4, coins: 6, gifts: 2, movingP: .88, cores: 2, bossFire: true,
-        coinBonus: 200, xpBonus: 250, desc: '8–11 rows · 2 lives · boss cores, plasma fire & max payout'
+        lives: 2, speed: 478, paddle: 76, rowsMin: 8, rowsMax: 11,
+        toughP: .46, hardP: .36, steelP: .10, expl: 4, lasers: 2, crossLasers: 2, coins: 7, gifts: 2, movingP: .92, cores: 2, bossFire: true,
+        bumpers: 3, portals: 2, extraOrbs: 0, alleyPad: 0, dropMult: 0.85, trapAllow: true,
+        coinBonus: 230, xpBonus: 280, desc: 'Master siege · 2 lives · dual portals, plasma cores & max payout'
       }
     };
     const RANDOM_ARCHETYPES = [
@@ -4878,75 +4882,85 @@
       { id: 'armorsiege', name: 'Armor Siege', tag: 'Reinforced heavy plating', col: '#8B5CF6' },
       { id: 'kinetic', name: 'Kinetic Shift', tag: 'Counter-sliding rows', col: '#22D3EE' },
       { id: 'giftshower', name: 'Gift Bonanza', tag: '+3 Power-Up Gift Bricks', col: '#FF3D8A' },
-      { id: 'corehunt', name: 'Reactor Core Hunt', tag: 'Bonus Boss Crystal Cores', col: '#E879F9' }
+      { id: 'corehunt', name: 'Reactor Core Hunt', tag: 'Bonus Boss Crystal Cores', col: '#E879F9' },
+      { id: 'lasergrid', name: 'Laser Conduit', tag: '+3 Plasma Laser Relays', col: '#00F5D4' }
     ];
     const MISSION_OPS = ['Operation', 'Contract', 'Protocol', 'Directive', 'Siege', 'Blitz', 'Assault', 'Vanguard'];
     const MEGA_TIERS = {
       easy: {
         id: 'easy', label: 'Easy', color: '#34D399', icon: 'leaf',
-        lives: 4, speed: 285, paddle: 118, gapW: 5, armorP: 0.06, maxHp: 1,
-        orbs: 4, triggers: 2, startBalls: 1, coinBonus: 95, xpBonus: 125,
-        desc: 'Wide 6-tile entry · buried multiplier pockets · relaxed speed'
+        lives: 4, speed: 288, paddle: 118, chutePad: 1, armorP: 0.04, maxHp: 1, steelScale: 0.45,
+        orbs: 4, lasers: 3, bumpers: 2, portals: 0, movingGate: false, cores: 0, startBalls: 1, dropMult: 1.25, trapAllow: false,
+        coinBonus: 95, xpBonus: 125,
+        desc: 'Wide open chutes · soft breach doors · extra orbs & lasers · no traps'
       },
       medium: {
         id: 'medium', label: 'Medium', color: '#38BDF8', icon: 'zap',
-        lives: 3, speed: 325, paddle: 102, gapW: 4, armorP: 0.18, maxHp: 2,
-        orbs: 4, triggers: 2, startBalls: 1, coinBonus: 150, xpBonus: 190,
-        desc: 'Wide 5-tile entry · deep buried multiplier orbs · light armor shell'
+        lives: 3, speed: 328, paddle: 100, chutePad: 0, armorP: 0.16, maxHp: 2, steelScale: 1.0,
+        orbs: 3, lasers: 2, bumpers: 2, portals: 1, movingGate: false, cores: 0, startBalls: 1, dropMult: 1.0, trapAllow: false,
+        coinBonus: 155, xpBonus: 195,
+        desc: 'Sculpted steel vaults · pinball bumpers, flank portals & breach plugs'
       },
       hard: {
         id: 'hard', label: 'Hard', color: '#FFB020', icon: 'flame',
-        lives: 3, speed: 365, paddle: 90, gapW: 4, armorP: 0.34, maxHp: 3,
-        orbs: 3, triggers: 2, startBalls: 1, coinBonus: 230, xpBonus: 280,
-        desc: '5-tile gated entry · deep yellow/red pocket triggers · multi-hit armor'
+        lives: 3, speed: 368, paddle: 88, chutePad: 0, armorP: 0.32, maxHp: 3, steelScale: 1.15,
+        orbs: 3, lasers: 2, bumpers: 2, portals: 1, movingGate: true, cores: 1, startBalls: 1, dropMult: 0.9, trapAllow: true,
+        coinBonus: 235, xpBonus: 290,
+        desc: 'Fortified maze · sliding gate shield, armored core & portal warps'
       },
       hardest: {
         id: 'hardest', label: 'Hardest', color: '#FF3D8A', icon: 'crown',
-        lives: 2, speed: 405, paddle: 82, gapW: 3, armorP: 0.50, maxHp: 4,
-        orbs: 3, triggers: 2, startBalls: 1, coinBonus: 350, xpBonus: 430,
-        desc: '4-tile gated entry · fortified inner vaults & high-HP cores · max payout'
+        lives: 2, speed: 410, paddle: 78, chutePad: -1, armorP: 0.48, maxHp: 4, steelScale: 1.3,
+        orbs: 3, lasers: 2, bumpers: 3, portals: 2, movingGate: true, cores: 2, startBalls: 1, dropMult: 0.85, trapAllow: true,
+        coinBonus: 360, xpBonus: 440,
+        desc: 'Precision siege · 2 lives · twin portals, plasma boss cores & max payout'
       }
     };
     const MEGA_ARCHETYPES = [
-      { id: 'auto', name: 'Auto Mix (∞)', icon: '🎲', desc: 'Anti-repeat unique mix of all 13 containment maze styles' },
-      { id: 'sky_chute_fort', name: 'Sky-Chute Fortress', icon: '🚀', desc: 'Wide side launch alleys banking into an open-top orb trap' },
-      { id: 'baffle_chimney', name: 'Flared Baffle Funnel', icon: '🕳️', desc: 'Wide V-intake + offset interior baffle that traps balls inside' },
-      { id: 'rainbowvault', name: 'Armored Rainbow Prism', icon: '🌈', desc: 'Stepped side vents & rainbow diagonal core with inner deflector' },
-      { id: 'greenhook', name: 'L-Bend Pinball Maze', icon: '🟩', desc: 'Side ramp hooking across the top into a sealed ×3 orb cavern' },
-      { id: 'stickman', name: 'Pixel Titan Cavern', icon: '🤖', desc: 'Sculpted titan silhouette with open flanks & chest orb pocket' },
-      { id: 'twin_chimneys', name: 'Twin Canyon Bunkers', icon: '⛩️', desc: 'Two separated fortresses with a center sky-launch canyon' },
-      { id: 'diamond_bastion', name: 'Diamond Bastion', icon: '💎', desc: 'True diamond silhouette with corner bank ramps into the core' },
-      { id: 'hourglass_cave', name: 'Hourglass Reactor', icon: '⏳', desc: 'Pinched hourglass chambers linked by a ×3 orb throat' },
-      { id: 'spiral_core', name: 'Inward Snail Spiral', icon: '🐚', desc: 'Wide outer ramp spiraling inward to a multiball vault' },
-      { id: 'terraced', name: 'Terraced Pixel Wall', icon: '🛡️', desc: 'Inverted-trapezoid fortress with angled side launch ramps' },
-      { id: 'antfarm', name: 'Burrow Tunnels', icon: '🐜', desc: 'Open-top mound with branching chambers & 3 buried orb nests' },
-      { id: 'pinball_box', name: 'Pinball Bumper Vault', icon: '🎰', desc: 'Flared bottom funnel + interior deflectors & ceiling trap' },
-      { id: 'neonquest', name: 'Neon Number Blocks', icon: '🔢', desc: 'Glowing numbered HP blocks with open side bank-shot lanes' }
+      { id: 'auto', name: 'Auto Mix (∞)', icon: '🎲', desc: 'Anti-repeat unique mix of all 14 sculpted containment mazes' },
+      { id: 'sky_chute_fort', name: 'Sky-Chute Fortress', icon: '🚀', desc: 'Twin side launch alleys banking over a pinball orb canopy' },
+      { id: 'baffle_chimney', name: 'Flared Baffle Funnel', icon: '🕳️', desc: 'Wide V-intake + offset interior baffle trapping balls inside' },
+      { id: 'rainbowvault', name: 'Armored Rainbow Prism', icon: '🌈', desc: 'Prismatic spectrum vault with flank portals & laser conduits' },
+      { id: 'greenhook', name: 'L-Bend Pinball Maze', icon: '🟩', desc: 'Angled side ramp hooking across the top into a sealed ×3 cauldron' },
+      { id: 'stickman', name: 'Cyber Titan Mech', icon: '🤖', desc: 'Sculpted multi-hue pixel mech with chest reactor & shoulder lasers' },
+      { id: 'twin_chimneys', name: 'Twin Canyon Citadels', icon: '⛩️', desc: 'Two fortified castles split by a sky-launch canyon & cross-lasers' },
+      { id: 'diamond_bastion', name: 'Prism Diamond Bastion', icon: '💎', desc: 'Faceted diamond citadel with 4 corner bank ramps & star core' },
+      { id: 'hourglass_cave', name: 'Hourglass Reactor', icon: '⏳', desc: 'Pinched hourglass chambers linked by a ×3 orb throat & portals' },
+      { id: 'spiral_core', name: 'Nautilus Vortex Spiral', icon: '🐚', desc: 'Multi-turn inward spiral corridor into an explosive jackpot core' },
+      { id: 'terraced', name: 'Aztec Ziggurat Vault', icon: '🛡️', desc: 'Terraced stepped pyramid with concealed bomb & laser conduits' },
+      { id: 'antfarm', name: 'Colony Burrow Tunnels', icon: '🐜', desc: 'Organic branching chambers linking 3 buried multiball orb nests' },
+      { id: 'pinball_box', name: 'Pinball Bumper Cathedral', icon: '🎰', desc: 'Flared funnel, 3 live pinball bumpers & rainbow ceiling canopy' },
+      { id: 'cyber_heart', name: 'Neon Reactor Heart', icon: '💖', desc: 'Sculpted neon heart fortress with twin aorta launch chutes & core' },
+      { id: 'galaxy_invader', name: 'Starship Mothership', icon: '🛸', desc: 'Pixel dreadnought maze with wing chambers, warp flank & bridge core' }
     ];
     const NUM_TIERS = {
       easy: {
         id: 'easy', label: 'Easy', color: '#34D399', icon: 'leaf',
-        lives: 4, speed: 315, paddle: 108, minHp: 3, maxHp: 12,
-        orbs: 4, startBalls: 1, coinBonus: 105, xpBonus: 135,
-        desc: '3–12 hit counters · 4 lives · generous +3/×2 multiball orbs'
+        lives: 4, speed: 315, paddle: 110, minHp: 3, maxHp: 11, hitDropEvery: 12,
+        orbs: 4, lasers: 2, bombs: 3, bumpers: 2, portals: 0, steelBaffle: false, movingRows: 0, cores: 0, startBalls: 1, dropMult: 1.35, trapAllow: false,
+        coinBonus: 105, xpBonus: 135,
+        desc: '3–11 HP · 4 lives · frequent power drops, bombs, lasers & bumpers'
       },
       medium: {
         id: 'medium', label: 'Medium', color: '#38BDF8', icon: 'zap',
-        lives: 3, speed: 355, paddle: 98, minHp: 8, maxHp: 28,
-        orbs: 4, startBalls: 1, coinBonus: 165, xpBonus: 205,
-        desc: '8–28 hit counters · 3 lives · balanced multiball & bomb bridges'
+        lives: 3, speed: 355, paddle: 98, minHp: 8, maxHp: 26, hitDropEvery: 15,
+        orbs: 4, lasers: 2, bombs: 2, bumpers: 2, portals: 0, steelBaffle: true, movingRows: 0, cores: 0, startBalls: 1, dropMult: 1.15, trapAllow: false,
+        coinBonus: 165, xpBonus: 205,
+        desc: '8–26 HP · 3 lives · tactical baffles, laser relays & steady power drops'
       },
       hard: {
         id: 'hard', label: 'Hard', color: '#FFB020', icon: 'flame',
-        lives: 3, speed: 395, paddle: 88, minHp: 16, maxHp: 50,
-        orbs: 3, startBalls: 1, coinBonus: 245, xpBonus: 300,
-        desc: '16–50 hit counters · fast balls · heavy numbered cores'
+        lives: 3, speed: 398, paddle: 86, minHp: 16, maxHp: 48, hitDropEvery: 19,
+        orbs: 3, lasers: 2, bombs: 2, bumpers: 2, portals: 1, steelBaffle: true, movingRows: 1, cores: 0, startBalls: 1, dropMult: 1.0, trapAllow: true,
+        coinBonus: 250, xpBonus: 310,
+        desc: '16–48 HP · sliding shield row, warp portal flank & high-DPS drops'
       },
       hardest: {
         id: 'hardest', label: 'Hardest', color: '#FF3D8A', icon: 'crown',
-        lives: 2, speed: 435, paddle: 80, minHp: 28, maxHp: 85,
-        orbs: 3, startBalls: 1, coinBonus: 375, xpBonus: 460,
-        desc: '28–85 hit counters · 2 lives · boss-grade HP blocks & max payout'
+        lives: 2, speed: 438, paddle: 78, minHp: 28, maxHp: 82, hitDropEvery: 23,
+        orbs: 3, lasers: 2, bombs: 2, bumpers: 3, portals: 2, steelBaffle: true, movingRows: 2, cores: 1, startBalls: 1, dropMult: 0.95, trapAllow: true,
+        coinBonus: 385, xpBonus: 470,
+        desc: '28–82 HP · 2 lives · dual portals, sliding shields & plasma boss core'
       }
     };
     const NUM_ARCHETYPES = [
@@ -5935,31 +5949,49 @@
     }
     const levelCache = new Map();
     function getLevel(idx) {
-      if (levelCache.has(idx)) return levelCache.get(idx);
+      const diffKey = S.set.diff || 'classic';
+      const cacheKey = idx + '_' + diffKey;
+      if (levelCache.has(cacheKey)) return levelCache.get(cacheKey);
+      const dCfg = DIFFS[diffKey] || DIFFS.classic;
       const absWorld = Math.floor(idx / 15), sector = Math.floor(absWorld / 8), wi = absWorld % 8, li = idx % 15;
-      const rng = mulberry32(((idx + 1) * 2654435761) ^ 0x9E3779B9);
+      const rng = mulberry32((((idx + 1) * 2654435761) ^ 0x9E3779B9 ^ (diffKey === 'frantic' ? 0x517CC1B7 : diffKey === 'chill' ? 0x2F6E2B1 : 0)) >>> 0);
       const cad = WORLD_CADENCE[li] || WORLD_CADENCE[0];
       const wHues = WORLDS[wi].hues;
       const topOffset = TOP + 8;
-      const baseTough = Math.min(.42, .05 + wi * .042 + li * .007 + sector * .055);
-      const baseHard = (wi >= 1 || sector > 0 || li >= 9) ? Math.min(.32, .02 + wi * .025 + sector * .05) : 0;
-      const baseSteel = (wi >= 2 || sector > 0) ? Math.min(.06, .01 + wi * .006 + sector * .01) : 0;
+      const baseTough = clamp((.05 + wi * .042 + li * .007 + sector * .055) * dCfg.armorMult, 0, .55);
+      const baseHard = (wi >= 1 || sector > 0 || li >= 9 || diffKey === 'frantic') ? clamp((.02 + wi * .025 + sector * .05 + (diffKey === 'frantic' ? .06 : 0)) * dCfg.heavyMult, 0, .42) : 0;
+      const baseSteel = (dCfg.steelMult > 0 && (wi >= 2 || sector > 0 || (diffKey === 'frantic' && li >= 5))) ? clamp((.012 + wi * .006 + sector * .01) * dCfg.steelMult, 0, .09) : 0;
+      const allowMove = dCfg.moveMult > 0;
+      const chillExpl = diffKey === 'chill' ? 1 : 0;
       let lvlData = null, name = '', boss = false;
 
       if (cad.role === 'swarm') {
         lvlData = buildCampaignSwarmStage(rng, absWorld, wi, sector);
+        if (diffKey === 'chill') {
+          lvlData.bricks.forEach(b => { if (b.mhp > 1) { b.mhp = 1; b.hp = 1; b.code = 1; } });
+        } else if (diffKey === 'frantic') {
+          lvlData.bricks.forEach(b => { if (b.code === 1 && rng() < 0.22) { b.code = 2; b.mhp = 2; b.hp = 2; } });
+        }
         name = lvlData.name;
       } else if (cad.role === 'counter') {
         lvlData = buildCampaignCounterStage(rng, absWorld, wi, sector);
+        const hpScale = diffKey === 'chill' ? 0.65 : diffKey === 'frantic' ? 1.4 : 1;
+        if (hpScale !== 1) {
+          lvlData.bricks.forEach(b => {
+            if (b.code === 5 && diffKey === 'chill') { b.code = 9; b.unbreakable = false; b.customCol = '#FACC15'; b.mhp = 2; b.hp = 2; lvlData.breakable++; }
+            else if (b.showHp) { b.mhp = Math.max(2, Math.round(b.mhp * hpScale)); b.hp = b.mhp; }
+          });
+        }
         name = lvlData.name;
       } else if (cad.role === 'art') {
         const art = CAMPAIGN_ART[(absWorld * 3 + sector * 5 + (wi % 2)) % CAMPAIGN_ART.length];
         const parsed = parseArtBlueprint(art, (absWorld + sector) % 4);
+        if (diffKey === 'chill') parsed.orbs.push({ c: 5, r: parsed.rows - 0.5, type: 'add3', label: '+3', color: '#FF8A2B' });
         name = art.name + (sector > 0 ? ' +' + sector : '');
-        const bumpers = (wi >= 2 || sector > 0) ? [{ c: 0.7, r: parsed.rows - 0.5, color: wHues[0] }, { c: 9.3, r: parsed.rows - 0.5, color: wHues[2] }] : [];
+        const bumpers = (wi >= 2 || sector > 0 || diffKey === 'frantic') ? [{ c: 0.7, r: parsed.rows - 0.5, color: wHues[0] }, { c: 9.3, r: parsed.rows - 0.5, color: wHues[2] }] : [];
         lvlData = buildBricks(parsed.m, parsed.rows, {
           rng, wi, li, absWorld, sector, boss: false, hueMap: parsed.hueMap, orbs: parsed.orbs, bumpers, topOffset,
-          toughP: baseTough * 0.65, hardP: baseHard * 0.6, steelP: 0, expl: 2, lasers: 1, coins: 3, gifts: 2, moving: wi >= 4 || sector > 0
+          toughP: baseTough * 0.65, hardP: baseHard * 0.6, steelP: 0, expl: 2 + chillExpl, lasers: 1 + chillExpl, coins: 3, gifts: 2, moving: allowMove && (wi >= 4 || sector > 0 || diffKey === 'frantic')
         });
       } else if (cad.role === 'boss') {
         boss = true;
@@ -5967,26 +5999,29 @@
         name = B.name + (sector > 0 ? ' MK-' + (sector + 1) : '');
         const m = Array.from({ length: rows }, (_, r) => Array.from({ length: COLS }, (_, c) => rawG[r][c] ? 1 : 0));
         const hueMap = Array.from({ length: rows }, (_, r) => Array.from({ length: COLS }, (_, c) => (Math.abs(c - 5) <= 1 ? 2 : Math.abs(c - 5) <= 3 ? 0 : 1)));
-        // Wire flank Row-Laser weak-point vents & breach core
         const midR = Math.floor(rows / 2);
         if (m[midR][2]) m[midR][2] = 11;
         if (m[midR][8]) m[midR][8] = 11;
         if (m[1] && m[1][5]) m[1][5] = 9;
+        if (diffKey === 'frantic' && m[midR][4] && m[midR][6]) { m[midR][4] = 8; m[midR][6] = 8; }
         const orbs = [{ c: 0.7, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }, { c: 9.3, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }];
-        const bumpers = (wi % 2 === 0) ? [{ c: 1.5, r: rows + 0.6, color: '#FFD166', rPx: 14 }, { c: 8.5, r: rows + 0.6, color: '#FFD166', rPx: 14 }] : [];
+        const bumpers = (wi % 2 === 0 || diffKey === 'frantic') ? [{ c: 1.5, r: rows + 0.6, color: '#FFD166', rPx: 14 }, { c: 8.5, r: rows + 0.6, color: '#FFD166', rPx: 14 }] : [];
         const portals = (wi % 2 === 1) ? [
           { pairId: 0, c: 0.7, r: rows + 0.5, color: '#00F5D4', outX: 0.5, outY: -0.86 },
-          { pairId: 0, c: 5, r: -0.45, color: '#00F5D4', outX: 0.85, outY: 0.45, isExit: true },
-          { pairId: 1, c: 9.3, r: rows + 0.5, color: '#FF3D8A', outX: -0.5, outY: -0.86 },
-          { pairId: 1, c: 5, r: rows + 0.8, color: '#FF3D8A', outX: 0, outY: -1, isExit: true }
-        ].slice(0, 2) : [];
+          { pairId: 0, c: 5, r: -0.45, color: '#00F5D4', outX: 0.85, outY: 0.45, isExit: true }
+        ] : [];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, boss: true, hueMap, orbs, bumpers, portals, topOffset,
-          toughP: Math.min(.45, .14 + wi * .04 + sector * .05), hardP: Math.min(.32, .06 + wi * .028 + sector * .05),
-          steelP: Math.min(.04, wi * .005), expl: 3, lasers: 2, coins: 4, gifts: 2, moving: true
+          toughP: clamp((.14 + wi * .04 + sector * .05) * dCfg.armorMult, .05, .52), hardP: clamp((.06 + wi * .028 + sector * .05) * dCfg.heavyMult, 0, .4),
+          steelP: baseSteel * 0.7, expl: 3 + chillExpl, lasers: 2, coins: 4, gifts: 2, moving: allowMove
         });
+        if (diffKey !== 'classic') {
+          lvlData.bricks.forEach(b => {
+            if (b.code === 8) { b.mhp = Math.max(4, Math.round(b.mhp * (diffKey === 'chill' ? 0.65 : 1.35))); b.hp = b.mhp; }
+          });
+        }
       } else if (cad.role === 'showcase') {
-        const rows = clamp(6 + Math.min(2, Math.floor(wi / 3) + sector), 6, 8);
+        const rows = clamp(6 + Math.min(2, Math.floor(wi / 3) + sector) + (diffKey === 'frantic' ? 1 : 0), 5, 9);
         const variant = (absWorld + sector) % 4;
         const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
         const orbs = [];
@@ -5999,10 +6034,10 @@
           else { if (r < Math.abs(c - 5) * 0.55) continue; m[r][c] = (c === 5 && r === 2) ? 12 : (r === 1 && (c === 4 || c === 6)) ? 6 : 1; }
         }
         orbs.push({ c: 5, r: 0.25, type: 'add3' });
-        if (variant === 1) orbs.push({ c: 5, r: rows - 1.2, type: 'mul2' });
+        if (variant === 1 || diffKey === 'chill') orbs.push({ c: 5, r: rows - 1.2, type: 'mul2' });
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, topOffset, colorMode: ['diag', 'sym', 'chevron', 'radial'][variant],
-          toughP: baseTough * 0.55, hardP: baseHard * 0.4, steelP: 0, expl: 3, lasers: 1, coins: 4, gifts: 2, moving: false
+          toughP: baseTough * 0.55, hardP: baseHard * 0.4, steelP: 0, expl: 3 + chillExpl, lasers: 1 + chillExpl, coins: 4, gifts: 2, moving: diffKey === 'frantic'
         });
       } else if (cad.role === 'chain') {
         const rows = clamp(7 + Math.min(2, sector + Math.floor(wi / 4)), 7, 9);
@@ -6019,7 +6054,7 @@
         const orbs = [{ c: 0.4, r: 1, type: 'add3' }, { c: 9.6, r: 1, type: 'add3' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, topOffset, colorMode: 'radial',
-          toughP: baseTough * 0.7, hardP: baseHard * 0.5, steelP: 0, expl: 5, lasers: 2, crossLasers: 1, coins: 4, gifts: 2, moving: false
+          toughP: baseTough * 0.7, hardP: baseHard * 0.5, steelP: baseSteel * 0.4, expl: 5 + chillExpl, lasers: 2, crossLasers: 1, coins: 4, gifts: 2, moving: diffKey === 'frantic'
         });
       } else if (cad.role === 'pinball') {
         const rows = 8;
@@ -6040,7 +6075,7 @@
         const orbs = [{ c: 5, r: variant === 2 ? 6.8 : 4.2, type: 'mul2' }, { c: 0.5, r: 0.8, type: 'add3' }, { c: 9.5, r: 0.8, type: 'add3' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, bumpers, topOffset, colorMode: 'sym',
-          toughP: baseTough * 0.8, hardP: baseHard * 0.6, steelP: 0, expl: 3, lasers: 1, coins: 5, gifts: 2, moving: false
+          toughP: baseTough * 0.8, hardP: baseHard * 0.6, steelP: baseSteel * 0.35, expl: 3 + chillExpl, lasers: 1, coins: 5, gifts: 2, moving: diffKey === 'frantic'
         });
       } else if (cad.role === 'guardian') {
         const rows = 8;
@@ -6049,16 +6084,16 @@
         name = titles[variant];
         const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
         for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
-          if (variant === 0) { if (r === 0 || c === 1 || c === 9 || (r === rows - 1 && (c <= 3 || c >= 7))) m[r][c] = 2; else if (r >= 2 && r <= 5 && c >= 3 && c <= 7) m[r][c] = (r === 3 && c === 5) ? 8 : (r === 2 && c === 5) ? 9 : 1; }
-          else if (variant === 1) { if (c === 5) continue; m[r][c] = (r === 3 && (c === 3 || c === 7)) ? 8 : (r === 0 || r === rows - 1) ? 2 : 1; }
-          else { const d = Math.abs(c - 5) / 4.3 + Math.abs(r - 3.5) / 3.8; if (d <= 1.02) m[r][c] = d < 0.28 ? 8 : d > 0.82 ? 2 : 1; }
+          if (variant === 0) { if (r === 0 || c === 1 || c === 9 || (r === rows - 1 && (c <= 3 || c >= 7))) m[r][c] = diffKey === 'chill' ? 1 : 2; else if (r >= 2 && r <= 5 && c >= 3 && c <= 7) m[r][c] = (r === 3 && c === 5) ? 8 : (r === 2 && c === 5) ? 9 : 1; }
+          else if (variant === 1) { if (c === 5) continue; m[r][c] = (r === 3 && (c === 3 || c === 7)) ? 8 : (r === 0 || r === rows - 1) ? (diffKey === 'chill' ? 1 : 2) : 1; }
+          else { const d = Math.abs(c - 5) / 4.3 + Math.abs(r - 3.5) / 3.8; if (d <= 1.02) m[r][c] = d < 0.28 ? 8 : d > 0.82 ? (diffKey === 'chill' ? 1 : 2) : 1; }
         }
-        if (sector > 0 && m[3]) { m[3][3] = 8; m[3][7] = 8; }
+        if ((sector > 0 || diffKey === 'frantic') && m[3]) { m[3][3] = 8; m[3][7] = 8; }
         const bumpers = [{ c: 0.5, r: 6.5, color: '#E879F9', rPx: 13 }, { c: 9.5, r: 6.5, color: '#E879F9', rPx: 13 }];
         const orbs = [{ c: 5, r: variant === 1 ? 1.5 : 6.6, type: 'add3' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, bumpers, topOffset, colorMode: 'radial',
-          toughP: baseTough + 0.08, hardP: baseHard + 0.05, steelP: 0, expl: 3, lasers: 1, coins: 4, gifts: 2, moving: false
+          toughP: baseTough + (diffKey === 'chill' ? 0 : 0.08), hardP: baseHard + (diffKey === 'frantic' ? 0.08 : 0.04), steelP: diffKey === 'frantic' ? 0.05 : 0, expl: 3 + chillExpl, lasers: 1, coins: 4, gifts: 2, moving: diffKey === 'frantic'
         });
       } else if (cad.role === 'gates') {
         const rows = 8;
@@ -6069,20 +6104,20 @@
         const rowMotions = {};
         for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
           if (r === rows - 1 || r === rows - 3) {
-            if (c >= 3 && c <= 7) m[r][c] = (c === 5 ? 9 : 2);
+            if (c >= 3 && c <= 7) m[r][c] = (c === 5 ? 9 : (diffKey === 'chill' ? 1 : 2));
           } else if (r < rows - 3) {
             if (variant === 1 && c === 5) continue;
             m[r][c] = (r === 0 && c % 2 === 1) ? 6 : (r === 2 && (c === 3 || c === 7)) ? 11 : 1;
           }
         }
-        const spd = 1.25 + wi * 0.08 + sector * 0.16;
-        rowMotions[rows - 1] = { amp: 66, spd, ph: 0 };
-        rowMotions[rows - 3] = { amp: 66, spd: spd * 1.15, ph: Math.PI };
-        if (variant === 2) rowMotions[2] = { amp: 24, spd: spd * 0.9, ph: Math.PI / 2 };
+        const spd = (1.25 + wi * 0.08 + sector * 0.16) * (diffKey === 'chill' ? 0.55 : diffKey === 'frantic' ? 1.35 : 1);
+        rowMotions[rows - 1] = { amp: diffKey === 'chill' ? 42 : 66, spd, ph: 0 };
+        rowMotions[rows - 3] = { amp: diffKey === 'chill' ? 42 : 66, spd: spd * 1.15, ph: Math.PI };
+        if (variant === 2 || diffKey === 'frantic') rowMotions[2] = { amp: 26, spd: spd * 0.95, ph: Math.PI / 2 };
         const orbs = [{ c: 5, r: 0.6, type: 'mul2' }, { c: 1, r: rows - 2, type: 'add3' }, { c: 9, r: rows - 2, type: 'add3' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, rowMotions, topOffset, colorMode: 'row',
-          toughP: baseTough, hardP: baseHard, steelP: 0, expl: 3, lasers: 2, coins: 5, gifts: 2, moving: false
+          toughP: baseTough, hardP: baseHard, steelP: 0, expl: 3 + chillExpl, lasers: 2, coins: 5, gifts: 2, moving: false
         });
       } else if (cad.role === 'portal') {
         const rows = 8;
@@ -6092,11 +6127,10 @@
         const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
         for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
           if (r === 0 && c >= 2 && c <= 8) m[r][c] = 6;
-          else if (r === rows - 1 && c >= 2 && c <= 8) m[r][c] = (c === 5 ? 9 : 5); // Armored/steel front wall!
-          else if ((c === 1 || c === 9) && r >= 1 && r <= rows - 2) m[r][c] = 2;
+          else if (r === rows - 1 && c >= 2 && c <= 8) m[r][c] = (c === 5 ? 9 : (diffKey === 'chill' ? 2 : 5));
+          else if ((c === 1 || c === 9) && r >= 1 && r <= rows - 2) m[r][c] = diffKey === 'chill' ? 1 : 2;
           else if (r >= 2 && r <= rows - 2 && c >= 2 && c <= 8) m[r][c] = (r === 3 && c === 5) ? 12 : ((r + c) % 4 === 0 ? 6 : 1);
         }
-        // Clear pocket inside vault for exit portal(s)
         const portals = variant === 1 ? [
           { pairId: 0, c: 0.5, r: rows + 0.7, color: '#00F5D4', outX: 0.4, outY: -0.9 },
           { pairId: 0, c: 3.2, r: 1.5, color: '#00F5D4', outX: 0.85, outY: 0.4, isExit: true },
@@ -6109,7 +6143,7 @@
         const orbs = [{ c: 5, r: 4.5, type: 'mul2' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, portals, topOffset, colorMode: 'sym',
-          toughP: baseTough, hardP: baseHard, steelP: 0, expl: 3, lasers: 1, crossLasers: 1, coins: 6, gifts: 2, moving: false
+          toughP: baseTough, hardP: baseHard, steelP: 0, expl: 3 + chillExpl, lasers: 1, crossLasers: 1, coins: 6, gifts: 2, moving: false
         });
       } else if (cad.role === 'laser') {
         const rows = 8;
@@ -6131,7 +6165,7 @@
         const orbs = [{ c: 5, r: variant === 1 ? 3 : 0.4, type: 'mul2' }, { c: 0.5, r: 6.5, type: 'add3' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, topOffset, colorMode: 'diag',
-          toughP: baseTough + 0.05, hardP: baseHard, steelP: baseSteel * 0.5, expl: 2, lasers: 3, crossLasers: 2, coins: 4, gifts: 2, moving: false
+          toughP: baseTough + 0.05, hardP: baseHard, steelP: baseSteel * 0.5, expl: 2 + chillExpl, lasers: 3, crossLasers: 2, coins: 4, gifts: 2, moving: diffKey === 'frantic'
         });
       } else if (cad.role === 'baffle') {
         const rows = 8;
@@ -6139,15 +6173,15 @@
         const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
         for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
           if (r === rows - 1 && c >= 4 && c <= 6) continue;
-          if (r === rows - 2 && c >= 4 && c <= 6) { m[r][c] = (wi >= 2 ? 5 : 3); continue; }
+          if (r === rows - 2 && c >= 4 && c <= 6) { m[r][c] = (diffKey === 'chill' ? 2 : (wi >= 2 || diffKey === 'frantic' ? 5 : 3)); continue; }
           if (r === rows - 2 && (c === 3 || c === 7)) continue;
-          m[r][c] = (r === 0 || c === 1 || c === 9) ? 2 : (r === 2 && c === 5) ? 9 : (r === 1 && (c === 3 || c === 7)) ? 6 : 1;
+          m[r][c] = (r === 0 || c === 1 || c === 9) ? (diffKey === 'chill' ? 1 : 2) : (r === 2 && c === 5) ? 9 : (r === 1 && (c === 3 || c === 7)) ? 6 : 1;
         }
         const bumpers = [{ c: 0.4, r: rows - 1.5, color: wHues[0], rPx: 13 }, { c: 9.6, r: rows - 1.5, color: wHues[2], rPx: 13 }];
         const orbs = [{ c: 2.5, r: 3.5, type: 'add3' }, { c: 7.5, r: 3.5, type: 'mul2' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, bumpers, topOffset, colorMode: 'chevron',
-          toughP: baseTough, hardP: baseHard, steelP: 0, expl: 3, lasers: 1, coins: 5, gifts: 2, moving: false
+          toughP: baseTough, hardP: baseHard, steelP: 0, expl: 3 + chillExpl, lasers: 1, coins: 5, gifts: 2, moving: false
         });
       } else if (cad.role === 'quantum') {
         const rows = 8;
@@ -6156,7 +6190,7 @@
         for (let r = 1; r < rows; r++) for (let c = 0; c < COLS; c++) {
           if (c === 4 || c === 5 || c === 6) { if (r <= 2 && c === 5) m[r][c] = r === 1 ? 12 : 6; continue; }
           if (r === rows - 1 && (c === 0 || c === 10)) continue;
-          m[r][c] = (r === 1 || r === rows - 1) ? 2 : (r === 4 && (c === 2 || c === 8)) ? 4 : 1;
+          m[r][c] = (r === 1 || r === rows - 1) ? (diffKey === 'chill' ? 1 : 2) : (r === 4 && (c === 2 || c === 8)) ? 4 : 1;
         }
         const portals = [
           { pairId: 0, c: 5, r: rows + 0.4, color: '#A855F7', outX: 0, outY: -1 },
@@ -6166,7 +6200,7 @@
         const orbs = [{ c: 2, r: 0.25, type: 'add3' }, { c: 8, r: 0.25, type: 'mul2' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, bumpers, portals, topOffset, colorMode: 'sym',
-          toughP: baseTough + 0.05, hardP: baseHard, steelP: 0, expl: 3, lasers: 2, coins: 4, gifts: 2, moving: false
+          toughP: baseTough + 0.05, hardP: baseHard, steelP: baseSteel * 0.5, expl: 3 + chillExpl, lasers: 2, coins: 4, gifts: 2, moving: diffKey === 'frantic'
         });
       } else if (cad.role === 'kinetic') {
         const rows = 9;
@@ -6176,13 +6210,13 @@
         const rowMotions = {};
         const cy = (rows - 1) / 2;
         for (let r = 0; r < rows; r++) {
-          if (r % 2 === 1) rowMotions[r] = { amp: 14, spd: 1.05 + wi * 0.06, ph: r * Math.PI };
+          if (allowMove && r % 2 === 1) rowMotions[r] = { amp: 14 * Math.min(1.2, dCfg.moveMult), spd: (1.05 + wi * 0.06) * dCfg.moveMult, ph: r * Math.PI };
           for (let c = 1; c < COLS - 1; c++) {
             if (variant === 0) {
               const ring = Math.max(Math.floor(Math.abs(c - 5) * 0.72), Math.floor(Math.abs(r - cy)));
               const gate = (ring % 2 === 0 && c === 5 && r > cy) || (ring % 2 === 1 && Math.abs(r - cy) < 0.7 && (c <= 2 || c >= 8));
               if (ring === 0) m[r][c] = 9;
-              else if (!gate) m[r][c] = ring === 1 ? 6 : (ring >= 3 ? 2 : 1);
+              else if (!gate) m[r][c] = ring === 1 ? 6 : (ring >= 3 ? (diffKey === 'chill' ? 1 : 2) : 1);
             } else if (variant === 1) {
               const wv = Math.round(Math.sin(c * 0.8 + r) * 1.1);
               if ((r + wv) % 3 !== 0) m[r][c] = (c === 5 && r % 3 === 1) ? 11 : 1;
@@ -6191,7 +6225,7 @@
               if (dist < 1.1) m[r][c] = 12;
               else if ((dist >= 1.85 && dist <= 2.7) || (dist >= 3.45 && dist <= 4.35)) {
                 if (r === rows - 1 && c >= 4 && c <= 6) continue;
-                m[r][c] = dist > 3.45 ? 2 : 1;
+                m[r][c] = dist > 3.45 ? (diffKey === 'chill' ? 1 : 2) : 1;
               }
             }
           }
@@ -6199,10 +6233,9 @@
         const orbs = [{ c: 0.5, r: 1, type: 'add3' }, { c: 9.5, r: 1, type: 'mul2' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, orbs, rowMotions, topOffset, colorMode: 'radial',
-          toughP: baseTough + 0.06, hardP: baseHard + 0.04, steelP: baseSteel, expl: 3, lasers: 2, coins: 4, gifts: 2, moving: false
+          toughP: baseTough + 0.06, hardP: baseHard + 0.04, steelP: baseSteel, expl: 3 + chillExpl, lasers: 2, coins: 4, gifts: 2, moving: false
         });
       } else {
-        // Pre-Boss Grand Citadel (li === 13)
         const rows = 9;
         name = ['Grand Neon Citadel', 'Imperial Dreadnought', 'Prism Cathedral'][(absWorld + sector) % 3];
         const m = Array.from({ length: rows }, () => Array(COLS).fill(0));
@@ -6213,9 +6246,10 @@
           if (r === 2 && (c === 3 || c === 7)) m[r][c] = 12;
           else if (r === 4 && c === 5) m[r][c] = 8;
           else if (r === 6 && (c === 2 || c === 8)) m[r][c] = 9;
-          else if (r === 0 || (r === rows - 1 && (c === 2 || c === 3 || c === 7 || c === 8))) m[r][c] = 3;
+          else if (r === 0 || (r === rows - 1 && (c === 2 || c === 3 || c === 7 || c === 8))) m[r][c] = diffKey === 'chill' ? 2 : 3;
           else m[r][c] = ((r + c) % 5 === 0) ? 6 : 1;
         }
+        if (diffKey === 'frantic') { m[4][3] = 8; m[4][7] = 8; }
         const bumpers = [{ c: 0.7, r: 7.8, color: wHues[0], rPx: 13.5 }, { c: 9.3, r: 7.8, color: wHues[2], rPx: 13.5 }];
         const portals = [
           { pairId: 0, c: 5, r: 8.6, color: '#00F5D4', outX: 0, outY: -1 },
@@ -6224,7 +6258,7 @@
         const orbs = [{ c: 2.5, r: 1, type: 'add3' }, { c: 7.5, r: 1, type: 'mul2' }];
         lvlData = buildBricks(m, rows, {
           rng, wi, li, absWorld, sector, boss: false, orbs, bumpers, portals, topOffset, colorMode: 'sym',
-          toughP: baseTough + 0.1, hardP: baseHard + 0.08, steelP: baseSteel, expl: 3, lasers: 2, crossLasers: 2, coins: 5, gifts: 2, moving: wi >= 3 || sector > 0
+          toughP: baseTough + 0.1, hardP: baseHard + 0.08, steelP: baseSteel, expl: 3 + chillExpl, lasers: 2, crossLasers: 2, coins: 5, gifts: 2, moving: allowMove && (wi >= 3 || sector > 0 || diffKey === 'frantic')
         });
       }
 
@@ -6234,25 +6268,66 @@
         ...lvlData
       };
       if (levelCache.size > 250) levelCache.clear();
-      levelCache.set(idx, lvl); return lvl;
+      levelCache.set(cacheKey, lvl); return lvl;
     }
     function genEndless(wave) {
-      const rng = mulberry32(wave * 7919 + 13), wi = (wave - 1) % 8, sector = Math.floor((wave - 1) / 8);
-      const rows = Math.min(5 + Math.floor(wave * .45), 10);
-      const P = PATTERNS[(wave - 1 + ((rng() * 5) | 0)) % PATTERNS.length];
-      const res = P.build(COLS, rows);
-      const bumpers = wave >= 2 && wave % 2 === 0 ? [{ c: 1.5, r: rows + 0.7, color: WORLDS[wi].hues[0], rPx: 13 }, { c: 8.5, r: rows + 0.7, color: WORLDS[wi].hues[2], rPx: 13 }] : [];
+      const dCfg = DIFFS[S.set.diff || 'classic'] || DIFFS.classic;
+      const diffKey = S.set.diff || 'classic';
+      const rng = mulberry32((wave * 7919 + 13 + (diffKey === 'frantic' ? 997 : diffKey === 'chill' ? 313 : 0)) >>> 0);
+      const wi = (wave - 1) % 8, sector = Math.floor((wave - 1) / 8);
+      const isBoss = wave % 5 === 0;
+      const wHues = WORLDS[wi].hues;
+      const topOffset = TOP + 6;
+      const toughP = clamp((.07 + wave * .032) * dCfg.armorMult, .03, .55);
+      const hardP = (wave >= 3 || diffKey === 'frantic') ? clamp((.03 + wave * .022) * dCfg.heavyMult, 0, .42) : 0;
+      const steelP = (dCfg.steelMult > 0 && wave >= 4) ? clamp((.012 + wave * .005) * dCfg.steelMult, 0, .07) : 0;
+
+      if (isBoss) {
+        const B = BOSSES[wi], rawG = B.g, rows = rawG.length;
+        const m = Array.from({ length: rows }, (_, r) => Array.from({ length: COLS }, (_, c) => rawG[r][c] ? 1 : 0));
+        const midR = Math.floor(rows / 2);
+        if (m[midR][2]) m[midR][2] = 11;
+        if (m[midR][8]) m[midR][8] = 11;
+        const bumpers = [{ c: 1.4, r: rows + 0.5, color: '#FFD166', rPx: 13.5 }, { c: 8.6, r: rows + 0.5, color: '#FFD166', rPx: 13.5 }];
+        const built = buildBricks(m, rows, {
+          rng, wi, li: Math.min(14, wave), absWorld: wave - 1, sector, boss: true, orbs: [{ c: 5, r: 0.35, type: 'add3', label: '+3', color: '#FF8A2B' }], bumpers, topOffset, colorMode: 'sym',
+          toughP: Math.min(.52, toughP + 0.08), hardP: Math.min(.38, hardP + 0.06), steelP: steelP * 0.6,
+          expl: 2, lasers: 2, coins: 4, gifts: 1, moving: dCfg.moveMult > 0
+        });
+        return { wi, absWorld: wave - 1, sector, li: Math.min(14, wave), boss: true, name: 'WAVE ' + wave + ' · ' + B.name, rows, ...built };
+      }
+
+      const useArt = wave >= 2 && wave % 3 === 0;
+      let mask, rows, name, hueMap = null, orbs = [];
+      if (useArt) {
+        const art = CAMPAIGN_ART[(wave * 3 + wi) % CAMPAIGN_ART.length];
+        const parsed = parseArtBlueprint(art, wave % 4);
+        mask = parsed.m; rows = parsed.rows; name = art.name; hueMap = parsed.hueMap;
+        if (parsed.orbs.length) orbs = [parsed.orbs[0]];
+      } else {
+        rows = clamp(5 + Math.floor(wave * .45) + (diffKey === 'frantic' ? 1 : 0), 5, 10);
+        const P = PATTERNS[(wave - 1 + ((rng() * 5) | 0)) % PATTERNS.length];
+        const res = P.build(COLS, rows);
+        mask = res.m; name = P.name;
+        // Industry-standard Endless pacing: only grant a single orb every 3rd wave so balls never snowball out of control
+        if (wave % 3 === 1 && res.orbs.length) orbs = [{ ...res.orbs[0], type: 'add3', label: '+3', color: '#FF8A2B' }];
+      }
+      const bumpers = (wave >= 3 && wave % 2 === 1) ? [{ c: 1.5, r: rows + 0.65, color: wHues[0], rPx: 13 }, { c: 8.5, r: rows + 0.65, color: wHues[2], rPx: 13 }] : [];
+      const portals = (wave >= 6 && wave % 4 === 2 && dCfg.steelMult > 0) ? [
+        { pairId: 0, c: 0.7, r: rows + 0.5, color: '#00F5D4', outX: 0.5, outY: -0.86 },
+        { pairId: 0, c: 5, r: 0.25, color: '#00F5D4', outX: 0.85, outY: 0.4, isExit: true }
+      ] : [];
       return {
-        wi, absWorld: wave - 1, sector, li: Math.min(14, wave), boss: wave % 5 === 0, name: wave % 5 === 0 ? ('WAVE ' + wave + ' BOSS') : P.name, rows,
-        ...buildBricks(res.m, rows, {
-          rng, wi, li: Math.min(14, wave), absWorld: wave - 1, sector, boss: wave % 5 === 0, orbs: res.orbs, bumpers, topOffset: TOP + 6, colorMode: ['row', 'diag', 'sym', 'radial'][wave % 4],
-          toughP: Math.min(.45, .06 + wave * .025), hardP: wave >= 4 ? Math.min(.3, .02 + wave * .018) : 0,
-          steelP: wave >= 4 ? Math.min(.06, .01 + wave * .006) : 0, expl: Math.min(5, 2 + Math.floor(wave / 3)), lasers: wave >= 2 ? 1 : 0,
-          coins: 3 + Math.floor(wave / 4), gifts: 2, moving: wave >= 5
+        wi, absWorld: wave - 1, sector, li: Math.min(14, wave), boss: false, name, rows,
+        ...buildBricks(mask, rows, {
+          rng, wi, li: Math.min(14, wave), absWorld: wave - 1, sector, boss: false, hueMap, orbs, bumpers, portals, topOffset, colorMode: ['row', 'diag', 'sym', 'radial'][wave % 4],
+          toughP, hardP, steelP, expl: Math.min(3, 1 + Math.floor(wave / 4)), lasers: wave >= 2 ? 1 : 0, crossLasers: wave >= 6 ? 1 : 0,
+          coins: 3 + Math.floor(wave / 5), gifts: 1, moving: dCfg.moveMult > 0 && (wave >= 4 || diffKey === 'frantic')
         })
       };
     }
     function genDailyChallenge() {
+      const dCfg = DIFFS[S.set.diff || 'classic'] || DIFFS.classic;
       const seed = parseInt(todayStr().replace(/-/g, ''), 10);
       const rng = mulberry32(seed), wi = seed % 8;
       const art = CAMPAIGN_ART[seed % CAMPAIGN_ART.length];
@@ -6262,22 +6337,26 @@
         wi, absWorld: wi, sector: 1, li: 14, boss: true, name: 'Daily: ' + art.name, rows: parsed.rows,
         ...buildBricks(parsed.m, parsed.rows, {
           rng, wi, li: 10, absWorld: wi, sector: 1, boss: true, hueMap: parsed.hueMap, orbs: parsed.orbs, bumpers, topOffset: TOP + 8,
-          toughP: .24, hardP: .14, steelP: .03, expl: 3, lasers: 2, coins: 4, gifts: 2, moving: true
+          toughP: clamp(.24 * dCfg.armorMult, .08, .48), hardP: clamp(.14 * dCfg.heavyMult, 0, .35), steelP: .03 * dCfg.steelMult,
+          expl: 3, lasers: 2, coins: 4, gifts: 2, moving: dCfg.moveMult > 0
         })
       };
     }
     function genTimeAttack(round) {
+      const dCfg = DIFFS[S.set.diff || 'classic'] || DIFFS.classic;
       const rng = mulberry32(20261119 + round * 4177), wi = (round + 1) % 8;
       const rows = Math.min(5 + round, 8), P = PATTERNS[(round * 3 + 2) % PATTERNS.length], res = P.build(COLS, rows);
       return {
         wi, absWorld: round, sector: 0, li: round, boss: false, name: 'Speed ' + (round + 1) + ': ' + P.name, rows,
         ...buildBricks(res.m, rows, {
-          rng, wi, li: round, absWorld: round, sector: 0, boss: false, orbs: res.orbs, topOffset: TOP + 6, colorMode: 'diag',
-          toughP: .15 + round * .04, hardP: round >= 2 ? .1 : 0, steelP: 0, expl: 3, lasers: 2, coins: 3, gifts: 2, moving: round >= 2
+          rng, wi, li: round, absWorld: round, sector: 0, boss: false, orbs: res.orbs.slice(0, 1), topOffset: TOP + 6, colorMode: 'diag',
+          toughP: clamp((.15 + round * .04) * dCfg.armorMult, .05, .45), hardP: round >= 2 ? clamp(.1 * dCfg.heavyMult, 0, .28) : 0, steelP: 0,
+          expl: 3, lasers: 2, coins: 3, gifts: 2, moving: dCfg.moveMult > 0 && round >= 2
         })
       };
     }
     function genBossRush(stage) {
+      const dCfg = DIFFS[S.set.diff || 'classic'] || DIFFS.classic;
       const wi = stage % 8, sector = Math.floor(stage / 8);
       const rng = mulberry32(991177 + stage * 6151);
       const B = BOSSES[wi], mask = B.g, rows = mask.length;
@@ -6288,8 +6367,8 @@
           rng, wi, li: 14, absWorld: stage, sector, boss: true,
           orbs: [{ c: 1, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }, { c: 9, r: 0.5, type: 'add3', label: '+3', color: '#FF8A2B' }],
           bumpers, topOffset: TOP + 8, colorMode: 'sym',
-          toughP: Math.min(.48, .18 + stage * .04), hardP: Math.min(.36, .1 + stage * .03),
-          steelP: Math.min(.06, .015 + stage * .008), expl: 3, lasers: 2, coins: 4, gifts: 2, moving: true
+          toughP: clamp((.18 + stage * .04) * dCfg.armorMult, .08, .55), hardP: clamp((.1 + stage * .03) * dCfg.heavyMult, 0, .42),
+          steelP: clamp((.015 + stage * .008) * dCfg.steelMult, 0, .07), expl: 3, lasers: 2, coins: 4, gifts: 2, moving: dCfg.moveMult > 0
         })
       };
     }
@@ -6420,11 +6499,12 @@
       const hasFixedSeed = opts.seed !== undefined && opts.seed !== null;
       const s1 = hasFixedSeed ? (opts.seed >>> 0) : cryptoRand32();
       const s2 = hasFixedSeed ? (Math.imul(s1 ^ 0x85EBCA6B, 0xC2B2AE35) >>> 0) : cryptoRand32();
-      const rng = mulberry32((s1 ^ Math.imul(s2, 0x9E3779B9)) >>> 0);
+      const rng = mulberry32((s1 ^ Math.imul(s2, 0x9E3779B9) ^ (cfg.id.charCodeAt(0) * 2654435761)) >>> 0);
       const seedTag = ((s1 ^ s2) >>> 0).toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
       const wi = hasFixedSeed
         ? ((rng() * WORLDS.length) | 0)
         : pickAntiRepeat([0, 1, 2, 3, 4, 5, 6, 7], recentRandomWorlds, 3, rng);
+      const wHues = WORLDS[wi].hues;
       const rows = cfg.rowsMin + ((rng() * (cfg.rowsMax - cfg.rowsMin + 1)) | 0);
 
       const archPool = RANDOM_ARCHETYPES.filter(a => a.id !== 'auto');
@@ -6439,66 +6519,67 @@
 
       const grid = Array.from({ length: rows }, () => Array(COLS).fill(0));
       const rowMotion = Array.from({ length: rows }, () => null);
-      const orbs = [];
+      const orbs = [], bumpers = [], portals = [];
       const halfC = Math.ceil(COLS / 2), cy = (rows - 1) / 2;
-      const armor = cfg.id === 'easy' ? 2 : (cfg.id === 'medium' ? 2 : 3);
-      const steelOrArmor = cfg.id === 'easy' ? 2 : (cfg.id === 'medium' ? 3 : 5);
-      const topOffset = TOP + 8 + ((rng() * 6) | 0);
+      const isEasy = cfg.id === 'easy', isHard = cfg.id === 'hard' || cfg.id === 'hardest';
+      const armor = isEasy ? 1 : (cfg.id === 'medium' ? 2 : 3);
+      const steelOrArmor = isEasy ? 1 : (cfg.id === 'medium' ? 3 : 5);
+      const topOffset = TOP + 8 + ((rng() * 5) | 0);
       const addOrb = (c, r, type) => {
         orbs.push({
-          x: SIDE + (c + 0.5) * (BW + GAP) - GAP * 0.5,
-          y: topOffset + (r + 0.5) * (BH + VGAP),
-          r: 9.2, type, label: type === 'mul2' ? '×2' : '+3', color: type === 'mul2' ? '#2563EB' : '#FF8A2B', alive: true
+          c, r, type, label: type === 'mul2' ? '×2' : '+3', color: type === 'mul2' ? '#2563EB' : '#FF8A2B'
         });
       };
 
       if (archId === 'sky_chute') {
-        const alleyW = rng() < 0.5 ? 1 : 2;
+        const alleyW = isEasy ? 2 : (cfg.id === 'hardest' ? 1 : (rng() < 0.5 ? 1 : 2));
         for (let r = 1; r < rows; r++) for (let c = alleyW; c < COLS - alleyW; c++) {
-          if (r === rows - 1 && (c === 5 || (alleyW === 1 && (c === 4 || c === 6)))) continue;
-          grid[r][c] = (r === 1 && c % 2 === 1) ? 6 : (r === Math.floor(rows / 2) && (c === 3 || c === 7)) ? 4 : (r === rows - 1 ? armor : 1);
+          if (r === rows - 1 && (c === 5 || (isEasy && (c === 4 || c === 6)))) continue;
+          if (isHard && r === rows - 1 && (c === 3 || c === 7)) { grid[r][c] = 5; continue; }
+          grid[r][c] = (r === 1 && c % 2 === 1) ? 6 : (r === Math.floor(rows / 2) && (c === 3 || c === 7)) ? 4 : (r === 2 && c === 5) ? 11 : (r === rows - 1 ? armor : 1);
         }
         addOrb(5, 0.25, 'mul2');
         addOrb(alleyW - 0.5, 1.5, 'add3');
+        if (isEasy) addOrb(COLS - alleyW - 0.5, 1.5, 'add3');
       } else if (archId === 'baffle_vault') {
-        // Wide flared V-intake + offset interior baffle shelf (Easy IN, Hard OUT!)
         for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
-          if (r === rows - 1 && c >= 4 && c <= 6) continue; // wide intake mouth
-          if (r === rows - 2 && c >= 4 && c <= 6) { grid[r][c] = steelOrArmor; continue; } // baffle shelf catches balls!
-          if (r === rows - 2 && (c === 3 || c === 7)) continue; // side curves around baffle!
+          if (r === rows - 1 && c >= (isEasy ? 3 : 4) && c <= (isEasy ? 7 : 6)) continue;
+          if (r === rows - 2 && c >= 4 && c <= 6) { grid[r][c] = isEasy ? 11 : steelOrArmor; continue; }
+          if (r === rows - 2 && (c === 3 || c === 7)) continue;
           grid[r][c] = (r === 0 || c === 1 || c === COLS - 2) ? armor : (r === 1 && (c === 3 || c === 5 || c === 7) ? 6 : (r === 2 && c === 5 ? 9 : 1));
         }
         addOrb(2, 1.2, 'add3'); addOrb(8, 1.2, 'mul2');
       } else if (archId === 'twin_islands') {
-        const gapMid = rng() < 0.5 ? [5] : [4, 6];
+        const gapMid = isEasy ? [4, 5, 6] : (cfg.id === 'hardest' ? [5] : (rng() < 0.5 ? [5] : [4, 6]));
         for (let r = 1; r < rows; r++) for (let c = 0; c < COLS; c++) {
           if (gapMid.includes(c)) continue;
           if ((r === 1 || r === rows - 1) && (c === 0 || c === COLS - 1)) continue;
-          grid[r][c] = (r === Math.floor(rows / 2) && (c === 2 || c === 8)) ? 4 : (r === 1 ? 6 : 1);
+          grid[r][c] = (r === Math.floor(rows / 2) && (c === 2 || c === 8)) ? 4 : (r === 2 && (c === 2 || c === 8)) ? 11 : (r === 1 ? 6 : (r === rows - 1 ? armor : 1));
         }
         addOrb(5, 0.3, 'mul2');
+        if (isEasy) addOrb(5, Math.floor(rows / 2), 'add3');
       } else if (archId === 'inverted_funnel') {
         for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
-          const inset = Math.floor(r * (3.6 / Math.max(1, rows - 1)));
+          const inset = Math.floor(r * ((isEasy ? 3.9 : 3.4) / Math.max(1, rows - 1)));
           if (c >= inset && c <= COLS - 1 - inset) {
             if (r === rows - 1 && c === 5) continue;
-            grid[r][c] = (c === inset || c === COLS - 1 - inset) ? armor : (r <= 1 && c % 2 === 1 ? 6 : (r === 2 && c === 5 ? 9 : 1));
+            grid[r][c] = (c === inset || c === COLS - 1 - inset) ? (isHard && r > 1 ? 5 : armor) : (r <= 1 && c % 2 === 1 ? 6 : (r === 2 && c === 5 ? 12 : 1));
           }
         }
         addOrb(1, rows - 1.5, 'add3'); addOrb(9, rows - 1.5, 'add3');
       } else if (archId === 'diamond') {
-        const hollow = rng() < 0.5;
+        const hollow = isEasy ? true : rng() < 0.5;
         for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
           const d = Math.abs(c - 5) / 4.8 + Math.abs(r - cy) / Math.max(1.8, cy + 0.35);
           if (d <= 1.05) {
             if (hollow && d >= 0.35 && d <= 0.62) continue;
-            grid[r][c] = d <= 0.35 ? (c === 5 ? 9 : 6) : (d > 0.85 ? armor : 1);
+            grid[r][c] = d <= 0.35 ? (c === 5 ? 12 : 6) : (d > 0.85 ? armor : 1);
           }
         }
         addOrb(1, 1, 'add3'); addOrb(9, 1, 'mul2');
       } else if (archId === 'hourglass') {
         for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
-          const hw = Math.round(1.4 + Math.abs(r - cy) * (3.6 / Math.max(1.5, cy)));
+          const hw = Math.round((isEasy ? 1.0 : 1.5) + Math.abs(r - cy) * (3.6 / Math.max(1.5, cy)));
           const dc = Math.abs(c - 5);
           if (dc <= hw) {
             if (dc === 0 && Math.abs(r - cy) < 0.7) continue;
@@ -6511,27 +6592,27 @@
         for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
           const v = Math.round(Math.abs(c - 5) * slope);
           const band = ((r - v) % 3 + 3) % 3;
-          if (band < 2) grid[r][c] = c === 5 ? (r < 2 ? 9 : 4) : (band === 1 ? armor : 1);
+          if (band < 2) grid[r][c] = c === 5 ? (r < 2 ? 12 : 4) : (band === 1 ? armor : 1);
         }
         addOrb(1, rows - 1, 'add3'); addOrb(9, rows - 1, 'add3');
       } else if (archId === 'honeycomb') {
         for (let r = 0; r < rows; r++) for (let c = 1; c < COLS - 1; c++) {
           if ((r + c) % 3 === 0) continue;
-          grid[r][c] = (r % 2 === 1 && c % 3 === 2) ? 4 : (r === 0 ? 6 : 1);
+          grid[r][c] = (r % 2 === 1 && c % 3 === 2) ? 4 : (r === 0 ? 6 : (r === rows - 1 ? armor : 1));
         }
         addOrb(5, 0.4, 'mul2');
       } else if (archId === 'towers') {
-        const alleys = rng() < 0.55 ? [3, 7] : [2, 5, 8];
+        const alleys = isEasy ? [2, 5, 8] : (cfg.id === 'hardest' ? [3, 7] : (rng() < 0.55 ? [3, 7] : [2, 5, 8]));
         for (let r = 1; r < rows; r++) for (let c = 0; c < COLS; c++) {
           if (alleys.includes(c)) continue;
-          grid[r][c] = (r === 1) ? 6 : (r === rows - 1 ? armor : 1);
+          grid[r][c] = (r === 1) ? 6 : (r === Math.floor(rows / 2) && (c === 1 || c === 9)) ? 11 : (r === rows - 1 ? armor : 1);
         }
         alleys.slice(0, 2).forEach((ac, idx) => addOrb(ac, 0.3, idx === 0 ? 'add3' : 'mul2'));
       } else if (archId === 'spiral') {
         for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
           const ring = Math.max(Math.floor(Math.abs(c - 5) * 0.72), Math.floor(Math.abs(r - cy)));
           const gate = (ring % 2 === 0 && c === 5 && r > cy) || (ring % 2 === 1 && Math.abs(r - cy) < 0.7 && (c <= 2 || c >= 8));
-          if (ring === 0) grid[r][c] = 9;
+          if (ring === 0) grid[r][c] = 12;
           else if (!gate) grid[r][c] = ring === 1 ? 6 : (ring >= 3 ? armor : 1);
         }
         addOrb(5, rows - 0.5, 'add3');
@@ -6552,15 +6633,15 @@
           const pillar = (c === 1 || c === 2 || c === 8 || c === 9);
           const roof = r <= 1 && c >= 1 && c <= 9;
           const core = r >= 2 && r <= rows - 2 && c >= 4 && c <= 6;
-          if (pillar || roof || core) grid[r][c] = core ? (c === 5 && r === 2 ? 9 : 6) : (r === 0 ? armor : 1);
+          if (pillar || roof || core) grid[r][c] = core ? (c === 5 && r === 2 ? 12 : 6) : (r === 0 ? armor : 1);
         }
         addOrb(3, 2.5, 'add3'); addOrb(7, 2.5, 'mul2');
       } else if (archId === 'pendulum') {
         for (let r = 0; r < rows; r++) {
-          rowMotion[r] = { amp: 8 + (r % 2) * 3, spd: 0.9 + (r % 3) * 0.25, ph: r * Math.PI };
+          if (!isEasy) rowMotion[r] = { amp: (cfg.id === 'hardest' ? 14 : 9) + (r % 2) * 3, spd: 0.9 + (r % 3) * 0.25, ph: r * Math.PI };
           const sh = Math.round(Math.sin(r * 0.95 + rng() * 2) * 1.3);
           for (let c = 1; c < COLS - 1; c++) {
-            if ((c + sh + r) % 4 !== 0) grid[r][c] = c === 5 ? (r % 2 === 0 ? 4 : 6) : 1;
+            if ((c + sh + r) % 4 !== 0) grid[r][c] = c === 5 ? (r % 2 === 0 ? 4 : 11) : 1;
           }
         }
         addOrb(5, 0.3, 'mul2');
@@ -6575,7 +6656,7 @@
         for (let r = 0; r < rows; r++) {
           const span = inv ? Math.max(1, 4 - Math.floor(r * (3.5 / Math.max(1, rows - 1)))) : Math.min(4, 1 + Math.floor(r * (3.5 / Math.max(1, rows - 1))));
           for (let c = 5 - span; c <= 5 + span; c++) {
-            grid[r][c] = (c === 5 && r === (inv ? rows - 1 : 0)) ? 9 : (Math.abs(c - 5) === span ? armor : 1);
+            grid[r][c] = (c === 5 && r === (inv ? rows - 1 : 0)) ? 12 : (Math.abs(c - 5) === span ? armor : 1);
           }
         }
         addOrb(1, 0.8, 'add3'); addOrb(9, 0.8, 'mul2');
@@ -6589,7 +6670,7 @@
       } else if (archId === 'orbit_rings') {
         for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
           const dist = Math.hypot((c - 5) * 0.78, (r - cy) * 1.15);
-          if (dist < 1.1) grid[r][c] = 9;
+          if (dist < 1.1) grid[r][c] = 12;
           else if ((dist >= 1.9 && dist <= 2.75) || (dist >= 3.5 && dist <= 4.35)) {
             if (r === rows - 1 && c >= 4 && c <= 6) continue;
             grid[r][c] = dist > 3.5 ? armor : 1;
@@ -6601,12 +6682,11 @@
         for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
           const cc = flip ? (COLS - 1 - c) : c;
           const diag = Math.abs((cc - 2) - r * 1.12);
-          if (diag < 1.15) continue;
+          if (diag < (isEasy ? 1.45 : 1.15)) continue;
           grid[r][c] = (diag < 2.05) ? armor : ((r === 0 && cc >= 7) ? 6 : 1);
         }
         addOrb(5, Math.floor(rows / 2), 'mul2');
       } else {
-        // double_deck
         const mid = Math.floor(rows / 2);
         for (let r = 0; r < rows; r++) for (let c = 0; c < COLS; c++) {
           if (r < mid - 1 && c >= 2) grid[r][c] = r === 0 ? 6 : 1;
@@ -6615,37 +6695,72 @@
         addOrb(0.8, 1, 'mul2'); addOrb(9.2, rows - 1.2, 'add3');
       }
 
-      // Optional horizontal mirror for extra uniqueness
+      // Difficulty-driven structural architecture layer (makes Easy / Medium / Hard / Hardest genuinely distinct!)
+      if (isHard) {
+        // Fortified lower shield ribs with central breach plug so bank-shots / portals shine!
+        const shieldR = rows - 1;
+        for (const sc of [2, 3, 7, 8]) {
+          if (grid[shieldR][sc] === 1) grid[shieldR][sc] = cfg.id === 'hardest' ? 5 : 3;
+        }
+        if (grid[shieldR][5]) grid[shieldR][5] = 9;
+        if (cfg.id === 'hardest' && rows >= 7) {
+          rowMotion[rows - 2] = { amp: 24, spd: 1.35, ph: 0 };
+          rowMotion[2] = { amp: 16, spd: 1.15, ph: Math.PI };
+        }
+      }
+      // Add difficulty-scaled Pinball Bumpers & Linked Warp Portals
+      if (cfg.bumpers >= 2) {
+        bumpers.push({ c: 1.2, r: rows + 0.55, color: wHues[0], rPx: 13.5 }, { c: 8.8, r: rows + 0.55, color: wHues[2], rPx: 13.5 });
+      }
+      if (cfg.bumpers >= 3) {
+        bumpers.push({ c: 5, r: rows + 1.15, color: '#FACC15', rPx: 14 });
+      }
+      if (cfg.portals >= 1) {
+        portals.push(
+          { pairId: 0, c: 0.55, r: rows + 0.15, color: '#00F5D4', outX: 0.45, outY: -0.89 },
+          { pairId: 0, c: 3.2, r: 0.55, color: '#00F5D4', outX: 0.85, outY: 0.4, isExit: true }
+        );
+      }
+      if (cfg.portals >= 2) {
+        portals.push(
+          { pairId: 1, c: 9.45, r: rows + 0.15, color: '#FF3D8A', outX: -0.45, outY: -0.89 },
+          { pairId: 1, c: 6.8, r: 0.55, color: '#FF3D8A', outX: -0.85, outY: 0.4, isExit: true }
+        );
+      }
+
       if (rng() < 0.45) {
         for (let r = 0; r < rows; r++) grid[r].reverse();
-        orbs.forEach(o => { o.x = VW - o.x; });
+        orbs.forEach(o => { o.c = (COLS - 1) - o.c; });
       }
 
       const explTotal = cfg.expl + (modId === 'bombfiesta' ? 4 : 0);
       const coinTotal = cfg.coins + (modId === 'goldrush' ? 6 : 0);
       const giftTotal = cfg.gifts + (modId === 'giftshower' ? 3 : 0);
+      const laserTotal = (cfg.lasers || 1) + (modId === 'lasergrid' ? 3 : 0);
+      const crossLaserTotal = (cfg.crossLasers || 0) + (modId === 'lasergrid' ? 1 : 0);
       const toughP = clamp(cfg.toughP + (modId === 'armorsiege' ? 0.18 : 0), 0, 0.65);
       const hardP = clamp(cfg.hardP + (modId === 'armorsiege' ? 0.12 : 0), 0, 0.45);
-      const extraCores = cfg.cores + (modId === 'corehunt' ? (cfg.id === 'easy' ? 1 : 2) : 0);
+      const extraCores = cfg.cores + (modId === 'corehunt' ? (isEasy ? 1 : 2) : 0);
 
+      const colorModes = ['radial', 'diag', 'sym', 'chevron'];
       const built = buildBricks(grid, rows, {
         rng, wi, li: cfg.id === 'hardest' ? 14 : cfg.id === 'hard' ? 10 : cfg.id === 'medium' ? 6 : 2,
         absWorld: cfg.id === 'hardest' ? 8 : cfg.id === 'hard' ? 5 : cfg.id === 'medium' ? 2 : 0,
         sector: cfg.id === 'hardest' ? 2 : cfg.id === 'hard' ? 1 : 0,
-        boss: extraCores > 0, topOffset,
-        toughP, hardP, steelP: Math.min(0.05, cfg.steelP),
-        expl: explTotal, coins: coinTotal, gifts: giftTotal, moving: false
+        boss: extraCores > 0, topOffset, orbs, bumpers, portals, rowMotions: rowMotion,
+        colorMode: colorModes[(rng() * colorModes.length) | 0],
+        toughP, hardP, steelP: Math.min(0.06, cfg.steelP),
+        expl: explTotal, lasers: laserTotal, crossLasers: crossLaserTotal, coins: coinTotal, gifts: giftTotal, moving: false
       });
 
-      const movingRows = Array.from({ length: rows }, (_, r) => !!rowMotion[r] || (modId === 'kinetic' && r % 2 === 1) || (rng() < cfg.movingP * 0.45 && r % 3 === 1));
+      const movingRows = Array.from({ length: rows }, (_, r) => !isEasy && (!!rowMotion[r] || (modId === 'kinetic' && r % 2 === 1) || (rng() < cfg.movingP * 0.45 && r % 3 === 1)));
       for (const b of built.bricks) {
-        if (movingRows[b.r] && b.code !== 5) {
+        if (movingRows[b.r] && b.code !== 5 && !b.moveAmp) {
           const room = Math.max(0, Math.min(b.x - 6, (VW - BW - 6) - b.x));
           if (room >= 3) {
-            const rm = rowMotion[b.r];
-            b.moveAmp = Math.min(room, rm ? rm.amp : (4 + rng() * 6));
-            b.moveSpd = rm ? rm.spd : (0.8 + rng() * 0.9);
-            b.movePh = rm ? rm.ph : (b.r % 2 === 0 ? 0 : Math.PI);
+            b.moveAmp = Math.min(room, 5 + rng() * 7);
+            b.moveSpd = 0.85 + rng() * 0.85;
+            b.movePh = b.r % 2 === 0 ? 0 : Math.PI;
           }
         }
       }
@@ -6655,7 +6770,7 @@
         const candidates = built.bricks.filter(b => b.code !== 5 && b.code !== 8 && b.r < Math.max(2, rows - 1));
         if (!candidates.length) break;
         const pick = candidates[(rng() * candidates.length) | 0];
-        pick.code = 8; pick.mhp = cfg.id === 'hardest' ? 10 : 7; pick.hp = pick.mhp;
+        pick.code = 8; pick.mhp = cfg.id === 'hardest' ? 11 : 7; pick.hp = pick.mhp;
         curCores++;
       }
 
@@ -6679,7 +6794,9 @@
         seedTag,
         rows,
         bricks: built.bricks,
-        orbs,
+        orbs: built.orbs,
+        bumpers: built.bumpers,
+        portals: built.portals,
         breakable: built.breakable
       };
     }
@@ -6794,12 +6911,13 @@
     function ensureMegaMissions() {
       if (!S.megaMissionSeq || S.megaMissionSeq < 1) S.megaMissionSeq = 1;
       const tiers = ['easy', 'medium', 'hard', 'hardest'];
+      const validArch = id => MEGA_ARCHETYPES.some(a => a.id === id && a.id !== 'auto');
       if (!Array.isArray(S.megaMissions) || S.megaMissions.length !== 4) {
         S.megaMissions = tiers.map(t => genMegaMission(t, S.megaMissionSeq++));
         markDirty();
       } else {
         tiers.forEach((t, i) => {
-          if (!S.megaMissions[i] || S.megaMissions[i].tier !== t) {
+          if (!S.megaMissions[i] || S.megaMissions[i].tier !== t || !validArch(S.megaMissions[i].arch)) {
             S.megaMissions[i] = genMegaMission(t, S.megaMissionSeq++);
             markDirty();
           }
@@ -6826,41 +6944,44 @@
       const hasFixedSeed = opts.seed !== undefined && opts.seed !== null;
       const s1 = hasFixedSeed ? (opts.seed >>> 0) : cryptoRand32();
       const s2 = hasFixedSeed ? (Math.imul(s1 ^ 0x85EBCA6B, 0xC2B2AE35) >>> 0) : cryptoRand32();
-      const rng = mulberry32((s1 ^ Math.imul(s2, 0x9E3779B9)) >>> 0);
+      const rng = mulberry32((s1 ^ Math.imul(s2, 0x9E3779B9) ^ (cfg.id.charCodeAt(0) * 1664525)) >>> 0);
       const seedTag = ((s1 ^ s2) >>> 0).toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
       const wi = (rng() * WORLDS.length) | 0;
+      const wHues = WORLDS[wi].hues;
+      const isEasy = cfg.id === 'easy', isMed = cfg.id === 'medium', isHard = cfg.id === 'hard' || cfg.id === 'hardest', isHardest = cfg.id === 'hardest';
 
       const archPool = MEGA_ARCHETYPES.filter(a => a.id !== 'auto');
       const requestedArch = (opts.arch && opts.arch !== 'auto') ? MEGA_ARCHETYPES.find(a => a.id === opts.arch) : null;
-      const pickedArchId = requestedArch ? requestedArch.id : (hasFixedSeed ? archPool[(rng() * archPool.length) | 0].id : pickAntiRepeat(archPool.map(x => x.id), recentMegaArchs, 6, rng));
+      const pickedArchId = requestedArch ? requestedArch.id : (hasFixedSeed ? archPool[(rng() * archPool.length) | 0].id : pickAntiRepeat(archPool.map(x => x.id), recentMegaArchs, 7, rng));
       const archObj = archPool.find(a => a.id === pickedArchId) || archPool[0];
       const archId = archObj.id;
       const modObj = (opts.mod ? RANDOM_MODIFIERS.find(m => m.id === opts.mod) : null) || RANDOM_MODIFIERS[(rng() * RANDOM_MODIFIERS.length) | 0];
 
-      const bricks = [], orbs = [];
+      const bricks = [], orbs = [], bumpers = [], portals = [];
       let breakable = 0, entryX = VW / 2, entryY = 420;
 
       if (archId === 'rainbowvault') {
-        const C = 13, Rw = 10, side = 16, gap = 2.4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 18.5, topY = 42;
+        const C = 13, Rw = 11, side = 16, gap = 2.4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 18.2, topY = 42;
         const rainbow = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#3B82F6', '#D946EF'];
         const shift = (rng() * 7) | 0;
+        const openHalf = isEasy ? 2 : 1;
         for (let r = 0; r < Rw; r++) {
           for (let c = 0; c < C; c++) {
-            // Open side sky-chutes on cols 0 and C-1 so balls bank UP and get trapped over the top!
             if (c === 0 || c === C - 1) continue;
-            // Flared bottom intake + offset interior baffle shelf!
-            if (r === Rw - 1 && (c >= 5 && c <= 7)) continue;
+            if (r === Rw - 1 && Math.abs(c - 6) <= openHalf) continue;
             if (r === Rw - 2 && (c === 4 || c === 8)) continue;
-            const isBaffle = (r === Rw - 2 && c >= 5 && c <= 7);
+            const isBaffle = (r === Rw - 2 && Math.abs(c - 6) <= 1);
             const isFrame = (r === Rw - 1 || c === 1 || c === C - 2) && r >= 2;
             let code = 1, mhp = 1, col = rainbow[(c - r + shift + 14) % 7], unbreak = false;
-            if (isBaffle) { code = 5; col = '#94A3B8'; unbreak = true; }
-            else if (isFrame) { code = 5; col = '#CBD5E1'; unbreak = true; }
+            if (isBaffle) { code = isEasy ? 9 : 5; col = isEasy ? '#FACC15' : '#94A3B8'; unbreak = !isEasy; }
+            else if (isFrame) { code = (isEasy && r === Rw - 1) ? 2 : 5; col = code === 5 ? '#CBD5E1' : '#64748B'; unbreak = code === 5; mhp = code === 2 ? 2 : 1; }
             else if (r === 1 && (c === 4 || c === 8)) { code = 9; col = '#FACC15'; }
+            else if (r === 4 && (c === 3 || c === 9)) { code = 11; col = '#00F5D4'; }
+            else if (r === 3 && c === 6 && isHard) { code = 8; mhp = isHardest ? 10 : 7; col = '#E879F9'; }
             else if (r === 2 && c === 6) {
               orbs.push({ x: side + (c + 0.5) * (bw + gap), y: topY + (r + 0.5) * (bh + gap), r: 8.8, type: 'mul3', label: '×3', color: '#2563EB', alive: true });
               continue;
-            } else { mhp = rng() < cfg.armorP ? 2 : 1; }
+            } else { mhp = rng() < cfg.armorP ? Math.min(cfg.maxHp, 2 + (isHardest ? 1 : 0)) : 1; if (mhp > 1) code = mhp >= 3 ? 3 : 2; }
             const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
             bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, customCol: col, code, mhp, hp: mhp, alive: true, unbreakable: unbreak, moveAmp: 0, moveSpd: 1, movePh: 0 });
             if (code !== 5) breakable++;
@@ -6868,48 +6989,32 @@
         }
         orbs.push({ x: side + 0.5 * (bw + gap), y: topY + 1.5 * (bh + gap), r: 8.5, type: 'add3', label: '+3', color: '#FF8A2B', alive: true });
         orbs.push({ x: side + (C - 0.5) * (bw + gap), y: topY + 1.5 * (bh + gap), r: 8.5, type: 'add3', label: '+3', color: '#FF8A2B', alive: true });
-        entryX = VW / 2; entryY = topY + (Rw - 1) * (bh + gap);
-      } else if (archId === 'neonquest') {
-        const C = 9, Rw = 8, side = 16, gap = 4, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 27, topY = 42;
-        const rowCols = ['#10B981', '#EF4444', '#3B82F6', '#D946EF', '#84CC16', '#F59E0B', '#06B6D4', '#A855F7'];
-        const baseHp = cfg.id === 'easy' ? 4 : cfg.id === 'medium' ? 8 : cfg.id === 'hard' ? 14 : 22;
-        const flip = rng() < 0.5;
-        for (let r = 0; r < Rw; r++) {
-          for (let c = 0; c < C; c++) {
-            const cc = flip ? (C - 1 - c) : c;
-            // Open side launch channel on col 0 for easy over-the-top trap!
-            if (cc === 0 && r >= 1) continue;
-            if (r === Rw - 1 && (cc >= 3 && cc <= 5)) continue;
-            const isUpperPocket = (r === 1 && (cc === 3 || cc === 6)) || (r === 2 && cc === 4);
-            if (isUpperPocket) {
-              const bx = side + c * (bw + gap) + bw / 2, by = topY + r * (bh + gap) + bh / 2;
-              const isMul = cc === 4;
-              orbs.push({ x: bx, y: by, r: 9.5, type: isMul ? 'mul2' : 'add3', label: isMul ? '×2' : '+3', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
-              continue;
-            }
-            let code = 2, mhp = Math.max(2, Math.round(baseHp * (0.5 + ((r + c * 3) % 5) * 0.2)));
-            if (r >= Rw - 2) mhp = Math.max(1, Math.round(baseHp * 0.3));
-            let col = rowCols[r % rowCols.length];
-            if (r === 0 && cc === 4) { code = 9; col = '#FACC15'; mhp = 2; }
-            else if (r === 3 && cc === 4) { code = 10; col = '#FF2A55'; mhp = 2; }
-            const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
-            bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, showHp: true, customCol: col, code, mhp, hp: mhp, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
-            breakable++;
-          }
+        bumpers.push({ x: side + 0.65 * (bw + gap), y: topY + (Rw - 0.3) * (bh + gap), r: 12.5, color: wHues[0], pts: 30, hitT: 0 });
+        bumpers.push({ x: side + (C - 0.65) * (bw + gap), y: topY + (Rw - 0.3) * (bh + gap), r: 12.5, color: wHues[2], pts: 30, hitT: 0 });
+        if (cfg.portals >= 1) {
+          portals.push(
+            { pairId: 0, x: side + 0.6 * (bw + gap), y: topY + 6.5 * (bh + gap), r: 12, color: '#00F5D4', outX: 0.5, outY: -0.86, pulseT: 0 },
+            { pairId: 0, x: side + 6.5 * (bw + gap), y: topY - 12, r: 12, color: '#00F5D4', outX: 0.85, outY: 0.45, isExit: true, pulseT: 0 }
+          );
         }
+        entryX = VW / 2; entryY = topY + (Rw - 1) * (bh + gap);
       } else {
-        const C = 25, Rw = 22, side = 15, gap = 1.1, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 11.2, topY = 42;
-        // Start EMPTY (0) so every archetype sculpts its OWN distinct external silhouette!
+        const C = 25, Rw = 22, side = 15, gap = 1.1, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 11.4, topY = 44;
         const grid = Array.from({ length: Rw }, () => Array(C).fill(0));
         const colMap = Array.from({ length: Rw }, () => Array(C).fill(''));
         const doorMap = Array.from({ length: Rw }, () => Array(C).fill(false));
         const outerMap = Array.from({ length: Rw }, () => Array(C).fill(false));
 
-        const palettes = ['#22D3EE', '#F97316', '#84CC16', '#E11D48', '#8B5CF6', '#10B981', '#3B82F6', '#F59E0B'];
-        let mainCol = palettes[(rng() * palettes.length) | 0];
-        if (archId === 'greenhook') mainCol = '#65A30D';
-        else if (archId === 'stickman') mainCol = '#F97316';
-        else if (archId === 'baffle_chimney') mainCol = '#A16207';
+        const themes = [
+          ['#22D3EE', '#38BDF8', '#8B5CF6', '#FF3D8A'],
+          ['#F97316', '#FACC15', '#EF4444', '#EC4899'],
+          ['#10B981', '#84CC16', '#22D3EE', '#3B82F6'],
+          ['#A855F7', '#EC4899', '#38BDF8', '#FACC15']
+        ];
+        const pal = themes[(rng() * themes.length) | 0];
+        const zoneCol = (c, r) => pal[(Math.floor(Math.hypot(c - 12, (r - 10) * 1.1) / 3.5)) % 4];
+        const wallCode = isEasy ? 2 : 5;
+        const innerBaffle = isEasy ? 9 : 5;
 
         const placeOrb = (c, r, type) => {
           const rc = clamp(Math.round(c), 1, C - 3);
@@ -6921,139 +7026,136 @@
           const isMul = type === 'mul3' || type === 'mul2';
           orbs.push({ x: bx, y: by, r: 8.5, type, label: type === 'mul3' ? '×3' : type === 'mul2' ? '×2' : '+3', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
         };
+        const gx = c => side + (c + 0.5) * (bw + gap);
+        const gy = r => topY + (r + 0.5) * (bh + gap);
 
         if (archId === 'sky_chute_fort') {
-          // Open 3-tile side sky-chutes on BOTH left & right + open top sky gap!
-          // Bank shot goes up the side, drops over the top into a trapped micro-brick bowl!
-          for (let r = 3; r < Rw - 1; r++) for (let c = 3; c < C - 3; c++) grid[r][c] = 1;
-          // U-shaped steel cradle at bottom & sides (open at top!) -> balls stay trapped INSIDE!
-          for (let r = 5; r < Rw; r++) { grid[r][3] = 5; grid[r][C - 4] = 5; }
-          for (let c = 3; c < C - 3; c++) grid[Rw - 1][c] = 5;
-          // Small flared bottom bonus door with baffle above it
-          for (let c = 11; c <= 13; c++) { grid[Rw - 1][c] = 9; doorMap[Rw - 1][c] = true; }
-          for (let c = 10; c <= 14; c++) grid[Rw - 4][c] = 5; // interior baffle!
+          const alley = isEasy ? 4 : isHardest ? 2 : 3;
+          for (let r = 3; r < Rw - 1; r++) for (let c = alley; c < C - alley; c++) { grid[r][c] = 1; colMap[r][c] = pal[Math.floor((r - 3) / 5) % 4]; }
+          for (let r = 5; r < Rw; r++) { grid[r][alley] = 5; grid[r][C - 1 - alley] = 5; outerMap[r][alley] = outerMap[r][C - 1 - alley] = true; }
+          for (let c = alley; c < C - alley; c++) { grid[Rw - 1][c] = 5; outerMap[Rw - 1][c] = true; }
+          for (let c = 10; c <= 14; c++) { grid[Rw - 1][c] = 9; doorMap[Rw - 1][c] = true; }
+          for (let c = 9; c <= 15; c++) grid[Rw - 4][c] = innerBaffle;
+          grid[8][8] = 11; grid[8][16] = 11;
           placeOrb(1, 2, 'add3'); placeOrb(C - 3, 2, 'add3');
           placeOrb(11, 1, 'mul3'); placeOrb(11, 9, 'mul2');
-          entryX = side + 1.5 * (bw + gap);
+          bumpers.push({ x: gx(1.2), y: gy(17), r: 12, color: pal[0], pts: 30, hitT: 0 }, { x: gx(C - 2.2), y: gy(17), r: 12, color: pal[2], pts: 30, hitT: 0 });
+          entryX = gx(1.5);
         } else if (archId === 'baffle_chimney') {
-          // Wide flared V-funnel intake at bottom -> offset horizontal baffle roof -> balls shoot in & bounce sideways!
-          for (let r = 2; r < Rw - 2; r++) for (let c = 2; c < C - 2; c++) grid[r][c] = 1;
-          for (let r = 2; r < Rw - 2; r++) { grid[r][2] = 5; grid[r][C - 3] = 5; }
-          for (let c = 2; c < C - 2; c++) grid[2][c] = 5;
-          // Angled V-funnel floor guiding upward shots cleanly inward!
-          for (let c = 2; c <= 9; c++) grid[Rw - 2 - Math.floor((c - 2) * 0.35)][c] = 5;
-          for (let c = 15; c <= C - 3; c++) grid[Rw - 2 - Math.floor((C - 3 - c) * 0.35)][c] = 5;
-          for (let r = Rw - 5; r < Rw; r++) for (let c = 10; c <= 14; c++) grid[r][c] = 0;
-          // Offset baffle shelf right above funnel mouth so balls deflect sideways and stay trapped!
-          for (let c = 9; c <= 15; c++) grid[Rw - 7][c] = 5;
+          for (let r = 2; r < Rw - 2; r++) for (let c = 2; c < C - 2; c++) { grid[r][c] = 1; colMap[r][c] = zoneCol(c, r); }
+          for (let r = 2; r < Rw - 2; r++) { grid[r][2] = 5; grid[r][C - 3] = 5; outerMap[r][2] = outerMap[r][C - 3] = true; }
+          for (let c = 2; c < C - 2; c++) { grid[2][c] = 5; outerMap[2][c] = true; }
+          const mouth = isEasy ? 3 : 2;
+          for (let c = 2; c <= 11 - mouth; c++) grid[Rw - 2 - Math.floor((c - 2) * 0.35)][c] = 5;
+          for (let c = 13 + mouth; c <= C - 3; c++) grid[Rw - 2 - Math.floor((C - 3 - c) * 0.35)][c] = 5;
+          for (let r = Rw - 5; r < Rw; r++) for (let c = 12 - mouth; c <= 12 + mouth; c++) grid[r][c] = 0;
+          for (let c = 9; c <= 15; c++) grid[Rw - 7][c] = innerBaffle;
           for (let c = 7; c <= 8; c++) { grid[Rw - 7][c] = 0; grid[Rw - 8][c] = 0; }
           for (let c = 16; c <= 17; c++) { grid[Rw - 7][c] = 0; grid[Rw - 8][c] = 0; }
-          grid[Rw - 9][12] = 9;
+          grid[Rw - 9][12] = 12; grid[5][6] = 11; grid[5][18] = 11;
           placeOrb(11, 12, 'add3'); placeOrb(5, 6, 'mul2'); placeOrb(18, 6, 'mul3');
           entryX = VW / 2;
         } else if (archId === 'greenhook') {
-          // Classic L-Bend Hook Maze: wide right-side intake lane curving left across the open top into a sealed bowl!
-          const chW = 4, chLeft = C - 1 - chW;
-          for (let r = 4; r < Rw - 1; r++) for (let c = 1; c < chLeft - 1; c++) grid[r][c] = 1;
-          // Steel bowl holding left micro-brick vault (open on TOP so balls rain in from the hook!)
-          for (let r = 4; r < Rw; r++) { grid[r][1] = 5; grid[r][chLeft - 1] = 5; }
-          for (let c = 1; c <= chLeft - 1; c++) grid[Rw - 1][c] = 5;
-          // Angled top-right deflector ramp curving balls left into the vault!
+          const chW = isEasy ? 5 : 4, chLeft = C - 1 - chW;
+          for (let r = 4; r < Rw - 1; r++) for (let c = 1; c < chLeft - 1; c++) { grid[r][c] = 1; colMap[r][c] = (r + c) % 4 === 0 ? '#A3E635' : (r < 11 ? '#22C55E' : '#10B981'); }
+          for (let r = 4; r < Rw; r++) { grid[r][1] = 5; grid[r][chLeft - 1] = 5; outerMap[r][1] = true; }
+          for (let c = 1; c <= chLeft - 1; c++) { grid[Rw - 1][c] = 5; outerMap[Rw - 1][c] = true; }
           for (let i = 0; i < 4; i++) grid[i][C - 1 - i] = 5;
-          grid[8][chLeft - 1] = 10; grid[9][chLeft - 1] = 10; doorMap[8][chLeft - 1] = true; doorMap[9][chLeft - 1] = true;
-          placeOrb(chLeft + 1, 5, 'add3'); placeOrb(10, 1, 'mul2'); placeOrb(7, 9, 'mul3');
-          entryX = side + (chLeft + 2) * (bw + gap);
+          grid[8][chLeft - 1] = 10; grid[9][chLeft - 1] = 10; doorMap[8][chLeft - 1] = doorMap[9][chLeft - 1] = true;
+          grid[13][8] = 12;
+          placeOrb(chLeft + 1, 5, 'add3'); placeOrb(9, 1, 'mul2'); placeOrb(7, 9, 'mul3');
+          bumpers.push({ x: gx(chLeft + 1.5), y: gy(16), r: 12, color: '#A3E635', pts: 30, hitT: 0 });
+          entryX = gx(chLeft + 2);
         } else if (archId === 'stickman') {
-          // Sculpted Pixel Titan Silhouette (open space around head/sides!)
           for (let r = 1; r < Rw - 1; r++) for (let c = 2; c < C - 2; c++) {
-            const inHead = Math.hypot(c - 12, (r - 4) * 1.1) <= 3.4;
-            const inShoulders = r >= 7 && r <= 10 && c >= 4 && c <= 20;
+            const inHead = Math.hypot(c - 12, (r - 4) * 1.1) <= 3.5;
+            const inVisor = r === 4 && c >= 10 && c <= 14;
+            const inShoulders = r >= 7 && r <= 10 && c >= 3 && c <= 21;
             const inTorso = r >= 10 && r <= 16 && c >= 7 && c <= 17;
-            const inLegs = r >= 16 && r <= 20 && ((c >= 6 && c <= 10) || (c >= 14 && c <= 18));
+            const inLegs = r >= 16 && r <= 20 && ((c >= 5 && c <= 10) || (c >= 14 && c <= 19));
             if (inHead || inShoulders || inTorso || inLegs) {
               grid[r][c] = 1;
-              colMap[r][c] = inHead ? '#FACC15' : inShoulders ? '#F97316' : inTorso ? '#EF4444' : '#3B82F6';
+              colMap[r][c] = inVisor ? '#22D3EE' : inHead ? '#FACC15' : inShoulders ? '#F97316' : inTorso ? '#EF4444' : '#3B82F6';
             }
           }
-          // Hollow chest reactor with angled steel ribs that keep balls bouncing inside!
           for (let r = 10; r <= 14; r++) for (let c = 10; c <= 14; c++) grid[r][c] = 0;
-          for (let c = 9; c <= 15; c++) grid[15][c] = 5;
-          grid[9][12] = 9;
+          for (let c = 9; c <= 15; c++) grid[15][c] = innerBaffle;
+          grid[9][12] = 9; grid[8][5] = 11; grid[8][19] = 11;
           placeOrb(11, 11, 'mul3'); placeOrb(2, 3, 'add3'); placeOrb(21, 3, 'add3');
+          bumpers.push({ x: gx(1.5), y: gy(13), r: 12, color: '#22D3EE', pts: 30, hitT: 0 }, { x: gx(23.5), y: gy(13), r: 12, color: '#FACC15', pts: 30, hitT: 0 });
           entryX = VW / 2;
         } else if (archId === 'twin_chimneys') {
-          // Two separated bunkers with a wide 5-tile central launch canyon -> shoots balls over both open roofs!
+          const gapHalf = isEasy ? 3 : 2;
           for (let r = 4; r < Rw - 1; r++) {
-            for (let c = 1; c <= 9; c++) { grid[r][c] = 1; colMap[r][c] = '#06B6D4'; }
-            for (let c = 15; c <= C - 2; c++) { grid[r][c] = 1; colMap[r][c] = '#A855F7'; }
+            for (let c = 1; c <= 11 - gapHalf; c++) { grid[r][c] = 1; colMap[r][c] = r < 12 ? '#06B6D4' : '#3B82F6'; }
+            for (let c = 13 + gapHalf; c <= C - 2; c++) { grid[r][c] = 1; colMap[r][c] = r < 12 ? '#A855F7' : '#EC4899'; }
           }
-          for (let r = 5; r < Rw; r++) { grid[r][1] = 5; grid[r][9] = 5; grid[r][15] = 5; grid[r][C - 2] = 5; }
-          for (let c = 1; c <= 9; c++) grid[Rw - 1][c] = 5;
-          for (let c = 15; c <= C - 2; c++) grid[Rw - 1][c] = 5;
-          grid[11][9] = 10; grid[11][15] = 10;
+          for (let r = 5; r < Rw; r++) { grid[r][1] = 5; grid[r][11 - gapHalf] = 5; grid[r][13 + gapHalf] = 5; grid[r][C - 2] = 5; }
+          for (let c = 1; c <= 11 - gapHalf; c++) grid[Rw - 1][c] = wallCode;
+          for (let c = 13 + gapHalf; c <= C - 2; c++) grid[Rw - 1][c] = wallCode;
+          grid[11][11 - gapHalf] = 10; grid[11][13 + gapHalf] = 10;
+          grid[8][5] = 12; grid[8][19] = 12;
           placeOrb(11, 2, 'mul3'); placeOrb(4, 2, 'add3'); placeOrb(19, 2, 'add3');
+          bumpers.push({ x: gx(12), y: gy(16), r: 13.5, color: '#FACC15', pts: 35, hitT: 0 });
           entryX = VW / 2;
         } else if (archId === 'diamond_bastion') {
-          // True Diamond Silhouette with open corners for bank shots!
           for (let r = 1; r < Rw - 1; r++) for (let c = 1; c < C - 1; c++) {
             const d = Math.abs(c - 12) / 10.5 + Math.abs(r - 10.5) / 9.5;
             if (d <= 1.0) {
               if (d <= 0.34) grid[r][c] = 0;
-              else if (d >= 0.88 && r > 10 && Math.abs(c - 12) > 2) grid[r][c] = 5; // lower V-cradle traps balls!
-              else { grid[r][c] = 1; colMap[r][c] = d < 0.62 ? '#FACC15' : '#38BDF8'; }
+              else if (d >= 0.88 && r > 10 && Math.abs(c - 12) > (isEasy ? 4 : 2)) grid[r][c] = wallCode;
+              else { grid[r][c] = 1; colMap[r][c] = d < 0.56 ? '#FACC15' : d < 0.78 ? '#38BDF8' : '#8B5CF6'; }
             }
           }
-          grid[7][12] = 9;
+          grid[7][12] = 9; grid[10][6] = 11; grid[10][18] = 11;
           placeOrb(11, 10, 'mul3'); placeOrb(2, 2, 'add3'); placeOrb(21, 2, 'add3');
+          bumpers.push({ x: gx(2.5), y: gy(18), r: 12.5, color: '#38BDF8', pts: 30, hitT: 0 }, { x: gx(22.5), y: gy(18), r: 12.5, color: '#FACC15', pts: 30, hitT: 0 });
           entryX = VW / 2;
         } else if (archId === 'hourglass_cave') {
-          // True Hourglass Silhouette!
           for (let r = 1; r < Rw - 1; r++) for (let c = 1; c < C - 1; c++) {
             const hw = Math.round(2.5 + Math.abs(r - 10.5) * 0.85);
             const dc = Math.abs(c - 12);
             if (dc <= hw) {
               if (Math.abs(r - 10.5) <= 2 && dc <= 2) grid[r][c] = 0;
-              else if (dc === hw && r > 4 && r < Rw - 4) grid[r][c] = 5;
-              else { grid[r][c] = 1; colMap[r][c] = r < 10 ? '#EC4899' : '#22D3EE'; }
+              else if (dc === hw && r > 4 && r < Rw - 4) grid[r][c] = wallCode;
+              else { grid[r][c] = 1; colMap[r][c] = r < 10 ? (dc < 4 ? '#FACC15' : '#EC4899') : (dc < 4 ? '#A3E635' : '#22D3EE'); }
             }
           }
-          grid[6][12] = 9;
+          grid[6][12] = 12;
           placeOrb(11, 10, 'mul3'); placeOrb(11, 4, 'add3'); placeOrb(2, 10, 'add3');
+          bumpers.push({ x: gx(2.5), y: gy(10.5), r: 12, color: '#EC4899', pts: 30, hitT: 0 }, { x: gx(22.5), y: gy(10.5), r: 12, color: '#22D3EE', pts: 30, hitT: 0 });
           entryX = VW / 2;
         } else if (archId === 'spiral_core') {
-          // Open-edge Inward Snail Spiral!
-          for (let r = 2; r < Rw - 2; r++) for (let c = 2; c < C - 2; c++) grid[r][c] = 1;
-          for (let c = 2; c < C - 2; c++) { grid[2][c] = 5; grid[Rw - 3][c] = 5; }
+          for (let r = 2; r < Rw - 2; r++) for (let c = 2; c < C - 2; c++) { grid[r][c] = 1; colMap[r][c] = zoneCol(c, r); }
+          for (let c = 2; c < C - 2; c++) { grid[2][c] = 5; grid[Rw - 3][c] = wallCode; }
           for (let r = 2; r < Rw - 2; r++) { grid[r][2] = 5; grid[r][C - 3] = 5; }
-          // Wide bottom-right spiral entry + inner spiral arm
-          for (let c = C - 7; c < C - 2; c++) grid[Rw - 3][c] = 0;
+          const openSpan = isEasy ? 8 : 6;
+          for (let c = C - 2 - openSpan; c < C - 2; c++) grid[Rw - 3][c] = 0;
           for (let r = 6; r < Rw - 5; r++) grid[r][C - 7] = 5;
           for (let c = 6; c <= C - 7; c++) grid[6][c] = 5;
           for (let r = 6; r <= 13; r++) grid[r][6] = 5;
-          for (let c = 6; c <= 14; c++) grid[13][c] = 5;
-          grid[9][11] = 9;
+          for (let c = 6; c <= 14; c++) grid[13][c] = innerBaffle;
+          grid[9][11] = 12;
           placeOrb(C - 5, 12, 'add3'); placeOrb(11, 9, 'mul3'); placeOrb(4, 4, 'mul2');
-          entryX = side + (C - 5) * (bw + gap);
+          entryX = gx(C - 5);
         } else if (archId === 'terraced') {
-          // Inverted-trapezoid terraced pixel fortress with wide side launch lanes!
           for (let r = 2; r < Rw - 1; r++) for (let c = 2; c < C - 2; c++) {
             const dc = Math.abs(c - 12);
             const maxR = Rw - 2 - Math.floor(dc * 0.45);
             if (r > maxR) continue;
-            if (r === maxR && dc >= 3) { grid[r][c] = 5; colMap[r][c] = '#64748B'; }
+            if (r === maxR && dc >= (isEasy ? 5 : 3)) { grid[r][c] = wallCode; colMap[r][c] = '#64748B'; }
             else if (r >= maxR - 4) { grid[r][c] = 1; colMap[r][c] = '#22C55E'; }
+            else if (r >= maxR - 9) { grid[r][c] = 1; colMap[r][c] = '#FACC15'; }
             else { grid[r][c] = 1; colMap[r][c] = '#EF4444'; }
           }
-          // Baffle right above center mouth
-          for (let c = 10; c <= 14; c++) grid[Rw - 5][c] = 5;
-          grid[6][12] = 9;
+          for (let c = 10; c <= 14; c++) grid[Rw - 5][c] = innerBaffle;
+          grid[6][12] = 12; grid[10][7] = 11; grid[10][17] = 11;
           placeOrb(1, 3, 'add3'); placeOrb(C - 3, 3, 'add3'); placeOrb(11, 4, 'mul3');
           entryX = VW / 2;
         } else if (archId === 'antfarm') {
-          // Open-top terraced mound with branching burrow chambers & 3 orb nests!
-          for (let r = 3; r < Rw - 1; r++) for (let c = 2; c < C - 2; c++) grid[r][c] = 1;
+          for (let r = 3; r < Rw - 1; r++) for (let c = 2; c < C - 2; c++) { grid[r][c] = 1; colMap[r][c] = r < 9 ? '#F59E0B' : r < 15 ? '#D97706' : '#B45309'; }
           for (let r = 5; r < Rw; r++) { grid[r][2] = 5; grid[r][C - 3] = 5; }
-          for (let c = 2; c < C - 2; c++) grid[Rw - 1][c] = 5;
+          for (let c = 2; c < C - 2; c++) grid[Rw - 1][c] = wallCode;
           const dig = (r0, c0, r1, c1) => {
             const steps = Math.max(Math.abs(r1 - r0), Math.abs(c1 - c0), 1);
             for (let s = 0; s <= steps; s++) {
@@ -7065,33 +7167,92 @@
             }
           };
           dig(3, 12, 11, 6); dig(3, 12, 11, 18); dig(11, 6, 16, 12); dig(11, 18, 16, 12);
-          placeOrb(5, 10, 'add3'); placeOrb(17, 10, 'add3'); placeOrb(11, 15, 'mul3');
-          placeOrb(11, 1, 'mul2');
-          entryX = side + 1.2 * (bw + gap);
+          grid[8][12] = 12;
+          placeOrb(5, 10, 'add3'); placeOrb(17, 10, 'add3'); placeOrb(11, 15, 'mul3'); placeOrb(11, 1, 'mul2');
+          entryX = gx(1.2);
+        } else if (archId === 'cyber_heart') {
+          // NEW AAA Sculpted Neon Reactor Heart with twin aorta sky-chutes!
+          for (let r = 1; r < Rw - 1; r++) for (let c = 1; c < C - 1; c++) {
+            const nx = (c - 12) / 9.2, ny = -(r - 9.2) / 8.8;
+            const eq = Math.pow(nx * nx + ny * ny - 0.82, 3) - nx * nx * ny * ny * ny;
+            if (eq <= 0) {
+              const d = Math.hypot(nx, ny + 0.1);
+              if (d < 0.28) grid[r][c] = 0;
+              else if (eq > -0.09 && r > 12 && Math.abs(c - 12) > 2) grid[r][c] = wallCode;
+              else { grid[r][c] = 1; colMap[r][c] = d < 0.5 ? '#FACC15' : d < 0.78 ? '#FF3D8A' : '#A855F7'; }
+            }
+          }
+          grid[6][12] = 9; grid[9][7] = 11; grid[9][17] = 11;
+          placeOrb(11, 9, 'mul3'); placeOrb(1, 3, 'add3'); placeOrb(22, 3, 'add3');
+          bumpers.push({ x: gx(3), y: gy(17.5), r: 12.5, color: '#FF3D8A', pts: 35, hitT: 0 }, { x: gx(22), y: gy(17.5), r: 12.5, color: '#A855F7', pts: 35, hitT: 0 });
+          entryX = VW / 2;
+        } else if (archId === 'galaxy_invader') {
+          // NEW AAA Starship Mothership with swept wings, engine bays & bridge core!
+          for (let r = 2; r < Rw - 2; r++) for (let c = 1; c < C - 1; c++) {
+            const dc = Math.abs(c - 12);
+            const nose = r >= 2 && r <= 6 && dc <= (r - 1);
+            const wings = r >= 7 && r <= 14 && dc <= Math.min(10, 4 + (r - 6));
+            const tail = r >= 15 && r <= 18 && (dc <= 3 || (dc >= 7 && dc <= 9));
+            if (nose || wings || tail) {
+              grid[r][c] = 1;
+              colMap[r][c] = dc <= 2 ? '#22D3EE' : dc <= 5 ? '#8B5CF6' : dc <= 8 ? '#EC4899' : '#FACC15';
+            }
+          }
+          for (let r = 9; r <= 12; r++) for (let c = 10; c <= 14; c++) grid[r][c] = 0;
+          for (let c = 9; c <= 15; c++) grid[13][c] = innerBaffle;
+          grid[8][12] = 12; grid[11][6] = 11; grid[11][18] = 11;
+          placeOrb(11, 10, 'mul3'); placeOrb(1.5, 4, 'add3'); placeOrb(21.5, 4, 'add3');
+          bumpers.push({ x: gx(12), y: gy(20), r: 13.5, color: '#22D3EE', pts: 35, hitT: 0 });
+          entryX = VW / 2;
         } else {
-          // pinball_box: Flared bottom funnel + interior diamond steel bumpers + ceiling-trapped micro-brick canopy!
-          for (let r = 2; r < 14; r++) for (let c = 2; c < C - 2; c++) grid[r][c] = 1;
+          // pinball_box: Flared funnel + 3 LIVE Pinball Bumpers + Rainbow Ceiling Canopy!
+          const rainbow = ['#EF4444', '#F97316', '#FACC15', '#22C55E', '#06B6D4', '#8B5CF6', '#EC4899'];
+          for (let r = 2; r < 13; r++) for (let c = 2; c < C - 2; c++) { grid[r][c] = 1; colMap[r][c] = rainbow[(c + r) % 7]; }
           for (let r = 4; r < Rw - 2; r++) { grid[r][2] = 5; grid[r][C - 3] = 5; }
-          // Angled V-funnel floor at bottom!
-          for (let c = 2; c <= 9; c++) grid[Rw - 2 - Math.floor((c - 2) * 0.4)][c] = 5;
-          for (let c = 15; c <= C - 3; c++) grid[Rw - 2 - Math.floor((C - 3 - c) * 0.4)][c] = 5;
-          // Three pinball diamond bumpers inside the open lower chamber!
-          [[15, 7], [13, 12], [15, 17]].forEach(([br, bc]) => {
-            grid[br][bc] = 5; grid[br - 1][bc] = 5; grid[br][bc - 1] = 5; grid[br][bc + 1] = 5;
-          });
-          grid[6][12] = 9;
+          for (let c = 2; c <= 9; c++) grid[Rw - 2 - Math.floor((c - 2) * 0.4)][c] = wallCode;
+          for (let c = 15; c <= C - 3; c++) grid[Rw - 2 - Math.floor((C - 3 - c) * 0.4)][c] = wallCode;
+          bumpers.push(
+            { x: gx(7.5), y: gy(15.5), r: 13.5, color: '#22D3EE', pts: 35, hitT: 0 },
+            { x: gx(12.5), y: gy(13.5), r: 14.5, color: '#FACC15', pts: 40, hitT: 0 },
+            { x: gx(17.5), y: gy(15.5), r: 13.5, color: '#FF3D8A', pts: 35, hitT: 0 }
+          );
+          grid[6][12] = 12;
           placeOrb(6, 10, 'add3'); placeOrb(17, 10, 'add3'); placeOrb(11, 4, 'mul3');
           entryX = VW / 2;
         }
 
-        // Random horizontal flip for even greater layout variety
+        // Difficulty-driven Warp Portals & Extra Orbs
+        if (isEasy && orbs.length < 4) placeOrb(11, 2, 'add3');
+        if (cfg.portals >= 1 && portals.length === 0) {
+          portals.push(
+            { pairId: 0, x: gx(1), y: gy(Rw - 1.5), r: 12, color: '#00F5D4', outX: 0.45, outY: -0.89, pulseT: 0 },
+            { pairId: 0, x: gx(12), y: gy(0.4), r: 12, color: '#00F5D4', outX: 0.85, outY: 0.4, isExit: true, pulseT: 0 }
+          );
+        }
+        if (cfg.portals >= 2 && portals.length < 4) {
+          portals.push(
+            { pairId: 1, x: gx(C - 2), y: gy(Rw - 1.5), r: 12, color: '#FF3D8A', outX: -0.45, outY: -0.89, pulseT: 0 },
+            { pairId: 1, x: gx(6), y: gy(1.2), r: 12, color: '#FF3D8A', outX: 0.75, outY: 0.65, isExit: true, pulseT: 0 }
+          );
+        }
+
         if (rng() < 0.45) {
           for (let r = 0; r < Rw; r++) { grid[r].reverse(); colMap[r].reverse(); doorMap[r].reverse(); outerMap[r].reverse(); }
           orbs.forEach(o => { o.x = VW - o.x; });
+          bumpers.forEach(bm => { bm.x = VW - bm.x; });
+          portals.forEach(pt => { pt.x = VW - pt.x; if (pt.outX !== undefined) pt.outX = -pt.outX; });
           entryX = VW - entryX;
         }
 
-        // BFS Flood-Fill Reachability Guarantee: 100% of breakable pockets are guaranteed reachable!
+        // Keep bumper & portal pockets free of overlapping bricks
+        for (const ent of [...bumpers, ...portals]) {
+          for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
+            if (!grid[r][c]) continue;
+            if (Math.hypot(gx(c) - ent.x, gy(r) - ent.y) < ent.r + 12) grid[r][c] = 0;
+          }
+        }
+
+        // BFS Flood-Fill Reachability Guarantee (including portal exits!)
         for (let pass = 0; pass < 12; pass++) {
           const vis = Array.from({ length: Rw }, () => Array(C).fill(false));
           const q = [];
@@ -7102,6 +7263,11 @@
           for (let r = 0; r < Rw; r++) {
             if (grid[r][0] !== 5 && !vis[r][0]) { vis[r][0] = true; q.push([r, 0]); }
             if (grid[r][C - 1] !== 5 && !vis[r][C - 1]) { vis[r][C - 1] = true; q.push([r, C - 1]); }
+          }
+          for (const pt of portals) {
+            const pc = clamp(Math.round((pt.x - side) / (bw + gap)), 0, C - 1);
+            const pr = clamp(Math.round((pt.y - topY) / (bh + gap)), 0, Rw - 1);
+            if (grid[pr][pc] !== 5 && !vis[pr][pc]) { vis[pr][pc] = true; q.push([pr, pc]); }
           }
           while (q.length) {
             const [cr, cc] = q.shift();
@@ -7122,10 +7288,7 @@
           const [ur, uc] = closedCell;
           let best = null, bestD = 9999;
           for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
-            if (vis[r][c]) {
-              const d = Math.abs(r - ur) + Math.abs(c - uc);
-              if (d < bestD) { bestD = d; best = [r, c]; }
-            }
+            if (vis[r][c]) { const d = Math.abs(r - ur) + Math.abs(c - uc); if (d < bestD) { bestD = d; best = [r, c]; } }
           }
           if (!best) break;
           let cr = ur, cc = uc;
@@ -7139,17 +7302,20 @@
           }
         }
 
+        let coresPlaced = 0;
         for (let r = 0; r < Rw; r++) {
           for (let c = 0; c < C; c++) {
             let code = grid[r][c];
             if (!code) continue;
             let mhp = 1;
-            let col = colMap[r][c] || mainCol;
+            let col = colMap[r][c] || zoneCol(c, r);
             if (code === 1) {
-              if (rng() < cfg.armorP) { code = cfg.maxHp >= 3 && rng() < 0.35 ? 3 : 2; mhp = code; }
-              else if (rng() < 0.028) code = 4;
+              if (rng() < cfg.armorP) { code = cfg.maxHp >= 3 && rng() < 0.38 ? 3 : 2; mhp = code === 3 ? cfg.maxHp : 2; }
+              else if (rng() < (isEasy ? 0.045 : 0.025)) code = 4;
               else if (rng() < 0.032) code = 6;
-              if (!colMap[r][c] && ((r + c) % 7 === 0)) col = shade(mainCol, 16);
+              if (!colMap[r][c] && ((r + c) % 7 === 0)) col = shade(col, 16);
+            } else if (code === 2) {
+              mhp = 2;
             } else if (code === 3) {
               mhp = Math.max(2, cfg.maxHp);
             } else if (code === 5) {
@@ -7158,23 +7324,32 @@
               col = '#FACC15';
             } else if (code === 10) {
               col = '#FF2A55';
+            } else if (code === 11) {
+              col = '#00F5D4';
+            } else if (code === 12) {
+              col = '#BEF264';
+            }
+            if (cfg.cores > 0 && coresPlaced < cfg.cores && code === 1 && r >= 4 && r <= 12 && Math.abs(c - 12) <= 2 && rng() < 0.14) {
+              code = 8; mhp = isHardest ? 10 : 7; col = '#E879F9'; coresPlaced++;
             }
             const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
+            const moveAmp = (cfg.movingGate && code !== 5 && r === Rw - 2) ? 10 : 0;
             bricks.push({
               c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true,
               customCol: col, code, mhp, hp: mhp, alive: true,
               unbreakable: code === 5, doorPlug: doorMap[r][c], outerGate: outerMap[r][c],
-              moveAmp: 0, moveSpd: 1, movePh: 0
+              moveAmp, moveSpd: 1.4, movePh: c * 0.2
             });
             if (code !== 5) breakable++;
           }
         }
       }
 
+      const hasBossCore = bricks.some(b => b.code === 8);
       return {
         wi, absWorld: cfg.id === 'hardest' ? 7 : cfg.id === 'hard' ? 5 : cfg.id === 'medium' ? 2 : 0,
         sector: cfg.id === 'hardest' ? 2 : cfg.id === 'hard' ? 1 : 0,
-        li: 0, boss: false,
+        li: 0, boss: hasBossCore,
         name: cfg.label + ' · ' + archObj.name + ' #' + seedTag,
         randomTier: cfg.id,
         archId: archObj.id,
@@ -7185,9 +7360,11 @@
         modCol: modObj.col,
         seed: s1 >>> 0,
         seedTag,
-        rows: 24,
+        rows: 22,
         bricks,
         orbs,
+        bumpers,
+        portals,
         entryX,
         entryY,
         breakable
@@ -7289,9 +7466,11 @@
       const hasFixedSeed = opts.seed !== undefined && opts.seed !== null;
       const s1 = hasFixedSeed ? (opts.seed >>> 0) : cryptoRand32();
       const s2 = hasFixedSeed ? (Math.imul(s1 ^ 0x85EBCA6B, 0xC2B2AE35) >>> 0) : cryptoRand32();
-      const rng = mulberry32((s1 ^ Math.imul(s2, 0x9E3779B9)) >>> 0);
+      const rng = mulberry32((s1 ^ Math.imul(s2, 0x9E3779B9) ^ (cfg.id.charCodeAt(0) * 1664525)) >>> 0);
       const seedTag = ((s1 ^ s2) >>> 0).toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
       const wi = (rng() * WORLDS.length) | 0;
+      const wHues = WORLDS[wi].hues;
+      const isEasy = cfg.id === 'easy', isHard = cfg.id === 'hard' || cfg.id === 'hardest', isHardest = cfg.id === 'hardest';
 
       const archPool = NUM_ARCHETYPES.filter(a => a.id !== 'auto');
       const requestedArch = (opts.arch && opts.arch !== 'auto') ? NUM_ARCHETYPES.find(a => a.id === opts.arch) : null;
@@ -7300,29 +7479,29 @@
       const archId = archObj.id;
       const modObj = (opts.mod ? RANDOM_MODIFIERS.find(m => m.id === opts.mod) : null) || RANDOM_MODIFIERS[(rng() * RANDOM_MODIFIERS.length) | 0];
 
-      const C = 9, Rw = 8, side = 16, gap = 4.2, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 27, topY = 42;
-      const mask = Array.from({ length: Rw }, () => Array(C).fill(0)); // 0=empty, 1=normalHP, 2=highHP, 4=bomb, 5=steel baffle, 9=+4 trigger, 10=+3 trigger
-      const orbs = [];
+      const C = 9, Rw = 8, side = 16, gap = 4.2, bw = (VW - side * 2 - (C - 1) * gap) / C, bh = 27, topY = 44;
+      const mask = Array.from({ length: Rw }, () => Array(C).fill(0));
+      const orbs = [], bumpers = [], portals = [];
       const cy = (Rw - 1) / 2;
+      const cxAt = c => side + (c + 0.5) * (bw + gap) - gap * 0.5;
+      const cyAt = r => topY + (r + 0.5) * (bh + gap) - gap * 0.5;
       const addOrb = (c, r, type) => {
-        const bx = side + (c + 0.5) * (bw + gap) - gap * 0.5;
-        const by = topY + (r + 0.5) * (bh + gap) - gap * 0.5;
         const isMul = type === 'mul2' || type === 'mul3';
-        orbs.push({ x: bx, y: by, r: 9.5, type, label: type === 'mul3' ? '×3' : type === 'mul2' ? '×2' : '+3', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
+        orbs.push({ x: cxAt(c), y: cyAt(r), r: 9.5, type, label: type === 'mul3' ? '×3' : type === 'mul2' ? '×2' : '+3', color: isMul ? '#2563EB' : '#FF8A2B', alive: true });
       };
 
       if (archId === 'sky_chute') {
         for (let r = 1; r < Rw; r++) for (let c = 1; c < C - 1; c++) {
-          if (r === Rw - 1 && c >= 3 && c <= 5) continue;
-          mask[r][c] = (r <= 2) ? 2 : (r === 4 && (c === 2 || c === 6) ? 4 : 1);
+          if (r === Rw - 1 && c >= (isEasy ? 2 : 3) && c <= (isEasy ? 6 : 5)) continue;
+          mask[r][c] = (r <= 2) ? 2 : (r === 4 && (c === 2 || c === 6) ? 4 : (r === 3 && c === 4 ? 11 : 1));
         }
         addOrb(4, 0.2, 'mul2'); addOrb(0, 1.5, 'add3'); addOrb(8, 1.5, 'add3');
       } else if (archId === 'baffle_trap') {
         for (let r = 0; r < Rw; r++) for (let c = 1; c < C - 1; c++) {
           if (r === Rw - 1 && c >= 3 && c <= 5) continue;
-          if (r === Rw - 2 && c >= 3 && c <= 5) { mask[r][c] = 5; continue; }
+          if (r === Rw - 2 && c >= 3 && c <= 5) { mask[r][c] = cfg.steelBaffle ? 5 : 11; continue; }
           if (r === Rw - 2 && (c === 2 || c === 6)) continue;
-          mask[r][c] = (r <= 2 && c >= 3 && c <= 5) ? 2 : (r === 2 && c === 4 ? 9 : 1);
+          mask[r][c] = (r <= 2 && c >= 3 && c <= 5) ? 2 : (r === 2 && c === 4 ? 9 : (r === 4 && (c === 2 || c === 6) ? 4 : 1));
         }
         addOrb(2, 1.5, 'add3'); addOrb(6, 1.5, 'mul2');
       } else if (archId === 'diagonal_lanes') {
@@ -7330,14 +7509,14 @@
           if (c === 0 && r >= 1) continue;
           if (r === Rw - 1 && c >= 3 && c <= 5) continue;
           if ((r === 1 && (c === 3 || c === 6)) || (r === 2 && c === 4)) continue;
-          mask[r][c] = (r <= 2) ? 2 : (r === 3 && c === 4 ? 10 : 1);
+          mask[r][c] = (r <= 2) ? 2 : (r === 3 && c === 4 ? 12 : (r === 5 && (c === 2 || c === 7) ? 4 : 1));
         }
         addOrb(3, 1, 'add3'); addOrb(6, 1, 'add3'); addOrb(4, 2, 'mul2');
       } else if (archId === 'diamond_core') {
         for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
           const d = Math.abs(c - 4) / 4.2 + Math.abs(r - cy) / 3.8;
           if (d <= 1.05) {
-            if (d <= 0.25) mask[r][c] = 9;
+            if (d <= 0.25) mask[r][c] = 12;
             else mask[r][c] = d <= 0.55 ? 2 : 1;
           }
         }
@@ -7345,7 +7524,7 @@
       } else if (archId === 'twin_towers') {
         for (let r = 1; r < Rw; r++) for (let c = 0; c < C; c++) {
           if (c === 4) continue;
-          mask[r][c] = (r <= 2) ? 2 : (r === 4 && (c === 1 || c === 7) ? 4 : 1);
+          mask[r][c] = (r <= 2) ? 2 : (r === 4 && (c === 1 || c === 7) ? 4 : (r === 2 && (c === 2 || c === 6) ? 11 : 1));
         }
         addOrb(4, 0.3, 'mul3'); addOrb(4, 3.5, 'add3');
       } else if (archId === 'hourglass') {
@@ -7361,7 +7540,7 @@
       } else if (archId === 'chevron') {
         for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
           const v = Math.floor(Math.abs(c - 4) * 0.75);
-          if (r >= v && r <= v + 4) mask[r][c] = c === 4 ? (r === 0 ? 9 : 2) : 1;
+          if (r >= v && r <= v + 4) mask[r][c] = c === 4 ? (r === 0 ? 12 : 2) : 1;
         }
         addOrb(1, Rw - 1, 'add3'); addOrb(7, Rw - 1, 'mul2');
       } else if (archId === 'honeycomb') {
@@ -7374,46 +7553,93 @@
         for (let r = 0; r < Rw; r++) for (let c = 1; c < C - 1; c++) {
           if (r === Rw - 1 && c >= 3 && c <= 5) continue;
           const isInner = r >= 2 && r <= Rw - 3 && c >= 3 && c <= 5;
-          if (r === 1 || r === Rw - 2 || c === 2 || c === 6) { if (r === 1 && c === 4) mask[r][c] = 0; else mask[r][c] = 1; }
-          else if (isInner) mask[r][c] = (r === 3 && c === 4) ? 9 : 2;
+          if (r === 1 || r === Rw - 2 || c === 2 || c === 6) { if (r === 1 && c === 4) mask[r][c] = 0; else mask[r][c] = (isHard && r === Rw - 2 && (c === 2 || c === 6)) ? 5 : 1; }
+          else if (isInner) mask[r][c] = (r === 3 && c === 4) ? 12 : 2;
           else if (r === 0 || c === 1 || c === C - 2) mask[r][c] = 1;
         }
         addOrb(4, 1, 'mul3'); addOrb(0, 2, 'add3'); addOrb(8, 2, 'add3');
       } else {
-        // pyramid_climb
         for (let r = 0; r < Rw; r++) {
           const span = Math.min(3, Math.floor(r * 0.55) + 1);
           for (let c = 4 - span; c <= 4 + span; c++) {
-            mask[r][c] = r <= 2 ? 2 : 1;
+            mask[r][c] = r <= 2 ? 2 : (r === 4 && (c === 2 || c === 6) ? 11 : 1);
           }
         }
         addOrb(0.6, 1, 'add3'); addOrb(7.4, 1, 'mul2'); addOrb(4, Rw - 0.5, 'add3');
       }
 
+      // Difficulty-driven structural differentiation for Number Bricks
+      if (isEasy) {
+        // Extra bombs & row lasers on Easy so numbers crack explosively!
+        if (mask[5] && mask[5][2] === 1) mask[5][2] = 4;
+        if (mask[5] && mask[5][6] === 1) mask[5][6] = 4;
+        if (mask[3] && mask[3][4] === 1) mask[3][4] = 11;
+      }
+      if (isHard) {
+        if (mask[Rw - 1][1]) mask[Rw - 1][1] = 5;
+        if (mask[Rw - 1][C - 2]) mask[Rw - 1][C - 2] = 5;
+      }
+      if (cfg.bumpers >= 2) {
+        bumpers.push({ x: cxAt(0.5), y: cyAt(Rw + 0.35), r: 13, color: wHues[0], pts: 30, hitT: 0 }, { x: cxAt(7.5), y: cyAt(Rw + 0.35), r: 13, color: wHues[2], pts: 30, hitT: 0 });
+      }
+      if (cfg.bumpers >= 3) {
+        bumpers.push({ x: cxAt(4), y: cyAt(Rw + 0.85), r: 14, color: '#FACC15', pts: 35, hitT: 0 });
+      }
+      if (cfg.portals >= 1) {
+        portals.push(
+          { pairId: 0, x: cxAt(0.4), y: cyAt(Rw - 0.2), r: 12.5, color: '#00F5D4', outX: 0.45, outY: -0.89, pulseT: 0 },
+          { pairId: 0, x: cxAt(4), y: cyAt(-0.4), r: 12.5, color: '#00F5D4', outX: 0.85, outY: 0.4, isExit: true, pulseT: 0 }
+        );
+      }
+      if (cfg.portals >= 2) {
+        portals.push(
+          { pairId: 1, x: cxAt(7.6), y: cyAt(Rw - 0.2), r: 12.5, color: '#FF3D8A', outX: -0.45, outY: -0.89, pulseT: 0 },
+          { pairId: 1, x: cxAt(6.2), y: cyAt(0.4), r: 12.5, color: '#FF3D8A', outX: -0.85, outY: 0.4, isExit: true, pulseT: 0 }
+        );
+      }
+
       if (rng() < 0.45) {
         for (let r = 0; r < Rw; r++) mask[r].reverse();
         orbs.forEach(o => { o.x = VW - o.x; });
+        bumpers.forEach(bm => { bm.x = VW - bm.x; });
+        portals.forEach(pt => { pt.x = VW - pt.x; if (pt.outX !== undefined) pt.outX = -pt.outX; });
+      }
+
+      // Ensure bumpers/portals never overlap numbered bricks
+      for (const ent of [...bumpers, ...portals]) {
+        for (let r = 0; r < Rw; r++) for (let c = 0; c < C; c++) {
+          if (!mask[r][c]) continue;
+          if (Math.hypot(cxAt(c) - ent.x, cyAt(r) - ent.y) < ent.r + 17) mask[r][c] = 0;
+        }
       }
 
       const bricks = [];
-      let breakable = 0, totalHits = 0;
+      let breakable = 0, totalHits = 0, coresPlaced = 0;
       for (let r = 0; r < Rw; r++) {
         for (let c = 0; c < C; c++) {
-          const k = mask[r][c];
+          let k = mask[r][c];
           if (!k) continue;
           const bx = side + c * (bw + gap), by = topY + r * (bh + gap);
           if (k === 5) {
             bricks.push({ c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, customCol: '#64748B', code: 5, mhp: 1, hp: 1, alive: true, unbreakable: true, moveAmp: 0, moveSpd: 1, movePh: 0 });
             continue;
           }
-          const rowFactor = 1 - (r / Math.max(1, Rw - 1)) * 0.45;
+          const rowFactor = 1 - (r / Math.max(1, Rw - 1)) * 0.42;
           const rawHp = lerp(cfg.minHp, cfg.maxHp, clamp((k === 2 ? 0.65 : 0.25) + rng() * 0.42, 0, 1) * rowFactor);
-          const mhp = (k === 4 || k === 9 || k === 10) ? Math.max(2, Math.round(cfg.minHp * 0.65)) : Math.max(cfg.minHp, Math.round(rawHp));
-          const col = k === 4 ? '#FF6B35' : k === 9 ? '#FACC15' : k === 10 ? '#FF2A55' : hpHeatColor(mhp, cfg.maxHp);
+          const isSpecial = (k === 4 || k === 9 || k === 10 || k === 11 || k === 12);
+          let mhp = isSpecial ? Math.max(2, Math.round(cfg.minHp * 0.6)) : Math.max(cfg.minHp, Math.round(rawHp));
+          let code = isSpecial ? k : 2;
+          let col = k === 4 ? '#FF6B35' : k === 9 ? '#FACC15' : k === 10 ? '#FF2A55' : k === 11 ? '#00F5D4' : k === 12 ? '#BEF264' : hpHeatColor(mhp, cfg.maxHp);
+          if (cfg.cores > 0 && coresPlaced < cfg.cores && !isSpecial && r === 2 && Math.abs(c - 4) <= 1) {
+            code = 8; mhp = Math.round(cfg.maxHp * 1.15); col = '#E879F9'; coresPlaced++;
+          }
+          const safeRoom = Math.max(0, Math.min(bx - 6, (VW - bw - 6) - bx));
+          const moveRow = (cfg.movingRows >= 1 && r === Rw - 1) || (cfg.movingRows >= 2 && r === Rw - 3);
+          const moveAmp = moveRow ? Math.min(18, safeRoom) : 0;
           bricks.push({
             c, r, x: bx, y: by, rx: bx, w: bw, h: bh, micro: true, showHp: true, hpRef: cfg.maxHp,
-            customCol: col, code: k === 4 ? 4 : k === 9 ? 9 : k === 10 ? 10 : 2,
-            mhp, hp: mhp, alive: true, moveAmp: 0, moveSpd: 1, movePh: 0
+            customCol: col, code,
+            mhp, hp: mhp, alive: true, moveAmp, moveSpd: isHardest ? 1.25 : 0.95, movePh: r * Math.PI
           });
           breakable++;
           totalHits += mhp;
@@ -7423,7 +7649,7 @@
       return {
         wi, absWorld: cfg.id === 'hardest' ? 7 : cfg.id === 'hard' ? 5 : cfg.id === 'medium' ? 2 : 0,
         sector: cfg.id === 'hardest' ? 2 : cfg.id === 'hard' ? 1 : 0,
-        li: 0, boss: false,
+        li: 0, boss: coresPlaced > 0,
         name: cfg.label + ' · ' + archObj.name + ' #' + seedTag,
         randomTier: cfg.id,
         archId: archObj.id,
@@ -7437,6 +7663,8 @@
         rows: Rw,
         bricks,
         orbs,
+        bumpers,
+        portals,
         totalHits,
         hpRange: cfg.minHp + '–' + cfg.maxHp,
         breakable
@@ -8407,11 +8635,13 @@
       const initPadW = (rTier ? rTier.paddle : d.paddle) * ((S.set.paddleSizePct ?? 100) / 100);
       const activeMission = ((mode === 'random' || mode === 'megabrick' || mode === 'numbricks') && customData && customData.mission) ? customData.mission : null;
       const startX = (mode === 'megabrick' && lvl.entryX) ? clamp(lvl.entryX, initPadW / 2 + 10, VW - initPadW / 2 - 10) : (VW / 2);
+      const initDescInt = clamp(Math.round(14 / (d.descMult || 1)), 9, 20);
       G = {
         id: ++runSeq, mode, idx: (mode === 'random' || mode === 'megabrick' || mode === 'numbricks') ? 0 : (idx || 0), randomTier: rTier ? rTier.id : null,
         requestedArch: (customData && customData.arch) ? customData.arch : ((mode === 'megabrick' ? S.set.megaArch : mode === 'numbricks' ? S.set.numArch : S.set.randomArch) || 'auto'), randomArch: lvl.archId || 'auto', randomArchName: lvl.archName || '', randomModName: lvl.modName || '',
         mission: activeMission, nextMission: null, missionBonusHit: false, missionCoinReward: 0, missionXpReward: 0, trapsRun: 0,
         initialBreakable: lvl.breakable, outerBreached: false, entryX: lvl.entryX || (VW / 2), entryY: lvl.entryY || 420, lastPopSfxT: 0,
+        dropCd: 0, numHitMeter: 0, numHitThreshold: (mode === 'numbricks' && rTier?.hitDropEvery) ? rTier.hitDropEvery : 16,
         seedTag: lvl.seedTag || '', customData: customData || null, absWorld: lvl.absWorld || 0, sector: lvl.sector || 0, wi, li: lvl.li || 0, boss: !!lvl.boss, name: lvl.name,
         bricks: clonedBricks, orbs: clonedOrbs, bumpers: clonedBumpers, portals: clonedPortals, beams: [],
         stageTag: lvl.tag || '', stageTip: lvl.tip || '', stageTagCol: lvl.tagColor || WORLDS[wi].hues[0],
@@ -8428,7 +8658,7 @@
         timeLeft: mode === 'timed' ? 150 : (S.set.enableTimer ? (mode === 'daily' ? 180 : (activeMission && activeMission.objType === 'timed' ? activeMission.target : ((mode === 'random' || mode === 'megabrick' || mode === 'numbricks') ? 135 : 0))) : 0),
         noBreakT: 0,
         timedRound: 0, bossStage: 0,
-        shake: 0, flash: 0, winT: 0, loseT: 0, sheetShown: false, wave: 1, waveDelay: 0, descT: 14, descInt: 14,
+        shake: 0, flash: 0, winT: 0, loseT: 0, sheetShown: false, wave: 1, waveDelay: 0, descT: initDescInt, descInt: initDescInt,
         laserAcc: 0, rocketAcc: 0, acidAcc: 0, splitHitCnt: 0, usedContinue: false, livesDirty: true, fxDirty: true, labelDirty: true, scoreShown: -1, coinsShown: -1, comboShown: -1,
         stars: Array.from({ length: isTouchErgonomic() ? 45 : 100 }, () => ({ x: R(), y: R(), z: .3 + R() * .7, tw: R() * 6.28 })),
         newRecord: false, hintMode: ''
@@ -8493,8 +8723,13 @@
     function comboMaxTime() { return 3.2 + (S.upg?.comboTime || 0) * 0.45 }
     function powerDurMult(id) { return POWERS[id]?.bad ? 1 : (1 + (S.upg?.powDur || 0) * 0.1) }
     function applyEffect(id, dur) {
-      const d = dur * powerDurMult(id);
+      const isEndless = G && G.mode === 'endless';
+      const isMultiStage = G && (G.mode === 'timed' || G.mode === 'bossrush');
+      const modeDurScale = isEndless && !POWERS[id]?.bad ? 0.78 : 1;
+      const d = dur * powerDurMult(id) * modeDurScale;
       const stackable = S.set.stackPowers !== false;
+      const maxStacks = isEndless ? 2 : isMultiStage ? 3 : 4;
+      const maxDur = d * (isEndless ? 1.4 : 1.95);
       if (stackable) {
         if (id === 'wide' && G.fx.shrink) {
           if ((G.fx.shrink.stacks || 1) > 1) { G.fx.shrink.stacks--; G.fxDirty = true; return; }
@@ -8506,8 +8741,8 @@
       }
       const prev = G.fx[id];
       if (stackable && prev) {
-        const stacks = (prev.stacks || 1) + 1;
-        const newT = Math.max(prev.t, d) + d * 0.55;
+        const stacks = Math.min(maxStacks, (prev.stacks || 1) + 1);
+        const newT = Math.min(maxDur, Math.max(prev.t, d) + d * (isEndless ? 0.3 : 0.48));
         G.fx[id] = { t: newT, dur: Math.max(prev.dur, newT), stacks };
       } else {
         G.fx[id] = { t: d, dur: d, stacks: 1 };
@@ -8517,7 +8752,7 @@
     function clearTimedEffects() { G.fx = {}; G.fxDirty = true }
     function chargeNova(amt) {
       if (!G) return;
-      const mult = 1 + (S.upg?.novaRate || 0) * 0.18;
+      const mult = (1 + (S.upg?.novaRate || 0) * 0.18) * (G.mode === 'endless' ? 0.75 : 1);
       const prev = G.novaCharge;
       G.novaCharge = clamp(G.novaCharge + amt * mult, 0, 100);
       if (prev < 100 && G.novaCharge >= 100) {
@@ -8544,7 +8779,7 @@
       for (const b of aliveList) {
         if (!G || G.bricks !== stageRef || (G.state !== 'play' && G.state !== 'ready')) break;
         if (b.code === 5) { if ((!b.unbreakable || S.set.autoBreachSteel) && R() < .35) hitBrick(b, 2, 'fire') }
-        else hitBrick(b, 2, 'fire');
+        else hitBrick(b, b.showHp ? Math.max(5, Math.ceil(b.mhp * 0.34)) : 2, 'fire');
       }
       if (G && G.bricks === stageRef) processBlasts();
     }
@@ -8776,6 +9011,16 @@
       }
       if (G.fx.acid && src === 'ball' && b.code !== 5) b.acidT = 5.5;
       b.hp -= finalDmg;
+      // Number Bricks Mode: guarantee steady tactical power-up drops as you chip away at high-HP numbered blocks!
+      if (G.mode === 'numbricks' && b.showHp && b.hp > 0 && (src === 'ball' || src === 'laser' || src === 'rocket')) {
+        G.numHitMeter = (G.numHitMeter || 0) + Math.min(3, finalDmg);
+        const thresh = G.numHitThreshold || 16;
+        if (G.numHitMeter >= thresh && G.drops.length < 5 && (G.dropCd || 0) <= 0) {
+          G.numHitMeter -= thresh;
+          spawnDrop(b, true);
+          G.dropCd = 0.55;
+        }
+      }
       if (src === 'ball' && G.fx.bolt) {
         const cx0 = b.rx + bw / 2, cy0 = b.y + bh / 2;
         let zapped = 0;
@@ -8785,7 +9030,7 @@
           const ncx = nb.rx + (nb.w || BW) / 2, ncy = nb.y + (nb.h || BH) / 2;
           if (Math.hypot(ncx - cx0, ncy - cy0) <= 95) {
             G.arcs.push({ x1: cx0, y1: cy0, x2: ncx, y2: ncy, t: 0, life: 0.22 });
-            hitBrick(nb, 1, 'bolt');
+            hitBrick(nb, nb.showHp ? Math.max(2, Math.ceil(nb.mhp * 0.12)) : 1, 'bolt');
             if (++zapped >= maxZaps) break;
           }
         }
@@ -8794,13 +9039,14 @@
         G.blastQ.push(b);
       }
       if (src === 'ball' && G.fx.split) {
+        const splitCap = G.mode === 'endless' ? 6 : MAX_SWARM_BALLS;
         G.splitHitCnt = (G.splitHitCnt || 0) + 1;
-        if (G.splitHitCnt >= 5) {
+        if (G.splitHitCnt >= (G.mode === 'endless' ? 8 : 5)) {
           G.splitHitCnt = 0;
-          spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 1);
+          if (G.balls.length < splitCap) spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 1);
         }
       }
-      chargeNova(b.code === 8 ? 5 : (b.micro ? 0.65 : 2.2));
+      chargeNova(b.code === 8 ? 5 : (b.micro && !b.showHp ? 0.65 : 2.2));
       if (b.hp <= 0) killBrick(b, src);
       else {
         if (G.balls.length <= 10) sparkFX(b.rx + bw / 2, b.y + bh / 2, b.customCol || codeColor(b, WORLDS[G.wi].hues), 2);
@@ -8844,27 +9090,46 @@
         pushPart({ type: 'shard', x: b.rx + bw / 2, y: b.y + bh / 2, vx: (R() - .5) * 180, vy: -R() * 120, g: 380, t: 0, life: .32, size: 3, color: col, rot: R() * 6, vr: 6 });
       }
       if (G.t - (G.lastPopSfxT || 0) > 0.035) { G.lastPopSfxT = G.t; sfx.pop(G.combo); }
-      if (G.combo > 0 && G.combo % (b.micro ? 20 : 5) === 0) { banner('COMBO ×' + G.mult, '#FF3D8A', .42); sfx.combo(G.mult); if (G.combo >= 10) { shake(4); if (!swarm && S.set.comboConfetti !== false) sparkFX(b.rx + bw / 2, b.y + bh / 2, '#FFD166', 8) } }
+      if (G.combo > 0 && G.combo % ((b.micro && !b.showHp) ? 20 : 5) === 0) { banner('COMBO ×' + G.mult, '#FF3D8A', .42); sfx.combo(G.mult); if (G.combo >= 10) { shake(4); if (!swarm && S.set.comboConfetti !== false) sparkFX(b.rx + bw / 2, b.y + bh / 2, '#FFD166', 8) } }
       if (b.code === 6) { if (!swarm) coinFX(b.rx + bw / 2, b.y + bh / 2); sfx.coin() }
       if (b.code === 9) {
-        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 4);
+        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, G.mode === 'endless' ? 2 : 4);
         breachDoorwayAround(b);
         sfx.power(); sfx.boom(); shake(8);
-        banner('💥 BREACH PLUG OPEN · +4 BALLS!', '#FACC15', .38);
+        banner('💥 BREACH PLUG OPEN!', '#FACC15', .38);
       } else if (b.code === 10) {
-        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, 3);
+        spawnSwarmBalls(b.rx + bw / 2, b.y + bh / 2, G.mode === 'endless' ? 2 : 3);
         breachDoorwayAround(b);
         G.blastQ.push(b);
         sfx.power(); shake(7);
-        banner('🔥 POCKET DOOR OPEN · +3 BALLS!', '#FF2A55', .38);
+        banner('🔥 POCKET DOOR OPEN!', '#FF2A55', .38);
       } else if (b.code === 4 || b.code === 11 || b.code === 12) {
         G.blastQ.push(b);
       }
       if ((G.mode === 'megabrick' || G.mode === 'random') && G.breakable > 0 && G.breakable <= Math.max(10, Math.round((G.initialBreakable || 80) * 0.08))) {
         crackShieldWallsAroundRemaining();
       }
-      const dropChance = (b.micro ? 0.045 : 0.17) * clamp((S.set.dropRatePct ?? 100) / 100, 0.5, 2.0);
-      if (b.code === 7 || b.code === 8 || (b.code !== 5 && G.drops.length < 6 && R() < dropChance)) spawnDrop(b);
+      const isPureMicro = b.micro && !b.showHp;
+      const dDropMult = (G.mode === 'random') ? (RANDOM_TIERS[G.randomTier]?.dropMult || 1)
+        : (G.mode === 'megabrick') ? (MEGA_TIERS[G.randomTier]?.dropMult || 1)
+        : (G.mode === 'numbricks') ? (NUM_TIERS[G.randomTier]?.dropMult || 1.15)
+        : ((DIFFS[S.set.diff] || DIFFS.classic).dropMult || 1);
+      let baseDrop = b.showHp ? 0.30 : isPureMicro ? 0.052 : (G.mode === 'endless' ? 0.105 : 0.165);
+      const activeFxCount = Object.keys(G.fx).length;
+      if (G.mode === 'endless') {
+        if (G.balls.length >= 3) baseDrop *= 0.45;
+        if (activeFxCount >= 2) baseDrop *= 0.5;
+        if (activeFxCount >= 3) baseDrop *= 0.45;
+      } else if (!b.showHp) {
+        if (activeFxCount >= 4) baseDrop *= 0.6;
+      }
+      const dropChance = baseDrop * dDropMult * clamp((S.set.dropRatePct ?? 100) / 100, 0.5, 2.0);
+      const guaranteedDrop = b.code === 7 || b.code === 8;
+      const dropLimit = G.mode === 'endless' ? 3 : 5;
+      if (guaranteedDrop || (b.code !== 5 && G.drops.length < dropLimit && (G.dropCd || 0) <= 0 && R() < dropChance)) {
+        spawnDrop(b, guaranteedDrop);
+        if (!guaranteedDrop) G.dropCd = G.mode === 'endless' ? 1.15 : b.showHp ? 0.32 : isPureMicro ? 0.5 : 0.42;
+      }
       if (G.breakable <= 0 && (G.state === 'play' || G.state === 'ready')) {
         if (G.mode === 'campaign' || G.mode === 'daily' || G.mode === 'custom' || G.mode === 'random' || G.mode === 'megabrick' || G.mode === 'numbricks') doWin();
         else if (G.mode === 'timed') nextTimedStage();
@@ -8893,37 +9158,63 @@
             const ncx = nb.rx + (nb.w || BW) / 2, ncy = nb.y + (nb.h || BH) / 2;
             const hitRow = Math.abs(ncy - ecy) <= Math.max(eh, nb.h || BH) * 0.65;
             const hitCol = isCross && Math.abs(ncx - ecx) <= Math.max(ew, nb.w || BW) * 0.65;
-            if (hitRow || hitCol) hitBrick(nb, 2, 'blast');
+            if (hitRow || hitCol) hitBrick(nb, nb.showHp ? Math.max(3, Math.ceil(nb.mhp * 0.28)) : 2, 'blast');
           }
           continue;
         }
         explodeFX(ecx, ecy); sfx.boom(); shake(10); G.flash = Math.max(G.flash, .18); haptic(16);
-        const rad = e.micro ? (e.code === 10 ? 3 : 2) : (e.code === 10 ? 2 : 1);
+        const rad = (e.micro && !e.showHp) ? (e.code === 10 ? 3 : 2) : (e.code === 10 ? 2 : 1);
         for (const nb of G.bricks) {
           if (G.bricks !== stageRef || (G.state !== 'play' && G.state !== 'ready')) break;
           if (!nb.alive || nb === e) continue;
           if (Math.abs(nb.c - e.c) <= rad && Math.abs(nb.r - e.r) <= rad) {
             if (nb.code === 5) continue;
-            hitBrick(nb, e.code === 10 ? 4 : 2, 'blast');
+            hitBrick(nb, nb.showHp ? Math.max(4, Math.ceil(nb.mhp * 0.36)) : (e.code === 10 ? 4 : 2), 'blast');
           }
         }
       }
       G.blastQ.length = 0;
       G.blasting = false;
     }
-    function spawnDrop(b) {
-      const table = [
-        ['wide', 10], ['multi', 9], ['swarm', 6], ['slow', 8], ['laser', 8], ['rocket', 7],
-        ['fire', 7], ['giant', 8], ['bolt', 8], ['bombball', 7], ['acid', 7], ['split', 7],
-        ['freeze', 6], ['vortex', 6], ['double', 8], ['magnet', 6], ['shield', 6],
-        ['nova_full', 4], ['life', 3], ['coin', 9]
-      ];
-      const hazards = S.set.trapDrops !== false && (G.mode === 'campaign' ? (G.absWorld >= 3) : (G.mode === 'random' || G.mode === 'numbricks') ? (G.randomTier === 'hard' || G.randomTier === 'hardest') : (G.wave >= 3 || G.mode === 'daily' || G.mode === 'bossrush'));
+    function spawnDrop(b, forceGood) {
+      let table;
+      if (G.mode === 'numbricks') {
+        // Number Bricks: emphasize high-DPS, multiball & chain powers so high-HP counters feel dynamic and rewarding!
+        table = [
+          ['multi', 14], ['swarm', 11], ['laser', 12], ['rocket', 12], ['giant', 11],
+          ['bolt', 12], ['bombball', 11], ['acid', 12], ['split', 10], ['fire', 8],
+          ['wide', 9], ['double', 8], ['nova_full', 7], ['shield', 6], ['slow', 5],
+          ['freeze', 6], ['vortex', 5], ['magnet', 4], ['life', 3], ['coin', 4]
+        ];
+      } else if (G.mode === 'endless') {
+        // Industry-standard Endless Director: prevent snowballing into permanent god-mode
+        const crowdedBalls = G.balls.length >= 3;
+        const heavyFx = Object.keys(G.fx).length >= 2;
+        table = [
+          ['wide', 13], ['slow', 10], ['shield', 10], ['magnet', 8], ['coin', 14],
+          ['double', 9], ['vortex', 7], ['life', 4],
+          ['multi', crowdedBalls ? 2 : 7], ['swarm', crowdedBalls ? 0 : 3],
+          ['split', crowdedBalls ? 1 : 4],
+          ['laser', heavyFx ? 3 : 7], ['rocket', heavyFx ? 2 : 5], ['fire', heavyFx ? 2 : 4],
+          ['giant', heavyFx ? 3 : 6], ['bolt', heavyFx ? 3 : 6], ['bombball', heavyFx ? 2 : 4],
+          ['acid', 6], ['freeze', 6], ['nova_full', 3]
+        ].filter(t => t[1] > 0);
+      } else {
+        table = [
+          ['wide', 10], ['multi', 9], ['swarm', 6], ['slow', 8], ['laser', 8], ['rocket', 7],
+          ['fire', 7], ['giant', 8], ['bolt', 8], ['bombball', 7], ['acid', 7], ['split', 7],
+          ['freeze', 6], ['vortex', 6], ['double', 8], ['magnet', 6], ['shield', 6],
+          ['nova_full', 4], ['life', 3], ['coin', 9]
+        ];
+      }
+      const dCfg = DIFFS[S.set.diff || 'classic'] || DIFFS.classic;
+      const tierTrap = G.mode === 'random' ? RANDOM_TIERS[G.randomTier]?.trapAllow : G.mode === 'megabrick' ? MEGA_TIERS[G.randomTier]?.trapAllow : G.mode === 'numbricks' ? NUM_TIERS[G.randomTier]?.trapAllow : dCfg.trapAllow;
+      const hazards = !forceGood && S.set.trapDrops !== false && tierTrap !== false && (G.mode === 'campaign' ? (S.set.diff === 'frantic' ? G.absWorld >= 1 : G.absWorld >= 3) : (G.mode === 'random' || G.mode === 'megabrick' || G.mode === 'numbricks') ? true : (G.wave >= 3 || G.mode === 'daily' || G.mode === 'bossrush'));
       if (hazards) table.push(['fast', 6], ['shrink', 6], ['reverse', 5]);
       let tot = 0; for (const t of table) tot += t[1];
       let roll = R() * tot, pick = 'coin';
       for (const t of table) { roll -= t[1]; if (roll <= 0) { pick = t[0]; break } }
-      if (b.code === 7 || b.code === 8) { const good = table.filter(t => !POWERS[t[0]].bad); pick = good[(R() * good.length) | 0][0] }
+      if (forceGood || b.code === 7 || b.code === 8) { const good = table.filter(t => !POWERS[t[0]].bad); pick = good[(R() * good.length) | 0][0] }
       G.drops.push({ x: b.rx + (b.w || BW) / 2, y: b.y + (b.h || BH) / 2, type: pick, seed: R() * 6.28 });
     }
 
@@ -8997,7 +9288,8 @@
       }
       S.daily.wins++;
       const tierObj = G.mode === 'megabrick' ? MEGA_TIERS[G.randomTier] : G.mode === 'numbricks' ? NUM_TIERS[G.randomTier] : RANDOM_TIERS[G.randomTier];
-      const bonusBase = G.mode === 'daily' ? 160 : G.mode === 'custom' ? 40 : (G.mode === 'random' || G.mode === 'megabrick' || G.mode === 'numbricks') ? (tierObj?.coinBonus || 90) : (25 + stars * 15 + G.sector * 15);
+      const diffRew = (DIFFS[S.set.diff] || DIFFS.classic).rewardMult || 1;
+      const bonusBase = G.mode === 'daily' ? Math.round(160 * diffRew) : G.mode === 'custom' ? 40 : (G.mode === 'random' || G.mode === 'megabrick' || G.mode === 'numbricks') ? (tierObj?.coinBonus || 90) : Math.round((25 + stars * 15 + G.sector * 15) * diffRew);
       const flaw = stars === 3 ? 25 : 0, bossB = G.boss ? 80 : 0;
       G.bonusBase = Math.round(bonusBase * coinMultiplier()); G.flaw = Math.round(flaw * coinMultiplier()); G.bossB = Math.round(bossB * coinMultiplier());
       if (G.mode === 'random' || G.mode === 'megabrick' || G.mode === 'numbricks') {
@@ -9046,18 +9338,52 @@
       if (G.lives > 0) { spawnBall(); G.state = 'ready'; banner('BALL LOST', '#FF4D5E', .42) }
       else doLose('balls');
     }
+    function transitionWaveState(mode) {
+      if (!G) return;
+      const isEndless = mode === 'endless';
+      G.blastQ.length = 0; G.lasers.length = 0; G.rockets.length = 0; G.arcs.length = 0;
+      G.hazards.length = 0; G.beams.length = 0; G.drops.length = 0;
+      G.noBreakT = 0;
+      G.dropCd = isEndless ? 1.25 : 0.65;
+      // Normalize carried-over active power-ups so players keep momentum without snowballing into 1-second wave clears
+      for (const id in G.fx) {
+        if (POWERS[id]?.bad) { delete G.fx[id]; continue; }
+        const fx = G.fx[id];
+        const capT = isEndless ? 5.5 : 8.0;
+        const keepScale = isEndless ? 0.5 : 0.72;
+        fx.t = Math.min(fx.t * keepScale, capT);
+        fx.dur = Math.max(fx.t, fx.dur * (isEndless ? 0.65 : 0.85));
+        fx.stacks = isEndless ? Math.max(1, (fx.stacks || 1) - 1) : Math.min(2, fx.stacks || 1);
+        if (fx.t < 0.8) delete G.fx[id];
+      }
+      G.fxDirty = true;
+      // Cap carried-over multiballs between waves (industry-standard anti-snowball pacing)
+      const maxCarry = isEndless ? 2 : 3;
+      if (G.balls.length > maxCarry) {
+        const sorted = G.balls.slice().sort((a, b) => Math.abs(a.y - G.paddle.y) - Math.abs(b.y - G.paddle.y));
+        const keep = sorted.slice(0, maxCarry);
+        for (const b of G.balls) if (!keep.includes(b)) ballBurst(b);
+        G.balls = keep;
+      }
+    }
     function waveClear() {
+      const dCfg = DIFFS[S.set.diff || 'classic'] || DIFFS.classic;
       G.wave++; G.waveDelay = .75; G.labelDirty = true;
-      G.speedBase += 11; G.descInt = Math.max(5.5, 14 - G.wave * .45); G.descT = G.descInt;
+      G.speedBase += Math.round(10 * (dCfg.descMult || 1));
+      G.descInt = Math.max(5.5, (14 - G.wave * .45) / (dCfg.descMult || 1)); G.descT = G.descInt;
       S.stats.endlessWave = Math.max(S.stats.endlessWave, G.wave - 1); S.daily.wins++; markDirty();
       banner('WAVE ' + G.wave, '#A3E635'); sfx.wave();
       if (G.wave % 3 === 1 && G.wave > 1) { G.lives = Math.min(6, G.lives + 1); G.maxLives = Math.max(G.maxLives, G.lives); G.livesDirty = true; pushText('+1 LIFE', VW / 2, VH * .45, '#FF4D5E', 16); sfx.life() }
-      const rw = addCoins(15 + G.wave * 4); G.coinsRun += rw; addXP(40 + G.wave * 10);
+      const rw = addCoins(Math.round((15 + G.wave * 4) * (dCfg.rewardMult || 1))); G.coinsRun += rw;
+      addXP(Math.round((40 + G.wave * 10) * (dCfg.rewardMult || 1)));
     }
     function ensureBallsBelowGrid() {
-      const safeY = TOP + G.rows * (BH + VGAP) + 28;
+      if (!G) return;
+      let maxB = TOP + (G.rows || 8) * (BH + VGAP);
+      for (const br of G.bricks) if (br.alive) maxB = Math.max(maxB, br.y + (br.h || BH));
+      const safeY = Math.min(G.paddle.y - 24, maxB + 26);
       for (const b of G.balls) {
-        if (!b.sticky && b.y < safeY) { b.y = Math.min(G.paddle.y - 24, safeY); if (b.vy < 0) b.vy = Math.abs(b.vy) }
+        if (!b.sticky && b.y < safeY) { b.y = safeY; if (b.vy < 0) b.vy = Math.abs(b.vy) }
       }
     }
     function nextTimedStage() {
@@ -9067,12 +9393,11 @@
       G.orbs = (lvl.orbs || []).map(o => ({ ...o, alive: true }));
       G.bumpers = (lvl.bumpers || []).map(bm => ({ ...bm, hitT: 0 }));
       G.portals = (lvl.portals || []).map(pt => ({ ...pt, pulseT: 0 }));
-      G.beams.length = 0;
       G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name; G.labelDirty = true;
-      G.blastQ.length = 0; G.lasers.length = 0; G.hazards.length = 0; ensureBallsBelowGrid();
+      transitionWaveState('timed');
       G.speedBase += 14; const got = addCoins(30); G.coinsRun += got; addXP(55);
       banner('+20s · STAGE ' + (G.timedRound + 1), '#FFB020'); sfx.wave();
-      buildSprites(G.wi); resize();
+      buildSprites(G.wi); resize(); ensureBallsBelowGrid();
     }
     function nextBossRushStage() {
       G.bossStage++; S.stats.bossesDefeated++; S.daily.wins++;
@@ -9082,14 +9407,13 @@
       G.orbs = (lvl.orbs || []).map(o => ({ ...o, alive: true }));
       G.bumpers = (lvl.bumpers || []).map(bm => ({ ...bm, hitT: 0 }));
       G.portals = (lvl.portals || []).map(pt => ({ ...pt, pulseT: 0 }));
-      G.beams.length = 0;
       G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name; G.boss = true; G.labelDirty = true;
       G.bossMaxHp = calcBossTotalHp(G.bricks); G.bossHp = G.bossMaxHp; G.bossEnraged = false;
-      G.blastQ.length = 0; G.lasers.length = 0; G.hazards.length = 0; ensureBallsBelowGrid();
+      transitionWaveState('bossrush');
       if (G.lives < G.maxLives) { G.lives++; G.livesDirty = true }
       G.speedBase += 12; const got = addCoins(65); G.coinsRun += got; addXP(110);
       banner('👑 BOSS #' + (G.bossStage + 1) + ': ' + G.name, '#FFD166'); sfx.win();
-      buildSprites(G.wi); resize();
+      buildSprites(G.wi); resize(); ensureBallsBelowGrid();
     }
     function spawnWave() {
       const lvl = genEndless(G.wave);
@@ -9097,11 +9421,10 @@
       G.orbs = (lvl.orbs || []).map(o => ({ ...o, alive: true }));
       G.bumpers = (lvl.bumpers || []).map(bm => ({ ...bm, hitT: 0 }));
       G.portals = (lvl.portals || []).map(pt => ({ ...pt, pulseT: 0 }));
-      G.beams.length = 0;
       G.breakable = lvl.breakable; G.rows = lvl.rows; G.name = lvl.name; G.boss = !!lvl.boss;
       G.bossMaxHp = calcBossTotalHp(G.bricks); G.bossHp = G.bossMaxHp; G.bossEnraged = false;
-      G.blastQ.length = 0; G.lasers.length = 0; G.hazards.length = 0; ensureBallsBelowGrid();
-      buildSprites(G.wi); resize();
+      transitionWaveState('endless');
+      buildSprites(G.wi); resize(); ensureBallsBelowGrid();
     }
 
     /* ---------- MAIN UPDATE ---------- */
@@ -9116,6 +9439,7 @@
           if (G.autoLaunchT <= 0) launchBalls();
         }
         if (playing) {
+          if (G.dropCd > 0) G.dropCd = Math.max(0, G.dropCd - dt);
           const rampMult = clamp((S.set.speedRampPct ?? 100) / 100, 0, 2);
           G.ramp = Math.min(100, G.ramp + dt * 1.3 * rampMult);
           const timerOn = (G.mode === 'timed' || (S.set.enableTimer && G.timeLeft > 0));
@@ -9147,7 +9471,8 @@
           }
           /* Boss Plasma Attack System */
           if (G.boss && G.breakable > 0 && S.set.bossHazards !== false && !G.fx.freeze) {
-            G.bossFireT -= dt * (G.bossEnraged ? 1.45 : 1);
+            const bfMult = (G.mode === 'random' || G.mode === 'megabrick' || G.mode === 'numbricks') ? (G.randomTier === 'hardest' ? 1.35 : G.randomTier === 'hard' ? 1.15 : 0.85) : ((DIFFS[S.set.diff] || DIFFS.classic).bossFireMult || 1);
+            G.bossFireT -= dt * (G.bossEnraged ? 1.45 : 1) * bfMult;
             if (G.bossFireT <= 0) {
               G.bossFireT = Math.max(2.1, 4.2 - G.sector * 0.3);
               const shooters = G.bricks.filter(b => b.alive && (b.code === 8 || b.r >= G.rows - 2));
@@ -9499,7 +9824,18 @@
               if (d2 > b.r * b.r) continue;
               if (br.code !== 5) b.noBrickHits = 0; else b.noBrickHits = (b.noBrickHits || 0) + 1;
               const fStacks = G.fx.fire ? (S.set.stackPowers !== false ? (G.fx.fire.stacks || 1) : 1) : 0;
-              if (fStacks > 0 && (br.code !== 5 || (!br.unbreakable || S.set.autoBreachSteel))) { hitBrick(br, 99 * fStacks, 'fire'); continue }
+              if (fStacks > 0 && (br.code !== 5 || (!br.unbreakable || S.set.autoBreachSteel))) {
+                if (br.showHp) {
+                  if (!b._fCool) b._fCool = new Map();
+                  if ((b._fCool.get(br) || 0) <= G.t) {
+                    b._fCool.set(br, G.t + 0.16);
+                    hitBrick(br, Math.max(4, Math.ceil(br.mhp * 0.32)) * fStacks, 'fire');
+                  }
+                } else {
+                  hitBrick(br, 99 * fStacks, 'fire');
+                }
+                continue;
+              }
               const wasUp = b.vy < 0;
               hitBrick(br, 1, 'ball');
               if (d2 > 1e-6) {
@@ -10890,7 +11226,7 @@
         '<span class="pill" style="color:#FBBF24;border-color:#FBBF24;padding:2px 8px;font-size:9.5px">HP ' + prevLvl.hpRange + '</span>' +
         '<span style="font-size:10.5px;color:var(--muted);font-weight:700">Seed #' + prevLvl.seedTag + '</span></div>' +
         '<b style="font-size:13.5px;display:block;margin-bottom:3px">' + prevLvl.archIcon + ' ' + prevLvl.archName + ' (' + prevLvl.breakable + ' Bricks)</b>' +
-        '<div style="font-size:11px;color:var(--muted);margin-bottom:7px">🔢 ' + fmt(prevLvl.totalHits) + ' Total Hits · 🔵 ' + orbCnt + ' Multiball Orbs (×2/+3)</div>' +
+        '<div style="font-size:11px;color:var(--muted);margin-bottom:7px">🔢 ' + fmt(prevLvl.totalHits) + ' Total Hits · 🔵 ' + orbCnt + ' Orbs' + (prevLvl.bumpers?.length ? ' · ◎ ' + prevLvl.bumpers.length + ' Bumpers' : '') + (prevLvl.portals?.length ? ' · 🌀 Portals' : '') + '</div>' +
         '<button class="btn btn-ghost btn-sm" style="min-height:30px;padding:5px 10px;font-size:11.5px" data-action="reroll-num">' + icon('shuffle') + ' Reroll Board Preview</button>' +
         '</div></div>' +
         '<div class="sheet-btns" style="margin-bottom:14px"><button class="btn btn-primary" data-action="start-numbricks">' + icon('play') + ' Play ' + (NUM_TIERS[sel]?.label || 'Medium') + ' Number Bricks (' + prevLvl.archName + ')</button></div>' +
@@ -10952,7 +11288,7 @@
 
       openSheet('<div class="grabber"></div><div class="sheet-head" style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><div class="sheet-kicker" style="color:#4ADE80">VIRAL ANDROID BRICK BREAK · TUNNEL &amp; SWARM MISSIONS</div><h2 class="sheet-title">Brick Break Maze Missions</h2></div><button class="btn ' + (S.set.enableTimer ? 'btn-cyan' : 'btn-ghost') + ' btn-sm" data-action="toggle-timer">' + icon('timer') + ' Timer: ' + (S.set.enableTimer ? 'ON' : 'OFF') + '</button></div>' +
         '<div class="rand-grid">' + opts + '</div>' +
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px"><span style="font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:var(--faint)">TUNNEL &amp; MEGA-GRID SETUP (13 LAYOUT STYLES)</span><span style="font-size:10.5px;color:#4ADE80;font-weight:700">' + (MEGA_ARCHETYPES.find(a => a.id === curArch)?.desc || '') + '</span></div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px"><span style="font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:var(--faint)">TUNNEL &amp; MEGA-GRID SETUP (' + (MEGA_ARCHETYPES.length - 1) + ' LAYOUT STYLES)</span><span style="font-size:10.5px;color:#4ADE80;font-weight:700">' + (MEGA_ARCHETYPES.find(a => a.id === curArch)?.desc || '') + '</span></div>' +
         '<div class="arch-row">' + archChips + '</div>' +
         '<div class="rand-prev-card">' +
         '<canvas class="rand-prev-cv" id="megaPrevCv" width="184" height="124"></canvas>' +
@@ -10961,7 +11297,7 @@
         '<span class="pill" style="color:#4ADE80;border-color:#4ADE80;padding:2px 8px;font-size:9.5px">' + (MEGA_TIERS[sel]?.startBalls || 1) + ' Start Ball(s)</span>' +
         '<span style="font-size:10.5px;color:var(--muted);font-weight:700">Seed #' + prevLvl.seedTag + '</span></div>' +
         '<b style="font-size:13.5px;display:block;margin-bottom:3px">' + prevLvl.archIcon + ' ' + prevLvl.archName + ' (' + prevLvl.breakable + ' Bricks)</b>' +
-        '<div style="font-size:11px;color:var(--muted);margin-bottom:7px">🔵 ' + orbCnt + ' Orbs (×3/+3) · 🟨 ' + triggers + ' Breach Triggers · 🧱 ' + steels + ' Walls' + (armors ? ' · 🛡️ ' + armors + ' Armor' : '') + '</div>' +
+        '<div style="font-size:11px;color:var(--muted);margin-bottom:7px">🔵 ' + orbCnt + ' Orbs · 🟨 ' + triggers + ' Triggers' + (prevLvl.bumpers?.length ? ' · ◎ ' + prevLvl.bumpers.length + ' Bumpers' : '') + (prevLvl.portals?.length ? ' · 🌀 Portals' : '') + (armors ? ' · 🛡️ ' + armors + ' Armor' : '') + '</div>' +
         '<button class="btn btn-ghost btn-sm" style="min-height:30px;padding:5px 10px;font-size:11.5px" data-action="reroll-mega">' + icon('shuffle') + ' Reroll Maze Preview</button>' +
         '</div></div>' +
         '<div class="sheet-btns" style="margin-bottom:14px"><button class="btn btn-primary" data-action="start-megabrick">' + icon('play') + ' Play ' + (MEGA_TIERS[sel]?.label || 'Easy') + ' Brick Break Maze (' + prevLvl.archName + ')</button></div>' +
@@ -11034,7 +11370,7 @@
         '<span class="pill" style="color:' + prevLvl.modCol + ';border-color:' + prevLvl.modCol + ';padding:2px 8px;font-size:9.5px">' + prevLvl.modName + '</span>' +
         '<span style="font-size:10.5px;color:var(--muted);font-weight:700">Seed #' + prevLvl.seedTag + '</span></div>' +
         '<b style="font-size:13.5px;display:block;margin-bottom:3px">' + prevLvl.archIcon + ' ' + prevLvl.archName + ' (' + prevLvl.breakable + ' Bricks)</b>' +
-        '<div style="font-size:11px;color:var(--muted);margin-bottom:7px">🛡️ ' + armors + ' Armor · 💣 ' + bombs + ' Bombs · 💰 ' + golds + ' Gold · 🎁 ' + gifts + ' Gifts' + (cores ? ' · ★ ' + cores + ' Core' : '') + '</div>' +
+        '<div style="font-size:11px;color:var(--muted);margin-bottom:7px">🛡️ ' + armors + ' Armor · 💣 ' + bombs + ' Bombs · 💰 ' + golds + ' Gold' + (prevLvl.bumpers?.length ? ' · ◎ ' + prevLvl.bumpers.length + ' Bumpers' : '') + (prevLvl.portals?.length ? ' · 🌀 Portals' : '') + (cores ? ' · ★ ' + cores + ' Core' : '') + '</div>' +
         '<button class="btn btn-ghost btn-sm" style="min-height:30px;padding:5px 10px;font-size:11.5px" data-action="reroll-random">' + icon('shuffle') + ' Reroll Layout Preview</button>' +
         '</div></div>' +
         '<div class="sheet-btns" style="margin-bottom:14px"><button class="btn btn-primary" data-action="start-random">' + icon('play') + ' Play Generated ' + (RANDOM_TIERS[sel]?.label || 'Medium') + ' Board (' + prevLvl.archName + ')</button></div>' +
@@ -11639,7 +11975,7 @@
         sfx.life(); haptic([10, 20, 10]); toast(a.name + ' · +' + a.reward + ' coins & +100 XP', 'trophy', 'gold');
         renderAwards(); updateBadges();
       },
-      difficulty(arg) { S.set.diff = arg; saveNow(); sfx.click(); haptic(5); renderSettings() },
+      difficulty(arg) { S.set.diff = arg; levelCache.clear(); saveNow(); sfx.click(); haptic(5); renderSettings() },
       'set-opt'(arg, el) {
         const key = el.dataset.key;
         if (!key) return;
@@ -11651,7 +11987,7 @@
         if (UI.screen === 'settings') renderSettings();
       },
       'reset-settings'() {
-        S.set = freshSet(); saveNow(); applyAudioSet(); applyDisplaySet();
+        S.set = freshSet(); levelCache.clear(); saveNow(); applyAudioSet(); applyDisplaySet();
         sfx.power(); toast('All settings restored to factory defaults', 'check', 'good');
         renderSettings();
       },
@@ -11705,6 +12041,7 @@
             customLevels: Array.isArray(p.customLevels) ? p.customLevels : []
           };
           migrateSkinIds(S);
+          levelCache.clear();
         if (!RANDOM_ARCHETYPES.some(a => a.id === S.set.randomArch)) S.set.randomArch = 'auto';
         if (!MEGA_ARCHETYPES.some(a => a.id === S.set.megaArch)) S.set.megaArch = 'auto';
         if (!NUM_ARCHETYPES.some(a => a.id === S.set.numArch)) S.set.numArch = 'auto';
